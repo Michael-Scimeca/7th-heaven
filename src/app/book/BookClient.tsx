@@ -61,6 +61,11 @@ import dynamic from "next/dynamic";
 import { ScheduledShowsSection } from "./ScheduledShowsSection";
 import BookingProgressTracker from "@/components/BookingProgressTracker";
 import {
+  ContactDirectorySection,
+  type ContactItem,
+  FALLBACK_CONTACTS,
+} from "@/components/ContactDirectorySection";
+import {
   getStoredPlannerProfile,
   saveStoredPlannerProfile,
   resetPlannerProfile,
@@ -237,16 +242,19 @@ export default function BookClient({
   sanityContent,
   initialBlockedDates,
   initialDateDetails,
+  contacts = FALLBACK_CONTACTS,
 }: {
   sanityContent?: any;
   initialBlockedDates?: string[];
   initialDateDetails?: Record<string, TourDateDetailItem[]>;
+  contacts?: ContactItem[];
 }) {
   return (
     <BookPageContent
       sanityContent={sanityContent}
       initialBlockedDates={initialBlockedDates}
       initialDateDetails={initialDateDetails}
+      contacts={contacts}
     />
   );
 }
@@ -257,10 +265,12 @@ function BookPageContent({
   sanityContent,
   initialBlockedDates = [],
   initialDateDetails = {},
+  contacts = FALLBACK_CONTACTS,
 }: {
   sanityContent?: any;
   initialBlockedDates?: string[];
   initialDateDetails?: Record<string, TourDateDetailItem[]>;
+  contacts?: ContactItem[];
 }) {
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const { member, isLoggedIn, openModal, signup, login } = useMember();
@@ -271,9 +281,10 @@ function BookPageContent({
         from: params.get("from"),
         tab: params.get("tab"),
         step: params.get("step"),
+        layout: params.get("layout"),
       };
     }
-    return { from: null, tab: null, step: null };
+    return { from: null, tab: null, step: null, layout: null };
   });
 
   const fromParam = urlParams.from;
@@ -285,6 +296,24 @@ function BookPageContent({
       ? "planner"
       : "book",
   );
+
+  // Layout switcher for merged Book + Contact page:
+  // 1: Seamless Stack (Booking Form followed by Contact Directory & Department Guide)
+  // 2: Segmented Switcher (Instant interactive toggle between Booking Form and Contact Directory)
+  // 3: Split-Focus (Interactive Quick Contact Drawer / Sidebar alongside Booking)
+  const [mergedLayout, setMergedLayout] = useState<"stack" | "tabs" | "drawer">(
+    urlParams.layout === "tabs" || urlParams.layout === "2"
+      ? "tabs"
+      : urlParams.layout === "drawer" || urlParams.layout === "3"
+        ? "drawer"
+        : "stack",
+  );
+
+  const [activeSectionView, setActiveSectionView] = useState<"book" | "contact">(
+    urlParams.tab === "contact" ? "contact" : "book",
+  );
+
+  const [contactDrawerOpen, setContactDrawerOpen] = useState(false);
 
   const [selectedType, setSelectedType] = useState<string | null>("full_band");
 
@@ -1377,10 +1406,111 @@ function BookPageContent({
       />
       <header className="sr-only">
         <h1 id="book-page-title">
-          {sanityContent?.heroHeading || sanityContent?.title || "Book 7th Heaven"}
+          {sanityContent?.heroHeading || sanityContent?.title || "Book & Contact 7th Heaven"}
         </h1>
       </header>
 
+      {/* ── Interactive Layout Preview Selector ── */}
+      <div className="relative z-20 mx-auto mb-8 max-w-5xl px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-[var(--radius-box)] border border-nocturne-mauve/40 bg-nocturne-midnight/90 p-3 sm:p-4 backdrop-blur-xl shadow-[0_8px_32px_rgba(33,14,42,0.6)]">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-nocturne-rose">
+              Merged Layout Style:
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMergedLayout("stack");
+                setActiveSectionView("book");
+              }}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                mergedLayout === "stack"
+                  ? "bg-gradient-to-r from-nocturne-plum to-nocturne-wine text-white shadow-[0_0_15px_rgba(83,17,97,0.5)] border border-nocturne-rose/40"
+                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
+              }`}
+            >
+              Layout 1: All-In-One Stack
+            </button>
+            <button
+              type="button"
+              onClick={() => setMergedLayout("tabs")}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                mergedLayout === "tabs"
+                  ? "bg-gradient-to-r from-nocturne-plum to-nocturne-wine text-white shadow-[0_0_15px_rgba(83,17,97,0.5)] border border-nocturne-rose/40"
+                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
+              }`}
+            >
+              Layout 2: Interactive Tabs
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMergedLayout("drawer");
+                setContactDrawerOpen(true);
+              }}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                mergedLayout === "drawer"
+                  ? "bg-gradient-to-r from-nocturne-plum to-nocturne-wine text-white shadow-[0_0_15px_rgba(83,17,97,0.5)] border border-nocturne-rose/40"
+                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
+              }`}
+            >
+              Layout 3: Booking + Contact Drawer
+            </button>
+          </div>
+        </div>
+
+        {/* Tab switcher when in Tabs layout mode */}
+        {mergedLayout === "tabs" && (
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <div className="inline-flex rounded-full border border-white/15 bg-white/[0.04] p-1.5 backdrop-blur-md">
+              <button
+                type="button"
+                onClick={() => setActiveSectionView("book")}
+                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all ${
+                  activeSectionView === "book"
+                    ? "bg-[var(--color-accent)] text-white shadow-[0_0_16px_rgba(168,85,247,0.4)]"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                📅 Book The Band
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveSectionView("contact")}
+                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all ${
+                  activeSectionView === "contact"
+                    ? "bg-[var(--color-accent)] text-white shadow-[0_0_16px_rgba(168,85,247,0.4)]"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                📞 Contact Directory & Guidelines
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Quick button in drawer mode */}
+        {mergedLayout === "drawer" && (
+          <div className="mt-4 flex items-center justify-between rounded-[var(--radius-box)] border border-nocturne-mauve/30 bg-nocturne-wine/20 px-5 py-3">
+            <span className="text-xs text-nocturne-rose">
+              Looking for direct department emails or phone numbers?
+            </span>
+            <button
+              type="button"
+              onClick={() => setContactDrawerOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-nocturne-rose/40 bg-nocturne-plum px-4 py-1.5 text-xs font-semibold text-white shadow-[0_0_12px_rgba(83,17,97,0.4)] hover:bg-nocturne-wine transition-colors"
+            >
+              Open Contact Directory Panel ↗
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Main Tabbed Conditional or Booking Form */}
+      {(mergedLayout !== "tabs" || activeSectionView === "book") && (
       <form
         id="book-event"
         className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] 2xl:grid-cols-[1fr_500px] lg:gap-6 xl:gap-8 pb-16 sm:pb-20"
@@ -1752,7 +1882,7 @@ function BookPageContent({
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-purple-400" />
-                        <h3 className="text-sm text-white">1. Physical Venue Location</h3>
+                        <h3 className="text-white">1. Physical Venue Location</h3>
                       </div>
                     </div>
 
@@ -1801,7 +1931,7 @@ function BookPageContent({
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <div className="flex items-center gap-2">
                         <Bus className="h-4 w-4 text-cyan-400" />
-                        <h3 className="text-sm  text-white">2. Parking &amp; Load-In Access Options</h3>
+                        <h3 className="text-white">2. Parking &amp; Load-In Access Options</h3>
                       </div>
                       <span className="text-[11px] text-cyan-300 font-medium">Select primary option</span>
                     </div>
@@ -2509,6 +2639,66 @@ function BookPageContent({
         </aside>
 
       </form>
+      )}
+
+      {/* Layout 1: Seamless Stack (Contact Directory & Guidelines directly below Booking Form) */}
+      {mergedLayout === "stack" && (
+        <div className="relative z-10 mx-auto mt-16 max-w-7xl px-4 sm:px-6">
+          <div className="my-12 flex items-center gap-4">
+            <div className="h-px flex-1 bg-white/10" />
+            <span className="text-xs font-bold uppercase tracking-widest text-nocturne-rose">
+              Direct Department &amp; Representative Contacts
+            </span>
+            <div className="h-px flex-1 bg-white/10" />
+          </div>
+          <ContactDirectorySection contacts={contacts} />
+        </div>
+      )}
+
+      {/* Layout 2: Interactive Tabs (Contact Directory view) */}
+      {mergedLayout === "tabs" && activeSectionView === "contact" && (
+        <div className="relative z-10 mx-auto mt-4 max-w-7xl px-4 sm:px-6 animate-[fade-in_0.3s_ease-out_both]">
+          <ContactDirectorySection contacts={contacts} />
+        </div>
+      )}
+
+      {/* Layout 3: Modal / Slide-out Drawer View */}
+      {mergedLayout === "drawer" && contactDrawerOpen && (
+        <dialog
+          open
+          aria-labelledby="contact-drawer-title"
+          className="fixed inset-0 z-[999999] flex h-full max-h-none w-full max-w-none items-center justify-center border-0 bg-transparent p-4"
+        >
+          <div
+            className="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity"
+            onClick={() => setContactDrawerOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="relative z-10 flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-[var(--radius-box)] border border-nocturne-mauve/40 bg-nocturne-midnight/95 p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+            <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <h2 id="contact-drawer-title" className="font-bold text-white">
+                  7th Heaven Contact Directory
+                </h2>
+                <p className="text-xs text-nocturne-rose">
+                  Direct booking, media, production advance, and cruise representatives
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setContactDrawerOpen(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-colors"
+                aria-label="Close contact directory"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="overflow-y-auto pr-2">
+              <ContactDirectorySection contacts={contacts} showHeading={false} />
+            </div>
+          </div>
+        </dialog>
+      )}
     </main>
   );
 }

@@ -191,7 +191,7 @@ export default function DropdownPreviewPage() {
               </span>
               <span className="text-xs text-white/50">Solving the 4-Dropdown Booking Window</span>
             </div>
-            <h1 className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
+            <h1 className="mt-2 font-black tracking-tight text-white">
               Understanding & Styling All 4 Event Times
             </h1>
             <p className="mt-1 text-sm text-white/60">
@@ -239,7 +239,7 @@ export default function DropdownPreviewPage() {
               <Info className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">
+              <h2 className="font-bold text-white">
                 Why Does the Booking Form Ask for 4 Separate Times?
               </h2>
               <p className="mt-1 text-xs leading-relaxed text-white/70">
@@ -288,7 +288,7 @@ export default function DropdownPreviewPage() {
                 <span className="text-[11px] font-bold tracking-widest text-cyan-400 uppercase">
                   Enhanced Option 02
                 </span>
-                <h2 id="setup-a-heading" className="text-xl font-bold text-white">
+                <h2 id="setup-a-heading" className="font-bold text-white">
                   Chronological Evening Timeline (With Visual Schedule Bar)
                 </h2>
               </div>
@@ -509,7 +509,7 @@ export default function DropdownPreviewPage() {
                 <span className="text-[11px] font-bold tracking-widest text-amber-400 uppercase">
                   Option 01
                 </span>
-                <h2 id="setup-b-heading" className="text-xl font-bold text-white">
+                <h2 id="setup-b-heading" className="font-bold text-white">
                   Dual Stacked Pods (Two Distinct Step Boxes)
                 </h2>
               </div>

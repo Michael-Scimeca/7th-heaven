@@ -537,7 +537,7 @@ export default function MediaV2Client({
           <div className="mt-4 flex flex-col gap-1.5 px-0.5">
             <div className="flex items-center gap-2.5">
               {/* heading-size-ok: card title outside video */}
-              <h2 className="line-clamp-2 text-base  tracking-tight text-white group-hover:text-[#f2efa3] transition-colors duration-150 drop-shadow-sm sm:text-lg">
+              <h2 className="line-clamp-2 tracking-tight text-white group-hover:text-[#f2efa3] transition-colors duration-150 drop-shadow-sm">
                 {video.title}
               </h2>
             </div>

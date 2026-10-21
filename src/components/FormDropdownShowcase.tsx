@@ -91,7 +91,7 @@ export default function FormDropdownShowcase({
           </span>
           <span className="text-xs text-white/50">Layout &amp; Styling Sections</span>
         </div>
-        <h2 className="text-2xl font-black tracking-tight text-white sm:text-3xl">
+        <h2 className="font-black tracking-tight text-white">
           Travel Insurance (Yes / No) Dropdown Layouts
         </h2>
         <p className="text-xs text-white/60 max-w-3xl leading-relaxed">

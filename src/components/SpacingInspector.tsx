@@ -689,6 +689,16 @@ export default function SpacingInspector() {
           <span>🌊 Fluid Gap</span>
         </button>
         <button
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent("open-fluid-gap-tuner", { detail: { tab: "banner" } }));
+          }}
+          title="Tune Header & Banner Gap Sizes"
+          className="transition-colors flex items-center gap-1.5 rounded-full border border-pink-500/40 bg-zinc-950/90 px-3 py-2 font-mono text-xs text-pink-300 shadow-2xl backdrop-blur-xl hover:bg-pink-950/80 hover:text-white cursor-pointer"
+        >
+          <span className="h-2 w-2 rounded-full bg-pink-400 animate-pulse" />
+          <span>🎵 Banner Gap</span>
+        </button>
+        <button
           onClick={() => setIsActive(true)}
           title="Enable Spacing Inspector (Alt+S)"
           className="transition-colors flex items-center gap-2 rounded-full border border-purple-500/40 bg-zinc-950/90 px-3.5 py-2 font-mono text-xs text-purple-300 shadow-2xl backdrop-blur-xl hover:bg-purple-950/80 hover:text-white cursor-pointer"

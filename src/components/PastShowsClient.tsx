@@ -391,7 +391,7 @@ export default function PastShowsClient({
                             <div className="flex flex-1 flex-wrap items-center gap-2">
                               <Link
                                 href={`/shows/${show.id}`}
-                                className="font-bold text-white transition-colors hover:text-purple-400 hover:underline underline-offset-4"
+                                className="font-bold text-white transition-colors hover:text-purple-400"
                                 title={`View ${show.venue} concert details & recap`}
                               >
                                 {show.venue}

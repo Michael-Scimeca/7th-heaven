@@ -51,24 +51,5 @@ export function loadYouTubeAPI(onReady: () => void): void {
     }
   };
 
-  // Defer script injection so YouTube's www-player.css is removed from the critical request chain
-  if (document.readyState === "complete") {
-    if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(injectScript);
-    } else {
-      setTimeout(injectScript, 600);
-    }
-  } else {
-    window.addEventListener(
-      "load",
-      () => {
-        if ("requestIdleCallback" in window) {
-          (window as any).requestIdleCallback(injectScript);
-        } else {
-          setTimeout(injectScript, 600);
-        }
-      },
-      { once: true },
-    );
-  }
+  injectScript();
 }

@@ -23,6 +23,8 @@ interface CustomVideoPlayerProps {
   title: string;
   onClose?: () => void;
   autoPlay?: boolean;
+  /** Hide the in-player title overlay (e.g. when the host modal already shows it). */
+  hideTitle?: boolean;
 }
 
 const formatTime = (s: number) => {
@@ -37,6 +39,7 @@ export default function CustomVideoPlayer({
   title,
   onClose,
   autoPlay = true,
+  hideTitle = false,
 }: CustomVideoPlayerProps) {
   const reactId = useId();
   const playerRef = useRef<any>(null);
@@ -105,7 +108,24 @@ export default function CustomVideoPlayer({
               if (dur) setDuration(dur);
               e.target.setVolume(volume);
               if (autoPlay) {
-                e.target.playVideo();
+                // Attempt direct playback
+                try {
+                  const playPromise = e.target.playVideo();
+                  if (playPromise && typeof playPromise.catch === "function") {
+                    playPromise.catch(() => {
+                      // If browser requires muted autoplay first
+                      try {
+                        e.target.mute();
+                        setIsMuted(true);
+                        e.target.playVideo();
+                      } catch { }
+                    });
+                  }
+                } catch {
+                  try {
+                    e.target.playVideo();
+                  } catch { }
+                }
                 setIsPlaying(true);
               }
             },
@@ -140,44 +160,46 @@ export default function CustomVideoPlayer({
   }, [videoId, autoPlay, volume]);
 
   // Sync state loop
+  // eslint-disable-next-line react-doctor/effect-needs-cleanup
   useEffect(() => {
-    if (!isPlaying) return;
-
-    let isVisible = true;
+    let intervalId: ReturnType<typeof setInterval> | undefined;
     let observer: IntersectionObserver | null = null;
-    if (typeof IntersectionObserver !== "undefined" && containerRef.current) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            isVisible = e.isIntersecting;
-          });
-        },
-        { rootMargin: "200px 0px" },
-      );
-      observer.observe(containerRef.current);
+
+    if (isPlaying) {
+      let isVisible = true;
+      if (typeof IntersectionObserver !== "undefined" && containerRef.current) {
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              isVisible = e.isIntersecting;
+            });
+          },
+          { rootMargin: "200px 0px" },
+        );
+        observer.observe(containerRef.current);
+      }
+
+      intervalId = setInterval(() => {
+        if (
+          isVisible &&
+          playerRef.current &&
+          typeof playerRef.current.getCurrentTime === "function"
+        ) {
+          try {
+            const cur = playerRef.current.getCurrentTime();
+            const dur = playerRef.current.getDuration();
+            const buf = playerRef.current.getVideoLoadedFraction();
+            if (typeof cur === "number") setCurrentTime(cur);
+            if (typeof dur === "number" && dur > 0) setDuration(dur);
+            if (typeof buf === "number") setBuffered(buf * 100);
+          } catch { }
+        }
+      }, 200);
     }
 
-    const update = () => {
-      if (
-        isVisible &&
-        playerRef.current &&
-        typeof playerRef.current.getCurrentTime === "function"
-      ) {
-        try {
-          const cur = playerRef.current.getCurrentTime();
-          const dur = playerRef.current.getDuration();
-          const buf = playerRef.current.getVideoLoadedFraction();
-          if (typeof cur === "number") setCurrentTime(cur);
-          if (typeof dur === "number" && dur > 0) setDuration(dur);
-          if (typeof buf === "number") setBuffered(buf * 100);
-        } catch { }
-      }
-      animRef.current = requestAnimationFrame(update);
-    };
-    animRef.current = requestAnimationFrame(update);
     return () => {
+      if (intervalId) clearInterval(intervalId);
       if (observer) observer.disconnect();
-      cancelAnimationFrame(animRef.current);
     };
   }, [isPlaying]);
 
@@ -283,19 +305,16 @@ export default function CustomVideoPlayer({
       )}
 
       {/* Top Header Overlay with Title & Close Button */}
-      <div
-        className={`absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/80 via-black/40 to-transparent p-4 ${showControls ? "opacity-100" : "opacity-0"}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex max-w-[80%] items-center gap-2">
-          <span className="rounded border border-white/10 bg-black/60 px-2 py-0.5">
-            Now Playing
-          </span>
-          <h4 className="drop-shadow">{title}</h4>
+      {!hideTitle && (
+        <div
+          className={`absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/80 via-black/40 to-transparent p-4 ${showControls ? "opacity-100" : "opacity-0"}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex max-w-[80%] items-center gap-2">
+            <h4 className="drop-shadow">{title}</h4>
+          </div>
         </div>
-
-
-      </div>
+      )}
 
       {/* Bottom Custom Control Bar */}
       <div
@@ -333,7 +352,7 @@ export default function CustomVideoPlayer({
             <SeventhButton
               onClick={togglePlay}
               icon={false}
-              className="flex h-11 w-11 cursor-pointer items-center justify-center"
+              className="flex h-11 w-11 p-0 cursor-pointer items-center justify-center !rounded-full shrink-0"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (

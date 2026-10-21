@@ -48,7 +48,7 @@ export function Breadcrumbs({ items, className, id = "breadcrumb-nav" }: Breadcr
             .replace(/&/g, "\\u0026"),
         }}
       />
-      <nav aria-label="Breadcrumb" id={id} className={`py-2 mb-4 ${className || ""}`}>
+      <nav aria-label="Breadcrumb" id={id} className="mb-6">
         <ol className="flex flex-wrap items-center gap-2 text-xs text-white/50">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;

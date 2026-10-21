@@ -26,7 +26,7 @@ export default function GlobalDropdownShowcase() {
             </span>
             <span className="text-xs text-white/50">VisionOS Frosted Glass Connected Capsule</span>
           </div>
-          <h2 className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
+          <h2 className="mt-2 font-black tracking-tight text-white">
             Connected Date Capsule
           </h2>
           <p className="mt-1 text-xs text-white/60 max-w-2xl leading-relaxed">

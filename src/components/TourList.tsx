@@ -920,7 +920,8 @@ export default function TourList({
   const loadSubscriptions = useCallback(async () => {
     if (!member) return;
     try {
-      const res = await fetch("/api/shows/notify-me");
+      const emailParam = member.email ? `?email=${encodeURIComponent(member.email)}` : "";
+      const res = await fetch(`/api/shows/notify-me${emailParam}`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.subscriptions) {
@@ -1630,7 +1631,7 @@ export default function TourList({
                     {showSupabaseId ? (
                       <Link
                         href={`/shows/${showSupabaseId}`}
-                        className="text-[clamp(14px,1.3vw,21px)] font-bold text-white whitespace-nowrap transition-colors hover:text-purple-400 hover:underline underline-offset-4"
+                        className="text-[clamp(14px,1.3vw,21px)] font-bold text-white whitespace-nowrap transition-colors hover:text-purple-400"
                         title={`View ${show.venue} concert details & RSVP`}
                       >
                         {show.venue}

@@ -508,7 +508,7 @@ export function CalendarPicker({
           {/* Integrated Timing & Load-In Schedule */}
           <div className="mt-8 flex flex-col gap-6 border-t border-white/10 pt-6">
             <div>
-              <h4 className="text-sm font-semibold text-white">Event & Showtime Schedule</h4>
+              <h4 className="font-semibold text-white">Event & Showtime Schedule</h4>
               <p className="text-xs text-white/50 mt-0.5">Enter your event times below (4 milestone schedule inputs)</p>
             </div>
 

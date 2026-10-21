@@ -33,7 +33,7 @@ export default function TransitionTestPageB() {
           {/* heading-size-ok: WebGL transition hero title */}
           <h1
             id="hero-b-heading"
-            className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight drop-shadow-md"
+            className="font-black tracking-tight text-white leading-tight drop-shadow-md"
           >
             Page B: Concert Experience &amp; Tour Life
           </h1>
@@ -142,8 +142,7 @@ export default function TransitionTestPageB() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
               <Volume2 className="w-8 h-8 text-amber-400" />
-              {/* heading-size-ok: card title */}
-              <h3 className="text-lg font-bold text-white">Full Arena Line Arrays</h3>
+              <h3 className="font-bold text-white">Full Arena Line Arrays</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
                 Custom calibrated stereo line arrays pushing pristine audio fidelity across stadiums, outdoor amphitheatres, and festival fields.
               </p>
@@ -151,8 +150,7 @@ export default function TransitionTestPageB() {
 
             <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
               <Radio className="w-8 h-8 text-rose-400" />
-              {/* heading-size-ok: card title */}
-              <h3 className="text-lg font-bold text-white">Wireless In-Ear Monitoring</h3>
+              <h3 className="font-bold text-white">Wireless In-Ear Monitoring</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
                 State-of-the-art RF wireless in-ear monitoring delivering zero-latency multitrack mix feedback to every band member on stage.
               </p>
@@ -160,8 +158,7 @@ export default function TransitionTestPageB() {
 
             <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
               <Sparkles className="w-8 h-8 text-purple-400" />
-              {/* heading-size-ok: card title */}
-              <h3 className="text-lg font-bold text-white">Dynamic Lighting &amp; Lasers</h3>
+              <h3 className="font-bold text-white">Dynamic Lighting &amp; Lasers</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
                 Timecode-synchronized DMX moving heads, blinders, cryo jets, and atmospheric haze designed for maximum crowd immersion.
               </p>
@@ -186,8 +183,7 @@ export default function TransitionTestPageB() {
           />
 
           <div className="rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 flex flex-col gap-4 shadow-xl backdrop-blur-md">
-            {/* heading-size-ok: guide title */}
-            <h3 className="text-base font-bold text-amber-200">
+            <h3 className="font-bold text-amber-200">
               Testing Scenarios to Explore
             </h3>
             <ol className="text-sm text-zinc-300 space-y-2 list-decimal list-inside leading-relaxed">

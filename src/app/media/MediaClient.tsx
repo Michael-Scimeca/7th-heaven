@@ -2,10 +2,8 @@
 "use client";
 
 import Image from "next/image";
+import { videoThumb } from "@/lib/videoThumb";
 import staticVideoCategories from "../../../public/data/videos.json";
-import availablePreviewsList from "../../../public/data/available-previews.json";
-
-const AVAILABLE_PREVIEWS = new Set<string>(availablePreviewsList as string[]);
 
 import React, {
   useState,
@@ -19,9 +17,15 @@ import { createPortal } from "react-dom";
 import {
   X,
   Video as VideoIcon,
+  Camera,
   CheckCircle2,
   Check,
-  Filter,
+  Play,
+  Film,
+  ArrowUpDown,
+  Clock,
+  Maximize2,
+  SlidersHorizontal,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
@@ -30,8 +34,14 @@ import AddCmsButton from "@/components/AddCmsButton";
 import CustomDropdown from "@/components/CustomDropdown";
 import { SearchInput } from "@/components/SearchInput";
 import { SectionHeader } from "@/components/SectionHeader";
+import { SeventhButton } from "@/components/SeventhButton";
 import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
+import MediaLayoutContainer from "@/components/MediaLayoutContainer";
+import GlassPlayButton from "@/components/GlassPlayButton";
+import VideoArchiveRenderer, { VIDEO_LAYOUT_PRESETS } from "@/components/VideoArchiveRenderer";
 import { useScrollLock } from "@/lib/useScrollLock";
+import MediaFilterDrawer, { type MediaFilterOption } from "@/components/MediaFilterDrawer";
+import type { FanPhoto } from "@/lib/fanPhotos";
 
 const CustomVideoPlayer = dynamic(
   () => import("@/components/CustomVideoPlayer"),
@@ -40,6 +50,10 @@ const CustomVideoPlayer = dynamic(
 const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), {
   ssr: false,
 });
+const FanPhotoWallClient = dynamic(
+  () => import("@/app/fan-media-wall/FanPhotoWallClient"),
+  { ssr: false },
+);
 
 interface Video {
   id: string;
@@ -49,6 +63,11 @@ interface Video {
   description?: string;
   viewCount?: string;
   category?: string;
+  mediaType?: "video" | "photo";
+  photoSrc?: string;
+  photographer?: string;
+  venue?: string;
+  city?: string;
 }
 
 interface VideoCategory {
@@ -163,143 +182,6 @@ function getOrganicItemStyle(videoId: string, index: number) {
   };
 }
 
-interface CardVideoEmbedProps {
-  videoId: string;
-  title: string;
-  aspectClass: string;
-  isHovered?: boolean;
-  priority?: boolean;
-}
-
-function CardVideoEmbed({
-  videoId,
-  title,
-  aspectClass,
-  isHovered,
-  priority = false,
-}: CardVideoEmbedProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(priority || Boolean(isHovered));
-  const [isLoaded, setIsLoaded] = useState(false);
-  const bufferTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (bufferTimerRef.current) clearTimeout(bufferTimerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (inView) return;
-
-    if (isHovered) {
-      setInView(true);
-      return;
-    }
-
-    const el = containerRef.current;
-    if (!el) return;
-
-    if (typeof IntersectionObserver === "undefined") {
-      setInView(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "400px 0px",
-      },
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-    };
-  }, [isHovered, inView]);
-
-  const handleIframeLoad = () => {
-    if (bufferTimerRef.current) clearTimeout(bufferTimerRef.current);
-    // YouTube takes ~1.2s to seek to 20s and buffer the first video frame.
-    // We hold opacity-0 while seeking/buffering so the crisp thumbnail stays visible
-    // and NO black screen/spinner is ever exposed to the user.
-    bufferTimerRef.current = setTimeout(() => {
-      setIsLoaded(true);
-      if (priority && typeof window !== "undefined") {
-        (window as any).__7hMediaVideosReady = true;
-        window.dispatchEvent(new CustomEvent("7h-media-videos-ready"));
-      }
-    }, priority ? 600 : 1300);
-  };
-
-  let sizeClasses = "w-[140%] h-[140%] min-w-[140%] min-h-[140%]";
-  if (
-    aspectClass.includes("4/5") ||
-    aspectClass.includes("3/4") ||
-    aspectClass.includes("3/4.2")
-  ) {
-    sizeClasses = "w-[250%] h-[140%] min-w-[250%] min-h-[140%]";
-  } else if (aspectClass.includes("square")) {
-    sizeClasses = "w-[195%] h-[140%] min-w-[195%] min-h-[140%]";
-  } else if (aspectClass.includes("1.18/1")) {
-    sizeClasses = "w-[185%] h-[140%] min-w-[185%] min-h-[140%]";
-  } else if (aspectClass.includes("4/3")) {
-    sizeClasses = "w-[160%] h-[140%] min-w-[160%] min-h-[140%]";
-  } else if (aspectClass.includes("3/2")) {
-    sizeClasses = "w-[150%] h-[140%] min-w-[150%] min-h-[140%]";
-  } else if (aspectClass.includes("21/9")) {
-    sizeClasses = "w-[140%] h-[165%] min-w-[140%] min-h-[165%]";
-  } else if (aspectClass.includes("1.85/1")) {
-    sizeClasses = "w-[140%] h-[145%] min-w-[140%] min-h-[145%]";
-  }
-
-  const hasLocalPreview = AVAILABLE_PREVIEWS.has(videoId);
-
-  // 5-second lightweight loop playing 20 seconds in (20s to 25s) to capture song's energy
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=20&end=25&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&vq=medium`;
-
-  return (
-    <div
-      ref={containerRef}
-      className={`pointer-events-none absolute inset-0 z-10 overflow-hidden transition-opacity duration-700 ease-out ${inView && isLoaded ? "opacity-100" : "opacity-0"
-        }`}
-    >
-      {inView && hasLocalPreview ? (
-        <video
-          src={`/movie/previews/${videoId}.mp4`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onLoadedData={() => {
-            setIsLoaded(true);
-            if (priority && typeof window !== "undefined") {
-              (window as any).__7hMediaVideosReady = true;
-              window.dispatchEvent(new CustomEvent("7h-media-videos-ready"));
-            }
-          }}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-        />
-      ) : inView ? (
-        <iframe
-          src={embedUrl}
-          title={title}
-          loading="eager"
-          onLoad={handleIframeLoad}
-          className={`pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0 transform-gpu ${sizeClasses}`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
-        />
-      ) : null}
-    </div>
-  );
-}
-
 function extractYouTubeId(urlOrId: string): string {
   const match = urlOrId.match(
     /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/,
@@ -310,10 +192,144 @@ function extractYouTubeId(urlOrId: string): string {
   return clean;
 }
 
+const EMPTY_FAN_PHOTOS: FanPhoto[] = [];
+
+type LengthKey = "all" | "short" | "mid" | "full";
+
+const LENGTH_BUCKETS: { value: Exclude<LengthKey, "all">; label: string; test: (s: number) => boolean }[] = [
+  { value: "short", label: "Short clips (under 5 min)", test: (s) => s < 300 },
+  { value: "mid", label: "Mid-length (5–20 min)", test: (s) => s >= 300 && s < 1200 },
+  { value: "full", label: "Full shows (20 min +)", test: (s) => s >= 1200 },
+];
+
+function parseDurationSeconds(d?: string): number | undefined {
+  if (!d) return undefined;
+  return String(d).split(":").map(Number).reduce((a, b) => a * 60 + b, 0);
+}
+
+function matchesMediaType(v: Video, t: "all" | "videos" | "photos") {
+  if (t === "all") return true;
+  return t === "videos" ? v.mediaType !== "photo" : v.mediaType === "photo";
+}
+
+function matchesLength(v: Video, l: LengthKey) {
+  if (l === "all") return true;
+  const s = parseDurationSeconds(v.duration);
+  if (s === undefined || v.mediaType === "photo") return false;
+  const bucket = LENGTH_BUCKETS.find((b) => b.value === l);
+  return bucket ? bucket.test(s) : false;
+}
+
+const toTitleCase = (s: string) => s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+
+// Curated high-res live concert, stage, cruise, and band photography
+const CURATED_BAND_PHOTOS: Video[] = [
+  {
+    id: "photo_band_performance",
+    title: "Stage Breakdown at DeKalb Cornfest",
+    year: 2024,
+    category: "Live Concert Archive",
+    mediaType: "photo",
+    photoSrc: "/images/hero/band-performance.png",
+    photographer: "Official 7th Heaven Crew",
+    venue: "DeKalb Cornfest Main Stage",
+    city: "DeKalb, IL",
+    description: "High energy guitar breakdown with crowd hands in the air under festival lighting.",
+  },
+  {
+    id: "photo_rock_n_wheels",
+    title: "Electric Night at Addison Rock N' Wheels",
+    year: 2024,
+    category: "Rock N' Wheels",
+    mediaType: "photo",
+    photoSrc: "/images/tour/fan-concert-photo.jpg",
+    photographer: "Live Show Archive",
+    venue: "Village Green Stage",
+    city: "Addison, IL",
+    description: "Unforgettable summer festival night rocking Addison with thousands of fans.",
+  },
+  {
+    id: "photo_cozumel_cruise",
+    title: "Annual Band Cruise Sail-Away Party",
+    year: 2024,
+    category: "Cruise Videos",
+    mediaType: "photo",
+    photoSrc: "/images/cruise/cozumel.png",
+    photographer: "7th Heaven Travel Crew",
+    venue: "Royal Caribbean Deck Stage",
+    city: "Cozumel, Mexico",
+    description: "Tropical Caribbean waters and band fans celebrating the annual 7th Heaven Cruise.",
+  },
+  {
+    id: "photo_soldier_field_arena",
+    title: "Soldier Field Stadium Showcase",
+    year: 2024,
+    category: "Full Concerts",
+    mediaType: "photo",
+    photoSrc: "/images/hero/hero-band-bg.png",
+    photographer: "Stadium Tour Media",
+    venue: "Soldier Field Stadium",
+    city: "Chicago, IL",
+    description: "Rocking Soldier Field with over 80,000 cheering rock fans under the lights.",
+  },
+  {
+    id: "photo_cococay_stage",
+    title: "Private Island Beach Concert",
+    year: 2023,
+    category: "Cruise Videos",
+    mediaType: "photo",
+    photoSrc: "/images/cruise/ports/cococay.jpg",
+    photographer: "Cruise Tour Photographer",
+    venue: "Perfect Day Beach Stage",
+    city: "CocoCay, Bahamas",
+    description: "Exclusive fan concert on the white sands of the Bahamas.",
+  },
+  {
+    id: "photo_musichall_lounge",
+    title: "Music Hall Late Night Jam",
+    year: 2023,
+    category: "Live Footage",
+    mediaType: "photo",
+    photoSrc: "/images/cruise/ship/musichallbar.jpg",
+    photographer: "Backstage Media",
+    venue: "Music Hall Lounge",
+    city: "At Sea",
+    description: "Intimate late-night acoustic sets and rock classics with the die-hard fans.",
+  },
+  {
+    id: "photo_band_hero_banner",
+    title: "7th Heaven Official Headline Tour",
+    year: 2025,
+    category: "Official Music Videos",
+    mediaType: "photo",
+    photoSrc: "/images/hero/hero-banner.png",
+    photographer: "Studio & Live Archive",
+    venue: "Midwest Arena Tour",
+    city: "Chicago, IL",
+    description: "Official promotional band photo capturing four decades of Midwest rock heritage.",
+  },
+  {
+    id: "photo_at_sea_sunset",
+    title: "Sunset Rock Deck Party",
+    year: 2024,
+    category: "Cruise Videos",
+    mediaType: "photo",
+    photoSrc: "/images/cruise/at-sea.png",
+    photographer: "7th Heaven Cruise Club",
+    venue: "Open Deck Pool Stage",
+    city: "Caribbean Sea",
+    description: "Sunset performance surrounded by open ocean and hundreds of singing fans.",
+  },
+];
+
 export default function MediaClient({
   sanityContent,
+  fanSanityContent,
+  initialFanPhotos = EMPTY_FAN_PHOTOS,
 }: {
   sanityContent?: any;
+  fanSanityContent?: any;
+  initialFanPhotos?: FanPhoto[];
 }) {
   const { member, isLoggedIn } = useMember();
   const isAdmin = Boolean(
@@ -327,13 +343,38 @@ export default function MediaClient({
     () => false,
   );
 
+  // Fixed layout: Layout 2 (Fixed Bottom Audio Dock + Hero Video + Fan Mosaic)
+  const [layoutVariant, setLayoutVariant] = useState<number>(2);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const layoutParam = parseInt(p.get("layout") || p.get("style") || "2", 10);
+    if (!isNaN(layoutParam) && layoutParam >= 1 && layoutParam <= 20) {
+      setLayoutVariant(layoutParam);
+    }
+  }, []);
+
   const [categories, setCategories] = useState<VideoCategory[]>(
     staticVideoCategories as VideoCategory[],
   );
   const [playingVideo, setPlayingVideo] = useState<Video | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<Video | null>(null);
   const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [mediaTypeFilter, setMediaTypeFilter] = useState<"all" | "videos" | "photos">("all");
+  const [yearRange, setYearRange] = useState<[number, number] | null>(null);
+  const [lengthFilter, setLengthFilter] = useState<LengthKey>("all");
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const filterTriggerRef = useRef<HTMLButtonElement>(null);
+  const [sortBy, setSortBy] = useState<"default" | "newest" | "oldest" | "title" | "duration">("default");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 20;
+
+  // Reset pagination to page 1 when filter, year range, length, sort or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter, searchQuery, yearRange, lengthFilter, sortBy, mediaTypeFilter]);
 
   // Add video modal state (for Sanity CMS admins)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -351,19 +392,20 @@ export default function MediaClient({
 
   const projectsContainerRef = useRef<HTMLElement>(null);
 
-  useScrollLock(Boolean(playingVideo || isAddModalOpen));
+  useScrollLock(Boolean(playingVideo || selectedPhoto || isAddModalOpen));
 
   // Escape key handler
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (playingVideo) setPlayingVideo(null);
+        if (selectedPhoto) setSelectedPhoto(null);
         if (isAddModalOpen) setIsAddModalOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [playingVideo, isAddModalOpen]);
+  }, [playingVideo, selectedPhoto, isAddModalOpen]);
 
   // Fetch updated videos from Sanity and localStorage
   const fetchCategories = useCallback(async () => {
@@ -413,18 +455,19 @@ export default function MediaClient({
     fetchCategories();
   }, [fetchCategories]);
 
-  // Flatten and organically interleave all videos across categories for an eclectic mix in ALL mode
+  // Flatten and organically interleave videos and photos across categories for an eclectic mix
   const allVideos = useMemo(() => {
     const list: Video[] = [];
     const seen = new Set<string>();
 
     // Prepare queues per category
     const categoryQueues = categories.map((cat) =>
-      cat.videos.map((v) => ({ ...v, category: v.category || cat.category }))
+      cat.videos.map((v) => ({ ...v, category: v.category || cat.category, mediaType: "video" as const }))
     );
 
     let hasRemaining = true;
     let round = 0;
+    let photoIdx = 0;
 
     while (hasRemaining) {
       hasRemaining = false;
@@ -434,6 +477,16 @@ export default function MediaClient({
           if (!seen.has(v.id)) {
             seen.add(v.id);
             list.push(v);
+
+            // Interleave a curated high-res photo every 2-3 videos for a rich blend
+            if (list.length % 3 === 0 && photoIdx < CURATED_BAND_PHOTOS.length) {
+              const photo = CURATED_BAND_PHOTOS[photoIdx];
+              if (!seen.has(photo.id)) {
+                seen.add(photo.id);
+                list.push(photo);
+                photoIdx++;
+              }
+            }
           }
           hasRemaining = true;
         }
@@ -441,38 +494,174 @@ export default function MediaClient({
       round++;
     }
 
+    // Append any remaining photos so they are completely discoverable
+    while (photoIdx < CURATED_BAND_PHOTOS.length) {
+      const photo = CURATED_BAND_PHOTOS[photoIdx];
+      if (!seen.has(photo.id)) {
+        seen.add(photo.id);
+        list.push(photo);
+      }
+      photoIdx++;
+    }
+
     return list;
   }, [categories]);
 
-  // Set of video IDs matching the active filter and search query (for O(1) instant visibility checks)
+  // Year bounds re-scope to category + media type + length (like Flux's price slider)
+  const yearBounds = useMemo<[number, number] | null>(() => {
+    const activeUpper = activeFilter.toUpperCase();
+    const years = allVideos
+      .filter(
+        (v) =>
+          matchesMediaType(v, mediaTypeFilter) &&
+          matchesLength(v, lengthFilter) &&
+          (activeUpper === "ALL" || (v.category && v.category.toUpperCase() === activeUpper)) &&
+          (Number(v.year) || 0) > 0,
+      )
+      .map((v) => Number(v.year));
+    return years.length ? [Math.min(...years), Math.max(...years)] : null;
+  }, [allVideos, activeFilter, mediaTypeFilter, lengthFilter]);
+
+  // Clamp the chosen range into the current bounds
+  const effectiveYearRange = useMemo<[number, number] | null>(() => {
+    if (!yearBounds) return null;
+    if (!yearRange) return yearBounds;
+    const lo = Math.min(Math.max(yearRange[0], yearBounds[0]), yearBounds[1]);
+    const hi = Math.max(Math.min(yearRange[1], yearBounds[1]), lo);
+    return [lo, hi];
+  }, [yearRange, yearBounds]);
+
+  const yearActive =
+    !!yearBounds &&
+    !!effectiveYearRange &&
+    (effectiveYearRange[0] !== yearBounds[0] || effectiveYearRange[1] !== yearBounds[1]);
+
+  const activeFilterCount =
+    (activeFilter.toUpperCase() !== "ALL" ? 1 : 0) +
+    (mediaTypeFilter !== "all" ? 1 : 0) +
+    (lengthFilter !== "all" ? 1 : 0) +
+    (yearActive ? 1 : 0);
+
+  const clearDrawerFilters = useCallback(() => {
+    setActiveFilter("ALL");
+    setMediaTypeFilter("all");
+    setLengthFilter("all");
+    setYearRange(null);
+  }, []);
+  const closeFilterDrawer = useCallback(() => setFilterDrawerOpen(false), []);
+
+  // Facet counts for the drawer
+  const scopedForCategory = useMemo(
+    () => allVideos.filter((v) => matchesMediaType(v, mediaTypeFilter)),
+    [allVideos, mediaTypeFilter],
+  );
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    scopedForCategory.forEach((v) => {
+      const key = (v.category || "").toUpperCase();
+      counts.set(key, (counts.get(key) || 0) + 1);
+    });
+    return counts;
+  }, [scopedForCategory]);
+
+  const mediaTypeDrawerOptions = useMemo<MediaFilterOption[]>(() => {
+    const activeUpper = activeFilter.toUpperCase();
+    const inCat = allVideos.filter(
+      (v) => activeUpper === "ALL" || (v.category && v.category.toUpperCase() === activeUpper),
+    );
+    return [
+      { value: "all", label: "All", count: inCat.length },
+      { value: "videos", label: "Videos", count: inCat.filter((v) => v.mediaType !== "photo").length },
+      { value: "photos", label: "Photos", count: inCat.filter((v) => v.mediaType === "photo").length },
+    ];
+  }, [allVideos, activeFilter]);
+
+  // Length facet hidden entirely when only photos are in view
+  const lengthDrawerOptions = useMemo<MediaFilterOption[]>(() => {
+    const activeUpper = activeFilter.toUpperCase();
+    const scoped = allVideos.filter(
+      (v) =>
+        matchesMediaType(v, mediaTypeFilter) &&
+        (activeUpper === "ALL" || (v.category && v.category.toUpperCase() === activeUpper)) &&
+        parseDurationSeconds(v.duration) !== undefined,
+    );
+    if (scoped.length === 0) return [];
+    return [
+      { value: "all", label: "Any length", count: scoped.length },
+      ...LENGTH_BUCKETS.map((b) => ({
+        value: b.value,
+        label: b.label,
+        count: scoped.filter((v) => b.test(parseDurationSeconds(v.duration)!)).length,
+      })),
+    ];
+  }, [allVideos, activeFilter, mediaTypeFilter]);
+
+  // Set of video/photo IDs matching active filter, year range, media type, length, and search query
   const visibleVideoIds = useMemo(() => {
     const ids = new Set<string>();
     const q = searchQuery.toLowerCase().trim();
     const activeUpper = activeFilter.toUpperCase();
 
     allVideos.forEach((v) => {
+      if (!matchesMediaType(v, mediaTypeFilter)) return;
+      if (!matchesLength(v, lengthFilter)) return;
+
       const matchesCategory =
         activeUpper === "ALL" ||
         (v.category && v.category.toUpperCase() === activeUpper);
+
+      const year = Number(v.year) || 0;
+      const matchesEra =
+        !effectiveYearRange || (year >= effectiveYearRange[0] && year <= effectiveYearRange[1]);
 
       const matchesSearch =
         !q ||
         v.title.toLowerCase().includes(q) ||
         (v.category && v.category.toLowerCase().includes(q)) ||
         (v.description && v.description.toLowerCase().includes(q)) ||
+        (v.venue && v.venue.toLowerCase().includes(q)) ||
+        (v.city && v.city.toLowerCase().includes(q)) ||
         String(v.year).includes(q);
 
-      if (matchesCategory && matchesSearch) {
+      if (matchesCategory && matchesEra && matchesSearch) {
         ids.add(v.id);
       }
     });
     return ids;
-  }, [allVideos, activeFilter, searchQuery]);
+  }, [allVideos, activeFilter, effectiveYearRange, mediaTypeFilter, lengthFilter, searchQuery]);
 
-  // Filtered videos based on active filter & search query
+  // Filtered and sorted videos based on active filter, era, and sort selection
   const filteredVideos = useMemo(() => {
-    return allVideos.filter((v) => visibleVideoIds.has(v.id));
-  }, [allVideos, visibleVideoIds]);
+    const list = allVideos.filter((v) => visibleVideoIds.has(v.id));
+
+    if (sortBy === "newest") {
+      return [...list].sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
+    }
+    if (sortBy === "oldest") {
+      return [...list].sort((a, b) => (Number(a.year) || 9999) - (Number(b.year) || 9999));
+    }
+    if (sortBy === "title") {
+      return [...list].sort((a, b) => a.title.localeCompare(b.title));
+    }
+    if (sortBy === "duration") {
+      const parseDuration = (d?: string) => {
+        if (!d) return 0;
+        const parts = d.split(":").map(Number);
+        return parts.length === 2 ? parts[0] * 60 + parts[1] : parts[0] || 0;
+      };
+      return [...list].sort((a, b) => parseDuration(b.duration) - parseDuration(a.duration));
+    }
+
+    return list;
+  }, [allVideos, visibleVideoIds, sortBy]);
+
+  const totalPages = Math.ceil(filteredVideos.length / pageSize) || 1;
+
+  // Paginated videos: displays exactly 20 videos for the active page
+  const paginatedVideos = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredVideos.slice(startIndex, startIndex + pageSize);
+  }, [filteredVideos, currentPage, pageSize]);
 
   // Stable pre-computed organic styles per video so style calculation is memoized
   const videoStyles = useMemo(() => {
@@ -483,20 +672,10 @@ export default function MediaClient({
     return map;
   }, [allVideos]);
 
-  // Responsive balanced grid layout based on number of visible items
+  // Responsive grid: 3-column stack on large screens, 2 on medium screens as it gets smaller, 1 on mobile
   const containerColumnClass = useMemo(() => {
-    const count = visibleVideoIds.size;
-    if (count <= 1) {
-      return "grid grid-cols-1 max-w-xl mx-auto items-start";
-    }
-    if (count === 2) {
-      return "grid grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto items-start";
-    }
-    if (count === 3) {
-      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto items-start";
-    }
-    return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 items-start";
-  }, [visibleVideoIds.size]);
+    return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:gap-x-6 lg:gap-y-12 items-start";
+  }, []);
 
 
   // Dropdown options for category filter
@@ -524,14 +703,24 @@ export default function MediaClient({
     return list;
   }, [categories]);
 
-  const categoryTriggerPrefix = useMemo(
+
+  // Dropdown options for sorting
+  const sortDropdownOptions = useMemo(() => {
+    return [
+      { value: "default", label: "DEFAULT CURATED" },
+      { value: "newest", label: "RELEASE: NEWEST FIRST" },
+      { value: "oldest", label: "RELEASE: OLDEST FIRST" },
+      { value: "title", label: "ALPHABETICAL (A-Z)" },
+      { value: "duration", label: "LONGEST RUNTIME" },
+    ];
+  }, []);
+
+  const sortTriggerPrefix = useMemo(
     () => (
-      <span className="flex items-center gap-2 min-w-0">
-        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-sm shadow-purple-600/40">
-          <Filter className="h-2.5 w-2.5 text-white" />
-        </span>
+      <span className="flex items-center gap-1.5 min-w-0">
+        <ArrowUpDown className="h-3.5 w-3.5 text-purple-300/80" />
         <span className="text-[11px] font-semibold text-white/50 tracking-wider uppercase">
-          Category:
+          Sort:
         </span>
       </span>
     ),
@@ -642,82 +831,171 @@ export default function MediaClient({
     isVisible: boolean,
     priority: boolean = false,
   ) => {
-    const isHovered = !playingVideo && hoveredVideoId === video.id;
+    const isHovered = !playingVideo && !selectedPhoto && hoveredVideoId === video.id;
+    const isPhoto = video.mediaType === "photo";
+    const imgSrc = isPhoto && video.photoSrc
+      ? video.photoSrc
+      : videoThumb(video.id);
+
+    const handleCardClick = () => {
+      setHoveredVideoId(null);
+      if (isPhoto) {
+        setSelectedPhoto(video);
+      } else {
+        setPlayingVideo(video);
+      }
+    };
 
     return (
       <div
         key={`video-card-${video.id}`}
-        className={`w-full transition-opacity duration-300 ${
-          isVisible ? "block" : "!hidden pointer-events-none select-none"
-        }`}
+        className={`w-full transition-opacity duration-300 ${isVisible ? "block" : "!hidden pointer-events-none select-none"
+          }`}
       >
-        <div
-          className={`${style.widthClass} ${style.alignClass} ${style.marginClass} ${style.offsetClass} transition-transform duration-500`}
-        >
+        <div className="w-full">
           <div
             role="button"
             tabIndex={isVisible ? 0 : -1}
-            aria-label={`Play ${video.title}`}
+            aria-label={isPhoto ? `View photo: ${video.title}` : `Play video: ${video.title}`}
             onMouseEnter={() => {
-              if (!playingVideo) setHoveredVideoId(video.id);
+              if (!playingVideo && !selectedPhoto) setHoveredVideoId(video.id);
             }}
             onMouseLeave={() => setHoveredVideoId(null)}
-            onClick={() => {
-              setHoveredVideoId(null);
-              setPlayingVideo(video);
-            }}
+            onClick={handleCardClick}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                setHoveredVideoId(null);
-                setPlayingVideo(video);
+                handleCardClick();
               }
             }}
             className="group block w-full cursor-pointer text-left select-none"
           >
-            {/* Media Video Box */}
+            {/* Media Video or Photo Box */}
             <div
-              className={`relative block w-full overflow-hidden rounded-[20px] bg-[#1a1a1a] border border-white/10 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.85),0_12px_24px_-8px_rgba(0,0,0,0.6)] transition-[transform,box-shadow,border-color] duration-300 group-hover:scale-[1.015] group-hover:shadow-[0_36px_70px_-15px_rgba(0,0,0,0.95),0_16px_32px_-8px_rgba(0,0,0,0.75)] group-hover:border-white/20 ${style.aspectClass}`}
+              className="relative block w-full overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.8)] transition-[transform,box-shadow] duration-300 aspect-[16/10] sm:aspect-[16/9]"
             >
-              {/* Media Thumbnail Image & Video Preview on Hover */}
+              {/* Media Thumbnail Image */}
               <div className="relative h-full w-full overflow-hidden">
                 <Image
-                  src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                  src={imgSrc}
                   alt={video.title}
                   fill
                   priority={priority}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  className={`object-cover transition-transform duration-500 ease-out ${
-                    isHovered ? "scale-[1.08]" : "scale-100"
-                  }`}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className={`object-cover transition-transform duration-700 ease-out ${isHovered ? "scale-[1.05]" : "scale-100"
+                    }`}
                 />
 
-                {/* Autoplaying video 20s in (eager loaded before reveal for top priority cards) */}
-                <CardVideoEmbed
-                  videoId={video.id}
-                  title={video.title}
-                  aspectClass={style.aspectClass}
-                  isHovered={isHovered}
-                  priority={priority}
-                />
+                {/* Subtle dark gradient scrim across the bottom for metadata legibility */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+                {/* Prominent Format Badge (Top-Left: VIDEO indicator or PHOTO indicator) */}
+                {isPhoto ? (
+                  <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10 flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/85 backdrop-blur-md px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-purple-200 shadow-lg shadow-black/70">
+                    <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+                    <Camera className="h-3 w-3 text-purple-300" />
+                    <span>PHOTO</span>
+                    <span className="ml-0.5 border-l border-white/20 pl-1.5 font-sans font-normal text-white/80">
+                      HIGH-RES
+                    </span>
+                  </div>
+                ) : (
+                  <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10 flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/85 backdrop-blur-md px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-purple-200 shadow-lg shadow-black/70">
+                    <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+                    <VideoIcon className="h-3 w-3 text-purple-300" />
+                    <span>VIDEO</span>
+                    {video.duration && (
+                      <span className="ml-0.5 border-l border-white/20 pl-1.5 font-sans font-normal text-white/80">
+                        {video.duration}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                  {isPhoto ? (
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 ${
+                        isHovered ? "scale-110 bg-purple-600 text-white shadow-lg shadow-purple-600/50" : "opacity-0 group-hover:opacity-100"
+                      }`}
+                    >
+                      <Maximize2 className="h-5 w-5" />
+                    </div>
+                  ) : (
+                    <div
+                      className={`transition-all duration-300 ${
+                        isHovered
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100"
+                      }`}
+                    >
+                      <GlassPlayButton
+                        size="lg"
+                        as="div"
+                        glow
+                        className="pointer-events-none"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Category & Metadata Pills (Bottom-Right, matching reference) */}
+                <div className="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 z-10 flex flex-wrap items-center justify-end gap-1 sm:gap-1.5">
+                  <span className="border border-white/20 bg-black/60 backdrop-blur-md px-2 py-1.5 text-[10px] sm:text-[11px] font-medium tracking-wide text-white/90">
+                    {video.category || (isPhoto ? "Band Photo" : "Official Video")}
+                  </span>
+                  {video.year && (
+                    <span className="border border-white/20 bg-black/60 backdrop-blur-md px-2 py-1.5 text-[10px] sm:text-[11px] font-medium tracking-wide text-white/90">
+                      {video.year}
+                    </span>
+                  )}
+                  {video.duration && (
+                    <span className="border border-white/20 bg-black/60 backdrop-blur-md px-2 py-1.5 text-[10px] sm:text-[11px] font-medium tracking-wide text-white/90">
+                      {video.duration}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Title and Other Info OUTSIDE of the video */}
-            <div className="mt-4 flex flex-col gap-1.5 px-0.5">
-              <div className="flex items-center gap-2.5">
-                <h2 className="line-clamp-2 text-base tracking-tight text-white group-hover:text-[#f2efa3] transition-colors duration-150 drop-shadow-sm sm:text-lg">
+            {/* Bottom Meta Row (Split Left/Right matching reference) */}
+            <div className="mt-3.5 flex items-start justify-between gap-3 px-0.5">
+              {/* Left: Bold All-Caps Title & Subtext in Quisas */}
+              <div className="min-w-0 flex-1">
+                <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl uppercase text-white group-hover:text-[#f2efa3] transition-colors duration-150 line-clamp-1 leading-tight tracking-normal">
                   {video.title}
                 </h2>
+                <div className="font-quisas text-sm sm:text-base text-white/90 tracking-wide line-clamp-1 mt-0.5">
+                  {video.category || "7th Heaven Official Release"}
+                </div>
               </div>
-              <div className="text-xs font-medium tracking-wider text-white/60 uppercase">
-                {video.category || "7th Heaven"}
-                {video.year ? ` • ${video.year}` : ""}
+
+              {/* Right: Credits / Production context dynamically matching video or photo info */}
+              <div className="text-right shrink-0">
+                <span className="block text-xs sm:text-sm font-semibold text-white/50 tracking-normal">
+                  {isPhoto
+                    ? video.venue || (video.year ? `Captured • ${video.year}` : "Band Archive")
+                    : video.year
+                      ? `Release Year • ${video.year}`
+                      : video.category || "Official Release"}
+                </span>
+                <span className="block text-xs sm:text-sm font-medium text-white/90 tracking-wide leading-none mt-0.5">
+                  {isPhoto
+                    ? video.city || video.photographer || "Live Show Photography"
+                    : video.category === "Cruise Videos"
+                      ? "Annual Band Cruise"
+                      : video.category === "TV Appearances"
+                        ? "Television Broadcast"
+                        : video.category === "Full Concerts" || video.category === "Live Footage"
+                          ? "Live Concert Archive"
+                          : "7th Heaven Records"}
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   };
 
@@ -726,149 +1004,309 @@ export default function MediaClient({
       className="page-container relative min-h-screen overflow-x-hidden selection:bg-[#f2efa3] selection:text-[#1d1d1b]"
       id="media-page"
     >
-      <div className="site-container page-stack relative z-10">
-        {/* ── PAGE TITLE HERO ── */}
-        <PageHero
-          title={
-            sanityContent?.heroHeading ||
-            sanityContent?.title ||
-            "7TH HEAVEN MEDIA VAULT"
-          }
-          titleId="media-heading"
-          subtitle={
-            sanityContent?.heroSubheading ||
-            sanityContent?.subtitle ||
-            "40 years of music, live performances, official music videos, and press highlights."
-          }
-          align="left"
-          className="max-w-[800px]"
-        />
-
-        {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
-        <section
-          id="audio-vault"
-          aria-labelledby="audio-vault-heading"
-          className="section"
-        >
-          <SectionHeader
-            id="audio-vault-heading"
-            title="Audio Vault Player"
-            visuallyHidden
-          />
-          <div>
-            <AudioPlayer />
-          </div>
-        </section>
-
-        {/* ── NEW HOUSE OF YELLOW SPREAD MEDIA SECTION ── */}
-        <section
-          ref={projectsContainerRef}
-          id="media-gallery"
-          aria-labelledby="media-gallery-heading"
-          className="section relative min-h-screen pt-4 pb-36"
-        >
-          <SectionHeader
-            id="media-gallery-heading"
-            title="Media Gallery"
-            visuallyHidden
-          />
-
-          {/* ── MEDIA TOOLBAR: SEARCH, CATEGORY DROPDOWN & CMS BUTTON ON SAME ROW ── */}
-          <div
-            role="toolbar"
-            aria-label="Media Filters"
-            className="mb-8 flex flex-wrap items-center gap-3 sm:gap-4 lg:mb-10"
-          >
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder={
-                sanityContent?.searchPlaceholder || "Search Media..."
+      <div className="site-container page-stack-sm relative z-10">
+        {/* ── 2-COLUMN HEADER ROW: TITLE ON LEFT, AUDIO PLAYER BOX ON RIGHT ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[var(--header-cols-gap,2rem)] items-center w-full">
+          <div className="w-full">
+            <PageHero
+              title={
+                (
+                  sanityContent?.heroHeading ||
+                  sanityContent?.title ||
+                  "MEDIA VAULT"
+                )
+                  .replace(/7TH HEAVEN\s*/i, "")
+                  .trim() || "MEDIA VAULT"
               }
-              containerClassName="w-full sm:w-[280px] lg:w-[320px]"
-            />
-
-            <CustomDropdown
-              ariaLabel="Media categories"
-              value={activeFilter.toUpperCase()}
-              options={categoryDropdownOptions}
-              onChange={(val) => handleFilterChange(String(val))}
-              accentColor="#1e183a"
-              minWidth={220}
-              maxHeight={360}
-              triggerPrefix={categoryTriggerPrefix}
-              buttonClassName="rounded-full border border-white/15 bg-black/35 px-4 py-2.5 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
-            />
-
-            <AddCmsButton
-              label={
-                sanityContent?.addVideoButtonText ||
-                "ADD VIDEO / MEDIA IN SANITY CMS"
+              titleId="media-heading"
+              subtitle={
+                sanityContent?.heroSubheading ||
+                sanityContent?.subtitle ||
+                "40 years of music, live performances, official music videos, and fan community memories."
               }
-              onClick={() => setIsAddModalOpen(true)}
+              align="left"
+              className="w-full"
             />
           </div>
+          <div className="w-full flex justify-start lg:justify-end">
+            <section id="audio-vault" aria-labelledby="audio-vault-heading" className="w-full">
+              <SectionHeader id="audio-vault-heading" title="Audio Vault Player" visuallyHidden />
+              <AudioPlayer />
+            </section>
+          </div>
+        </div>
 
-          {/* Active Filter Indicator banner if filter is active */}
-          {activeFilter !== "ALL" && (
-            <div className="mb-8 flex items-center justify-between rounded-2xl border border-[#f2efa3]/30 bg-[#f2efa3]/10 px-5 py-3">
-              <div className="flex items-center gap-2.5">
-                <span className="h-2 w-2 rounded-full bg-[#f2efa3]" />
-                <span className="text-xs font-bold tracking-wider text-[#f2efa3] uppercase">
-                  Active Filter: {activeFilter}
-                </span>
-                <span className="text-xs text-white/50">
-                  ({filteredVideos.length} projects)
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveFilter("ALL");
-                  setSearchQuery("");
-                }}
-                className="cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white"
-              >
-                Reset to All ✕
-              </button>
-            </div>
-          )}
-
-          {/* =================== HOUSE OF YELLOW SPREAD MULTI-STREAM COLLAGE =================== */}
-          <div className="relative mx-auto w-full max-w-[2400px]">
-            <div
-              className={`transition-all duration-300 gap-6 ${containerColumnClass}`}
+        {/* ── 3-WAY INTEGRATED MEDIA ARCHITECTURE (ALL 3 PILLARS ON ONE PAGE) ── */}
+        <MediaLayoutContainer
+          layoutId={layoutVariant}
+          audioPlayerNode={null}
+          officialMediaNode={
+            <section
+              ref={projectsContainerRef}
+              id="media-gallery"
+              aria-labelledby="media-gallery-heading"
+              className="relative w-full"
             >
-              {allVideos.map((video, idx) => {
-                const isVisible = visibleVideoIds.has(video.id);
-                const style =
-                  videoStyles.get(video.id) ||
-                  getOrganicItemStyle(video.id, idx);
-                return renderCard(video, style, isVisible, idx < 6);
-              })}
-            </div>
+              <SectionHeader id="media-gallery-heading" title="Media Gallery" visuallyHidden />
+              {/* ── MEDIA TOOLBAR: SEARCH, ERA, SORT, CATEGORY DROPDOWN & CMS BUTTON ── */}
+              <div
+                role="toolbar"
+                aria-label="Media Filters"
+                className="mb-6 flex flex-col gap-4"
+              >
+                {/* Top Row: CMS action */}
+                <div className="flex flex-wrap items-center justify-end gap-3 border-b border-white/10 pb-4">
 
-            {visibleVideoIds.size === 0 && (
-              <div className="py-20 text-center">
-                <p className="text-lg text-white/60 font-medium">
-                  No videos found matching your filter
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveFilter("ALL");
-                    setSearchQuery("");
-                  }}
-                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition-colors"
-                >
-                  Reset all filters
-                </button>
+                  <AddCmsButton
+                    label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+                    onClick={() => setIsAddModalOpen(true)}
+                  />
+                </div>
+
+                {/* Main Filter & Search Control Row */}
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+                  <p className="mr-auto text-[13px] text-white/55" aria-live="polite">
+                    {filteredVideos.length} {filteredVideos.length === 1 ? "item" : "items"}
+                  </p>
+                  <SearchInput
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder={sanityContent?.searchPlaceholder || "Search by title, category, year..."}
+                    containerClassName="w-full sm:w-[260px] lg:w-[300px]"
+                  />
+
+                  {/* Sort Order Dropdown */}
+                  <CustomDropdown
+                    ariaLabel="Sort videos"
+                    value={sortBy}
+                    options={sortDropdownOptions}
+                    onChange={(val) => setSortBy(val as any)}
+                    minWidth={200}
+                    maxHeight={320}
+                    triggerPrefix={sortTriggerPrefix}
+                    buttonClassName="rounded-none border border-white/15 bg-black/35 px-4 py-2.5 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
+                  />
+
+                  <button
+                    ref={filterTriggerRef}
+                    type="button"
+                    onClick={() => setFilterDrawerOpen(true)}
+                    aria-haspopup="dialog"
+                    aria-expanded={filterDrawerOpen}
+                    className="flex cursor-pointer items-center gap-2 border border-white/20 px-4 py-2.5 text-xs text-white transition-colors hover:border-white/50 hover:bg-white/5"
+                  >
+                    <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
+                    Filters
+                    {activeFilterCount > 0 && (
+                      <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--color-action,#f5b942)] px-1 text-[11px] font-bold text-black">
+                        {activeFilterCount}
+                      </span>
+                    )}
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
 
+              <MediaFilterDrawer
+                open={filterDrawerOpen}
+                onClose={closeFilterDrawer}
+                returnFocusRef={filterTriggerRef}
+                categoryOptions={categoryDropdownOptions.map((o) => ({
+                  value: o.value,
+                  label: o.value === "ALL" ? "All" : toTitleCase(o.label),
+                  count: o.value === "ALL" ? scopedForCategory.length : categoryCounts.get(o.value) || 0,
+                }))}
+                category={activeFilter.toUpperCase()}
+                onCategoryChange={handleFilterChange}
+                mediaTypeOptions={mediaTypeDrawerOptions}
+                mediaType={mediaTypeFilter}
+                onMediaTypeChange={(v) => {
+                  setMediaTypeFilter(v as "all" | "videos" | "photos");
+                  if (v === "photos") setLengthFilter("all");
+                }}
+                lengthOptions={lengthDrawerOptions}
+                length={lengthFilter}
+                onLengthChange={(v) => setLengthFilter(v as LengthKey)}
+                yearBounds={yearBounds}
+                yearRange={effectiveYearRange}
+                onYearRangeChange={setYearRange}
+                resultCount={filteredVideos.length}
+                onClearAll={clearDrawerFilters}
+              />
 
-        </section>
+              {/* Active Filter Indicator banner if any filter is active */}
+              {(activeFilterCount > 0 || sortBy !== "default" || searchQuery.trim() !== "") && (
+                <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#f2efa3]/30 bg-[#f2efa3]/10 px-5 py-3">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="h-2 w-2 rounded-full bg-[#f2efa3]" />
+                    <span className="text-xs font-bold tracking-wider text-[#f2efa3] uppercase">
+                      Active Filters:
+                    </span>
+                    {activeFilter !== "ALL" && (
+                      <span className="rounded-md border border-[#f2efa3]/40 bg-[#f2efa3]/20 px-2 py-0.5 text-xs font-mono font-semibold text-white">
+                        Category: {activeFilter}
+                      </span>
+                    )}
+                    {mediaTypeFilter !== "all" && (
+                      <span className="rounded-md border border-white/30 bg-white/10 px-2 py-0.5 text-xs font-mono font-semibold text-white">
+                        Type: {mediaTypeFilter}
+                      </span>
+                    )}
+                    {lengthFilter !== "all" && (
+                      <span className="rounded-md border border-white/30 bg-white/10 px-2 py-0.5 text-xs font-mono font-semibold text-white">
+                        Length: {lengthFilter}
+                      </span>
+                    )}
+                    {yearActive && effectiveYearRange && (
+                      <span className="rounded-md border border-amber-400/40 bg-amber-500/20 px-2 py-0.5 text-xs font-mono font-semibold text-amber-200">
+                        Years: {effectiveYearRange[0]}–{effectiveYearRange[1]}
+                      </span>
+                    )}
+                    {sortBy !== "default" && (
+                      <span className="rounded-md border border-emerald-400/40 bg-emerald-500/20 px-2 py-0.5 text-xs font-mono font-semibold text-emerald-200">
+                        Sort: {sortBy}
+                      </span>
+                    )}
+                    {searchQuery.trim() !== "" && (
+                      <span className="rounded-md border border-purple-400/40 bg-purple-500/20 px-2 py-0.5 text-xs font-mono font-semibold text-purple-200">
+                        &quot;{searchQuery}&quot;
+                      </span>
+                    )}
+                    <span className="text-xs text-white/60">
+                      ({filteredVideos.length} matching {filteredVideos.length === 1 ? "video" : "videos"})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      clearDrawerFilters();
+                      setSortBy("default");
+                      setSearchQuery("");
+                    }}
+                    className="cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline"
+                  >
+                    Reset all filters ✕
+                  </button>
+                </div>
+              )}
+
+              {/* =================== DYNAMIC 20-LAYOUT VIDEO SHOWCASE =================== */}
+              <div className="relative mx-auto w-full">
+                <VideoArchiveRenderer
+                  layoutId={layoutVariant}
+                  videos={paginatedVideos}
+                  allVideos={filteredVideos}
+                  activeCategory={activeFilter}
+                  onSelectCategory={(cat) => handleFilterChange(cat)}
+                  onPlayVideo={(v) => {
+                    setHoveredVideoId(null);
+                    setPlayingVideo(v as any);
+                  }}
+                  renderStandardCard={(v, isPriority) => {
+                    const style = videoStyles.get(v.id) || getOrganicItemStyle(v.id, 0);
+                    return renderCard(v as any, style, true, isPriority);
+                  }}
+                />
+
+                {/* ── PAGINATION CONTROLS: LOAD NEXT / PREV SET OF 20 IN PLACE ── */}
+                {totalPages > 1 && (
+                  <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
+                    <p className="font-mono text-xs uppercase tracking-wider text-white/60">
+                      Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, filteredVideos.length)} of {filteredVideos.length} videos · Page {currentPage} of {totalPages}
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                      <SeventhButton
+                        type="button"
+                        disabled={currentPage <= 1}
+                        onClick={() => {
+                          setCurrentPage((prev) => Math.max(1, prev - 1));
+                          projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                        icon={false}
+                        className={`text-xs sm:text-sm px-6 py-2.5 ${currentPage <= 1 ? "opacity-40 cursor-not-allowed pointer-events-none" : ""}`}
+                      >
+                        ◀ Previous 20
+                      </SeventhButton>
+
+                      {/* Numbered Page Pills */}
+                      <div className="flex items-center gap-1.5 px-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                          <button
+                            key={`page-${pageNum}`}
+                            type="button"
+                            onClick={() => {
+                              setCurrentPage(pageNum);
+                              projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+                            }}
+                            className={`h-8 min-w-[32px] px-2 text-xs font-mono font-bold transition-all cursor-pointer ${
+                              pageNum === currentPage
+                                ? "bg-purple-600 text-white border border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.5)]"
+                                : "bg-white/5 text-white/70 hover:bg-white/15 hover:text-white border border-white/10"
+                            }`}
+                          >
+                            {pageNum}
+                          </button>
+                        ))}
+                      </div>
+
+                      <SeventhButton
+                        type="button"
+                        disabled={currentPage >= totalPages}
+                        onClick={() => {
+                          setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+                          projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                        icon={false}
+                        className={`text-xs sm:text-sm px-6 py-2.5 ${currentPage >= totalPages ? "opacity-40 cursor-not-allowed pointer-events-none" : ""}`}
+                      >
+                        Next 20 Videos ▶
+                      </SeventhButton>
+                    </div>
+                  </div>
+                )}
+
+                {filteredVideos.length === 0 && (
+                  <div className="py-20 text-center">
+                    <p className="text-lg text-white/60 font-medium">
+                      No videos found matching your filter
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveFilter("ALL");
+                        setSearchQuery("");
+                      }}
+                      className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition-colors"
+                    >
+                      Reset all filters
+                    </button>
+                  </div>
+                )}
+              </div>
+            </section>
+          }
+          fanWallNode={
+            <section
+              id="fan-media-wall"
+              aria-labelledby="fan-wall-heading"
+              className="relative w-full"
+            >
+              <div className="site-container mx-auto">
+                <SectionHeader
+                  id="fan-wall-heading"
+                  title="Fan Media Wall & Live Concert Moments"
+                  subtitle="Discover crowd photos, fan memories, and live concert footage captured by 7th Heaven fans across the country."
+                />
+              </div>
+              <div className="mt-8 w-full px-4 sm:px-6 lg:px-8">
+                <FanPhotoWallClient
+                  sanityContent={fanSanityContent}
+                  initialPhotos={initialFanPhotos}
+                  embedMode
+                />
+              </div>
+            </section>
+          }
+        />
       </div>
 
 
@@ -906,8 +1344,89 @@ export default function MediaClient({
                 <CustomVideoPlayer
                   videoId={playingVideo.id}
                   title={playingVideo.title}
+                  hideTitle
                   onClose={handleCloseVideo}
                 />
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+
+      {/* FULL SCREEN PHOTO LIGHTBOX MODAL */}
+      {mounted &&
+        selectedPhoto &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black/95 backdrop-blur-xl p-0"
+            onClick={() => setSelectedPhoto(null)}
+          >
+            <div
+              className="relative flex h-full w-full flex-col overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header Bar */}
+              <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 pt-safe sm:px-6">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-purple-500/20 px-3 py-1 text-xs font-mono font-bold tracking-wider text-purple-200 uppercase shrink-0">
+                    <Camera className="h-3 w-3 text-purple-300" />
+                    <span>PHOTO ARCHIVE</span>
+                  </span>
+                  <span className="line-clamp-1 text-white font-heading text-lg sm:text-xl uppercase tracking-wide">
+                    {selectedPhoto.title}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPhoto(null)}
+                  className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+                  aria-label="Close photo view"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Lightbox Image Stage */}
+              <div className="relative flex-1 w-full flex items-center justify-center p-4 sm:p-8 bg-black/60">
+                <div className="relative max-h-full max-w-full w-auto h-auto flex items-center justify-center">
+                  <Image
+                    src={selectedPhoto.photoSrc || videoThumb(selectedPhoto.id)}
+                    alt={selectedPhoto.title}
+                    width={1600}
+                    height={1000}
+                    priority
+                    className="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl border border-white/10"
+                  />
+                </div>
+              </div>
+
+              {/* Bottom Metadata Bar */}
+              <div className="shrink-0 border-t border-white/10 bg-black/90 px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-white">
+                    {selectedPhoto.title}
+                  </span>
+                  <span className="text-xs text-white/70">
+                    {selectedPhoto.description || "Official 7th Heaven Photography Archive"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 text-xs font-mono text-white/60">
+                  {selectedPhoto.venue && (
+                    <span className="rounded border border-white/10 bg-white/5 px-2 py-1 text-white/80">
+                      📍 {selectedPhoto.venue}
+                    </span>
+                  )}
+                  {selectedPhoto.city && (
+                    <span className="rounded border border-white/10 bg-white/5 px-2 py-1 text-white/80">
+                      {selectedPhoto.city}
+                    </span>
+                  )}
+                  {selectedPhoto.year && (
+                    <span className="rounded border border-white/10 bg-white/5 px-2 py-1 text-emerald-300">
+                      {selectedPhoto.year}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>,
@@ -934,7 +1453,7 @@ export default function MediaClient({
                   </div>
                   <div>
                     {/* heading-size-ok: admin modal title */}
-                    <h3 className="text-base font-bold text-white">
+                    <h3 className="font-bold text-white">
                       {sanityContent?.modalTitle || "Add Video to Media Vault"}
                     </h3>
                     <p className="text-xs text-purple-300/70">

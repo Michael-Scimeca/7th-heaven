@@ -1011,8 +1011,7 @@ export default function ThreeSlider({ items }: { items: ThreeSliderItem[] }) {
                 </span>
               </div>
 
-              {/* heading-size-ok: enlarged modal title */}
-              <h2 className="text-2xl sm:text-3xl font-bold uppercase text-white tracking-wide">
+              <h2 className="font-bold uppercase text-white tracking-wide">
                 {enlargedItem.title}
               </h2>
 

@@ -226,7 +226,7 @@ export default function PushUpdatesShowcasePage() {
         </div>
 
         {/* heading-size-ok: Hero display headline with drop shadow */}
-        <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight drop-shadow-md">
+        <h1 className="font-black tracking-tight text-white leading-tight drop-shadow-md">
           How 7th Heaven Pushes Instant Notifications &amp; Email Updates
         </h1>
 
@@ -629,7 +629,7 @@ export default function PushUpdatesShowcasePage() {
 
                     <div className="flex flex-col gap-1">
                       {/* heading-size-ok: In-mock notification card title */}
-                      <h3 className="text-sm font-bold text-purple-100">
+                      <h3 className="font-bold text-purple-100">
                         {selectedScenario.title}
                       </h3>
                       <p className="text-xs text-zinc-300 leading-relaxed">
@@ -685,7 +685,7 @@ export default function PushUpdatesShowcasePage() {
                         </span>
                       </div>
                       {/* heading-size-ok: In-mock email subject title */}
-                      <h3 className="text-base font-bold text-white">
+                      <h3 className="font-bold text-white">
                         {selectedScenario.title}
                       </h3>
                     </div>
@@ -767,7 +767,7 @@ export default function PushUpdatesShowcasePage() {
               01
             </div>
             {/* heading-size-ok: Pipeline step card title */}
-            <h3 className="text-base font-bold text-white">Fan Email Capture</h3>
+            <h3 className="font-bold text-white">Fan Email Capture</h3>
             <p className="text-xs text-zinc-300 leading-relaxed">
               Fans submit their email and optional ZIP code at shows via QR code, online ticket reservation, fan wall, or the website newsletter box.
             </p>
@@ -778,7 +778,7 @@ export default function PushUpdatesShowcasePage() {
               02
             </div>
             {/* heading-size-ok: Pipeline step card title */}
-            <h3 className="text-base font-bold text-white">Geofenced Radius Filter</h3>
+            <h3 className="font-bold text-white">Geofenced Radius Filter</h3>
             <p className="text-xs text-zinc-300 leading-relaxed">
               When a show in Milwaukee or Joliet has an update, the database automatically filters fans within a 35–50 mile radius so fans in distant states aren&apos;t spammed.
             </p>
@@ -789,7 +789,7 @@ export default function PushUpdatesShowcasePage() {
               03
             </div>
             {/* heading-size-ok: Pipeline step card title */}
-            <h3 className="text-base font-bold text-white">1-Click Admin Dispatch</h3>
+            <h3 className="font-bold text-white">1-Click Admin Dispatch</h3>
             <p className="text-xs text-zinc-300 leading-relaxed">
               From the mobile admin dashboard, band management types the update (or picks a weather template) and taps broadcast.
             </p>
@@ -800,7 +800,7 @@ export default function PushUpdatesShowcasePage() {
               04
             </div>
             {/* heading-size-ok: Pipeline step card title */}
-            <h3 className="text-base font-bold text-white">Dual Instant Delivery</h3>
+            <h3 className="font-bold text-white">Dual Instant Delivery</h3>
             <p className="text-xs text-zinc-300 leading-relaxed">
               Mobile phones buzz instantly with lockscreen web push, while formatted HTML emails land in inboxes with full map links and calendar invites.
             </p>

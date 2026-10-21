@@ -139,6 +139,8 @@ export interface SanityVideo {
   duration?: string;
   description?: string;
   viewCount?: string;
+  venue?: string;
+  city?: string;
 }
 
 export interface SanitySeo {
@@ -263,10 +265,10 @@ export const queries = {
   }),
 
   // Videos
-  allVideos: `*[_type == "video"] | order(category asc, year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
+  allVideos: `*[_type == "video"] | order(category asc, year desc) { _id, title, youtubeId, category, year, duration, description, viewCount, venue, city }`,
   // Returns { query, params } — pass both to sanityClient.fetch() or fetchSanity()
   videosByCategory: (category: string) => ({
-    query: `*[_type == "video" && category == $category] | order(year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
+    query: `*[_type == "video" && category == $category] | order(year desc) { _id, title, youtubeId, category, year, duration, description, viewCount, venue, city }`,
     params: { category },
   }),
 

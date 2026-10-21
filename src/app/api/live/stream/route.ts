@@ -10,6 +10,30 @@ const getAdmin = () =>
       },
     },
   );
+
+export async function GET() {
+  try {
+    const supabase = getAdmin();
+    const { data, error } = await supabase
+      .from("live_streams")
+      .select("id, title, status, viewer_count")
+      .eq("status", "live")
+      .limit(1);
+
+    if (error) {
+      return NextResponse.json({ isLive: false, streams: [] });
+    }
+
+    const isLive = Array.isArray(data) && data.length > 0;
+    return NextResponse.json({
+      isLive,
+      stream: isLive ? data[0] : null,
+    });
+  } catch {
+    return NextResponse.json({ isLive: false, streams: [] });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();

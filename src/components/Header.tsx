@@ -26,10 +26,9 @@ import { useScrollLock } from "@/lib/useScrollLock";
 const emptySubscribe = () => () => { };
 
 const leftNavLinks = [
-  { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
-  { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
   { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
+  { href: "/merch", label: "MERCH" },
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
@@ -144,10 +143,6 @@ function getUntransformedViewportTop(el: HTMLElement): number {
 // `!this.$device.isMobile` in their source, so neither one ever runs on
 // their own mobile hamburger — nothing to match there. The text label is a
 // structural addition, not a transition, so it's skipped too; this button
-// stays icon-only like it already was.)
-const ICON_LINE_LEN = 21; // stroke length in this SVG's own units (x: 1.5 -> 22.5)
-const ICON_X_LINE_LEN = 20; // diagonal stroke length (x/y: 5 -> 19)
-
 export function Header() {
   const pathname = usePathname();
   const { mode, pendingHref, requestTransition } = useTransition();
@@ -157,6 +152,42 @@ export function Header() {
   const { member, isLoggedIn, openModal, openProfileModal, logout, isModalOpen } =
     useMember();
   const [cartCount, setCartCount] = useState(0);
+  const [isLiveNow, setIsLiveNow] = useState(false);
+
+  // Check if live stream is actively broadcasting (supports ?live=true query param for instant visual testing)
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("live") === "true" || params.get("live") === "1") {
+        setIsLiveNow(true);
+        return;
+      }
+      if (params.get("live") === "false" || params.get("live") === "0") {
+        setIsLiveNow(false);
+        return;
+      }
+    }
+
+    const checkLiveStatus = () => {
+      fetch("/api/live/stream")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (!isCancelled && data && typeof data.isLive === "boolean") {
+            setIsLiveNow(data.isLive);
+          }
+        })
+        .catch(() => { });
+    };
+
+    checkLiveStatus();
+    const interval = setInterval(checkLiveStatus, 30000);
+    return () => {
+      isCancelled = true;
+      clearInterval(interval);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     try {
@@ -571,256 +602,260 @@ export function Header() {
         data-menu-open={mobileOpen}
         suppressHydrationWarning
       >
-      <div className="site-container w-full max-w-full">
-        <div
-          id="nav-inner-card"
-          suppressHydrationWarning
-          className="pointer-events-auto relative z-[30000] flex h-[60px] w-full items-center justify-between gap-4 md:h-[70px]"
-        >
-          {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
-          <TransitionLink
-            href="/"
-            id="header-logo"
-            showSpinner={false}
-            onClick={(e) => {
-              setMobileOpen(false);
-              if (pathname === "/") {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
-            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-white" : "cursor-pointer"}`}
-            title="7th Heaven — Go to Home Page"
+        <div className="site-container w-full max-w-full">
+          <div
+            id="nav-inner-card"
+            suppressHydrationWarning
+            className="pointer-events-auto relative z-[30000] flex h-[60px] w-full items-center justify-between mt-4 gap-4 md:h-[70px]"
           >
-            <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">
-              <Logo className="pointer-events-auto h-full w-full text-current duration-[250ms]" />
-            </div>
-          </TransitionLink>
-          <nav className="relative z-50 hidden items-center gap-3 lg:flex lg:flex-1 lg:justify-start lg:gap-5 xl:gap-8">
-            {leftNavLinks.map((link) => {
-              const active = isNavActive(link.href);
-              return (
+            {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
+            <TransitionLink
+              href="/"
+              id="header-logo"
+              showSpinner={false}
+              onClick={(e) => {
+                setMobileOpen(false);
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-white" : "cursor-pointer"}`}
+              title="7th Heaven — Go to Home Page"
+            >
+              <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">
+                <Logo className="pointer-events-auto h-full w-full text-current duration-[250ms]" />
+              </div>
+            </TransitionLink>
+            <nav className="relative z-50 hidden items-center gap-3 lg:flex lg:flex-1 lg:justify-start lg:gap-5 xl:gap-8">
+              {leftNavLinks.map((link) => {
+                const active = isNavActive(link.href);
+                return (
+                  <TransitionLink
+                    key={link.href}
+                    href={link.href}
+                    className={`nav-header-link relative text-[clamp(16px,1.1vw,18px)] whitespace-nowrap ${active ? "active" : ""}`}
+                  >
+                    {link.label}
+                  </TransitionLink>
+                );
+              })}
+            </nav>
+
+            {/* ── RIGHT NAV & ACTIONS GROUP ── */}
+            <nav
+              className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
+            >
+              {/* Live Stream link — only rendered if live shows are currently active */}
+              {isLiveNow && (
                 <TransitionLink
-                  key={link.href}
-                  href={link.href}
-                  className={`nav-header-link relative text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${active ? "active" : ""}`}
+                  href="/live"
+                  className={`nav-header-link relative z-50 hidden items-center py-1 text-[clamp(16px,1.1vw,18px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""}`}
+                  title="Streaming LIVE Right Now!"
                 >
-                  {link.label}
+                  <span>LIVE</span>
+                  <span className="pointer-events-none absolute -top-1.5 left-full ml-1.5 flex items-center gap-1 rounded-full bg-red-600 px-1.5 py-0.5 text-[9px] font-black tracking-wider text-white shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse uppercase whitespace-nowrap">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-ping" />
+                    ON AIR NOW
+                  </span>
                 </TransitionLink>
-              );
-            })}
-          </nav>
+              )}
 
-          {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <nav
-            className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
-          >
-            {/* Live Stream link */}
-            <TransitionLink
-              href="/live"
-              className={`nav-header-link relative z-50 hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""}`}
-            >
-              LIVE
-            </TransitionLink>
-
-            {/* Cruise link */}
-            <TransitionLink
-              href="/cruise"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""}`}
-            >
-              CRUISE
-            </TransitionLink>
-
-            {/* Book Us link */}
-            <TransitionLink
-              href="/book"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/book") ? "active" : ""}`}
-            >
-              BOOK US
-            </TransitionLink>
-
-            {/* Contact link */}
-            <TransitionLink
-              href="/contact"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""}`}
-            >
-              CONTACT
-            </TransitionLink>
-
-            {/* Cart Icon — only shown if something is in cart */}
-            {cartCount > 0 && (
+              {/* Cruise link */}
               <TransitionLink
-                href="/merch"
-                className="nav-header-link relative mx-0.5 flex shrink-0 items-center justify-center p-0.5"
-                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
+                href="/cruise"
+                className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(16px,1.1vw,18px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""}`}
+              >
+                CRUISE
+              </TransitionLink>
+
+              {/* Contact link (Merged Contact & Book Us) */}
+              <TransitionLink
+                href="/contact"
+                className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(16px,1.1vw,18px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""}`}
+              >
+                CONTACT
+              </TransitionLink>
+
+              {/* Cart Icon — only shown if something is in cart */}
+              {cartCount > 0 && (
+                <TransitionLink
+                  href="/merch"
+                  className="nav-header-link relative mx-0.5 flex shrink-0 items-center justify-center p-0.5"
+                  title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
+                >
+                  <svg
+                    width="19"
+                    height="19"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                  </svg>
+                  <span className="absolute -top-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#9333ea] text-[9px] shadow-sm">
+                    {cartCount}
+                  </span>
+                </TransitionLink>
+              )}
+
+              {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
+              {/* min-w prevents CLS when auth state switches from sign-in button → avatar */}
+              <div className="flex shrink-0 items-center" style={{ '--auth-w': '5.5rem' } as React.CSSProperties}>
+                {showUserAuth ? (
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    <div className="relative flex aspect-square shrink-0 items-center justify-center">
+                      <TransitionLink
+                        href={dashboardHref}
+                        showSpinner={false}
+                        className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
+                        title={displayName}
+                      >
+                        <Avatar
+                          src={avatarSrc}
+                          name={displayName}
+                          initials={initials}
+                          size="md"
+                          priority={true}
+                          border="border border-white/10"
+                        />
+                        {mode !== "idle" &&
+                          (pendingHref === dashboardHref ||
+                            (pendingHref &&
+                              pendingHref.startsWith(dashboardHref))) && (
+                            <div className="absolute inset-0 z-20 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-xs">
+                              <span className="h-5 w-5 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
+                            </div>
+                          )}
+                      </TransitionLink>
+
+                      {/* Overlapping Role Badge Circle with Full Role Name */}
+                      <span
+                        className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
+                      >
+                        {badgeText}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => openProfileModal()}
+                      className="ml-2 cursor-pointer text-[12px] font-semibold text-white/70 hover:text-white transition-colors"
+                      title="Edit Profile & Password"
+                    >
+                      <span>EDIT</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        logout();
+                        requestTransition("/");
+                      }}
+                      className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] sm:ml-2"
+                      title="Sign Out"
+                    >
+                      <span>SIGN OUT</span>
+                      {mode !== "idle" && pendingHref === "/" && (
+                        <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-[3px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.8)]" />
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <SeventhButton
+                    icon={false}
+                    onClick={() => openModal("login")}
+                    className="flex shrink-0 items-center"
+                    id="header-sign-in"
+                  >
+                    <span className="!text-[13px]">SIGN IN</span>
+                    {isModalOpen && (
+                      <span className="ml-0.5 h-4.5 w-4.5 shrink-0 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.9)]" />
+                    )}
+                  </SeventhButton>
+                )}
+              </div>{/* end auth min-w wrapper */}
+
+              {/* Mobile Menu Toggle Button — 4-Bar Soundwave / Music Playing Symbol (Max Height: 24px, Max Width: 80px) */}
+              <button
+                className="transition-colors relative flex h-10 max-w-[80px] w-12 shrink-0 cursor-pointer items-center justify-center p-1 hover:text-[var(--color-accent)] sm:h-11 sm:w-14 md:h-12 md:w-16 lg:hidden"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                id="mobile-menu-toggle"
               >
                 <svg
-                  width="19"
-                  height="19"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 32 28"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.4"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
+                  className="h-[28px] w-[32px] overflow-visible"
                 >
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-                <span className="absolute -top-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#9333ea] text-[9px] shadow-sm">
-                  {cartCount}
-                </span>
-              </TransitionLink>
-            )}
+                  {/* Option 2: Symmetrical Center-Peak Soundwave (5 Bars, Max Height 24px at center, centered around y = 14)
+                    Bar 1: 8px  (y: 10 -> 18) at x = 6
+                    Bar 2: 16px (y: 6 -> 22)  at x = 11
+                    Bar 3: 24px (y: 2 -> 26)  at x = 16 (Tallest = exactly 24px)
+                    Bar 4: 16px (y: 6 -> 22)  at x = 21
+                    Bar 5: 8px  (y: 10 -> 18) at x = 26 */}
+                  {[
+                    { x: 6, y1: 10, y2: 18, len: 8 },
+                    { x: 11, y1: 6, y2: 22, len: 16 },
+                    { x: 16, y1: 2, y2: 26, len: 24 },
+                    { x: 21, y1: 6, y2: 22, len: 16 },
+                    { x: 26, y1: 10, y2: 18, len: 8 },
+                  ].map(({ x, y1, y2, len }, i) => (
+                    <line
+                      key={`soundwave-bar-${x}`}
+                      x1={x}
+                      y1={y1}
+                      x2={x}
+                      y2={y2}
+                      stroke="#ffffff"
+                      style={{
+                        strokeDasharray: len,
+                        strokeDashoffset: mobileOpen ? len : 0,
+                        opacity: mobileOpen ? 0 : 1,
+                        transition: `stroke-dashoffset 400ms ${PAGE_RECEDE_EASE}, opacity 400ms ${PAGE_RECEDE_EASE}`,
+                        transitionDelay: mobileOpen ? `${i * 50}ms` : `${(4 - i) * 50 + 150}ms`,
+                      }}
+                    />
+                  ))}
 
-            {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
-            {/* min-w prevents CLS when auth state switches from sign-in button → avatar */}
-            <div className="flex shrink-0 items-center" style={{ '--auth-w': '5.5rem' } as React.CSSProperties}>
-              {showUserAuth ? (
-                <div className="flex items-center gap-1 sm:gap-1.5">
-                  <div className="relative flex aspect-square shrink-0 items-center justify-center">
-                    <TransitionLink
-                      href={dashboardHref}
-                      showSpinner={false}
-                      className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
-                      title={displayName}
-                    >
-                      <Avatar
-                        src={avatarSrc}
-                        name={displayName}
-                        initials={initials}
-                        size="md"
-                        border="border border-white/10"
-                      />
-                      {mode !== "idle" &&
-                        (pendingHref === dashboardHref ||
-                          (pendingHref &&
-                            pendingHref.startsWith(dashboardHref))) && (
-                          <div className="absolute inset-0 z-20 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-xs">
-                            <span className="h-5 w-5 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
-                          </div>
-                        )}
-                    </TransitionLink>
-
-                    {/* Overlapping Role Badge Circle with Full Role Name */}
-                    <span
-                      className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
-                    >
-                      {badgeText}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => openProfileModal()}
-                    className="ml-2 cursor-pointer text-[12px] font-semibold text-white/70 hover:text-white transition-colors"
-                    title="Edit Profile & Password"
-                  >
-                    <span>EDIT</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      logout();
-                      requestTransition("/");
-                    }}
-                    className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] sm:ml-2"
-                    title="Sign Out"
-                  >
-                    <span>SIGN OUT</span>
-                    {mode !== "idle" && pendingHref === "/" && (
-                      <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-[3px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.8)]" />
-                    )}
-                  </button>
-                </div>
-              ) : (
-                <SeventhButton
-                  icon={false}
-                  onClick={() => openModal("login")}
-                  className="flex shrink-0 items-center"
-                  id="header-sign-in"
-                >
-                  <span className="!text-[13px]">SIGN IN</span>
-                  {isModalOpen && (
-                    <span className="ml-0.5 h-4.5 w-4.5 shrink-0 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.9)]" />
-                  )}
-                </SeventhButton>
-              )}
-            </div>{/* end auth min-w wrapper */}
-
-            {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
-            <button
-              className="transition-colors relative flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-0 hover:text-[var(--color-accent)] sm:h-9 sm:w-9 md:h-10 md:w-10 lg:hidden"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              id="mobile-menu-toggle"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                className="h-full w-full overflow-visible"
-              >
-                {/* Burger — 3 lines, draw themselves off + fade out on open.
-                    Staggered 0.1s apart on open (matches exoape); collapsed
-                    to no stagger on close, same convention already used for
-                    the nav-link stagger above (transitionDelay -> 0ms). */}
-                {[
-                  { y: 6, x1: 1.5, x2: 22.5, len: ICON_LINE_LEN },
-                  { y: 12, x1: 1.5, x2: 18.3, len: 16.8 },
-                  { y: 18, x1: 1.5, x2: 22.5, len: ICON_LINE_LEN },
-                ].map(({ y, x1, x2, len }, i) => (
+                  {/* Close (X) — 2 diagonal lines centered in the 32x28 box */}
                   <line
-                    key={`burger-${y}`}
-                    x1={x1}
-                    y1={y}
-                    x2={x2}
-                    y2={y}
+                    x1="7"
+                    y1="5"
+                    x2="25"
+                    y2="23"
                     stroke="#ffffff"
                     style={{
-                      strokeDasharray: len,
-                      strokeDashoffset: mobileOpen ? len : 0,
-                      opacity: mobileOpen ? 0 : 1,
-                      transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                      transitionDelay: mobileOpen ? `${i * 100}ms` : `${(2 - i) * 100 + 200}ms`,
+                      strokeDasharray: 25.5,
+                      strokeDashoffset: mobileOpen ? 0 : 25.5,
+                      opacity: mobileOpen ? 1 : 0,
+                      transition: `stroke-dashoffset 450ms ${PAGE_RECEDE_EASE}, opacity 450ms ${PAGE_RECEDE_EASE}`,
+                      transitionDelay: mobileOpen ? "350ms" : "50ms",
                     }}
                   />
-                ))}
-                {/* Close (X) — 2 diagonal lines, draw themselves on + fade in,
-                    starting half a second after the burger begins retracting. */}
-                <line
-                  x1="5"
-                  y1="5"
-                  x2="19"
-                  y2="19"
-                  stroke="#ffffff"
-                  style={{
-                    strokeDasharray: ICON_X_LINE_LEN,
-                    strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
-                    opacity: mobileOpen ? 1 : 0,
-                    transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                    transitionDelay: mobileOpen ? "500ms" : "100ms",
-                  }}
-                />
-                <line
-                  x1="19"
-                  y1="5"
-                  x2="5"
-                  y2="19"
-                  stroke="#ffffff"
-                  style={{
-                    strokeDasharray: ICON_X_LINE_LEN,
-                    strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
-                    opacity: mobileOpen ? 1 : 0,
-                    transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                    transitionDelay: mobileOpen ? "600ms" : "0ms",
-                  }}
-                />
-              </svg>
-            </button>
-          </nav>
+                  <line
+                    x1="25"
+                    y1="5"
+                    x2="7"
+                    y2="23"
+                    stroke="#ffffff"
+                    style={{
+                      strokeDasharray: 25.5,
+                      strokeDashoffset: mobileOpen ? 0 : 25.5,
+                      opacity: mobileOpen ? 1 : 0,
+                      transition: `stroke-dashoffset 450ms ${PAGE_RECEDE_EASE}, opacity 450ms ${PAGE_RECEDE_EASE}`,
+                      transitionDelay: mobileOpen ? "420ms" : "0ms",
+                    }}
+                  />
+                </svg>
+              </button>
+            </nav>
 
-          {/* ── MOBILE OVERLAY DRAWER ──
+            {/* ── MOBILE OVERLAY DRAWER ──
               Restyled after exoape.com's fullscreen menu: logo top-left +
               "Close ✕" top-right, a portrait media panel on the left, big
               stacked nav links on the right, and a bottom utility row
@@ -832,253 +867,257 @@ export function Header() {
               approach used there.
               Portaled to document.body — see the `mounted` note above for
               why this can't just render inline here. */}
-          {overlayMounted &&
-            mounted &&
-            createPortal(
-              <div
-                // The panel itself is revealed by wiping clip-path open, not by
-                // fading opacity — this sidesteps the globals.css PageSpeed hack
-                // (`html body> *{ opacity:1 !important }`, meant to force
-                // above-the-fold content visible on first paint) that used to
-                // flatten any opacity transition on a direct child of <body>
-                // to a permanent 1 no matter what we set — clip-path isn't
-                // touched by that rule at all, so there was nothing left to
-                // fight. Closed = a flat line at the top; open = the full
-                // panel, with the bottom-right corner pushed to 110% height —
-                // that's exoape's own shape, not a guess (see the const
-                // comment above): it makes the wipe edge read as a slight
-                // diagonal that self-levels as it finishes, rather than a
-                // flat curtain.
-                data-lenis-prevent
-                className="custom-scrollbar pointer-events-auto fixed inset-0 z-[9999] flex h-full h-dvh max-h-dvh flex-col overflow-y-auto bg-black/30 backdrop-blur-xl pt-safe pb-safe pl-safe pr-safe"
-                style={{
-                  backdropFilter: "blur(21px)",
-                  WebkitBackdropFilter: "blur(21px)",
-                  clipPath: overlayVisible
-                    ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
-                    : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-                  transition: `clip-path ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-                }}
-              >
-                {/* exoape's second half of the "enter" tween: a wrapper around
+            {overlayMounted &&
+              mounted &&
+              createPortal(
+                <div
+                  // The panel itself is revealed by wiping clip-path open, not by
+                  // fading opacity — this sidesteps the globals.css PageSpeed hack
+                  // (`html body> *{ opacity:1 !important }`, meant to force
+                  // above-the-fold content visible on first paint) that used to
+                  // flatten any opacity transition on a direct child of <body>
+                  // to a permanent 1 no matter what we set — clip-path isn't
+                  // touched by that rule at all, so there was nothing left to
+                  // fight. Closed = a flat line at the top; open = the full
+                  // panel, with the bottom-right corner pushed to 110% height —
+                  // that's exoape's own shape, not a guess (see the const
+                  // comment above): it makes the wipe edge read as a slight
+                  // diagonal that self-levels as it finishes, rather than a
+                  // flat curtain.
+                  data-lenis-prevent
+                  className="custom-scrollbar pointer-events-auto fixed inset-0 z-[9999] flex h-full h-dvh max-h-dvh flex-col overflow-y-auto bg-black/30 backdrop-blur-xl pt-safe pb-safe pl-safe pr-safe"
+                  style={{
+                    backdropFilter: "blur(21px)",
+                    WebkitBackdropFilter: "blur(21px)",
+                    clipPath: overlayVisible
+                      ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
+                      : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+                    transition: `clip-path ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+                  }}
+                >
+                  {/* exoape's second half of the "enter" tween: a wrapper around
                   the actual content settles in from scale:1.3 rotate:-7deg
                   translateY(-50vh) opacity:.3 down to identity, at the same
                   time and with the same ease as the clip-path wipe above —
                   the wipe reveals the panel while its contents are visibly
                   still "falling into place" underneath it. */}
-                <div
-                  className="flex min-h-0 flex-1 flex-col"
-                  style={{
-                    transform: overlayVisible
-                      ? "scale(1) rotate(0deg) translateY(0)"
-                      : "scale(1.3) rotate(-7deg) translateY(-12%)",
-                    opacity: overlayVisible ? 1 : 0.3,
-                    transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-                  }}
-                >
-                  <div className="pt-[87px]" />
+                  <div
+                    className="flex min-h-0 flex-1 flex-col"
+                    style={{
+                      transform: overlayVisible
+                        ? "scale(1) rotate(0deg) translateY(0)"
+                        : "scale(1.3) rotate(-7deg) translateY(-12%)",
+                      opacity: overlayVisible ? 1 : 0.3,
+                      transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+                    }}
+                  >
+                    <div className="pt-[87px]" />
 
-                  {/* Main: portrait media panel + stacked links, side by side
+                    {/* Main: portrait media panel + stacked links, side by side
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
-                  <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
-                    <div
-                      className={`group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:block md:w-[220px] lg:w-[260px] transition-opacity duration-700 ${overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-                        }`}
-                    >
-                      {overlayMounted && (
-                        <video
-                          src="/movie/fest1-clip.mp4"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          preload="metadata"
-                          className="h-full w-full object-cover"
-                          onCanPlay={(e) => {
-                            e.currentTarget.muted = true;
-                            e.currentTarget.play().catch(() => { });
-                          }}
-                        />
-                      )}
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px] text-white/90">
-                        <span>7H FESTIVAL STAGE</span>
+                    <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
+                      <div
+                        className={`group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:block md:w-[220px] lg:w-[260px] transition-opacity duration-700 ${overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+                          }`}
+                      >
+                        {overlayMounted && (
+                          <video
+                            src="/movie/fest1-clip.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="metadata"
+                            className="h-full w-full object-cover"
+                            onCanPlay={(e) => {
+                              e.currentTarget.muted = true;
+                              e.currentTarget.play().catch(() => { });
+                            }}
+                          />
+                        )}
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px] text-white/90">
+                          <span>7H FESTIVAL STAGE</span>
+                        </div>
                       </div>
-                    </div>
 
-                    <nav className="flex w-fit max-w-full flex-col items-start gap-1.5">
-                      {[
-                        { href: "/merch", label: "MERCH" },
-                        { href: "/media", label: "MEDIA" },
-                        { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
-                        {
-                          href: "/rock-and-roll-kids",
-                          label: "ROCK & ROLL KIDS",
-                        },
-                        ...(showUserAuth
-                          ? [{ href: studioHref, label: "STUDIO" }]
-                          : []),
-                        { href: "/live", label: "LIVE" },
-                        { href: "/cruise", label: "CRUISE" },
-                        { href: "/book", label: "BOOK US" },
-                        { href: "/contact", label: "CONTACT" },
-                      ].map((link, i) => {
-                        const isActive =
-                          effectivePathname === link.href ||
-                          (link.href === studioHref &&
-                            effectivePathname.startsWith("/studio"));
+                      <nav className="flex w-fit max-w-full flex-col items-start gap-1.5">
+                        {[
+                          { href: "/", label: "HOME" },
+                          { href: "/media", label: "MEDIA" },
+                          {
+                            href: "/rock-and-roll-kids",
+                            label: "ROCK & ROLL KIDS",
+                          },
+                          { href: "/merch", label: "MERCH" },
+                          ...(isLiveNow ? [{ href: "/live", label: "LIVE" }] : []),
+                          { href: "/cruise", label: "CRUISE" },
+                          { href: "/contact", label: "CONTACT" },
+                          ...(showUserAuth
+                            ? [{ href: studioHref, label: "STUDIO" }]
+                            : []),
+                        ].map((link, i) => {
+                          const isActive =
+                            effectivePathname === link.href ||
+                            (link.href === studioHref &&
+                              effectivePathname.startsWith("/studio"));
 
-                        return (
-                          <TransitionLink
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setMobileOpen(false)}
-                            className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${isActive
+                          return (
+                            <TransitionLink
+                              key={link.href}
+                              href={link.href}
+                              onClick={() => setMobileOpen(false)}
+                              className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${isActive
                                 ? "active cursor-default !text-[#c084fc]"
                                 : "!text-white hover:!text-[#c084fc] cursor-pointer"
-                              }`}
-                            style={{
-                              opacity: overlayVisible ? 1 : 0,
-                              transform: overlayVisible
-                                ? "translateY(0) rotate(0deg)"
-                                : "translateY(100%) rotate(7deg)",
-                              transformOrigin: "0% 100%",
-                              transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
-                              transitionDelay: overlayVisible
-                                ? `${450 + i * 70}ms`
-                                : "0ms",
-                            }}
-                          >
-                            {link.label}
-                          </TransitionLink>
-                        );
-                      })}
-                    </nav>
-                  </div>
+                                }`}
+                              style={{
+                                opacity: overlayVisible ? 1 : 0,
+                                transform: overlayVisible
+                                  ? "translateY(0) rotate(0deg)"
+                                  : "translateY(100%) rotate(7deg)",
+                                transformOrigin: "0% 100%",
+                                transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
+                                transitionDelay: overlayVisible
+                                  ? `${450 + i * 70}ms`
+                                  : "0ms",
+                              }}
+                            >
+                              <span>{link.label}</span>
+                              {link.href === "/live" && isLiveNow && (
+                                <span className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white shadow-[0_0_12px_rgba(239,68,68,0.9)] animate-pulse align-middle">
+                                  <span className="h-2 w-2 rounded-full bg-white animate-ping" />
+                                  ON AIR NOW
+                                </span>
+                              )}
+                            </TransitionLink>
+                          );
+                        })}
+                      </nav>
+                    </div>
 
-                  {/* Bottom utility row: social links + account action, below a
+                    {/* Bottom utility row: social links + account action, below a
                   hairline divider — same structural beat as exoape's
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
-                  <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/10 px-6 py-5 sm:px-10">
-                    <div className="flex items-center gap-4 sm:gap-6">
-                      <a
-                        href="https://www.instagram.com/7thheavenband"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:!text-[#c084fc]"
-                      >
-                        Instagram
-                      </a>
-                      <a
-                        href="https://www.facebook.com/7thheavenband"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:!text-[#c084fc]"
-                      >
-                        Facebook
-                      </a>
-                      <a
-                        href="https://twitter.com/7thheavenband"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:!text-[#c084fc]"
-                      >
-                        Twitter
-                      </a>
-                      <a
-                        href="https://www.youtube.com/user/7thheavenband"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hidden hover:!text-[#c084fc] sm:inline"
-                      >
-                        YouTube
-                      </a>
-                    </div>
-
-                    {showUserAuth ? (
-                      <div className="flex items-center gap-2">
-                        <div className="relative flex aspect-square shrink-0 items-center justify-center">
-                          <TransitionLink
-                            href={dashboardHref}
-                            showSpinner={false}
-                            onClick={() => setMobileOpen(false)}
-                            className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
-                          >
-                            <Avatar
-                              src={avatarSrc}
-                              name={displayName}
-                              initials={initials}
-                              size="sm"
-                              border="border border-white/20"
-                            />
-                          </TransitionLink>
-                          <span
-                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg}`}
-                          >
-                            {badgeText}
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => {
-                            setMobileOpen(false);
-                            openProfileModal();
-                          }}
-                          className="transition-colors ml-1 cursor-pointer text-[12px] font-semibold text-white/80 hover:text-white"
+                    <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/10 px-6 py-5 sm:px-10">
+                      <div className="flex items-center gap-4 sm:gap-6">
+                        <a
+                          href="https://www.instagram.com/7thheavenband"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:!text-[#c084fc]"
                         >
-                          EDIT
-                        </button>
-                        <button
-                          onClick={() => {
-                            setMobileOpen(false);
-                            logout();
-                            requestTransition("/");
-                          }}
-                          className="transition-colors ml-1 cursor-pointer text-[12px] text-purple-400 hover:text-white"
+                          Instagram
+                        </a>
+                        <a
+                          href="https://www.facebook.com/7thheavenband"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:!text-[#c084fc]"
                         >
-                          SIGN OUT
-                        </button>
+                          Facebook
+                        </a>
+                        <a
+                          href="https://twitter.com/7thheavenband"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:!text-[#c084fc]"
+                        >
+                          Twitter
+                        </a>
+                        <a
+                          href="https://www.youtube.com/user/7thheavenband"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hidden hover:!text-[#c084fc] sm:inline"
+                        >
+                          YouTube
+                        </a>
                       </div>
-                    ) : (
-                      <SeventhButton
-                        icon={false}
-                        onClick={() => {
-                          setMobileOpen(false);
-                          openModal("login");
-                        }}
-                        className="shrink-0"
-                      >
-                        SIGN IN
-                      </SeventhButton>
-                    )}
-                  </div>
-                </div>
-              </div>,
-              document.body,
-            )}
-        </div>
-      </div>
-    </header>
 
-    {/* ── FIXED STUDIO LINK (BOTTOM RIGHT) ── */}
-    {showUserAuth && (
-      <aside
-        aria-label="Studio Quick Access"
-        className="fixed right-4 bottom-4 z-[9990] pointer-events-auto flex items-center"
-      >
-        <TransitionLink
-          href={studioHref}
-          className={`relative inline-flex items-center border-b-2 pb-0.5 font-heading text-[13px] sm:text-[14px] font-bold tracking-wider uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-colors duration-200 ${
-            effectivePathname.startsWith("/studio")
+                      {showUserAuth ? (
+                        <div className="flex items-center gap-2">
+                          <div className="relative flex aspect-square shrink-0 items-center justify-center">
+                            <TransitionLink
+                              href={dashboardHref}
+                              showSpinner={false}
+                              onClick={() => setMobileOpen(false)}
+                              className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
+                            >
+                              <Avatar
+                                src={avatarSrc}
+                                name={displayName}
+                                initials={initials}
+                                size="sm"
+                                border="border border-white/20"
+                              />
+                            </TransitionLink>
+                            <span
+                              className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg}`}
+                            >
+                              {badgeText}
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setMobileOpen(false);
+                              openProfileModal();
+                            }}
+                            className="transition-colors ml-1 cursor-pointer text-[12px] font-semibold text-white/80 hover:text-white"
+                          >
+                            EDIT
+                          </button>
+                          <button
+                            onClick={() => {
+                              setMobileOpen(false);
+                              logout();
+                              requestTransition("/");
+                            }}
+                            className="transition-colors ml-1 cursor-pointer text-[12px] text-purple-400 hover:text-white"
+                          >
+                            SIGN OUT
+                          </button>
+                        </div>
+                      ) : (
+                        <SeventhButton
+                          icon={false}
+                          onClick={() => {
+                            setMobileOpen(false);
+                            openModal("login");
+                          }}
+                          className="shrink-0"
+                        >
+                          SIGN IN
+                        </SeventhButton>
+                      )}
+                    </div>
+                  </div>
+                </div>,
+                document.body,
+              )}
+          </div>
+        </div>
+      </header>
+
+      {/* ── FIXED STUDIO LINK (BOTTOM RIGHT) ── */}
+      {showUserAuth && (
+        <aside
+          aria-label="Studio Quick Access"
+          className="fixed right-4 bottom-4 z-[9990] pointer-events-auto flex items-center"
+        >
+          <TransitionLink
+            href={studioHref}
+            className={`relative inline-flex items-center border-b-2 pb-0.5 font-heading text-[13px] sm:text-[14px] font-bold tracking-wider uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-colors duration-200 ${effectivePathname.startsWith("/studio")
               ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]"
               : "cursor-pointer border-[#c084fc]/80 text-white hover:border-white hover:text-white"
-          }`}
-        >
-          STUDIO
-        </TransitionLink>
-      </aside>
-    )}
-  </>
+              }`}
+          >
+            STUDIO
+          </TransitionLink>
+        </aside>
+      )}
+    </>
   );
 }

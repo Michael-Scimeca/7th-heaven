@@ -22,6 +22,17 @@ import {
   Headphones,
   MessageSquare,
   Video,
+  Sparkles,
+  Zap,
+  ShieldCheck,
+  LayoutGrid,
+  Columns,
+  MonitorPlay,
+  Volume2,
+  Activity,
+  Layers,
+  Check,
+  Play,
 } from "lucide-react";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
@@ -177,9 +188,32 @@ export default function LiveHubClient({
   const [modLog, setModLog] = useState<
     { id: string; action: string; user: string; time: number }[]
   >([]);
-  const [, setLiveAlertsEnabled] = useState(true);
-  const [flaggedCount, setFlaggedCount] = useState(0);
+  const [layoutMode, setLayoutMode] = useState<number>(2);
+  const [sortBy, setSortBy] = useState<"viewers" | "recent" | "alpha">("viewers");
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [flaggedCount, setFlaggedCount] = useState<number>(2);
+  const [liveAlertsEnabled, setLiveAlertsEnabled] = useState<boolean>(true);
+
+  // Sync layout preset from URL query parameter (?layout=1..10) if present
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get("layout");
+    if (param) {
+      const parsed = parseInt(param, 10);
+      if (parsed >= 1 && parsed <= 10) setLayoutMode(parsed);
+    }
+  }, []);
+
+  const sortedRooms = [...rooms].sort((a, b) => {
+    if (sortBy === "viewers") {
+      return (viewers[b.name] ?? b.numParticipants) - (viewers[a.name] ?? a.numParticipants);
+    }
+    if (sortBy === "recent") {
+      return b.creationTime - a.creationTime;
+    }
+    return a.title.localeCompare(b.title);
+  });
 
   // Fluctuate viewer counts (throttled for mobile performance & paused when tab hidden)
   useEffect(() => {
@@ -233,25 +267,6 @@ export default function LiveHubClient({
 
   return (
     <main className="site-container page-container page-stack w-full md:pb-0" id="live-hub-page">
-      {/* ── HERO HEADER ── */}
-      <PageHero
-
-        title={
-          sanityContent?.heroHeading || (
-            <>
-              LIVE{" "}
-              <span className="inline-block pr-[0.15em]">STREAM HUB</span>
-            </>
-          )
-        }
-        titleId="live-hub-heading"
-        subtitle={
-          sanityContent?.heroSubheading ||
-          `${rooms.length} active crew streams · ${totalViewers.toLocaleString()} viewers watching live right now.`
-        }
-        align="left"
-        className="relative z-10 max-w-5xl"
-      />
 
       {/* ══════════════════════════════════════════════════
             ADMIN OVERLAY
@@ -602,78 +617,646 @@ export default function LiveHubClient({
       )}
 
       {/* ══════════════════════════════════════════════════
-            STREAM CARDS GRID WITH MATCHING PAGE PADDING
+            LAYOUT EXPLORER CONTROLS & STREAM CARDS (10 LAYOUT MODES)
         ══════════════════════════════════════════════════ */}
       <section
         id="live-streams"
         aria-labelledby="live-streams-heading"
-        className="section md:pb-0 md:mb-0"
+        className="section pt-0"
       >
         <SectionHeader id="live-streams-heading" title="Live Streams" visuallyHidden />
-        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 ">
-          {rooms.map((room, i) => (
-            <Link
-              key={room.name}
-              href={`/live/${room.name.replace(/^live_/, "")}`}
-              className="group flex flex-col justify-between overflow-hidden  cursor-pointer transition-[colors,border-color,transform] select-none"
-              style={{ "--room-color": room.color } as React.CSSProperties}
-            >
-              {/* 1. Image Thumbnail AT THE VERY TOP */}
-              <div className="relative block aspect-video w-full overflow-hidden bg-black/60 rounded-[var(--radius-box)] overflow-hidden">
-                <Image
-                  src={
-                    room.image ||
-                    "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"
-                  }
-                  alt={room.title}
-                  fill
-                  priority={i < 2}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover "
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                {/* Hover overlay with official 7th Heaven Glass Play Button */}
-                <div className="overlay-center-hover z-10">
-                  <GlassPlayButton size="lg" as="div" />
+        {/* ── LAYOUT 1: GOLDEN BROADCAST (1 Dominant Stream + 3 Golden Ratio Sidebar Feeds) ── */}
+        {layoutMode === 1 && (
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
+            {/* Primary Dominant Stream (Golden Ratio ~62% width on desktop) */}
+            {sortedRooms[0] && (
+              <div className="lg:col-span-8">
+                <Link
+                  href={`/live/${sortedRooms[0].name.replace(/^live_/, "")}`}
+                  className="group relative block overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-black/60 transition-all hover:border-purple-400 shadow-2xl"
+                >
+                  <div className="relative aspect-video w-full overflow-hidden">
+                    <Image
+                      src={sortedRooms[0].image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                      alt={sortedRooms[0].title}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/30" />
+                    <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-3 py-1 text-xs font-semibold text-emerald-300 backdrop-blur-md">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                      FEATURED STAGE FEED
+                    </div>
+                    <div className="overlay-center-hover z-10">
+                      <GlassPlayButton size="lg" as="div" />
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-purple-500/30 bg-gradient-to-br from-purple-600/50 to-indigo-900 text-sm font-bold text-white">
+                          {sortedRooms[0].member}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-white tracking-tight">{sortedRooms[0].title}</h3>
+                          <p className="text-xs text-white/60">Primary Soundboard Mix · 1080p60 Low-Latency</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm font-medium">
+                        <span className="flex items-center gap-1.5 text-emerald-400">
+                          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                          {(viewers[sortedRooms[0].name] ?? sortedRooms[0].numParticipants).toLocaleString()} Live Viewers
+                        </span>
+                        <span className="text-white/50">{getElapsed(sortedRooms[0].creationTime)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
+
+            {/* Sidebar Secondary Channels (Golden Ratio ~38% width on desktop) */}
+            <div className="flex flex-col gap-4 lg:col-span-4">
+              <div className="flex items-center justify-between pb-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-white/60">Alternate Stage Feeds</span>
+                <span className="text-xs text-purple-400 font-medium">{sortedRooms.length - 1} More Angles</span>
+              </div>
+              {sortedRooms.slice(1).map((room) => (
+                <Link
+                  key={room.name}
+                  href={`/live/${room.name.replace(/^live_/, "")}`}
+                  className="group flex gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-3 transition-all hover:border-purple-500/40 hover:bg-white/[0.05]"
+                >
+                  <div className="relative aspect-video w-36 shrink-0 overflow-hidden rounded-xl bg-black/60">
+                    <Image
+                      src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                      alt={room.title}
+                      fill
+                      sizes="144px"
+                      className="object-cover transition-transform group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/30" />
+                    <div className="overlay-center-hover z-10">
+                      <GlassPlayButton size="sm" as="div" />
+                    </div>
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
+                    <div>
+                      <h4 className="font-semibold text-white truncate">{room.title}</h4>
+                      <p className="mt-0.5 text-xs text-white/50 truncate">LiveKit Soundboard Feed</p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-white/60">
+                      <span className="flex items-center gap-1 text-emerald-400">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        {(viewers[room.name] ?? room.numParticipants).toLocaleString()}
+                      </span>
+                      <span>{getElapsed(room.creationTime)}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── LAYOUT 2: CINEMA SPOTLIGHT (Master Theater Stage + 3-Camera Channel Strip) ── */}
+        {layoutMode === 2 && (
+          <div className="space-y-6">
+            {sortedRooms[0] && (
+              <div className="relative overflow-hidden rounded-[var(--radius-box)] border border-purple-500/25 bg-black shadow-2xl shadow-purple-950/40">
+                <div className="relative aspect-[21/9] w-full min-h-[380px] sm:min-h-[460px] overflow-hidden">
+                  <Image
+                    src={sortedRooms[0].image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={sortedRooms[0].title}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/30 to-black/80" />
+
+                  {/* Top Theater Header Badges */}
+                  <div className="absolute top-6 left-6 right-6 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-red-600 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-red-600/40">
+                        <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
+                        DIRECT 4K MASTER FEED
+                      </span>
+                      <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3 py-1 text-xs text-white/90 backdrop-blur-md">
+                        <Volume2 className="h-3.5 w-3.5 text-purple-400" /> Soundboard Master Mix (24-bit/48kHz)
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300 backdrop-blur-md">
+                        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                        {(viewers[sortedRooms[0].name] ?? sortedRooms[0].numParticipants).toLocaleString()} Fans Watching Live
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Center Theater Quick Play Overlay */}
+                  <div className="overlay-center-hover z-20">
+                    <Link
+                      href={`/live/${sortedRooms[0].name.replace(/^live_/, "")}`}
+                      aria-label="Enter live theater stream"
+                      className="group/play flex h-24 w-24 items-center justify-center rounded-full bg-purple-600/90 text-white shadow-2xl shadow-purple-600/50 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-purple-500"
+                    >
+                      <Play className="h-10 w-10 fill-current ml-1" />
+                    </Link>
+                  </div>
+
+                  {/* Bottom Cinema Controls & Metadata */}
+                  <div className="absolute bottom-0 inset-x-0 p-6 sm:p-10 flex flex-col justify-end">
+                    <div className="max-w-3xl">
+                      <span className="text-xs font-bold uppercase tracking-widest text-purple-400">
+                        Camera Angle 01 · Center Stage Spotlight
+                      </span>
+                      <h3 className="mt-1 font-extrabold text-white tracking-tight">
+                        {sortedRooms[0].title}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 text-sm text-white/80 leading-relaxed max-w-2xl sm:text-base">
+                        Direct optical feed from the main center-stage rig with synchronized multi-track audio direct from the board. Full stereo sound and low-latency interaction.
+                      </p>
+
+                      <div className="mt-6 flex flex-wrap items-center gap-4">
+                        <Link
+                          href={`/live/${sortedRooms[0].name.replace(/^live_/, "")}`}
+                          className="btn-accent inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-purple-600/30 hover:scale-105 transition-transform"
+                        >
+                          <MonitorPlay className="h-4 w-4" />
+                          Launch Fullscreen Cinema Stage
+                        </Link>
+                        <span className="text-xs text-white/60">
+                          Broadcast started {getElapsed(sortedRooms[0].creationTime)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+            )}
 
-              {/* 2. All Content Text AT THE BOTTOM */}
-              <div className="py-4">
-                <div className="flex items-center justify-between gap-3">
-                  {/* Left Column: Member avatar + Title + Subtitle */}
-                  <div className="flex min-w-0 items-center gap-2.5">
-                    <div className="flex aspect-square h-9 w-9 min-w-8 shrink-0 items-center justify-center rounded-full border border-purple-500/20 bg-gradient-to-br from-purple-600/40 to-indigo-900/90 text-xs font-semibold text-white">
+            {/* 3-Channel Secondary Stage Camera Strip */}
+            <div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {sortedRooms.slice(1).map((room, idx) => (
+                  <Link
+                    key={room.name}
+                    href={`/live/${room.name.replace(/^live_/, "")}`}
+                    className="group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-4 transition-all hover:border-purple-500/50 hover:bg-white/[0.06] hover:shadow-lg hover:shadow-purple-900/20"
+                  >
+                    <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black/60 mb-3">
+                      <Image
+                        src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                        alt={room.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors" />
+                      <div className="absolute top-2 left-2 rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-bold uppercase text-purple-300 backdrop-blur-md">
+                        CAM 0{idx + 2}
+                      </div>
+                      <div className="overlay-center-hover z-10">
+                        <GlassPlayButton size="sm" as="div" />
+                      </div>
+                    </div>
+                    <h4 className="font-semibold text-white truncate group-hover:text-purple-300 transition-colors">
+                      {room.title}
+                    </h4>
+                    <div className="mt-1 flex items-center justify-between text-xs text-white/60">
+                      <span className="flex items-center gap-1 text-emerald-400">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
+                      </span>
+                      <span>{getElapsed(room.creationTime)}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── LAYOUT 3: BROADCAST MATRIX (4-Way Synchronized Quad Grid) ── */}
+        {layoutMode === 3 && (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {sortedRooms.map((room, idx) => (
+              <Link
+                key={room.name}
+                href={`/live/${room.name.replace(/^live_/, "")}`}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-black/50 transition-all hover:border-purple-500/60 shadow-xl"
+              >
+                <div className="relative aspect-video w-full overflow-hidden bg-black/80">
+                  <Image
+                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={room.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                  <div className="absolute top-3 left-3 flex items-center gap-2 rounded-md bg-black/70 px-2.5 py-1 text-xs font-bold text-white backdrop-blur-md">
+                    <span className="font-mono text-purple-400">CAM {idx + 1}</span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  </div>
+                  <div className="absolute top-3 right-3 rounded-md bg-black/70 px-2.5 py-1 text-xs font-medium text-emerald-300 backdrop-blur-md">
+                    {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
+                  </div>
+                  <div className="overlay-center-hover z-10">
+                    <GlassPlayButton size="md" as="div" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between p-4">
+                  <div>
+                    <h3 className="font-bold text-white">{room.title}</h3>
+                    <p className="text-xs text-white/60">LiveKit Stream · {getElapsed(room.creationTime)}</p>
+                  </div>
+                  <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-3 py-1.5 text-xs font-semibold text-purple-300 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    Switch Angle
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* ── LAYOUT 4: EDITORIAL FEED (Horizontal Panoramic Rows) ── */}
+        {layoutMode === 4 && (
+          <div className="space-y-4">
+            {sortedRooms.map((room, idx) => (
+              <Link
+                key={room.name}
+                href={`/live/${room.name.replace(/^live_/, "")}`}
+                className="group flex flex-col gap-6 overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-4 transition-all hover:border-purple-500/40 hover:bg-white/[0.05] sm:flex-row sm:items-center"
+              >
+                <div className="relative aspect-video w-full sm:w-72 shrink-0 overflow-hidden rounded-xl bg-black">
+                  <Image
+                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={room.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 288px"
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="overlay-center-hover z-10">
+                    <GlassPlayButton size="sm" as="div" />
+                  </div>
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col justify-between py-2">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="rounded bg-purple-500/20 px-2 py-0.5 text-xs font-semibold text-purple-300">
+                        CHANNEL {idx + 1}
+                      </span>
+                      <span className="text-xs text-white/50">{getElapsed(room.creationTime)}</span>
+                    </div>
+                    <h3 className="font-bold text-white">{room.title}</h3>
+                    <p className="mt-1 text-sm text-white/70 line-clamp-2">
+                      Direct live feed from the stage with full soundboard audio mixing, backstage audio clarity, and zero buffering.
+                    </p>
+                  </div>
+                  <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+                    <span className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                      {(viewers[room.name] ?? room.numParticipants).toLocaleString()} Watching Now
+                    </span>
+                    <span className="text-xs font-medium text-purple-400 group-hover:underline">
+                      Enter Stream Room &rarr;
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* ── LAYOUT 5: CONTROL DECK (Master Audio Visualizer Bar + Multi-Camera Array) ── */}
+        {layoutMode === 5 && (
+          <div className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between rounded-[var(--radius-box)] border border-white/10 bg-gradient-to-r from-purple-950/40 to-indigo-950/40 p-5 backdrop-blur-md">
+              <div className="flex items-center gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600/30 text-purple-400">
+                  <Activity className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-white">Live Broadcast Soundboard Console</h4>
+                  <p className="text-xs text-white/60">LiveKit Infrastructure · 4 Synchronized Low-Latency Streams</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-xs font-mono text-white/80">
+                <span className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                  AUDIO FEED: STEREO SOUNDBOARD
+                </span>
+                <span className="rounded bg-white/10 px-2 py-1">TOTAL VIEWERS: {totalViewers.toLocaleString()}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {sortedRooms.map((room) => (
+                <Link
+                  key={room.name}
+                  href={`/live/${room.name.replace(/^live_/, "")}`}
+                  className="group flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-black/60 p-3 transition-all hover:border-purple-500/50"
+                >
+                  <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black mb-3">
+                    <Image
+                      src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                      alt={room.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
+                    <div className="overlay-center-hover z-10">
+                      <GlassPlayButton size="sm" as="div" />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white truncate">{room.title}</h4>
+                    <div className="mt-2 flex items-center justify-between text-xs text-white/50 border-t border-white/5 pt-2">
+                      <span className="text-emerald-400">{(viewers[room.name] ?? room.numParticipants).toLocaleString()} fans</span>
+                      <span>{room.member}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── LAYOUT 6: MINIMALIST CARDS (Floating Glass Pills with Member Badges) ── */}
+        {layoutMode === 6 && (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {sortedRooms.map((room) => (
+              <Link
+                key={room.name}
+                href={`/live/${room.name.replace(/^live_/, "")}`}
+                className="group relative flex flex-col overflow-hidden"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-purple-500/30 bg-purple-600/20 text-xs font-bold text-white">
                       {room.member}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      {/* heading-size-ok: room title in compact table */}
-                      <h3 className="text-sm font-semibold text-white leading-tight truncate">{room.title}</h3>
-                      <p className="mt-0.5 text-xs text-white/60 leading-tight truncate">
-                        LiveKit Stream
-                      </p>
+                    <div>
+                      <h3 className="font-bold text-white">{room.title}</h3>
+                      <p className="text-xs text-white/50">{getElapsed(room.creationTime)}</p>
                     </div>
                   </div>
+                  <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    {(viewers[room.name] ?? room.numParticipants).toLocaleString()} Viewers
+                  </span>
+                </div>
+                <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
+                  <Image
+                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={room.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="overlay-center-hover z-10">
+                    <GlassPlayButton size="md" as="div" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
 
-                  {/* Right Column: Viewer + time pills */}
-                  <div className="flex shrink-0 items-center gap-4">
-                    <div className="flex items-center gap-1.5  text-xs text-emerald-300">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                      {(
-                        viewers[room.name] ?? room.numParticipants
-                      ).toLocaleString()}{" "}
-                      viewers
+        {/* ── LAYOUT 7: LIVE STAGE FOCUS (Single Dominant Feed with Instant Angle Tabs) ── */}
+        {layoutMode === 7 && (
+          <div className="space-y-4">
+            {sortedRooms[0] && (
+              <div className="overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-black">
+                <div className="relative aspect-video w-full max-h-[600px] overflow-hidden">
+                  <Image
+                    src={sortedRooms[0].image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={sortedRooms[0].title}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
+                  <div className="absolute top-6 left-6 flex items-center gap-3">
+                    <span className="rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-black">
+                      ACTIVE BROADCAST
+                    </span>
+                    <span className="text-sm font-semibold text-white">{sortedRooms[0].title}</span>
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-bold text-white">{sortedRooms[0].title}</h3>
+                      <p className="text-xs text-white/70">Soundboard Stereo Mix · Switch cameras instantly below</p>
                     </div>
-                    <div className="text-xs text-white/60">
-                      {getElapsed(room.creationTime)}
-                    </div>
+                    <Link
+                      href={`/live/${sortedRooms[0].name.replace(/^live_/, "")}`}
+                      className="btn-accent rounded-full px-6 py-2.5 text-xs font-semibold text-white"
+                    >
+                      Join Stream Room
+                    </Link>
                   </div>
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
+            )}
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {sortedRooms.map((room, idx) => (
+                <Link
+                  key={room.name}
+                  href={`/live/${room.name.replace(/^live_/, "")}`}
+                  className="flex items-center gap-3 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-3 hover:border-purple-500/50 hover:bg-white/[0.06] transition-all"
+                >
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-purple-600/30 text-xs font-bold text-purple-300">
+                    C{idx + 1}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h5 className="font-semibold text-white truncate">{room.title}</h5>
+                    <p className="text-[10px] text-emerald-400">{(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── LAYOUT 8: BENTO HIERARCHY (Golden Ratio Bento Grid with Live Stat Pills) ── */}
+        {layoutMode === 8 && (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-6 lg:grid-cols-12">
+            {sortedRooms[0] && (
+              <div className="sm:col-span-6 lg:col-span-8">
+                <Link
+                  href={`/live/${sortedRooms[0].name.replace(/^live_/, "")}`}
+                  className="group relative flex aspect-video w-full flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-black p-6 hover:border-purple-500/50 transition-all"
+                >
+                  <Image
+                    src={sortedRooms[0].image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={sortedRooms[0].title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/20" />
+                  <div className="relative z-10 flex items-center justify-between">
+                    <span className="rounded-full bg-purple-600/90 px-3 py-1 text-xs font-bold text-white">
+                      BENTO LEAD
+                    </span>
+                    <span className="text-xs font-medium text-emerald-400">
+                      {(viewers[sortedRooms[0].name] ?? sortedRooms[0].numParticipants).toLocaleString()} viewers
+                    </span>
+                  </div>
+                  <div className="relative z-10">
+                    <h3 className="font-bold text-white">{sortedRooms[0].title}</h3>
+                    <p className="text-xs text-white/70">Master Stage Audio &amp; Performance Angle</p>
+                  </div>
+                </Link>
+              </div>
+            )}
+            {sortedRooms[1] && (
+              <div className="sm:col-span-6 lg:col-span-4">
+                <Link
+                  href={`/live/${sortedRooms[1].name.replace(/^live_/, "")}`}
+                  className="group relative flex aspect-video lg:aspect-auto lg:h-full w-full flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-black p-6 hover:border-purple-500/50 transition-all"
+                >
+                  <Image
+                    src={sortedRooms[1].image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={sortedRooms[1].title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                  <div className="relative z-10">
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white">BENTO SECONDARY</span>
+                  </div>
+                  <div className="relative z-10">
+                    <h4 className="font-bold text-white">{sortedRooms[1].title}</h4>
+                    <p className="text-xs text-emerald-400">{(viewers[sortedRooms[1].name] ?? sortedRooms[1].numParticipants).toLocaleString()} watching</p>
+                  </div>
+                </Link>
+              </div>
+            )}
+            {sortedRooms.slice(2).map((room) => (
+              <div key={room.name} className="sm:col-span-3 lg:col-span-6">
+                <Link
+                  href={`/live/${room.name.replace(/^live_/, "")}`}
+                  className="group relative flex aspect-[16/9] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-black p-4 hover:border-purple-500/40 transition-all"
+                >
+                  <Image
+                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={room.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <div className="relative z-10">
+                    <h4 className="font-bold text-white">{room.title}</h4>
+                    <span className="text-xs text-emerald-400">{(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers</span>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ── LAYOUT 9: COMPACT CHANNEL GUIDE (High-Density Multi-Room Switcher Table) ── */}
+        {layoutMode === 9 && (
+          <div className="overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-black/60 backdrop-blur-md">
+            <div className="border-b border-white/10 px-6 py-4 flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-400">Live Stage Channel Guide</span>
+              <span className="text-xs text-white/50">{sortedRooms.length} Active Video Feeds</span>
+            </div>
+            <div className="divide-y divide-white/5">
+              {sortedRooms.map((room, idx) => (
+                <div
+                  key={room.name}
+                  className="flex flex-col gap-4 p-4 transition-colors hover:bg-white/[0.03] sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="font-mono text-sm font-bold text-purple-400">CH 0{idx + 1}</span>
+                    <div className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-lg bg-black">
+                      <Image
+                        src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                        alt={room.title}
+                        fill
+                        sizes="112px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">{room.title}</h4>
+                      <p className="text-xs text-white/60">LiveKit Dedicated Soundboard · {getElapsed(room.creationTime)}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6">
+                    <span className="flex items-center gap-1.5 text-xs text-emerald-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
+                    </span>
+                    <Link
+                      href={`/live/${room.name.replace(/^live_/, "")}`}
+                      className="btn-accent rounded-full px-5 py-2 text-xs font-semibold text-white"
+                    >
+                      Tune In
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── LAYOUT 10: SOUNDBOARD STRIP (Full-Width Immersive Concert Ribbons) ── */}
+        {layoutMode === 10 && (
+          <div className="grid grid-cols-1 gap-4">
+            {sortedRooms.map((room) => (
+              <Link
+                key={room.name}
+                href={`/live/${room.name.replace(/^live_/, "")}`}
+                className="group relative flex min-h-[140px] items-center justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-black/80 px-8 py-6 transition-all hover:border-purple-400 hover:bg-black/90 shadow-xl"
+              >
+                <div className="absolute inset-0 opacity-20">
+                  <Image
+                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={room.title}
+                    fill
+                    sizes="100vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                <div className="relative z-10 flex items-center gap-6">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-purple-500/40 bg-purple-600/30 text-white font-bold text-lg">
+                    {room.member}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-xs font-mono text-emerald-400 uppercase tracking-widest">LIVE AUDIO FEED</span>
+                    </div>
+                    <h3 className="font-black text-white tracking-tight">{room.title}</h3>
+                    <p className="text-xs text-white/60">Stereo Master Soundboard · {getElapsed(room.creationTime)}</p>
+                  </div>
+                </div>
+                <div className="relative z-10 flex items-center gap-6">
+                  <span className="text-sm font-semibold text-white/80">
+                    {(viewers[room.name] ?? room.numParticipants).toLocaleString()} Viewers
+                  </span>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white group-hover:bg-purple-600 transition-colors">
+                    <GlassPlayButton size="sm" as="div" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ── ABOUT THE LIVE STREAM HUB ── */}
@@ -682,95 +1265,88 @@ export default function LiveHubClient({
         aria-labelledby="live-about-heading"
         className="section"
       >
-        <SectionHeader
-          id="live-about-heading"
-          title="About the 7th Heaven Live Stream Hub"
-          subtitle="Your front-row digital pass to live concerts, soundchecks, and backstage streams."
-        />
-        <div className="mx-auto max-w-4xl space-y-4 text-white/80 leading-relaxed">
-          <p>
-            Welcome to the 7th Heaven Live Stream Hub — your all-access digital gateway to real-time concert broadcasts,
-            backstage soundchecks, multi-angle camera feeds, and pre-show rehearsal sessions. Built specifically for fans
-            who cannot attend a tour stop in person or want to relive the electric concert atmosphere from an up-close
-            perspective, our interactive broadcast network brings the energy of the main stage directly to your device.
-          </p>
-          <p>
-            Each stream is powered by high-efficiency, low-latency LiveKit infrastructure, delivering ultra-clear video
-            alongside dedicated direct-line soundboard audio mixes. Switch effortlessly between individual band member
-            camera angles — from blistering guitar solos and dual-keyboard leads to powerhouse drum warm-ups and lead
-            vocal soundchecks — to experience the musicianship and camaraderie that define every 7th Heaven show.
-          </p>
-          <p>
-            Join thousands of active viewers in the interactive live chat, request classic rock favorites, participate in
-            digital concert raffles, and connect with 7th Heaven fans across the country. Check the official tour schedule
-            for upcoming multi-camera broadcast dates and festival livestreams.
-          </p>
-        </div>
-      </section>
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+          {/* Left Column: Anchored context, badge, and quick tech highlights */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
+            <div className="mb-3">
+              <SectionBadge label="DIGITAL CONCERT PASS" />
+            </div>
+            <h2
+              id="live-about-heading"
+              className="text-primary font-bold tracking-tight"
+            >
+              About the 7th Heaven Live Stream Hub
+            </h2>
+            <p className="mt-3 text-secondary text-base leading-relaxed">
+              Your front-row digital pass to live concerts, soundchecks, and backstage streams — broadcast direct from the stage to your screen.
+            </p>
 
-      {/* ── BROADCAST FEATURES ── */}
-      <section
-        id="live-features"
-        aria-labelledby="live-features-heading"
-        className="section"
-      >
-        <SectionHeader
-          id="live-features-heading"
-          title="Multi-Camera Features & Viewing Tips"
-          subtitle="Get the most out of your live streaming experience."
-        />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Video className="h-6 w-6" />
-              </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Multi-Angle Stage Cams</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Choose your favorite vantage point. Switch between backstage cams, drummer perspective, and center-stage
-                views with zero stream buffering.
+            <div className="mt-6 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-purple-500/10 px-3 py-1 text-xs font-medium text-purple-300">
+                <Zap className="h-3.5 w-3.5 text-purple-400" />
+                LiveKit Low-Latency
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
+                <Headphones className="h-3.5 w-3.5 text-pink-400" />
+                Direct Board Mix
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
+                <Video className="h-3.5 w-3.5 text-cyan-400" />
+                Multi-Angle 1080p
+              </span>
+            </div>
+
+            <div className="mt-8 border-t border-white/10 pt-6">
+              <p className="text-xs text-white/50">
+                Can&apos;t make the tour stop in person? Experience the camaraderie and energy of 7th Heaven from anywhere in the country.
               </p>
             </div>
-          </article>
+          </div>
 
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Headphones className="h-6 w-6" />
+          {/* Right Column: Scannable Value Pillars */}
+          <div className="space-y-4 lg:col-span-7">
+            <article className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-all hover:border-purple-500/30 hover:bg-white/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-600/20 text-purple-400">
+                  <Video className="h-5 w-5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold text-white">All-Access Stage & Backstage Perspective</h3>
+                  <p className="mt-1.5 text-sm text-white/70 leading-relaxed">
+                    Built specifically for fans who want an up-close concert experience. Tune into real-time concert broadcasts, backstage soundchecks, and pre-show rehearsal sessions with zero discovery delay.
+                  </p>
+                </div>
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Soundboard HD Audio</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Direct-feed stereo mixes engineered specifically for home theater setups and premium headphones. Hear every
-                note, vocal harmony, and guitar riff in crystal clarity.
-              </p>
-            </div>
-          </article>
+            </article>
 
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <MessageSquare className="h-6 w-6" />
+            <article className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-all hover:border-purple-500/30 hover:bg-white/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-pink-500/30 bg-pink-600/20 text-pink-400">
+                  <Headphones className="h-5 w-5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold text-white">Direct Soundboard Mix & Angle Switching</h3>
+                  <p className="mt-1.5 text-sm text-white/70 leading-relaxed">
+                    Powered by high-efficiency, low-latency LiveKit infrastructure with dedicated direct-line soundboard audio. Switch effortlessly between individual band member camera feeds — from blistering guitar solos to powerhouse drum warm-ups.
+                  </p>
+                </div>
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Real-Time Fan Chat</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Connect with fans in the live chat room. Share your concert reactions, cheer on the band, and enter digital
-                giveaways hosted by the backstage crew.
-              </p>
-            </div>
-          </article>
+            </article>
 
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Bell className="h-6 w-6" />
+            <article className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-all hover:border-purple-500/30 hover:bg-white/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-600/20 text-cyan-400">
+                  <MessageSquare className="h-5 w-5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold text-white">Interactive Fan Community & Live Requests</h3>
+                  <p className="mt-1.5 text-sm text-white/70 leading-relaxed">
+                    Join thousands of active viewers in the real-time live chat room. Request classic rock favorites, participate in digital concert raffles, and celebrate with 7th Heaven fans across the nation.
+                  </p>
+                </div>
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Instant Go-Live Alerts</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Subscribe to push notifications to be alerted the moment 7th Heaven powers on stage cameras or begins an
-                impromptu acoustic soundcheck session.
-              </p>
-            </div>
-          </article>
+            </article>
+          </div>
         </div>
       </section>
 

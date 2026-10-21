@@ -8,9 +8,13 @@ export interface FluidGapSettings {
   tablet: number; // base at 768px (second)
   mobile: number; // base at 375px (third)
   scale: number; // master multiplier
+  sectionSm?: number; // specific --spacing-section-sm override (e.g. 75px)
+  bannerGap?: number; // CD to button gap (e.g. 24px)
+  bannerInnerGap?: number; // CD to title gap (e.g. 16px)
+  headerColsGap?: number; // Media Vault to Audio Vault 2-col gap (e.g. 32px)
 }
 
-export type ActiveStep = "desktop" | "tablet" | "mobile" | "master";
+export type ActiveStep = "desktop" | "tablet" | "mobile" | "master" | "banner";
 export type PreviewMode = "auto" | "desktop" | "tablet" | "mobile";
 
 const STORAGE_KEY = "v2_fluid_gap_settings";
@@ -24,6 +28,10 @@ const DEFAULT_SETTINGS: FluidGapSettings = {
   tablet: 100,
   mobile: 50,
   scale: 1.0,
+  sectionSm: 75,
+  bannerGap: 24,
+  bannerInnerGap: 16,
+  headerColsGap: 32,
 };
 
 function calculateClamp(minVal: number, maxVal: number, minVw: number, maxVw: number): string {
@@ -45,11 +53,15 @@ export function applyFluidGapToDocument(
   const scaledDesktop = Math.round(desktop * scale);
   const scaledTablet = Math.round(tablet * scale);
   const scaledMobile = Math.round(mobile * scale);
+  const actualSectionSm = typeof settings.sectionSm === "number" ? Math.round(settings.sectionSm * scale) : Math.round(scaledDesktop * 0.75);
+  const actualBannerGap = typeof settings.bannerGap === "number" ? settings.bannerGap : 24;
+  const actualBannerInnerGap = typeof settings.bannerInnerGap === "number" ? settings.bannerInnerGap : 16;
+  const actualHeaderColsGap = typeof settings.headerColsGap === "number" ? settings.headerColsGap : 32;
 
   // Clamps across breakpoints: Desktop -> Tablet -> Mobile
   // Desktop (>=1024px): 1024px -> 1440px
   const desktopClamp = calculateClamp(scaledTablet, scaledDesktop, 1024, 1440);
-  const desktopSm = calculateClamp(Math.round(scaledTablet * 0.75), Math.round(scaledDesktop * 0.75), 1024, 1440);
+  const desktopSm = calculateClamp(Math.round(scaledTablet * 0.75), actualSectionSm, 1024, 1440);
   const desktopLg = calculateClamp(Math.round(scaledTablet * 1.5), Math.round(scaledDesktop * 1.8), 1024, 1440);
 
   // Tablet (640px -> 1024px)
@@ -67,9 +79,12 @@ export function applyFluidGapToDocument(
     overrideCss = `
       :root {
         --spacing-section: ${scaledDesktop}px !important;
-        --spacing-section-sm: ${Math.round(scaledDesktop * 0.75)}px !important;
+        --spacing-section-sm: ${actualSectionSm}px !important;
         --spacing-section-lg: ${Math.round(scaledDesktop * 1.8)}px !important;
         --spacing-stack: ${Math.round(scaledDesktop * 0.85)}px !important;
+        --music-vault-gap: ${actualBannerGap}px !important;
+        --music-vault-inner-gap: ${actualBannerInnerGap}px !important;
+        --header-cols-gap: ${actualHeaderColsGap}px !important;
       }
     `;
   } else if (previewMode === "tablet") {
@@ -79,6 +94,9 @@ export function applyFluidGapToDocument(
         --spacing-section-sm: ${Math.round(scaledTablet * 0.75)}px !important;
         --spacing-section-lg: ${Math.round(scaledTablet * 1.5)}px !important;
         --spacing-stack: ${Math.round(scaledTablet * 0.85)}px !important;
+        --music-vault-gap: ${actualBannerGap}px !important;
+        --music-vault-inner-gap: ${actualBannerInnerGap}px !important;
+        --header-cols-gap: ${actualHeaderColsGap}px !important;
       }
     `;
   } else if (previewMode === "mobile") {
@@ -88,6 +106,9 @@ export function applyFluidGapToDocument(
         --spacing-section-sm: ${Math.round(scaledMobile * 0.75)}px !important;
         --spacing-section-lg: ${Math.round(scaledMobile * 1.5)}px !important;
         --spacing-stack: ${Math.round(scaledMobile * 0.85)}px !important;
+        --music-vault-gap: ${actualBannerGap}px !important;
+        --music-vault-inner-gap: ${actualBannerInnerGap}px !important;
+        --header-cols-gap: ${actualHeaderColsGap}px !important;
       }
     `;
   }
@@ -124,6 +145,9 @@ export function applyFluidGapToDocument(
       --spacing-section-sm: ${desktopSm};
       --spacing-section-lg: ${desktopLg};
       --spacing-stack: ${calculateClamp(Math.round(scaledTablet * 0.85), Math.round(scaledDesktop * 0.85), 1024, 1440)};
+      --music-vault-gap: ${actualBannerGap}px;
+      --music-vault-inner-gap: ${actualBannerInnerGap}px;
+      --header-cols-gap: ${actualHeaderColsGap}px;
     }
     @media (max-width: 1023px) {
       :root {
@@ -205,13 +229,17 @@ export default function FluidGapTuner() {
             tablet: parsed.tablet,
             mobile: parsed.mobile,
             scale: typeof parsed.scale === "number" ? parsed.scale : 1.0,
+            sectionSm: typeof parsed.sectionSm === "number" ? parsed.sectionSm : 75,
+            bannerGap: typeof parsed.bannerGap === "number" ? parsed.bannerGap : 24,
+            bannerInnerGap: typeof parsed.bannerInnerGap === "number" ? parsed.bannerInnerGap : 16,
+            headerColsGap: typeof parsed.headerColsGap === "number" ? parsed.headerColsGap : 32,
           });
         }
       }
       const savedStep = localStorage.getItem(STEP_KEY) as ActiveStep | null;
-      if (savedStep && ["desktop", "tablet", "mobile", "master"].includes(savedStep)) {
+      if (savedStep && ["desktop", "tablet", "mobile", "master", "banner"].includes(savedStep)) {
         setActiveStep(savedStep);
-        setPreviewMode(savedStep === "master" ? "auto" : savedStep);
+        setPreviewMode(savedStep === "master" || savedStep === "banner" ? "auto" : savedStep);
       }
       const savedPos = localStorage.getItem(PANEL_POS_KEY);
       if (savedPos) {
@@ -238,7 +266,7 @@ export default function FluidGapTuner() {
   // When activeStep changes, also update previewMode to match that device
   const handleSelectStep = useCallback((step: ActiveStep) => {
     setActiveStep(step);
-    if (step === "master") {
+    if (step === "master" || step === "banner") {
       setPreviewMode("auto");
     } else {
       setPreviewMode(step);
@@ -327,15 +355,21 @@ export default function FluidGapTuner() {
         setIsOpen((prev) => !prev);
       }
     };
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = (e?: Event) => {
+      setIsOpen(true);
+      const custom = e as CustomEvent<{ tab?: ActiveStep }> | undefined;
+      if (custom?.detail?.tab) {
+        handleSelectStep(custom.detail.tab);
+      }
+    };
     const handleToggle = () => setIsOpen((prev) => !prev);
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("open-fluid-gap-tuner", handleOpen);
+    window.addEventListener("open-fluid-gap-tuner", handleOpen as EventListener);
     window.addEventListener("toggle-fluid-gap-tuner", handleToggle);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("open-fluid-gap-tuner", handleOpen);
+      window.removeEventListener("open-fluid-gap-tuner", handleOpen as EventListener);
       window.removeEventListener("toggle-fluid-gap-tuner", handleToggle);
     };
   }, []);
@@ -537,7 +571,7 @@ export default function FluidGapTuner() {
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-1 rounded-lg bg-zinc-900 p-1 font-mono text-xs">
+          <div className="grid grid-cols-4 gap-1 rounded-lg bg-zinc-900 p-1 font-mono text-[11px]">
             <button
               onClick={() => handleSelectStep("desktop")}
               className={`rounded py-1.5 text-center font-medium transition cursor-pointer ${
@@ -546,7 +580,7 @@ export default function FluidGapTuner() {
                   : "text-zinc-400 hover:text-white"
               }`}
             >
-              1. 💻 Desktop
+              1. 💻 Desk
             </button>
             <button
               onClick={() => handleSelectStep("tablet")}
@@ -556,7 +590,7 @@ export default function FluidGapTuner() {
                   : "text-zinc-400 hover:text-white"
               }`}
             >
-              2. 📱 Tablet
+              2. 📱 Tab
             </button>
             <button
               onClick={() => handleSelectStep("mobile")}
@@ -566,7 +600,17 @@ export default function FluidGapTuner() {
                   : "text-zinc-400 hover:text-white"
               }`}
             >
-              3. 📱 Mobile
+              3. 📱 Mob
+            </button>
+            <button
+              onClick={() => handleSelectStep("banner")}
+              className={`rounded py-1.5 text-center font-medium transition cursor-pointer ${
+                activeStep === "banner"
+                  ? "bg-pink-500/25 text-pink-200 border border-pink-400/60 shadow"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              4. 🎵 Gaps
             </button>
           </div>
         </div>
@@ -697,6 +741,165 @@ export default function FluidGapTuner() {
               >
                 {previewMode === "auto" ? "✓ In Auto Mode" : "Switch to Auto Mode"}
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 4: 🎵 BANNER & HEADER GAPS */}
+        {activeStep === "banner" && (
+          <div className="flex flex-col gap-4 rounded-xl border border-pink-500/40 bg-pink-950/20 p-3.5">
+            <div>
+              <div className="font-semibold text-white flex items-center justify-between">
+                <span>🎵 Header & Banner Gap Controls</span>
+                <span className="text-[11px] font-mono text-pink-300">Live Tuning</span>
+              </div>
+              <div className="text-xs text-zinc-400 mt-0.5">
+                Tune exact pixel gaps for the Media Vault header, music player banner, and section stack.
+              </div>
+            </div>
+
+            {/* 1. Section Small Gap (--spacing-section-sm / .page-stack-sm) */}
+            <div className="flex flex-col gap-1.5 border-t border-white/10 pt-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-zinc-200">
+                  Section Stack Gap (.page-stack-sm)
+                </span>
+                <span className="font-mono text-pink-300 font-bold text-xs">
+                  {settings.sectionSm ?? 75}px
+                </span>
+              </div>
+              <input
+                type="range"
+                min="20"
+                max="160"
+                step="1"
+                value={settings.sectionSm ?? 75}
+                onChange={(e) => updateSetting("sectionSm", parseInt(e.target.value, 10))}
+                className="h-2 w-full cursor-pointer accent-pink-400"
+              />
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {[38, 50, 64, 75, 96, 120].map((v) => (
+                  <button
+                    key={`sec-sm-${v}`}
+                    onClick={() => updateSetting("sectionSm", v)}
+                    className={`rounded px-1.5 py-0.5 font-mono text-[10px] transition cursor-pointer ${
+                      (settings.sectionSm ?? 75) === v
+                        ? "bg-pink-500/40 text-pink-100 border border-pink-400"
+                        : "bg-white/5 text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    {v}px
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 2. Banner Items Gap (--music-vault-gap) */}
+            <div className="flex flex-col gap-1.5 border-t border-white/10 pt-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-zinc-200">
+                  Music Banner Item Gap (CD+Text ↔ Button)
+                </span>
+                <span className="font-mono text-pink-300 font-bold text-xs">
+                  {settings.bannerGap ?? 24}px
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="64"
+                step="2"
+                value={settings.bannerGap ?? 24}
+                onChange={(e) => updateSetting("bannerGap", parseInt(e.target.value, 10))}
+                className="h-2 w-full cursor-pointer accent-pink-400"
+              />
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {[8, 12, 16, 24, 32, 48].map((v) => (
+                  <button
+                    key={`bg-${v}`}
+                    onClick={() => updateSetting("bannerGap", v)}
+                    className={`rounded px-1.5 py-0.5 font-mono text-[10px] transition cursor-pointer ${
+                      (settings.bannerGap ?? 24) === v
+                        ? "bg-pink-500/40 text-pink-100 border border-pink-400"
+                        : "bg-white/5 text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    {v}px
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 3. Banner Inner Gap (--music-vault-inner-gap) */}
+            <div className="flex flex-col gap-1.5 border-t border-white/10 pt-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-zinc-200">
+                  CD ↔ Music Vault Text Gap
+                </span>
+                <span className="font-mono text-pink-300 font-bold text-xs">
+                  {settings.bannerInnerGap ?? 16}px
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="48"
+                step="2"
+                value={settings.bannerInnerGap ?? 16}
+                onChange={(e) => updateSetting("bannerInnerGap", parseInt(e.target.value, 10))}
+                className="h-2 w-full cursor-pointer accent-pink-400"
+              />
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {[4, 8, 12, 16, 24, 32].map((v) => (
+                  <button
+                    key={`big-${v}`}
+                    onClick={() => updateSetting("bannerInnerGap", v)}
+                    className={`rounded px-1.5 py-0.5 font-mono text-[10px] transition cursor-pointer ${
+                      (settings.bannerInnerGap ?? 16) === v
+                        ? "bg-pink-500/40 text-pink-100 border border-pink-400"
+                        : "bg-white/5 text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    {v}px
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. Header 2-Column Gap (--header-cols-gap) */}
+            <div className="flex flex-col gap-1.5 border-t border-white/10 pt-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-zinc-200">
+                  Header Columns Gap (Title ↔ Player)
+                </span>
+                <span className="font-mono text-pink-300 font-bold text-xs">
+                  {settings.headerColsGap ?? 32}px
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="96"
+                step="4"
+                value={settings.headerColsGap ?? 32}
+                onChange={(e) => updateSetting("headerColsGap", parseInt(e.target.value, 10))}
+                className="h-2 w-full cursor-pointer accent-pink-400"
+              />
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {[12, 16, 24, 32, 48, 64].map((v) => (
+                  <button
+                    key={`hcg-${v}`}
+                    onClick={() => updateSetting("headerColsGap", v)}
+                    className={`rounded px-1.5 py-0.5 font-mono text-[10px] transition cursor-pointer ${
+                      (settings.headerColsGap ?? 32) === v
+                        ? "bg-pink-500/40 text-pink-100 border border-pink-400"
+                        : "bg-white/5 text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    {v}px
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}

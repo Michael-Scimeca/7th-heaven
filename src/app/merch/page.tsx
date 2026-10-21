@@ -310,48 +310,16 @@ function MerchDashboard() {
         }
       />
 
-      {/* ── ABOUT OUR BAND GEAR ── */}
-      <section
-        id="merch-story"
-        aria-labelledby="merch-story-heading"
-        className="section"
-      >
-        <SectionHeader
-          id="merch-story-heading"
-          title="The 7th Heaven Merch Table Tradition"
-          subtitle="Rock and roll memories you can wear and take home."
-        />
-        <div className="mx-auto max-w-4xl space-y-4 text-white/80 leading-relaxed">
-          <p>
-            For over four decades, the 7th Heaven merchandise table has been an essential fixture at every concert,
-            summer festival, county fair, and casino showroom across the Midwest. From Chicago street fests to packed
-            theater stages in Wisconsin and Indiana, fans gather at the merch table before the first chord and after the
-            final encore to grab commemorative tour shirts, meet the crew, and connect with fellow concertgoers.
-          </p>
-          <p>
-            All 7th Heaven apparel is crafted from premium, pre-shrunk cotton blends designed for lasting comfort,
-            breathability, and durability through dozens of energetic shows and wash cycles. Beyond signature t-shirts
-            and heavyweight fleece hoodies, our official merchandise line includes collectible 180-gram vinyl pressings,
-            full-length studio CD recordings, signed stage drumsticks, custom guitar pick tins, and tour memorabilia.
-          </p>
-          <p>
-            Whether you are ordering in advance for fast on-site pickup at an upcoming concert or picking out your gear
-            in person during intermission, our crew is dedicated to ensuring you get the exact style, fit, and size
-            you need to rock out in style.
-          </p>
-        </div>
-      </section>
-
-      {/* ── FEATURED PRODUCTS CATALOG ── */}
+      {/* ── FEATURED PRODUCTS CATALOG (IMMEDIATE CONTENT) ── */}
       <section
         id="merch-catalog"
         aria-labelledby="merch-catalog-heading"
-        className="section"
+        className="section pt-0"
       >
         <SectionHeader
           id="merch-catalog-heading"
           title="Official Merchandise Catalog"
-          subtitle="Available at all live tour stops and through online concert pickup."
+          visuallyHidden
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURED_PRODUCTS.map((prod) => (
@@ -376,7 +344,7 @@ function MerchDashboard() {
                   <div className="mb-1 text-xs font-medium uppercase tracking-wider text-purple-400">
                     {prod.category}
                   </div>
-                  <h3 className="mb-2 text-base font-bold text-white">{prod.name}</h3>
+                  <h3 className="mb-2 font-bold text-white">{prod.name}</h3>
                   <p className="mb-4 text-xs text-white/70 leading-relaxed">{prod.description}</p>
                 </div>
                 <div className="border-t border-white/10 pt-3 text-xs text-white/50 flex items-center justify-between">
@@ -431,6 +399,36 @@ function MerchDashboard() {
             <p className="text-sm text-white/70 leading-relaxed">
               If you hold a winning digital raffle ticket from the 7th Heaven VIP Fan Club, present your digital winner PIN to
               the table staff after the show to claim your item.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── THE MERCH TABLE TRADITION ── */}
+      <section
+        id="merch-story"
+        aria-labelledby="merch-story-heading"
+        className="section"
+      >
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
+            <h2 id="merch-story-heading" className="text-primary font-bold tracking-tight">
+              The 7th Heaven Merch Table Tradition
+            </h2>
+            <p className="mt-3 text-secondary text-base leading-relaxed">
+              Rock and roll memories you can wear and take home — built to last through decades of concerts.
+            </p>
+          </div>
+          <div className="space-y-4 text-white/80 leading-relaxed lg:col-span-7">
+            <p>
+              For over four decades, the 7th Heaven merchandise table has been an essential fixture at every concert,
+              summer festival, county fair, and casino showroom across the Midwest. Fans gather before the first chord and after the
+              final encore to grab commemorative tour shirts, meet the crew, and connect with fellow concertgoers.
+            </p>
+            <p>
+              All 7th Heaven apparel is crafted from premium, pre-shrunk cotton blends designed for lasting comfort,
+              breathability, and durability. Beyond signature t-shirts and heavyweight fleece hoodies, our official line includes
+              collectible 180-gram vinyl pressings, full-length CDs, signed stage drumsticks, and custom pick tins.
             </p>
           </div>
         </div>

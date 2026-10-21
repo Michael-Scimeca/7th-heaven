@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import showsSupabaseData from "@/data/shows-supabase.json";
 import pastShowsData from "@/data/past-shows.json";
 import { getFanPhotos } from "@/lib/fanPhotos";
+import { sanityClient, queries, SanityTourDate } from "@/lib/sanity";
 
 export const revalidate = 60;
 
@@ -25,11 +26,20 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const { data: show } = await supabase
-    .from("shows")
-    .select("venue_name, city, state, date")
-    .eq("id", id)
-    .single();
+  let show: any = null;
+  try {
+    const { data } = await supabase
+      .from("shows")
+      .select("venue_name, city, state, date")
+      .eq("id", id)
+      .single();
+    show = data;
+  } catch {}
+
+  if (!show && showsSupabaseData?.length) {
+    show = showsSupabaseData.find((s) => s.id === id) || null;
+  }
+
   if (!show) return { title: "Show Details | 7th Heaven Band" };
   const dateStr = new Date(show.date + "T12:00:00").toLocaleDateString(
     "en-US",
@@ -94,6 +104,53 @@ async function ShowPageContent({
 
   if (!show) notFound();
 
+  // Enrich show with Sanity CMS tour date metadata (parking, notes, doorsTime, tickets, etc.)
+  try {
+    const sanityShows = await sanityClient.fetch<SanityTourDate[]>(
+      queries.allTourDates,
+      {},
+      { next: { revalidate: 60, tags: ["sanity", "tour"] } },
+    );
+    if (sanityShows && sanityShows.length > 0) {
+      const vNorm = (show.venue_name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      const matchedSanity = sanityShows.find((s) => {
+        const sNorm = (s.venue || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const sameDate = s.date === show.date;
+        const venueMatch = (vNorm && sNorm && (vNorm.includes(sNorm) || sNorm.includes(vNorm))) || false;
+        return sameDate || (venueMatch && Math.abs(new Date(s.date).getTime() - new Date(show.date).getTime()) <= 35 * 86400000);
+      });
+      if (matchedSanity) {
+        show = {
+          ...show,
+          doors_time: show.doors_time || matchedSanity.doorsTime || null,
+          all_ages: show.all_ages ?? matchedSanity.allAges ?? null,
+          cover: show.cover || matchedSanity.cover || null,
+          parkingType: matchedSanity.parkingType || show.parkingType || null,
+          parkingAddress: matchedSanity.parkingAddress || show.parking_address || show.parkingAddress || null,
+          parkingInfo: matchedSanity.parkingInfo || show.parking_info || show.parkingInfo || null,
+          parkingNotes: matchedSanity.parkingNotes || show.parking_notes || show.parkingNotes || null,
+          parkingUrl: matchedSanity.parkingUrl || show.parking_url || show.parkingUrl || null,
+          ticketLink: matchedSanity.ticketLink || show.ticket_url || null,
+          directionsLink: matchedSanity.directionsLink || matchedSanity.mapUrl || show.map_url || null,
+        };
+      }
+    }
+  } catch {}
+
+  // Fallback venue & parking metadata for known venues if not set via Sanity
+  if (!show.address) {
+    if (show.venue_name === "Station 34") {
+      show.address = "34 S Main St, Mount Prospect, IL 60056";
+    }
+  }
+  if (!show.parkingAddress && !show.parking_address) {
+    if (show.venue_name === "Station 34") {
+      show.parkingAddress = "Maple St Parking Deck, 110 S Maple St, Mt Prospect, IL 60056";
+      show.parkingType = "garage";
+      show.parkingNotes = "Free public parking garage located directly behind Station 34 on Maple St.";
+    }
+  }
+
   // Fetch attendees
   let attendees: any[] = [];
   try {
@@ -118,8 +175,49 @@ async function ShowPageContent({
     if (data) attendees = data;
   } catch {}
 
-  // ── Related Shows (same city or same state) ──
+  // ── Upcoming Shows at this Venue vs Nearby Area Shows ──
+  let upcomingVenueShows: any[] = [];
   let relatedShows: any[] = [];
+
+  const venueNameTrim = (show.venue_name || "").toLowerCase().trim();
+
+  // 1. Fetch upcoming shows at THIS venue (different date / id)
+  try {
+    if (show.venue_name) {
+      const { data: vShows } = await supabase
+        .from("shows")
+        .select("id, venue_name, city, state, date, time")
+        .neq("id", id)
+        .ilike("venue_name", show.venue_name)
+        .order("date", { ascending: true })
+        .limit(8);
+      if (vShows?.length) {
+        upcomingVenueShows = vShows;
+      }
+    }
+  } catch {}
+
+  // Fallback to local shows data for upcoming venue shows
+  if (showsSupabaseData?.length) {
+    const venueShowIds = new Set([id, ...upcomingVenueShows.map((s) => s.id)]);
+    for (const s of showsSupabaseData) {
+      if (
+        s.id !== id &&
+        !venueShowIds.has(s.id) &&
+        (s.venue_name || "").toLowerCase().trim() === venueNameTrim
+      ) {
+        upcomingVenueShows.push(s);
+        venueShowIds.add(s.id);
+      }
+    }
+  }
+
+  // Sort upcoming venue shows by date
+  upcomingVenueShows.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+
+  // 2. Fetch shows near this area (same city or neighboring cities in same state, excluding venue shows)
+  const excludeIds = new Set([id, ...upcomingVenueShows.map((s) => s.id)]);
+
   try {
     if (show.city) {
       const { data: cityShows } = await supabase
@@ -128,29 +226,34 @@ async function ShowPageContent({
         .neq("id", id)
         .eq("city", show.city)
         .order("date", { ascending: true })
-        .limit(4);
+        .limit(8);
       if (cityShows?.length) {
-        relatedShows = cityShows;
+        for (const s of cityShows) {
+          if (!excludeIds.has(s.id)) {
+            relatedShows.push(s);
+            excludeIds.add(s.id);
+            if (relatedShows.length >= 4) break;
+          }
+        }
       }
     }
   } catch {}
 
   if (relatedShows.length < 4) {
     try {
-      const existingIds = new Set([id, ...relatedShows.map((s) => s.id)]);
       const { data: stateShows } = await supabase
         .from("shows")
         .select("id, venue_name, city, state, date, time")
         .neq("id", id)
         .eq("state", show.state || "IL")
         .order("date", { ascending: true })
-        .limit(10);
+        .limit(16);
 
       if (stateShows?.length) {
         for (const s of stateShows) {
-          if (!existingIds.has(s.id)) {
+          if (!excludeIds.has(s.id)) {
             relatedShows.push(s);
-            existingIds.add(s.id);
+            excludeIds.add(s.id);
             if (relatedShows.length >= 4) break;
           }
         }
@@ -158,15 +261,14 @@ async function ShowPageContent({
     } catch {}
   }
 
-  // Fallback to local shows data if needed
+  // Fallback to local shows data for nearby shows
   if (relatedShows.length < 4 && showsSupabaseData?.length) {
-    const existingIds = new Set([id, ...relatedShows.map((s) => s.id)]);
     // First try matching city
     if (show.city) {
       for (const s of showsSupabaseData) {
-        if (s.id !== id && !existingIds.has(s.id) && s.city === show.city) {
+        if (!excludeIds.has(s.id) && s.city === show.city) {
           relatedShows.push(s);
-          existingIds.add(s.id);
+          excludeIds.add(s.id);
           if (relatedShows.length >= 4) break;
         }
       }
@@ -175,44 +277,78 @@ async function ShowPageContent({
     if (relatedShows.length < 4) {
       for (const s of showsSupabaseData) {
         if (
-          s.id !== id &&
-          !existingIds.has(s.id) &&
+          !excludeIds.has(s.id) &&
           (s.state === show.state || s.state === "IL")
         ) {
           relatedShows.push(s);
-          existingIds.add(s.id);
+          excludeIds.add(s.id);
           if (relatedShows.length >= 4) break;
         }
       }
     }
   }
 
-  // ── Venue Photos & Videos (from data/fan-photos.json) ──
+  // ── Venue Photos & Videos (from data/fan-photos.json + Sanity band videos) ──
   let venueMedia: any[] = [];
   try {
     const allFanPhotos = await getFanPhotos();
     const venueLower = (show.venue_name || "").toLowerCase().trim();
     const cityLower = (show.city || "").toLowerCase().trim();
 
-    venueMedia = allFanPhotos.filter((p) => {
+    // 1. Fan media matching venue specifically
+    const matchedFanMedia = allFanPhotos.filter((p) => {
       if (!p.venue) return false;
       const pVenue = p.venue.toLowerCase().trim();
-      const pCity = (p.city || "").toLowerCase().trim();
       const matchVenue = pVenue.includes(venueLower) || venueLower.includes(pVenue);
-      const matchCity = cityLower && (pCity.includes(cityLower) || cityLower.includes(pCity));
-      return p.approved && (matchVenue || (matchCity && p.type === "video"));
+      return p.approved && matchVenue;
     });
+
+    // 2. Sanity official band videos matching venue specifically
+    let sanityVideos: any[] = [];
+    try {
+      const allSanityVideos = await sanityClient.fetch<any[]>(
+        queries.allVideos,
+        {},
+        { next: { revalidate: 60, tags: ["sanity", "videos"] } },
+      );
+      if (allSanityVideos?.length) {
+        sanityVideos = allSanityVideos
+          .filter((v) => {
+            const vVenue = (v.venue || "").toLowerCase().trim();
+            return vVenue && (vVenue.includes(venueLower) || venueLower.includes(vVenue));
+          })
+          .map((v) => ({
+            id: `sanity_video_${v._id}`,
+            filename: `${v.youtubeId}.mp4`,
+            src: `https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg`,
+            type: "video",
+            youtubeId: v.youtubeId,
+            name: "7th Heaven Official",
+            venue: v.venue || show.venue_name,
+            city: v.city || show.city,
+            date: v.year ? String(v.year) : undefined,
+            caption: v.title || v.description || "Official 7th Heaven concert performance",
+            approved: true,
+            isBandMedia: true,
+          }));
+      }
+    } catch {}
+
+    venueMedia = [...sanityVideos, ...matchedFanMedia];
   } catch {}
 
   // ── Past Shows at this Venue (from src/data/past-shows.json) ──
-  const pastVenueShows: Array<{ date: string; raw: string; year?: string }> = [];
+  const pastVenueShows: Array<{ id: string; date: string; raw: string; year?: string }> = [];
   try {
     const venueLower = (show.venue_name || "").toLowerCase().trim();
     const years = (pastShowsData as any).years || [];
+    let pastCounter = 0;
     for (const yearGroup of years) {
       for (const s of yearGroup.shows || []) {
         if (s.venue && s.venue.toLowerCase().trim() === venueLower) {
+          pastCounter++;
           pastVenueShows.push({
+            id: `past-${yearGroup.year || "tour"}-${s.date || s.raw}-${pastCounter}`,
             date: s.date || s.raw,
             raw: s.raw,
             year: yearGroup.year,
@@ -257,45 +393,23 @@ async function ShowPageContent({
   };
 
   return (
-    <>
-      <script
-        id={`show-event-jsonld-${id}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(musicEventLd)
-            .replace(/</g, "\\u003c")
-            .replace(/>/g, "\\u003e")
-            .replace(/&/g, "\\u0026"),
-        }}
-      />
-      <ShowPageClient
-        show={show}
-        initialAttendees={(attendees || []) as any}
-        relatedShows={relatedShows}
-        defaultImage={defaultImage}
-        venueMedia={venueMedia}
-        pastVenueShows={pastVenueShows}
-      />
-    </>
+    <ShowPageClient
+      show={show}
+      initialAttendees={(attendees || []) as any}
+      upcomingVenueShows={upcomingVenueShows}
+      relatedShows={relatedShows}
+      defaultImage={defaultImage}
+      venueMedia={venueMedia}
+      pastVenueShows={pastVenueShows}
+      jsonLd={musicEventLd}
+    />
   );
 }
 
-function ShowPageFallback() {
-  return (
-    <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="animate-pulse text-white/50">Loading show…</div>
-    </div>
-  );
-}
-
-export default function ShowPage({
+export default async function ShowPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  return (
-    <Suspense fallback={<ShowPageFallback />}>
-      <ShowPageContent params={params} />
-    </Suspense>
-  );
+  return <ShowPageContent params={params} />;
 }

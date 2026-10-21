@@ -207,7 +207,7 @@ export function PageNav() {
           {/* Header — fixed, translucent blur */}
           <div className="shrink-0 border-b border-white/10 bg-white/[0.04] p-3 backdrop-blur-2xl">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white">
+              <h3 className="flex items-center gap-2 font-semibold uppercase tracking-wider text-white">
                 <svg
                   width="14"
                   height="14"
@@ -249,7 +249,7 @@ export function PageNav() {
             ) : (
               filteredCategories.map((category) => (
                 <div key={category.name} className="flex flex-col gap-1">
-                  <h4 className="mt-2 mb-1 border-b border-white/10 pb-1 pl-2 text-[10px] font-bold uppercase tracking-wider text-purple-400/90">
+                  <h4 className="mt-2 mb-1 border-b border-white/10 pb-1 pl-2 font-bold uppercase tracking-wider text-purple-400/90">
                     {category.name}
                   </h4>
                   {category.pages.map((page) => {

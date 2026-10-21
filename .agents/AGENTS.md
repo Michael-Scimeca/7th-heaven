@@ -23,6 +23,7 @@ In this project, **never write static values** in `style={{...}}` or `element.st
 ## 🔤 Typography & Color Hierarchy Rule (MANDATORY)
 
 Use only the type-scale and color tokens. No text-[Npx], no inline fontSize, no hex text colors. One h1 per page, no skipped heading levels.
+**No Pill Badges / Eyebrows Above Headlines**: Never put eyebrow pills, category tags, or pill badges above headlines/h1 titles (e.g., `rounded-full border px-3.5 py-1 text-xs ... Animated Series & Graphic Novels`). Keep headlines clean without preceding decorative badge pills.
 
 ## 📐 Section Heading & Spacing Rule (MANDATORY)
 

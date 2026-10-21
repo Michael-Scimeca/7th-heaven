@@ -979,8 +979,7 @@ export function LiveNextPageViewportPortal({
               <span>Page A: Band Showcase &amp; Discography</span>
             </div>
 
-            {/* heading-size-ok: noise transition simulated portal title */}
-            <h2 className="text-4xl sm:text-6xl font-black text-white leading-tight">
+            <h2 className="font-black text-white leading-tight">
               Page A: Band Showcase &amp; Discography
             </h2>
 
@@ -991,8 +990,7 @@ export function LiveNextPageViewportPortal({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
               <div className="flex flex-col gap-2 p-6 rounded-2xl border border-white/15 bg-white/5 shadow-xl">
                 <span className="text-3xl font-black text-purple-400">5,000+</span>
-                {/* heading-size-ok: portal card title */}
-                <h4 className="text-base font-bold text-white">Live Concerts Performed</h4>
+                <h4 className="font-bold text-white">Live Concerts Performed</h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   From festival main stages to intimate arenas across the Midwest for over 30 years.
                 </p>
@@ -1000,8 +998,7 @@ export function LiveNextPageViewportPortal({
 
               <div className="flex flex-col gap-2 p-6 rounded-2xl border border-white/15 bg-white/5 shadow-xl">
                 <span className="text-3xl font-black text-cyan-400">30+</span>
-                {/* heading-size-ok: portal card title */}
-                <h4 className="text-base font-bold text-white">Albums &amp; Original Hits</h4>
+                <h4 className="font-bold text-white">Albums &amp; Original Hits</h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   Chart-topping melodic pop-rock singles and timeless festival fan favorites.
                 </p>
@@ -1009,8 +1006,7 @@ export function LiveNextPageViewportPortal({
 
               <div className="flex flex-col gap-2 p-6 rounded-2xl border border-white/15 bg-white/5 shadow-xl">
                 <span className="text-3xl font-black text-rose-400">Guinness</span>
-                {/* heading-size-ok: portal card title */}
-                <h4 className="text-base font-bold text-white">World Record Holders</h4>
+                <h4 className="font-bold text-white">World Record Holders</h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   Extraordinary stamina and passionate devotion to their loyal fan community.
                 </p>
@@ -1024,8 +1020,7 @@ export function LiveNextPageViewportPortal({
               <span>Page B: Concert Experience &amp; Tour Life</span>
             </div>
 
-            {/* heading-size-ok: noise transition simulated portal title */}
-            <h2 className="text-4xl sm:text-6xl font-black text-white leading-tight">
+            <h2 className="font-black text-white leading-tight">
               Page B: Concert Experience &amp; Tour Life
             </h2>
 
@@ -1036,8 +1031,7 @@ export function LiveNextPageViewportPortal({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
               <div className="flex flex-col gap-2 p-6 rounded-2xl border border-white/15 bg-white/5 shadow-xl">
                 <span className="text-3xl font-black text-amber-400">Pyrotechnics</span>
-                {/* heading-size-ok: portal card title */}
-                <h4 className="text-base font-bold text-white">Synchronized Stage FX</h4>
+                <h4 className="font-bold text-white">Synchronized Stage FX</h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   High-speed flame bursts, CO2 jets, and dynamic atmospheric laser mapping.
                 </p>
@@ -1045,8 +1039,7 @@ export function LiveNextPageViewportPortal({
 
               <div className="flex flex-col gap-2 p-6 rounded-2xl border border-white/15 bg-white/5 shadow-xl">
                 <span className="text-3xl font-black text-purple-400">32-Channel</span>
-                {/* heading-size-ok: portal card title */}
-                <h4 className="text-base font-bold text-white">Spatial Sound Array</h4>
+                <h4 className="font-bold text-white">Spatial Sound Array</h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   Concert arena line-array acoustic precision delivering bone-rattling audio.
                 </p>
@@ -1054,8 +1047,7 @@ export function LiveNextPageViewportPortal({
 
               <div className="flex flex-col gap-2 p-6 rounded-2xl border border-white/15 bg-white/5 shadow-xl">
                 <span className="text-3xl font-black text-rose-400">30,000+</span>
-                {/* heading-size-ok: portal card title */}
-                <h4 className="text-base font-bold text-white">Arena Fan Energy</h4>
+                <h4 className="font-bold text-white">Arena Fan Energy</h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   High-octane crowd sing-alongs and legendary festival headline performances.
                 </p>
@@ -2324,8 +2316,7 @@ export function WebGLControlDeck({ className = "" }: { className?: string }) {
               <span>Purple Gradient &bull; Shader Mask &bull; Pure Procedural</span>
             </div>
           </div>
-          {/* heading-size-ok: studio title */}
-          <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
+          <h2 className="font-black text-white tracking-tight">
             Transition Parameters &amp; Shader Control Suite
           </h2>
           <p className="text-sm text-zinc-400 mt-1">
@@ -2447,8 +2438,7 @@ export function WebGLControlDeck({ className = "" }: { className?: string }) {
                 }`}
               />
             </span>
-            {/* heading-size-ok: studio subheader */}
-            <h3 className="text-base font-bold text-white tracking-wide">
+            <h3 className="font-bold text-white tracking-wide">
               Time Machine (Live Scrubber &amp; Frame Inspector)
             </h3>
           </div>
@@ -2635,7 +2625,7 @@ export function WebGLControlDeck({ className = "" }: { className?: string }) {
                   </span>
                 </div>
                 {/* heading-size-ok: preset title */}
-                <h4 className="text-sm font-bold text-white">
+                <h4 className="font-bold text-white">
                   {isPageA ? "Page A: Band Showcase & Discography" : "Page B: Concert Experience & Tour Life"}
                 </h4>
                 <p className="text-[11px] text-zinc-400 leading-relaxed">
@@ -2678,7 +2668,7 @@ export function WebGLControlDeck({ className = "" }: { className?: string }) {
                   </span>
                 </div>
                 {/* heading-size-ok: preset title */}
-                <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
+                <h4 className="font-bold text-white flex items-center gap-1.5">
                   {isPageA ? (
                     <>
                       <Flame className="w-3.5 h-3.5 text-amber-400" />
@@ -3771,7 +3761,7 @@ export function WebGLTransitionTuner() {
             <div>
               <div className="flex items-center gap-2">
                 {/* heading-size-ok: floating pill title */}
-                <h2 className="text-sm font-bold text-white tracking-wide">
+                <h2 className="font-bold text-white tracking-wide">
                   Codrops About Studio
                 </h2>
                 <span className="rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-1.5 py-0.5 text-[9px] font-mono">

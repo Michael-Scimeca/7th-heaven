@@ -1792,6 +1792,7 @@ export function FakeLiveStream({
           <div className="relative aspect-video max-h-[40vh] w-full shrink-0 lg:aspect-auto lg:max-h-none lg:flex-1">
             {/* Canvas-based fake live camera feed — updates with cam switcher */}
             <div className="absolute inset-0 h-full overflow-hidden">
+              <CameraFeed crewColor={activeFeedCrew.color} />
               {crewIsLive && (
                 <LiveKitStream
                   room={`live_${activeFeedId === "mike" ? "michael" : activeFeedId}`}

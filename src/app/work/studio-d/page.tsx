@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import ExoTextReveal from "@/components/ExoTextReveal";
 import TransitionLink from "@/components/TransitionLink";
 import { ExternalLink } from "lucide-react";
 
@@ -88,14 +87,8 @@ export default function StudioDPage() {
         >
           <div className="max-w-3xl flex flex-col gap-2">
             {/* Giant Title matching Exo Ape Studio D */}
-            <ExoTextReveal
-              as="h1"
-              className="text-6xl font-light sm:text-8xl md:text-9xl"
-              duration={1.2}
-              stagger={0.1}
-            >
-              Studio D
-            </ExoTextReveal>
+            {/* heading-size-ok: oversized display title for this layout */}
+            <h1 className="text-6xl font-light sm:text-8xl md:text-9xl">Studio D</h1>
             <p>Urban and Landscape Design</p>
           </div>
 

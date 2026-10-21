@@ -155,7 +155,7 @@ export default function SingleDropdownShowcase({
             </span>
             <span className="text-xs text-white/50">Single-Select Pill Variations</span>
           </div>
-          <h2 className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
+          <h2 className="mt-2 font-black tracking-tight text-white">
             Location Dropdown Selector Styles
           </h2>
           <p className="mt-1 text-xs text-white/60 max-w-3xl leading-relaxed">

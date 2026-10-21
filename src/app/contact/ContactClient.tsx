@@ -2,6 +2,7 @@
 /* eslint-disable react-doctor/nextjs-no-img-element */
 
 import { useState } from "react";
+import Link from "next/link";
 import { Mail, Phone, Calendar, Radio, Sliders, Compass } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -147,7 +148,7 @@ export default function ContactClient({
         align="left"
       />
 
-      {/* ── MAIN CONTENT (Mobile/Tablet Stacked, Desktop Split) ── */}
+      {/* ── 1. CONTACT PEOPLE DIRECTORY (FIRST SECTION) ── */}
       <section
         id="contact-team"
         aria-labelledby="contact-team-heading"
@@ -340,11 +341,40 @@ export default function ContactClient({
         </div>
       </section>
 
+      {/* ── 2. BOOKING SECTION (BELOW CONTACT PEOPLE) ── */}
+      <section
+        id="contact-booking-cta"
+        aria-labelledby="contact-booking-heading"
+        className="section relative"
+      >
+        <div className="relative z-10 w-full rounded-[var(--radius-box)] border border-nocturne-mauve/40 bg-gradient-to-r from-nocturne-midnight via-nocturne-wine/40 to-nocturne-midnight p-6 sm:p-8 shadow-[0_8px_32px_rgba(33,14,42,0.5)]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="max-w-2xl">
+              <h2 id="contact-booking-heading" className="font-bold text-white flex items-center gap-2">
+                <span>📅</span> Looking to Book 7th Heaven for an Event?
+              </h2>
+              <p className="mt-2 text-sm sm:text-base text-nocturne-rose leading-relaxed">
+                Check live touring availability, lock in your date, review staging and technical riders, and submit your custom concert request directly online.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <Link
+                href="/book"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-nocturne-rose/50 bg-gradient-to-r from-nocturne-plum to-nocturne-wine px-6 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(83,17,97,0.6)] hover:scale-105 transition-all text-center"
+              >
+                <span>Go to Online Booking Form</span>
+                <span>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── DEPARTMENT INFORMATION & BOOKING GUIDE ── */}
       <section
         id="contact-guide"
         aria-labelledby="contact-guide-heading"
-        className="section border-t border-white/10"
+        className="section"
       >
         <SectionHeader
           id="contact-guide-heading"
@@ -357,7 +387,7 @@ export default function ContactClient({
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Calendar className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Concert & Event Booking</h3>
+              <h3 className="mb-2 font-bold text-white">Concert & Event Booking</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Looking to bring 7th Heaven to your summer festival, county fair, casino ballroom, corporate gala, or
                 private party? With over 100 high-energy concerts annually, our management team provides full tour riders,
@@ -374,7 +404,7 @@ export default function ContactClient({
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Radio className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Press & Media Relations</h3>
+              <h3 className="mb-2 font-bold text-white">Press & Media Relations</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 For radio and television appearances, podcast interviews, press credentials, high-resolution band photos,
                 and feature stories, reach out directly to our public relations and record label team at NTD Records.
@@ -390,7 +420,7 @@ export default function ContactClient({
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Sliders className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Technical Advance & Production</h3>
+              <h3 className="mb-2 font-bold text-white">Technical Advance & Production</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Venue production managers, audio engineers, and stage leads can coordinate technical riders, stage plots,
                 patch lists, lighting requirements, and power specifications directly with our touring production crew.
@@ -406,7 +436,7 @@ export default function ContactClient({
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Compass className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Annual Music Cruise Inquiries</h3>
+              <h3 className="mb-2 font-bold text-white">Annual Music Cruise Inquiries</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Planning to sail with 7th Heaven on our annual Caribbean or European music voyage? Mary Grivas at NTD Vacations
                 assists with cabin selection, VIP concert passes, group rates, airfare, hotel packages, and travel insurance.

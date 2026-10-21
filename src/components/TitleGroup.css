@@ -55,7 +55,7 @@
 .title-group h2,
 .title-group h3,
 .title-group h4 {
-  text-wrap: balance;
+  text-wrap: pretty;
   color: var(--color-text-primary);
 }
 

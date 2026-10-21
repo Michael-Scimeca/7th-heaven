@@ -62,6 +62,18 @@ export default defineType({
       type: "string",
       description: "e.g. 2.4K",
     }),
+    defineField({
+      name: "venue",
+      title: "Venue / Performance Location",
+      type: "string",
+      description: "e.g. Station 34, Durty Nellies, Navy Pier (associates video with tour date pages)",
+    }),
+    defineField({
+      name: "city",
+      title: "City / Market",
+      type: "string",
+      description: "e.g. Mount Prospect, IL or Chicago, IL",
+    }),
   ],
   preview: {
     select: {

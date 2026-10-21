@@ -729,7 +729,7 @@ export function BookingManager({ email }: { email?: string }) {
         {/* Guest List */}
         {booking.guests && booking.guests.length > 0 && (
           <div className="mt-5 border-t border-white/10 pt-5">
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+            <h3 className="mb-3 font-semibold uppercase tracking-wider text-white/60">
               Registered Cabin Guests
             </h3>
             <div className="flex flex-col gap-2">

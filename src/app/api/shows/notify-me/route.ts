@@ -60,10 +60,7 @@ export async function GET(request: Request) {
     }
 
     if (!email) {
-      return NextResponse.json(
-        { error: "Missing email parameter and no active session" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: true, subscriptions: [] });
     }
 
     const filePath = getFilePath();

@@ -3,6 +3,8 @@ import Script from "next/script";
 import localFont from "next/font/local";
 import { Anton, Inter } from "next/font/google";
 import "./globals.css";
+import TextTransitions from "@/components/TextTransition/TextTransitions";
+import PageBlur from "@/components/TextTransition/PageBlur";
 
 const anton = Anton({
   weight: "400",
@@ -39,14 +41,38 @@ const switzer = localFont({
   display: "swap",
 });
 
+const ltLemon = localFont({
+  src: [
+    {
+      path: "../../public/fonts/LTLemon-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-ltlemon",
+  display: "swap",
+});
+
+const quisas = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Quisas.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-quisas",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#05030a" },
-    { media: "(prefers-color-scheme: light)", color: "#05030a" },
+    { media: "(prefers-color-scheme: dark)", color: "#210e2a" },
+    { media: "(prefers-color-scheme: light)", color: "#210e2a" },
   ],
 };
 
@@ -140,6 +166,17 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "./",
     },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
     appleWebApp: {
       capable: true,
       title: "7th Heaven",
@@ -147,15 +184,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     title,
     description,
-    keywords: [
-      "7th Heaven",
-      "7th heaven band",
-      "rock band",
-      "Chicago band",
-      "live music",
-      "concert",
-      "entertainment",
-    ],
     icons: {
       icon: [
         { url: "/favicon.ico" },
@@ -317,7 +345,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${tanker.variable} ${inter.variable} ${switzer.variable} ${anton.variable}`}
+      className={`dark ${tanker.variable} ${inter.variable} ${switzer.variable} ${anton.variable} ${ltLemon.variable} ${quisas.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -412,6 +440,12 @@ export default function RootLayout({
                       <DraftModeExtras />
                     </Suspense>
                     <PageNav />
+                    <Suspense fallback={null}>
+                      <TextTransitions />
+                    </Suspense>
+                    <Suspense fallback={null}>
+                      <PageBlur />
+                    </Suspense>
                     <ClientOnlyExtras />
                     <ServiceWorkerRegister />
                   </div>

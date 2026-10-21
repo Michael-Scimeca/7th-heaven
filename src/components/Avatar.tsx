@@ -35,6 +35,10 @@ export interface AvatarProps {
   unoptimized?: boolean;
   /** Accessible alt text */
   alt?: string;
+  /** Next.js priority flag for above-the-fold / LCP avatars (e.g. Header) */
+  priority?: boolean;
+  /** Loading strategy */
+  loading?: "eager" | "lazy";
   /** Optional click handler */
   onClick?: () => void;
 }
@@ -119,6 +123,8 @@ export function Avatar({
   imageClassName = "",
   unoptimized = true,
   alt,
+  priority = false,
+  loading,
   onClick,
 }: AvatarProps) {
   const [imgError, setImgError] = useState(false);
@@ -192,6 +198,8 @@ export function Avatar({
             width={sizeConfig.pxSize * 2}
             height={sizeConfig.pxSize * 2}
             unoptimized={unoptimized}
+            priority={priority}
+            loading={priority ? undefined : loading}
             onError={() => setImgError(true)}
             className={`h-full w-full object-cover ${roundedClass} ${imageClassName}`}
           />

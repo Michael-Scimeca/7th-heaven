@@ -1,7 +1,7 @@
 /* eslint-disable react-doctor/iframe-missing-sandbox */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import SeventhButton from "@/components/SeventhButton";
 import Button from "@/components/Button";
@@ -10,6 +10,29 @@ import AddCmsButton from "@/components/AddCmsButton";
 import SectionHeader from "@/components/SectionHeader";
 import PageHero from "@/components/PageHero";
 import { getMediaUrl } from "@/lib/sanity";
+import {
+  BookOpen,
+  Tv,
+  Guitar,
+  Compass,
+  Film,
+  Palette,
+  Gamepad2,
+  Heart,
+  Sparkles,
+  Newspaper,
+  Play,
+  ExternalLink,
+  Shield,
+  Music,
+  Users,
+  Award,
+  Flame,
+  Star,
+  CheckCircle2,
+  Sliders,
+  ChevronRight,
+} from "lucide-react";
 
 const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
@@ -499,13 +522,48 @@ function getFoundersList(sanityContent: any) {
   });
 }
 
+export const COMIC_LAYOUT_PRESETS = [
+  { id: 1, name: "Split Stage", desc: "Hero Issue #1 Showcase + 4-Col Grid", icon: "BookOpen" },
+  { id: 2, name: "Bento Universe", desc: "Large 2x2 Feature Issue + Dynamic Asymmetric Tiles", icon: "Grid" },
+  { id: 3, name: "Editorial Broadside", desc: "Full-Width Issue #1 Cinema Banner + 3-Col Archive", icon: "Columns" },
+  { id: 4, name: "Collector Spotlight", desc: "Two Large Side-by-Side Headliners (Episodes & Artbook)", icon: "Flame" },
+  { id: 5, name: "Interactive Reader", desc: "50/50 Sticky Left Feature Viewer + Right Issue Queue", icon: "Sliders" },
+  { id: 6, name: "Vintage Comic Stand", desc: "Oversized Center Showcase + Tilted Comic Cards", icon: "Palette" },
+  { id: 7, name: "Glassmorphic Vault", desc: "Luxury Frosted Purple Ultra-Card + Glow Pods", icon: "Sparkles" },
+  { id: 8, name: "Story Timeline", desc: "Full-Width Story Arc Timeline with Large Issue Cards", icon: "Film" },
+  { id: 9, name: "Staggered Stream", desc: "Alternating 2-Col Featured Issues with Deep Synopses", icon: "Star" },
+  { id: 10, name: "Magazine Cover Story", desc: "Big Editorial Typography & Press Review Format", icon: "Newspaper" },
+  { id: 11, name: "Comic Carousel Strip", desc: "Cinematic Marquee Hero + Horizontal Scrolling Reel", icon: "Film" },
+  { id: 12, name: "Sticky Archive Sidebar", desc: "Sticky 1/3 Feature Panel + 2/3 Dense Book Grid", icon: "Sliders" },
+  { id: 13, name: "Triptych Anthology", desc: "3 Equal Balanced Epic Covers + Micro Ribbons", icon: "Layers" },
+  { id: 14, name: "Issue Accordion Strip", desc: "Full-Bleed Numbered Episode Chapter Slices", icon: "Sliders" },
+  { id: 15, name: "Retail Metro Grid", desc: "Modern Clean 4-Col Grid with Direct Amazon Badges", icon: "BookOpen" },
+  { id: 16, name: "Golden Ratio 62/38", desc: "Harmonic 62% Primary Feature Canvas + 38% Stack", icon: "Grid" },
+  { id: 17, name: "Billboard Marquee", desc: "Ultra-Wide 24:9 Panoramic Marquee + 5-Col Micro Grid", icon: "Music" },
+  { id: 18, name: "Brutalist Neon", desc: "Hard Black Borders, Neon Yellow Offsets & Code Chips", icon: "Flame" },
+  { id: 19, name: "Compact Vault Matrix", desc: "High-Density 5-Col Quick-Access Book Catalog", icon: "Star" },
+  { id: 20, name: "Chronicle Odyssey", desc: "Full-Bleed Center-Stage Timeline with Illuminated Trail", icon: "Sparkles" },
+] as const;
+
 export default function RockNRollKidsClient({
   sanityContent,
 }: {
   sanityContent?: any;
 }) {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
-  const [storyLayout, setStoryLayout] = useState<"1" | "2" | "3" | "4">("1");
+  const [bookFilter, setBookFilter] = useState<"all" | "episodes" | "art">("all");
+  const [comicLayout, setComicLayout] = useState<number>(3);
+
+  // Sync layout from URL (?layout=1..20)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get("layout");
+    if (param) {
+      const parsed = parseInt(param, 10);
+      if (parsed >= 1 && parsed <= 20) setComicLayout(parsed);
+    }
+  }, []);
 
   const aboutSection = sanityContent?.sections?.find(
     (s: any) => s.sectionId === "about",
@@ -524,69 +582,77 @@ export default function RockNRollKidsClient({
     (v: any) => v.id !== selectedVideo,
   );
 
+  const filteredProducts = productsList.filter((prod: any) => {
+    if (bookFilter === "episodes") return prod.badge.startsWith("Episode");
+    if (bookFilter === "art") return !prod.badge.startsWith("Episode");
+    return true;
+  });
+
   const titleText = aboutSection?.title || "Story & Concept";
   const badgeText = aboutSection?.badge || "We love art";
   const para1 = aboutSection?.subtitle || ABOUT_DATA.paragraph1;
   const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
   return (
-    <main className="site-container page-container page-stack min-h-screen w-full overflow-x-hidden">
-      {/* Hero Header */}
-      <PageHero
-        title={sanityContent?.heroHeading || ABOUT_DATA.headline}
-        titleId="rrk-hero-heading"
-        subtitle={
-          sanityContent?.heroSubheading ||
-          "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."
-        }
-        align="left"
-        className="mb-6"
-      >
-        {/* Hero image lineup */}
-        <div className="relative mt-6 w-full">
-          <Image
-            src={getMediaUrl(
-              sanityContent?.heroBannerImage,
-              "/images/7hrrk/c-all.png",
-            )}
-            alt={
-              sanityContent?.heroHeading ||
-              "7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
-            }
-            width={1918}
-            height={748}
-            className="mx-auto h-auto w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
-            priority
-          />
+    <main className="site-container page-container page-stack min-h-screen w-full overflow-x-hidden" id="rrk-main-page">
+      {/* ── HERO: COMIC UNIVERSE (Split Issue #1 Showcase + Cast Lineup) ── */}
+      <section id="rrk-hero" aria-labelledby="rrk-hero-heading" className="section pt-0">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h1 id="rrk-hero-heading" className="font-extrabold tracking-tight text-white">
+              7th Heaven &amp; The <span className="bg-gradient-to-r from-amber-400 via-rose-400 to-purple-400 bg-clip-text text-transparent">Rock &apos;n&apos; Roll Kids</span>
+            </h1>
+            <p className="mt-4 text-base text-white/80 leading-relaxed sm:text-lg max-w-2xl">
+              {sanityContent?.heroSubheading ||
+                "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href="#rrk-comics"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-purple-900/40 hover:scale-105 transition-all"
+              >
+                <BookOpen className="h-4 w-4" />
+                Explore Comic Books ({productsList.length} Titles)
+              </a>
+              <a
+                href="#rrk-videos"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-white transition-all"
+              >
+                <Play className="h-4 w-4 text-purple-400" />
+                Watch Animated Singles
+              </a>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <div className="relative overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-b from-purple-900/20 to-black/60 p-4 shadow-2xl">
+              <Image
+                src={getMediaUrl(
+                  sanityContent?.heroBannerImage,
+                  "/images/7hrrk/c-all.png",
+                )}
+                alt="7th Heaven Rock 'n' Roll Kids"
+                width={1918}
+                height={748}
+                className="h-auto w-full object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]"
+                priority
+              />
+            </div>
+          </div>
         </div>
-      </PageHero>
+      </section>
 
       {/* ── STORY & CONCEPT SECTION ── */}
       <section
         id="rrk-story"
         aria-labelledby="rrk-story-heading"
-        className="section"
+        className="section pt-0"
       >
         <div className="w-full">
-          {/* Section Header */}
-          <div className="mb-8 border-b border-white/10 pb-6">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-
-              <span className="font-mono text-xs tracking-widest text-purple-300/80 uppercase">
-                Animated Series &amp; Universe
-              </span>
-            </div>
-            {/* heading-size-ok: series banner title */}
-            <h2
-              id="rrk-story-heading"
-              className="mb-3 text-3xl racking-tight leading-tight text-white sm:text-4xl md:text-5xl"
-            >
-              {titleText}
-            </h2>
-            <p className="max-w-4xl text-base font-medium leading-relaxed text-white/70 sm:text-lg md:text-xl">
-              An original animated series &amp; multi-platform universe bringing positive rock and roll energy to kids worldwide.
-            </p>
-          </div>
+          <SectionHeader
+            id="rrk-story-heading"
+            title={titleText}
+            visuallyHidden
+          />
 
           {/* Merged Content Grid */}
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
@@ -612,7 +678,7 @@ export default function RockNRollKidsClient({
             <div className="flex flex-col justify-center gap-4 lg:col-span-5">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-500/10 text-cyan-300">
-                  📺
+                  <Tv className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-white uppercase">
@@ -626,7 +692,7 @@ export default function RockNRollKidsClient({
 
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-400/40 bg-emerald-500/10 text-emerald-300">
-                  🎸
+                  <Guitar className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-white uppercase">
@@ -640,7 +706,7 @@ export default function RockNRollKidsClient({
 
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-500/10 text-purple-300">
-                  ✨
+                  <Sparkles className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-white uppercase">
@@ -669,26 +735,26 @@ export default function RockNRollKidsClient({
           {charactersList.map((char: any) => (
             <article
               key={char.name}
-              className="group flex flex-col justify-between"
+              className="group flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 hover:border-purple-500/40 hover:bg-white/[0.06] hover:shadow-xl hover:shadow-purple-950/20"
             >
               <div>
                 {char.image && (
-                  <div className="relative mb-6 flex h-44 w-full items-center justify-start overflow-hidden">
+                  <div className="relative mb-5 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-black/40 p-2">
                     <Image
                       src={char.image}
                       alt={char.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-contain object-left mb-6"
+                      className="object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
                 )}
-                <div className="mb-2 flex items-center gap-1.5 text-xs font-bold tracking-wider text-purple-400 uppercase font-mono">
+                <div className={`mb-2 inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[11px] font-bold tracking-wider uppercase font-mono border ${char.color || "text-purple-400 border-purple-500/30 bg-purple-500/10"}`}>
                   {char.icon ? <char.icon className="h-3.5 w-3.5" /> : null}
                   <span>{char.role}</span>
                 </div>
-                <h3 className="mb-1">{char.name}</h3>
-                <p>{char.desc}</p>
+                <h3 className="mb-1 font-bold text-white tracking-tight">{char.name}</h3>
+                <p className="text-xs text-white/70 leading-relaxed">{char.desc}</p>
               </div>
             </article>
           ))}
@@ -783,44 +849,1126 @@ export default function RockNRollKidsClient({
           />
         </div>
 
-        {/* 12-Item Book Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {productsList.map((prod: any) => (
-            <article
-              key={prod.id}
-              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0b0718]/90 p-4 shadow-lg transition-all duration-300 hover:border-white/20 hover:shadow-purple-950/30"
-            >
-              <div>
-                <div className="relative mb-3 aspect-[3/4] w-full overflow-hidden rounded-[calc(var(--radius-box)-6px)] bg-black/40">
-                  <Image
-                    src={prod.coverImg}
-                    alt={`${prod.title} book cover`}
-                    fill
-                    loading="lazy"
-                    decoding="async"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <span className="mb-1 block text-muted text-xs font-semibold uppercase">{prod.badge}</span>
-                <h3 className="line-clamp-1 text-white">{prod.title}</h3>
-                <p className="mb-6 line-clamp-2 text-secondary text-sm">{prod.desc}</p>
+        {/* ── 20 COMIC LAYOUT PRESETS EXPLORER BAR ── */}
+        <div className="mb-8 rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 p-4 backdrop-blur-xl shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse" />
+              <h2 className="font-bold uppercase tracking-wider text-white">
+                Rock &apos;n&apos; Roll Kids — 20 Comic &amp; Book Layout Presets
+              </h2>
+            </div>
+            <div className="flex items-center gap-4 text-xs">
+              <span className="text-purple-300 font-medium">
+                Layout {comicLayout} of 20: <strong className="text-white">{COMIC_LAYOUT_PRESETS[comicLayout - 1]?.name}</strong> ({COMIC_LAYOUT_PRESETS[comicLayout - 1]?.desc})
+              </span>
+              {/* Category Filter Pills */}
+              <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 p-1">
+                {(["all", "episodes", "art"] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    type="button"
+                    onClick={() => setBookFilter(filter)}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold capitalize transition-all ${
+                      bookFilter === filter
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-900/50"
+                        : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {filter === "all" ? "All Items" : filter === "episodes" ? "Episodes 1-9" : "Art & Volumes"}
+                  </button>
+                ))}
               </div>
+            </div>
+          </div>
 
-              <Button
-                variant="secondary"
-                size="sm"
-                fullWidth
-                href={prod.amazonUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Buy ${prod.title} on Amazon (opens in new tab)`}
-              >
-                Amazon Link
-              </Button>
-            </article>
-          ))}
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5 sm:gap-2">
+            {COMIC_LAYOUT_PRESETS.map((p) => {
+              const active = comicLayout === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    setComicLayout(p.id);
+                    if (typeof window !== "undefined") {
+                      const url = new URL(window.location.href);
+                      url.searchParams.set("layout", p.id.toString());
+                      window.history.replaceState({}, "", url.toString());
+                    }
+                  }}
+                  className={`flex flex-col items-center justify-center rounded-xl p-2 sm:p-2.5 text-center transition-all cursor-pointer ${
+                    active
+                      ? "bg-gradient-to-br from-amber-500 via-rose-600 to-purple-700 text-white shadow-lg shadow-purple-900/50 border border-amber-300"
+                      : "bg-white/[0.04] text-white/70 hover:bg-white/[0.08] hover:text-white border border-white/5"
+                  }`}
+                >
+                  <span className="text-[11px] font-bold tracking-tight">#{p.id}</span>
+                  <span className="mt-0.5 text-[9px] sm:text-[10px] font-semibold truncate max-w-full">{p.name}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
+
+        {/* ── LAYOUT RENDERER (10 ARCHITECTURES) ── */}
+        {(() => {
+          const leadItem = filteredProducts[0] || productsList[0];
+          const remainingItems = filteredProducts.slice(1);
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 1: SPLIT STAGE (Oversized Issue #1 Hero + 4-Col Grid)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 1) {
+            return (
+              <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="relative overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-r from-purple-950/60 via-black to-black p-6 sm:p-8 shadow-2xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      <div className="lg:col-span-5 relative aspect-[3/4] max-h-[440px] w-full overflow-hidden rounded-2xl border border-white/15 bg-black/60 shadow-2xl">
+                        <Image
+                          src={leadItem.coverImg}
+                          alt={leadItem.title}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 40vw"
+                          className="object-cover"
+                          priority
+                        />
+                        <div className="absolute top-3 left-3 bg-amber-400 text-black text-[11px] font-black uppercase px-3 py-1 rounded-full shadow">
+                          ★ Featured Series Anchor
+                        </div>
+                      </div>
+                      <div className="lg:col-span-7 flex flex-col justify-between gap-4">
+                        <div>
+                          <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-300">
+                            {leadItem.badge} &bull; Official Comic Book
+                          </span>
+                          <h3 className="font-extrabold text-white mt-1">
+                            {leadItem.title}
+                          </h3>
+                          <p className="text-xs text-white/60 mt-1">{leadItem.subtitle}</p>
+                          <p className="text-sm sm:text-base text-white/90 leading-relaxed mt-4 italic border-l-2 border-purple-400/80 pl-4">
+                            &ldquo;{leadItem.desc}&rdquo;
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3 pt-2">
+                          <Button
+                            variant="primary"
+                            size="md"
+                            href={leadItem.amazonUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            icon={<ExternalLink className="h-4 w-4" />}
+                          >
+                            Order on Amazon ($9.99)
+                          </Button>
+                          <span className="text-xs text-white/60">
+                            Available in Paperback &amp; Kindle eBook formats worldwide
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {remainingItems.map((prod: any) => (
+                    <article
+                      key={prod.id}
+                      className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0b0718]/90 p-4 shadow-lg transition-all duration-300 hover:border-purple-400/40 hover:bg-white/[0.05]"
+                    >
+                      <div>
+                        <div className="relative mb-3 aspect-[3/4] w-full overflow-hidden rounded-[calc(var(--radius-box)-6px)] bg-black/40">
+                          <Image
+                            src={prod.coverImg}
+                            alt={`${prod.title} book cover`}
+                            fill
+                            loading="lazy"
+                            decoding="async"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
+                        <span className="mb-1 block text-muted text-xs font-semibold uppercase">{prod.badge}</span>
+                        <h4 className="line-clamp-1 text-white font-bold">{prod.title}</h4>
+                        <p className="mb-6 line-clamp-2 text-secondary text-sm">{prod.desc}</p>
+                      </div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        fullWidth
+                        href={prod.amazonUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Buy ${prod.title} on Amazon`}
+                      >
+                        Amazon Link
+                      </Button>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 2: BENTO UNIVERSE (Large 2x2 Feature Issue + Bento Cards)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 2) {
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any, idx: number) => {
+                  const isLarge = idx === 0;
+                  const isWide = idx === 3 || idx === 7;
+                  return (
+                    <article
+                      key={prod.id}
+                      className={`group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0c0819] p-4 flex flex-col justify-between transition-all hover:border-amber-400/50 hover:shadow-2xl ${
+                        isLarge ? "sm:col-span-2 sm:row-span-2 min-h-[440px]" : isWide ? "sm:col-span-2 min-h-[260px]" : "min-h-[220px]"
+                      }`}
+                    >
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-black/60 flex-1 min-h-[160px]">
+                        <Image
+                          src={prod.coverImg}
+                          alt={prod.title}
+                          fill
+                          sizes={isLarge ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-2.5 left-2.5 bg-black/75 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-amber-300 backdrop-blur-md">
+                          {prod.badge}
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <h4 className={`${isLarge ? "text-xl sm:text-2xl" : "text-sm"} font-bold text-white line-clamp-1`}>
+                          {prod.title}
+                        </h4>
+                        <p className="text-xs text-white/70 line-clamp-2 mt-1">{prod.desc}</p>
+                        <div className="mt-3">
+                          <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            View on Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 3: EDITORIAL BROADSIDE (Full-Width Cinema Banner + Archive)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 3) {
+            return (
+              <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="group relative overflow-hidden rounded-[var(--radius-box)] border border-purple-500/40 bg-black shadow-2xl">
+                    <div className="relative aspect-[21/9] min-h-[340px] w-full overflow-hidden">
+                      <Image
+                        src={leadItem.coverImg}
+                        alt={leadItem.title}
+                        fill
+                        sizes="100vw"
+                        className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        priority
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6 sm:p-10 flex flex-col justify-end">
+                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-300">
+                          ★ Volume 1 Premier Broadside &bull; {leadItem.badge}
+                        </span>
+                        <h3 className="mt-2 font-extrabold text-white">
+                          {leadItem.title}
+                        </h3>
+                        <p className="mt-2 max-w-2xl text-sm sm:text-base text-white/90 line-clamp-2 italic">
+                          &ldquo;{leadItem.desc}&rdquo;
+                        </p>
+                        <div className="mt-4 flex items-center gap-3">
+                          <Button variant="primary" size="sm" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Buy Premier Edition on Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {remainingItems.map((prod: any) => (
+                    <article
+                      key={prod.id}
+                      className="group flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-4 hover:border-purple-400/40 hover:bg-white/[0.05] transition-all"
+                    >
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-black/50 mb-3">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform" />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold uppercase text-purple-300">{prod.badge}</span>
+                        <h4 className="font-bold text-white mt-0.5">{prod.title}</h4>
+                        <p className="text-xs text-white/70 line-clamp-2 mt-1">{prod.desc}</p>
+                      </div>
+                      <div className="mt-4">
+                        <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Amazon Link
+                        </Button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 4: COLLECTOR SPOTLIGHT (Two Large Side-by-Side Headliners)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 4) {
+            const headliner1 = filteredProducts[0];
+            const headliner2 = filteredProducts[1];
+            const rest = filteredProducts.slice(2);
+            return (
+              <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {[
+                    { item: headliner1, tag: "Headliner 1: Series Premier" },
+                    { item: headliner2, tag: "Headliner 2: Hit Adventure" },
+                  ].map(
+                    (head, i) =>
+                      head.item && (
+                        <div
+                          key={head.item.id || head.tag}
+                          className="group relative overflow-hidden rounded-[var(--radius-box)] border-2 border-purple-500/40 bg-[#0d081f] p-5 shadow-2xl transition-all hover:border-amber-400 flex flex-col sm:flex-row gap-5 items-center"
+                        >
+                          <div className="relative aspect-[3/4] w-44 shrink-0 overflow-hidden rounded-xl bg-black shadow-xl">
+                            <Image src={head.item.coverImg} alt={head.item.title} fill sizes="176px" className="object-cover group-hover:scale-105 transition-transform duration-500" priority />
+                          </div>
+                          <div className="flex flex-col justify-between gap-3">
+                            <span className="text-[11px] font-mono font-bold uppercase text-amber-300">{head.tag}</span>
+                            <h3 className="font-bold text-white">{head.item.title}</h3>
+                            <p className="text-xs text-white/80 line-clamp-3 italic">&ldquo;{head.item.desc}&rdquo;</p>
+                            <Button variant="primary" size="sm" href={head.item.amazonUrl} target="_blank" rel="noopener noreferrer" className="mt-2">
+                              Get on Amazon
+                            </Button>
+                          </div>
+                        </div>
+                      ),
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {rest.map((prod: any) => (
+                    <article key={prod.id} className="group rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-3 hover:border-purple-400/50 transition-all flex flex-col justify-between">
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black mb-2">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover group-hover:scale-105 transition-transform" />
+                      </div>
+                      <h4 className="font-bold text-white truncate">{prod.title}</h4>
+                      <p className="text-[11px] text-white/60 truncate">{prod.badge}</p>
+                      <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-[10px]">
+                        Amazon
+                      </Button>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 5: INTERACTIVE READER (50/50 Sticky Left Feature Viewer + Right Queue)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 5) {
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="lg:col-span-6 sticky top-24 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/20 p-6 backdrop-blur-xl shadow-2xl flex flex-col gap-5">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-white/10 bg-black">
+                      <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain" priority />
+                      <div className="absolute top-3 left-3 rounded-full bg-amber-400 text-black px-3 py-1 text-xs font-bold uppercase tracking-wider">
+                        Active Comic Spotlight
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-xs font-mono uppercase text-amber-300">{leadItem.badge}</span>
+                      <h3 className="font-bold text-white mt-1">{leadItem.title}</h3>
+                      <p className="text-sm text-white/80 mt-2 leading-relaxed bg-black/40 p-3 rounded-lg border border-white/5 italic">
+                        &ldquo;{leadItem.desc}&rdquo;
+                      </p>
+                      <div className="mt-4 flex gap-3">
+                        <Button variant="primary" size="md" fullWidth href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Purchase on Amazon
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="lg:col-span-6 flex flex-col gap-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-purple-300 flex items-center gap-2 mb-1">
+                    <Sliders className="h-4 w-4" /> Issue Catalog Archive ({remainingItems.length})
+                  </span>
+                  {remainingItems.map((prod: any) => (
+                    <div key={prod.id} className="group flex gap-3.5 p-3 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-purple-400/40 transition-all items-center">
+                      <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-black">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="64px" className="object-cover" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] font-bold uppercase text-purple-300">{prod.badge}</span>
+                        <h4 className="font-bold text-white truncate">{prod.title}</h4>
+                        <p className="text-xs text-white/60 line-clamp-1 italic mt-0.5">&ldquo;{prod.desc}&rdquo;</p>
+                      </div>
+                      <Button variant="secondary" size="sm" href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="shrink-0">
+                        Buy
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 6: VINTAGE COMIC STAND (Oversized Center Showcase + Tilted Cards)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 6) {
+            return (
+              <div className="flex flex-col gap-10 items-center [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="group bg-[#fcfcfd] text-black p-6 pb-8 rounded-sm shadow-2xl transition-transform hover:scale-[1.01] -rotate-1 max-w-xl w-full border border-neutral-300">
+                    <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/95 rounded-sm">
+                      <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 768px) 100vw, 576px" className="object-cover" priority />
+                      <div className="absolute top-3 left-3 bg-red-600 text-white font-mono text-[10px] font-bold uppercase px-2.5 py-1 tracking-widest shadow">
+                        ★ Issue of the Month
+                      </div>
+                    </div>
+                    <div className="mt-5 text-center font-sans">
+                      <p className="text-xl font-bold text-neutral-900 tracking-tight">{leadItem.title}</p>
+                      <p className="text-xs text-neutral-500 mt-1 uppercase font-medium tracking-wider">{leadItem.badge} &bull; 7th Heaven Kids</p>
+                      <p className="text-sm text-neutral-700 mt-3 font-serif italic max-w-md mx-auto">&ldquo;{leadItem.desc}&rdquo;</p>
+                      <div className="mt-4">
+                        <Button variant="primary" size="sm" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Order Collector Issue on Amazon
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+                  {remainingItems.map((prod: any, i: number) => {
+                    const rotation = i % 3 === 0 ? "hover:rotate-2 rotate-1" : i % 3 === 1 ? "hover:-rotate-2 -rotate-1" : "hover:rotate-1";
+                    return (
+                      <div key={prod.id} className={`group bg-[#f8f8fa] text-black p-4 pb-6 rounded-sm shadow-xl transition-all hover:-translate-y-1.5 ${rotation}`}>
+                        <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/90 rounded-sm">
+                          <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                        </div>
+                        <div className="mt-4 text-center font-sans">
+                          <p className="text-sm font-bold text-neutral-900 tracking-tight">{prod.title}</p>
+                          <p className="text-xs text-neutral-600 mt-0.5">{prod.badge}</p>
+                          <p className="text-xs text-neutral-700 mt-2 font-serif italic line-clamp-2">&ldquo;{prod.desc}&rdquo;</p>
+                          <div className="mt-3">
+                            <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="!bg-neutral-200 !text-neutral-900 hover:!bg-neutral-300">
+                              Amazon Link
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 7: GLASSMORHPIC VAULT (Luxury Frosted Ultra-Card + Pods)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 7) {
+            return (
+              <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="group relative overflow-hidden rounded-[var(--radius-box)] border border-purple-400/40 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-black p-6 sm:p-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/50">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      <div className="lg:col-span-5 relative aspect-[3/4] max-h-[420px] w-full overflow-hidden rounded-xl border border-white/15 bg-black/60 shadow-2xl">
+                        <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover group-hover:scale-105 transition-transform duration-700" priority />
+                        <div className="absolute top-3 left-3 rounded-full bg-purple-600/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md">
+                          ★ Ultra Comic Vault
+                        </div>
+                      </div>
+                      <div className="lg:col-span-7 flex flex-col justify-between gap-4">
+                        <div>
+                          <span className="text-xs font-mono uppercase text-amber-300 tracking-wider">{leadItem.badge}</span>
+                          <h3 className="mt-1 font-bold text-white tracking-tight">{leadItem.title}</h3>
+                          <p className="text-xs text-white/50 mt-1">{leadItem.subtitle}</p>
+                          <blockquote className="mt-4 border-l-2 border-purple-400/80 pl-4 text-sm text-white/80 italic leading-relaxed">
+                            &ldquo;{leadItem.desc}&rdquo;
+                          </blockquote>
+                        </div>
+                        <Button variant="primary" size="md" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer" className="w-fit">
+                          Acquire Vault Edition on Amazon
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {remainingItems.map((prod: any) => (
+                    <article key={prod.id} className="group rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 p-4 backdrop-blur-2xl shadow-xl hover:border-purple-400 hover:bg-purple-950/40 transition-all flex flex-col justify-between">
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/10 bg-black/50 mb-3">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform" />
+                      </div>
+                      <div>
+                        <span className="rounded-full border border-purple-400/40 bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase text-purple-300">{prod.badge}</span>
+                        <h4 className="font-bold text-white mt-1">{prod.title}</h4>
+                        <p className="text-xs text-white/70 line-clamp-2 mt-1">{prod.desc}</p>
+                      </div>
+                      <div className="mt-4">
+                        <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Amazon Link
+                        </Button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 8: STORY TIMELINE (Full-Width Story Arc Timeline with Large Issue Cards)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 8) {
+            return (
+              <div className="flex flex-col gap-6 [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any, idx: number) => (
+                  <div key={prod.id} className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:border-amber-400/40 transition-all">
+                    <div className="md:col-span-3 relative aspect-[3/4] max-h-[220px] overflow-hidden rounded-xl bg-black">
+                      <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
+                      <div className="absolute top-2 left-2 bg-black/80 px-2 py-0.5 rounded text-[10px] font-bold text-amber-300">
+                        Issue #{idx + 1}
+                      </div>
+                    </div>
+                    <div className="md:col-span-9 flex flex-col justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-2 text-xs text-purple-300 font-semibold uppercase tracking-wider">
+                          <Flame className="h-3.5 w-3.5 text-amber-400" /> {prod.badge} &bull; Story Arc Part {idx + 1}
+                        </div>
+                        <h3 className="font-bold text-white mt-1">{prod.title}</h3>
+                        <p className="text-xs text-white/60">{prod.subtitle}</p>
+                        <p className="text-sm text-white/80 mt-2 leading-relaxed">&ldquo;{prod.desc}&rdquo;</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Button variant="primary" size="sm" href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Read Issue on Amazon
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 9: STAGGERED STREAM (Alternating 2-Col Featured Issues)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 9) {
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any, i: number) => {
+                  const isLarge = i === 0 || i === 4;
+                  return (
+                    <article
+                      key={prod.id}
+                      className={`group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] hover:border-amber-400/50 transition-all p-4 flex flex-col justify-between ${
+                        isLarge ? "sm:col-span-2 min-h-[380px]" : "min-h-[260px]"
+                      }`}
+                    >
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-black/50 mb-3 flex-1 min-h-[180px]">
+                        <Image
+                          src={prod.coverImg}
+                          alt={prod.title}
+                          fill
+                          sizes={isLarge ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute top-2.5 left-2.5 bg-black/80 px-2.5 py-0.5 rounded text-[10px] font-bold uppercase text-amber-300">
+                          {isLarge ? "★ Key Comic Arc" : prod.badge}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className={`${isLarge ? "text-xl sm:text-2xl" : "text-base"} font-bold text-white line-clamp-1`}>{prod.title}</h4>
+                        <p className="text-xs text-white/70 line-clamp-2 mt-1">{prod.desc}</p>
+                      </div>
+                      <div className="mt-3">
+                        <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Amazon Link
+                        </Button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 10: MAGAZINE COVER STORY (Big Editorial Press Review Format)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 10) {
+            return (
+              <div className="flex flex-col gap-10 border-t-2 border-white/20 pt-6 [overflow-anchor:auto]">
+                <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
+                  <h3 className="font-serif font-black uppercase text-white tracking-tight">
+                    COMIC CHRONICLES &bull; DISPATCH
+                  </h3>
+                  <span className="font-serif italic text-sm text-white/60">The Rock &apos;n&apos; Roll Kids Anthology</span>
+                </div>
+
+                {leadItem && (
+                  <div className="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-10">
+                    <div className="lg:col-span-5 relative aspect-[3/4] max-h-[460px] w-full overflow-hidden rounded-xl bg-black">
+                      <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover group-hover:scale-105 transition-transform duration-700" priority />
+                      <div className="absolute top-4 left-4 bg-white text-black font-serif text-xs font-bold uppercase px-3 py-1 tracking-widest">
+                        Volume Cover Story
+                      </div>
+                    </div>
+                    <div className="lg:col-span-7 flex flex-col gap-3 font-serif">
+                      <span className="text-xs uppercase tracking-widest text-amber-300 font-sans font-bold">
+                        {leadItem.badge} &bull; Premier Story Release
+                      </span>
+                      <h4 className="font-bold text-white leading-tight">
+                        {leadItem.title}
+                      </h4>
+                      <p className="text-sm sm:text-base text-white/80 leading-relaxed italic mt-2">
+                        &ldquo;{leadItem.desc}&rdquo;
+                      </p>
+                      <div className="mt-4">
+                        <Button variant="primary" size="md" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Order Issue on Amazon
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {remainingItems.map((prod: any) => (
+                    <article key={prod.id} className="group border-b border-white/10 pb-6 flex flex-col justify-between">
+                      <div>
+                        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black mb-3">
+                          <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform" />
+                        </div>
+                        <span className="font-serif text-xs text-white/60">{prod.badge}</span>
+                        <h4 className="mt-1 font-serif font-bold text-white group-hover:text-amber-300 transition-colors">
+                          {prod.title}
+                        </h4>
+                        <p className="mt-1 font-serif text-xs text-white/75 leading-relaxed italic line-clamp-2">
+                          &ldquo;{prod.desc}&rdquo;
+                        </p>
+                      </div>
+                      <div className="mt-4">
+                        <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Read on Amazon
+                        </Button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 11: COMIC CAROUSEL STRIP (Cinematic Marquee + Reel)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 11) {
+            return (
+              <div className="flex flex-col gap-10 [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="group relative overflow-hidden rounded-[var(--radius-box)] border border-amber-500/30 bg-gradient-to-t from-black via-zinc-950 to-black p-6 sm:p-8 shadow-2xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      <div className="lg:col-span-5 relative aspect-[3/4] max-h-[420px] w-full overflow-hidden rounded-2xl bg-black border border-white/10">
+                        <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover group-hover:scale-105 transition-transform duration-700" priority />
+                        <div className="absolute top-3 left-3 rounded-full bg-amber-400 text-black px-3 py-1 text-xs font-black uppercase">
+                          Featured Reel
+                        </div>
+                      </div>
+                      <div className="lg:col-span-7 flex flex-col gap-3">
+                        <span className="text-xs uppercase font-mono tracking-widest text-amber-400 font-bold">
+                          {leadItem.badge} &bull; Premier Issue
+                        </span>
+                        <h3 className="font-extrabold text-white">
+                          {leadItem.title}
+                        </h3>
+                        <p className="text-xs text-white/60">{leadItem.subtitle}</p>
+                        <p className="text-sm text-white/80 leading-relaxed italic mt-2">
+                          &ldquo;{leadItem.desc}&rdquo;
+                        </p>
+                        <div className="mt-4 flex gap-3">
+                          <Button variant="primary" size="md" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Buy on Amazon &rarr;
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                    <div className="flex items-center gap-2">
+                      <Film className="h-4 w-4 text-amber-400" />
+                      <h4 className="font-mono uppercase tracking-wider text-white">Issue Reel Ribbon</h4>
+                    </div>
+                    <span className="text-xs text-white/50">Scroll horizontally &rarr;</span>
+                  </div>
+                  <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory custom-scrollbar">
+                    {remainingItems.map((prod: any) => (
+                      <div
+                        key={prod.id}
+                        className="group min-w-[220px] sm:min-w-[260px] shrink-0 snap-start rounded-2xl border border-white/10 bg-zinc-950 p-3 hover:border-amber-400/60 transition-all shadow-lg flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-black mb-3">
+                            <Image src={prod.coverImg} alt={prod.title} fill sizes="260px" className="object-cover group-hover:scale-105 transition-transform" />
+                            <div className="absolute top-2 left-2 bg-black/80 text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded">
+                              {prod.badge}
+                            </div>
+                          </div>
+                          <h4 className="font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1">{prod.title}</h4>
+                          <p className="text-xs text-white/60 line-clamp-2 mt-1">{prod.desc}</p>
+                        </div>
+                        <div className="mt-3 pt-2 border-t border-white/10">
+                          <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 12: STICKY ARCHIVE SIDEBAR (Sticky 1/3 + 2/3 Dense)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 12) {
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="lg:col-span-5 lg:sticky lg:top-24">
+                    <div className="group relative overflow-hidden rounded-[var(--radius-box)] border border-cyan-400/30 bg-cyan-950/20 p-6 backdrop-blur-xl shadow-2xl">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                        <span className="text-xs font-mono font-bold uppercase text-cyan-400 tracking-wider">Spotlight Anthology</span>
+                        <span className="text-xs text-white/60">{leadItem.badge}</span>
+                      </div>
+                      <div className="relative aspect-[3/4] max-h-[380px] w-full overflow-hidden rounded-2xl bg-black">
+                        <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 1024px) 100vw, 40vw" priority className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="mt-4 flex flex-col gap-2">
+                        <h3 className="font-black text-white group-hover:text-cyan-300 transition-colors">
+                          {leadItem.title}
+                        </h3>
+                        <p className="text-xs font-mono text-cyan-300">{leadItem.subtitle}</p>
+                        <p className="text-sm text-white/80 italic mt-1 leading-relaxed">&ldquo;{leadItem.desc}&rdquo;</p>
+                        <div className="mt-4">
+                          <Button variant="primary" size="md" fullWidth href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Order Issue on Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                  <div className="border-b border-white/10 pb-3 flex items-center justify-between">
+                    <h4 className="font-bold uppercase tracking-wider text-white">Full Series Archive</h4>
+                    <span className="text-xs text-white/50">{remainingItems.length} Issues</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {remainingItems.map((prod: any) => (
+                      <div
+                        key={prod.id}
+                        className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-3 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all"
+                      >
+                        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-black mb-3">
+                          <Image src={prod.coverImg} alt={prod.title} fill sizes="260px" className="object-cover group-hover:scale-105 transition-transform" />
+                        </div>
+                        <span className="text-xs font-mono text-cyan-300">{prod.badge}</span>
+                        <h4 className="font-bold text-white group-hover:text-cyan-300 transition-colors mt-0.5 line-clamp-1">{prod.title}</h4>
+                        <p className="text-xs text-white/60 line-clamp-2 mt-1">{prod.desc}</p>
+                        <div className="mt-3 pt-2 border-t border-white/10">
+                          <Button variant="secondary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 13: TRIPTYCH ANTHOLOGY (3 Equal Balanced Stage Covers)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 13) {
+            const triptych = filteredProducts.slice(0, 3);
+            const remainder = filteredProducts.slice(3);
+
+            return (
+              <div className="flex flex-col gap-10 [overflow-anchor:auto]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {triptych.map((prod: any, idx: number) => {
+                    const colors = [
+                      "border-fuchsia-500/40 bg-fuchsia-950/20",
+                      "border-indigo-500/40 bg-indigo-950/20",
+                      "border-purple-500/40 bg-purple-950/20",
+                    ];
+                    const accents = ["text-fuchsia-400", "text-indigo-400", "text-purple-400"];
+
+                    return (
+                      <div
+                        key={prod.id}
+                        className={`group relative overflow-hidden rounded-[var(--radius-box)] border ${colors[idx % 3]} p-5 flex flex-col justify-between transition-all hover:scale-[1.02] shadow-xl`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                            <span className={`text-xs font-mono font-bold uppercase tracking-wider ${accents[idx % 3]}`}>
+                              Pillar 0{idx + 1} &bull; {prod.badge}
+                            </span>
+                          </div>
+                          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black mb-4">
+                            <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                          <h3 className="font-black text-white group-hover:text-purple-200 transition-colors">
+                            {prod.title}
+                          </h3>
+                          <p className="text-xs text-white/80 mt-2 line-clamp-3 leading-relaxed">
+                            &ldquo;{prod.desc}&rdquo;
+                          </p>
+                        </div>
+                        <div className="mt-5 pt-3 border-t border-white/10">
+                          <Button variant="primary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Order on Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {remainder.length > 0 && (
+                  <div className="flex flex-col gap-4 border-t border-white/10 pt-6">
+                    <h4 className="font-mono uppercase tracking-widest text-white/60">Additional Comic Book Chapters</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                      {remainder.map((prod: any) => (
+                        <div key={prod.id} className="group flex flex-col rounded-xl border border-white/10 bg-black/40 p-2 hover:border-purple-400 transition-all">
+                          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black mb-2">
+                            <Image src={prod.coverImg} alt={prod.title} fill sizes="160px" className="object-cover group-hover:scale-105 transition-transform" />
+                          </div>
+                          <span className="text-[11px] font-bold text-white truncate">{prod.title}</span>
+                          <a href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-purple-300 hover:underline mt-1">Amazon &rarr;</a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 14: ISSUE ACCORDION STRIP (Numbered Story Cuts)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 14) {
+            return (
+              <div className="flex flex-col gap-4 [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any, idx: number) => (
+                  <div
+                    key={prod.id}
+                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-5 hover:border-amber-500/50 hover:bg-white/[0.04] transition-all shadow-lg"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                      <div className="md:col-span-1 flex md:flex-col items-center justify-between md:justify-center gap-1 font-mono text-xs text-amber-400 font-bold">
+                        <span>#{String(idx + 1).padStart(2, "0")}</span>
+                        <span className="hidden md:inline text-[10px] text-white/40">ISSUE</span>
+                      </div>
+                      <div className="md:col-span-3 relative aspect-[3/4] max-h-[180px] w-full overflow-hidden rounded-xl bg-black">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-105 transition-transform" />
+                      </div>
+                      <div className="md:col-span-6 flex flex-col gap-1.5">
+                        <span className="text-xs uppercase font-mono text-amber-300 font-bold">{prod.badge}</span>
+                        <h3 className="font-black text-white group-hover:text-amber-300 transition-colors">{prod.title}</h3>
+                        <p className="text-xs text-white/60">{prod.subtitle}</p>
+                        <p className="text-sm text-white/70 line-clamp-2 italic mt-1">&ldquo;{prod.desc}&rdquo;</p>
+                      </div>
+                      <div className="md:col-span-2 flex items-center justify-end">
+                        <Button variant="primary" size="sm" href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Amazon &rarr;
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 15: RETAIL METRO GRID (Modern Clean 4-Col Grid)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 15) {
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any) => (
+                  <div
+                    key={prod.id}
+                    className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 hover:border-emerald-400/50 transition-all shadow-xl"
+                  >
+                    <div className="flex items-center justify-between bg-gradient-to-r from-emerald-950/80 to-teal-950/60 border-b border-emerald-500/20 px-4 py-2 text-xs font-mono">
+                      <span className="font-bold text-emerald-300">{prod.badge}</span>
+                      <span className="text-white/60 text-[10px]">Print &bull; Kindle</span>
+                    </div>
+                    <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
+                      <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover group-hover:scale-105 transition-transform" />
+                    </div>
+                    <div className="p-4 flex flex-col justify-between flex-1 gap-2">
+                      <div>
+                        <h4 className="font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-1">{prod.title}</h4>
+                        <p className="text-xs text-white/70 mt-1 line-clamp-2 italic">&ldquo;{prod.desc}&rdquo;</p>
+                      </div>
+                      <div className="pt-3 border-t border-white/10">
+                        <Button variant="primary" size="sm" fullWidth href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                          Amazon Store
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 16: GOLDEN RATIO 62/38 (Harmonic Asymmetry)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 16) {
+            const goldenStack = filteredProducts.slice(1, 4);
+            const goldenRest = filteredProducts.slice(4);
+
+            return (
+              <div className="flex flex-col gap-10 [overflow-anchor:auto]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                  {leadItem && (
+                    <div className="lg:col-span-7 group relative overflow-hidden rounded-[var(--radius-box)] border border-amber-500/40 bg-zinc-950 p-6 flex flex-col justify-between shadow-2xl">
+                      <div>
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                          <span className="text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">&Phi; Golden Issue Canvas</span>
+                          <span className="text-xs text-white/60">{leadItem.badge}</span>
+                        </div>
+                        <div className="relative aspect-[3/4] max-h-[460px] w-full overflow-hidden rounded-2xl bg-black">
+                          <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="(max-width: 1024px) 100vw, 60vw" priority className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                        </div>
+                      </div>
+                      <div className="mt-5">
+                        <h3 className="font-extrabold text-white group-hover:text-amber-300 transition-colors">{leadItem.title}</h3>
+                        <p className="text-xs font-mono text-white/60 mt-1">{leadItem.subtitle}</p>
+                        <p className="text-sm text-white/80 mt-2 leading-relaxed">&ldquo;{leadItem.desc}&rdquo;</p>
+                        <div className="mt-4">
+                          <Button variant="primary" size="md" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            View Issue on Amazon
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="lg:col-span-5 flex flex-col gap-4 justify-between">
+                    {goldenStack.map((prod: any) => (
+                      <div key={prod.id} className="group flex-1 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-3.5 hover:border-amber-400/40 hover:bg-white/[0.05] transition-all">
+                        <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-xl bg-black">
+                          <Image src={prod.coverImg} alt={prod.title} fill sizes="100px" className="object-cover group-hover:scale-105 transition-transform" />
+                        </div>
+                        <div className="flex flex-col gap-1 min-w-0">
+                          <span className="text-xs font-mono text-amber-400">{prod.badge}</span>
+                          <span className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors truncate">{prod.title}</span>
+                          <p className="text-xs text-white/70 line-clamp-1 italic">&ldquo;{prod.desc}&rdquo;</p>
+                          <a href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-amber-300 hover:underline mt-1">Amazon &rarr;</a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {goldenRest.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 border-t border-white/10 pt-6">
+                    {goldenRest.map((prod: any) => (
+                      <div key={prod.id} className="group flex flex-col rounded-xl border border-white/10 p-2 bg-black/40 hover:border-amber-400/50">
+                        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black mb-2">
+                          <Image src={prod.coverImg} alt={prod.title} fill sizes="160px" className="object-cover group-hover:scale-105 transition-transform" />
+                        </div>
+                        <span className="text-xs font-bold text-white truncate">{prod.title}</span>
+                        <a href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-amber-300 hover:underline mt-0.5">Amazon</a>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 17: BILLBOARD MARQUEE (Ultra-Wide Header + Matrix)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 17) {
+            return (
+              <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                {leadItem && (
+                  <div className="group relative overflow-hidden rounded-[var(--radius-box)] border-2 border-purple-500/40 bg-zinc-950 p-6 sm:p-8 shadow-2xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                      <div className="lg:col-span-4 relative aspect-[3/4] max-h-[360px] w-full overflow-hidden rounded-xl bg-black">
+                        <Image src={leadItem.coverImg} alt={leadItem.title} fill sizes="360px" priority className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                      </div>
+                      <div className="lg:col-span-8 flex flex-col gap-2">
+                        <span className="text-xs uppercase font-mono tracking-widest text-purple-300 font-bold">24:9 Panoramic Marquee Showcase</span>
+                        <h3 className="font-black text-white mt-1">{leadItem.title}</h3>
+                        <p className="text-xs font-mono text-purple-300">{leadItem.subtitle}</p>
+                        <p className="text-sm text-white/80 mt-2 max-w-xl">&ldquo;{leadItem.desc}&rdquo;</p>
+                        <div className="mt-4">
+                          <Button variant="primary" size="md" href={leadItem.amazonUrl} target="_blank" rel="noopener noreferrer">
+                            Buy on Amazon Store &rarr;
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {remainingItems.map((prod: any) => (
+                    <div key={prod.id} className="group flex flex-col rounded-xl border border-white/10 bg-white/[0.02] p-2 hover:border-purple-400 hover:bg-white/[0.05] transition-all">
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black mb-2">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="200px" className="object-cover group-hover:scale-105 transition-transform" />
+                      </div>
+                      <span className="text-xs font-bold text-white truncate">{prod.title}</span>
+                      <a href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-purple-300 hover:underline mt-1">Amazon Link &rarr;</a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 18: BRUTALIST NEON (High-Contrast Yellow & Black)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 18) {
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any, idx: number) => (
+                  <div
+                    key={prod.id}
+                    className="group border-2 border-amber-400 bg-black p-4 text-left shadow-[6px_6px_0px_0px_rgba(251,191,36,0.8)] hover:shadow-[10px_10px_0px_0px_rgba(251,191,36,1)] transition-all"
+                  >
+                    <div className="flex items-center justify-between border-b-2 border-amber-400 pb-2 mb-3 text-xs">
+                      <span className="bg-amber-400 text-black px-2 py-0.5 font-black uppercase">SYS.0{idx + 1}</span>
+                      <span className="text-amber-300 font-bold">{prod.badge}</span>
+                    </div>
+                    <div className="relative aspect-[3/4] w-full overflow-hidden border border-amber-400/50 bg-black mb-3">
+                      <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <h4 className="font-black uppercase tracking-tight text-white group-hover:text-amber-400 truncate">{prod.title}</h4>
+                      <p className="text-xs text-white/70 line-clamp-2 mt-1">// {prod.desc}</p>
+                      <a href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="mt-3 block text-center bg-amber-400 text-black font-black uppercase text-xs py-2 hover:bg-amber-300">
+                        [EXECUTE ORDER ON AMAZON]
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 19: COMPACT VAULT MATRIX (Fast High-Density Browsing)
+             ────────────────────────────────────────────────────────── */
+          if (comicLayout === 19) {
+            return (
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 [overflow-anchor:auto]">
+                {filteredProducts.map((prod: any) => (
+                  <div
+                    key={prod.id}
+                    className="group relative overflow-hidden rounded-xl border border-white/10 bg-zinc-950 p-2 hover:border-purple-400 hover:scale-105 transition-all shadow-md flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black mb-2">
+                        <Image src={prod.coverImg} alt={prod.title} fill sizes="180px" className="object-cover" />
+                        <div className="absolute top-1 left-1 bg-purple-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+                          {prod.badge}
+                        </div>
+                      </div>
+                      <h4 className="font-bold text-white truncate group-hover:text-purple-300">{prod.title}</h4>
+                    </div>
+                    <a href={prod.amazonUrl} target="_blank" rel="noopener noreferrer" className="mt-2 block text-center rounded bg-white/10 py-1 text-[10px] font-semibold text-white hover:bg-purple-600">
+                      Amazon
+                    </a>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          /* ──────────────────────────────────────────────────────────
+             LAYOUT 20: CHRONICLE ODYSSEY (Full-Bleed Center-Stage Timeline)
+             ────────────────────────────────────────────────────────── */
+          return (
+            <div className="relative max-w-3xl mx-auto flex flex-col gap-12 [overflow-anchor:auto]">
+              <div className="absolute top-0 bottom-0 left-4 sm:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-amber-500 via-rose-500 to-purple-600 pointer-events-none" />
+
+              {filteredProducts.map((prod: any, idx: number) => (
+                <div
+                  key={prod.id}
+                  className="group relative flex flex-col gap-4 rounded-3xl border border-purple-500/30 bg-black/90 p-5 sm:p-7 backdrop-blur-xl shadow-2xl hover:border-amber-400 transition-all z-10"
+                >
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-3 w-3 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24]" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-300">
+                        Chronicle Chapter #{idx + 1} &bull; {prod.badge}
+                      </span>
+                    </div>
+                    <span className="text-xs text-white/60">Comic Odyssey</span>
+                  </div>
+
+                  <div className="relative aspect-[3/4] max-h-[440px] w-full overflow-hidden rounded-2xl bg-black">
+                    <Image src={prod.coverImg} alt={prod.title} fill sizes="(max-width: 768px) 100vw, 680px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <h3 className="font-black text-white group-hover:text-amber-300 transition-colors">
+                      {prod.title}
+                    </h3>
+                    <p className="text-xs font-mono text-white/60">{prod.subtitle}</p>
+                    <p className="text-sm text-white/85 leading-relaxed italic mt-1">&ldquo;{prod.desc}&rdquo;</p>
+                    <div className="mt-4">
+                      <Button variant="primary" size="md" href={prod.amazonUrl} target="_blank" rel="noopener noreferrer">
+                        Get Issue on Amazon
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        })()}
       </section>
 
       {/* ── SERIES FOUNDERS & CREATORS ── */}

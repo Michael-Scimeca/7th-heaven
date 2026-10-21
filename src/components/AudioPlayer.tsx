@@ -3,11 +3,41 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Play, Music, X } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import GlowInput from "@/components/GlowInput";
 import data from "../../public/data/albums.json";
+
+// 3D CD vault — loaded only when the visitor opens it (pulls in three.js)
+const DiscVault = dynamic(() => import("@/app/disc-test/DiscVault"), { ssr: false });
+import BannerDisc from "@/components/BannerDisc";
+
+// Preload the heavy 3D vault chunk + first batch of album artwork on hover for instant open
+let hasPreloadedVault = false;
+function preloadDiscVault() {
+  if (hasPreloadedVault || typeof window === "undefined") return;
+  hasPreloadedVault = true;
+
+  // 1. Kick off dynamic import of DiscVault, Three.js, and dependencies
+  import("@/app/disc-test/DiscVault")
+    .then((mod) => {
+      // Also prefetch album covers from ITEMS for smooth texture rendering
+      import("@/app/disc-test/data").then(({ ITEMS }) => {
+        // Preload first 8-12 visible discs into image cache
+        ITEMS.slice(0, 12).forEach((item) => {
+          if (!item.image) return;
+          const img = new window.Image();
+          img.decoding = "async";
+          img.src = item.image;
+        });
+      }).catch(() => { });
+    })
+    .catch(() => {
+      hasPreloadedVault = false; // Allow retry if network dropped
+    });
+}
 
 interface LyricSong {
   title: string;
@@ -151,6 +181,12 @@ const cleanTitle = (str: string) =>
 
 export default function AudioPlayerSection() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [vaultOpen, setVaultOpen] = useState(false);
+  const discBtnRef = useRef<HTMLButtonElement>(null);
+  // where the banner disc sits on screen; the vault's first disc launches from here
+  const [vaultOrigin, setVaultOrigin] = useState<{ x: number; y: number; size: number } | undefined>();
+  // the banner disc hides while its 3D twin is out flying
+  const [discHidden, setDiscHidden] = useState(false);
   const [albums, setAlbums] = useState(data);
   const [activeAlbumIndex, setActiveAlbumIndex] = useState(() =>
     Math.max(
@@ -591,32 +627,81 @@ export default function AudioPlayerSection() {
     )
     : [];
 
+  // Latest original album (newest year) for the collapsed-state disc
+  const latestAlbum = [...albums]
+    .filter((a) => {
+      const t = a.title.toLowerCase();
+      return a.image && !(t.includes("medley") || t.includes("cover") || t === "unplugged" || t.includes("christmas") || t.includes("holiday"));
+    })
+    .sort((a, b) => Number(b.year) - Number(a.year))[0];
+
+  // Open the vault; the banner disc itself flies up and becomes the vault's big disc
+  const openVault = () => {
+    const btn = discBtnRef.current;
+    if (btn) {
+      const r = btn.getBoundingClientRect();
+      // center and visual diameter on screen for exact seamless hand-off
+      setVaultOrigin({ x: r.left + r.width / 2, y: r.top + r.height / 2, size: r.width });
+    } else {
+      setVaultOrigin(undefined);
+    }
+    setVaultOpen(true);
+  };
+  const closeVault = () => {
+    setVaultOpen(false);
+    setDiscHidden(false);
+  };
+
   if (!isExpanded) {
     return (
-      <div id="music-player-collapsed">
-        <div className="relative flex w-full max-w-[800px] flex-col items-start justify-between gap-6 rounded-[var(--radius-box)] border border-white/10 p-6 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-5">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-500/20">
-              <Music className="h-7 w-7" />
-            </div>
+      <div
+        id="music-player-collapsed"
+        className="w-full"
+        onMouseEnter={preloadDiscVault}
+        onTouchStart={preloadDiscVault}
+      >
+        <div className="relative flex w-full flex-wrap sm:flex-nowrap items-center justify-center gap-[var(--music-vault-gap,1.5rem)]">
+          <div className="flex items-center gap-[var(--music-vault-inner-gap,1rem)]">
+            {latestAlbum?.image ? (
+              <button
+                type="button"
+                ref={discBtnRef}
+                onClick={openVault}
+                onFocus={preloadDiscVault}
+                aria-label={`Open the CD vault, latest album: ${latestAlbum.title}`}
+                className={`group relative flex h-28 w-28 shrink-0 cursor-pointer items-center justify-center transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-ring)] sm:h-36 sm:w-36 ${discHidden ? "opacity-0 pointer-events-none" : ""}`}
+              >
+                <BannerDisc image={latestAlbum.image} />
+              </button>
+            ) : (
+              <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-500/20">
+                <Music className="h-6 w-6 sm:h-7 sm:w-7" />
+              </div>
+            )}
             <div className="title-group title-group--sub">
               <span className="block text-purple-400">
-                7th Heaven Music Vault
+                Music Vault
               </span>
-              <h3>
+              <h3 className="text-base sm:text-lg">
                 Official MP3 Discography & Audio Player (700+ Songs)
               </h3>
             </div>
           </div>
 
           <SeventhButton
-            onClick={() => setIsExpanded(true)}
+            onClick={openVault}
+            onMouseEnter={preloadDiscVault}
+            onFocus={preloadDiscVault}
+            onTouchStart={preloadDiscVault}
             className="flex shrink-0 items-center gap-2"
           >
-            <Play className="h-5 w-5 fill-current" />
-            <span>Open Audio Player</span>
+            <Play className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
+            <span className="text-xs sm:text-sm">Open Audio Player</span>
           </SeventhButton>
         </div>
+        {vaultOpen && (
+          <DiscVault onClose={closeVault} origin={vaultOrigin} onHandoff={() => setDiscHidden(true)} />
+        )}
       </div>
     );
   }

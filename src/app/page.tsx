@@ -108,7 +108,7 @@ export default async function Home() {
       </section>
 
       {/* Content Stack: slides up over the sticky hero */}
-      <div className="page-stack relative z-10 min-h-screen bg-[#0a0a0f]">
+      <div className="page-stack relative z-10 min-h-screen">
         {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint. */}
         <HomeDataLoader />
 

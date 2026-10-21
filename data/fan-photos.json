@@ -61,7 +61,7 @@
   {
     "id": "demo_001",
     "filename": "demo_front_row.jpg",
-    "src": "/images/events/festival.png",
+    "src": "/images/hero/band-performance.png",
     "type": "image",
     "name": "ChicagoLou",
     "venue": "DeKalb Cornfest",
@@ -75,7 +75,7 @@
   {
     "id": "approved_video_002",
     "filename": "demo_crowd.jpg",
-    "src": "/images/events/corporate.png",
+    "src": "/images/hero/hero-banner.png",
     "type": "video",
     "youtubeId": "SWV7-pmtoA8",
     "name": "Jess_M",
@@ -90,7 +90,7 @@
   {
     "id": "demo_003",
     "filename": "demo_stage_lights.jpg",
-    "src": "/images/events/bar.png",
+    "src": "/images/cruise/ports/cococay.jpg",
     "type": "image",
     "name": "rockerdan92",
     "venue": "Schaumburg Fest",
@@ -119,7 +119,7 @@
   {
     "id": "demo_005",
     "filename": "demo_beautiful_life.jpg",
-    "src": "/images/events/acoustic.png",
+    "src": "/images/cruise/ship/musichallbar.jpg",
     "type": "image",
     "name": "tay_rocks",
     "venue": "Fox Chicago Live",
@@ -133,7 +133,7 @@
   {
     "id": "approved_video_004",
     "filename": "demo_sing_mv.jpg",
-    "src": "/images/events/private-party.png",
+    "src": "/images/cruise/ship/lousbar.jpg",
     "type": "video",
     "youtubeId": "zAQL-diwq0A",
     "name": "Jake7H",

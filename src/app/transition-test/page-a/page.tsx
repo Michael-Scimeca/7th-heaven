@@ -33,7 +33,7 @@ export default function TransitionTestPageA() {
           {/* heading-size-ok: WebGL transition hero title */}
           <h1
             id="hero-a-heading"
-            className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight drop-shadow-md"
+            className="font-black tracking-tight text-white leading-tight drop-shadow-md"
           >
             Page A: Band Showcase &amp; Discography
           </h1>
@@ -146,8 +146,7 @@ export default function TransitionTestPageA() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
               <span className="text-3xl font-black text-purple-400">5,000+</span>
-              {/* heading-size-ok: card title */}
-              <h3 className="text-lg font-bold text-white">Live Concerts Performed</h3>
+              <h3 className="font-bold text-white">Live Concerts Performed</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
                 From festival main stages to intimate arenas across the Midwest, delivering unforgettable high-octane rock anthems for over 30 years.
               </p>
@@ -155,8 +154,7 @@ export default function TransitionTestPageA() {
 
             <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
               <span className="text-3xl font-black text-cyan-400">30+</span>
-              {/* heading-size-ok: card title */}
-              <h3 className="text-lg font-bold text-white">Albums &amp; Original Hits</h3>
+              <h3 className="font-bold text-white">Albums &amp; Original Hits</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
                 A deep discography spanning chart-topping singles, melodic pop-rock originals, and timeless festival fan favorites.
               </p>
@@ -164,8 +162,7 @@ export default function TransitionTestPageA() {
 
             <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
               <span className="text-3xl font-black text-rose-400">Guinness</span>
-              {/* heading-size-ok: card title */}
-              <h3 className="text-lg font-bold text-white">World Record Holders</h3>
+              <h3 className="font-bold text-white">World Record Holders</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
                 Recognized worldwide for extraordinary stamina, musical prowess, and passionate devotion to their loyal fan community.
               </p>
@@ -192,8 +189,7 @@ export default function TransitionTestPageA() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
-            {/* heading-size-ok: card header */}
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="font-bold text-white flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-emerald-400" />
               <span>GLSL Noise Shader Function</span>
             </h3>
@@ -214,8 +210,7 @@ gl_FragColor = vec4(uColor, alpha);`}
           </div>
 
           <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
-            {/* heading-size-ok: card header */}
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="font-bold text-white flex items-center gap-2">
               <Sliders className="w-5 h-5 text-purple-400" />
               <span>GSAP Timeline Lifecycle</span>
             </h3>

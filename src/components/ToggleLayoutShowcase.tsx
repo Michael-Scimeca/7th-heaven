@@ -699,7 +699,7 @@ export default function ToggleLayoutShowcase({
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-500/20 text-[11px] font-black text-purple-300">
                       {layout.num}
                     </span>
-                    <h3 className="text-base font-bold text-white tracking-tight">
+                    <h3 className="font-bold text-white tracking-tight">
                       {layout.name}
                     </h3>
                   </div>

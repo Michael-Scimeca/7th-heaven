@@ -75,43 +75,16 @@ function FansContent() {
         }
       />
 
-      {/* ── ABOUT THE COMMUNITY ── */}
-      <section
-        id="fans-community"
-        aria-labelledby="fans-community-heading"
-        className="section"
-      >
-        <SectionHeader
-          id="fans-community-heading"
-          title="More Than 40 Years of Rock & Roll Community"
-          subtitle="The beating heart of 7th Heaven has always been the crowd."
-        />
-        <div className="mx-auto max-w-4xl space-y-4 text-white/80 leading-relaxed">
-          <p>
-            For over four decades, the 7th Heaven family has been driven by one of the most passionate and loyal fan
-            communities in American rock and roll. From county fairs, summer fests, and premier festival main stages
-            across Illinois, Wisconsin, Indiana, and Michigan to our annual international music cruises across the
-            Caribbean and Europe, 7th Heaven fans bring an electric atmosphere to every performance.
-          </p>
-          <p>
-            The official 7th Heaven Fan Club is your digital passport to the live concert experience. Whether you have
-            been following the band since our 1985 debut or just discovered us at a local festival this summer, our fan
-            portal lets you preserve your concert memories, connect with lifelong friends, and unlock special rewards
-            that make every show unforgettable.
-          </p>
-        </div>
-      </section>
-
-      {/* ── VIP PERKS & FEATURES ── */}
+      {/* ── VIP PERKS & FEATURES (IMMEDIATE CONTENT) ── */}
       <section
         id="fans-perks"
         aria-labelledby="fans-perks-heading"
-        className="section"
+        className="section pt-0"
       >
         <SectionHeader
           id="fans-perks-heading"
           title="Fan Club Perks & Features"
-          subtitle="Everything you get when you register your free member profile."
+          visuallyHidden
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
@@ -119,7 +92,7 @@ function FansContent() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <CalendarCheck className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Show Attendance Tracking</h3>
+              <h3 className="mb-2 font-bold text-white">Show Attendance Tracking</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Log every concert you attend, build your personal show timeline, and compare your historical show count
                 with fellow fans across 40+ years of touring.
@@ -132,7 +105,7 @@ function FansContent() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Award className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Concert Live Raffles</h3>
+              <h3 className="mb-2 font-bold text-white">Concert Live Raffles</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Enter real-time digital giveaways at select concerts to win signed drumsticks, official stage setlists,
                 backstage meet-and-greets, and exclusive tour merch.
@@ -145,7 +118,7 @@ function FansContent() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Bell className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Proximity Tour Alerts</h3>
+              <h3 className="mb-2 font-bold text-white">Proximity Tour Alerts</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Never miss an impromptu performance or festival announcement. Receive timely notifications whenever
                 7th Heaven is scheduled to play near your location.
@@ -158,13 +131,45 @@ function FansContent() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                 <Camera className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">Fan Photo & Media Wall</h3>
+              <h3 className="mb-2 font-bold text-white">Fan Photo & Media Wall</h3>
               <p className="text-sm text-white/70 leading-relaxed">
                 Upload your favorite concert snapshots, crowd selfies, and video moments to be featured on the official
                 7th Heaven Fan Media Wall for the whole community to see.
               </p>
             </div>
           </article>
+        </div>
+      </section>
+
+      {/* ── ABOUT THE COMMUNITY ── */}
+      <section
+        id="fans-community"
+        aria-labelledby="fans-community-heading"
+        className="section"
+      >
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
+            <h2 id="fans-community-heading" className="text-primary font-bold tracking-tight">
+              More Than 40 Years of Rock &amp; Roll Community
+            </h2>
+            <p className="mt-3 text-secondary text-base leading-relaxed">
+              The beating heart of 7th Heaven has always been the crowd.
+            </p>
+          </div>
+          <div className="space-y-4 text-white/80 leading-relaxed lg:col-span-7">
+            <p>
+              For over four decades, the 7th Heaven family has been driven by one of the most passionate and loyal fan
+              communities in American rock and roll. From county fairs, summer fests, and premier festival main stages
+              across Illinois, Wisconsin, Indiana, and Michigan to our annual international music cruises across the
+              Caribbean and Europe, 7th Heaven fans bring an electric atmosphere to every performance.
+            </p>
+            <p>
+              The official 7th Heaven Fan Club is your digital passport to the live concert experience. Whether you have
+              been following the band since our 1985 debut or just discovered us at a local festival this summer, our fan
+              portal lets you preserve your concert memories, connect with lifelong friends, and unlock special rewards
+              that make every show unforgettable.
+            </p>
+          </div>
         </div>
       </section>
 

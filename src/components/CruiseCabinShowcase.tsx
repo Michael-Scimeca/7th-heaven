@@ -126,7 +126,7 @@ export default function CruiseCabinShowcase({
 
           <h2
             id="cabin-showcase-heading"
-            className="text-2xl font-bold tracking-tight text-white md:text-3xl"
+            className="font-bold tracking-tight text-white"
           >
             {booking.cabin_preference || cabinDetails.name}
           </h2>
@@ -324,7 +324,7 @@ export default function CruiseCabinShowcase({
               </div>
 
               <div>
-                <h3 className="mb-2 text-xs font-semibold tracking-wider text-cyan-300 uppercase">
+                <h3 className="mb-2 font-semibold tracking-wider text-cyan-300 uppercase">
                   Key Stateroom Highlights
                 </h3>
                 <ul className="flex flex-col gap-2">
@@ -476,7 +476,7 @@ export default function CruiseCabinShowcase({
             <div>
               <h3
                 id="all-cabins-guide-heading"
-                className="text-lg font-bold text-white"
+                className="font-bold text-white"
               >
                 Explore All Ship Cabin Categories &amp; Floorplans
               </h3>
@@ -528,7 +528,7 @@ export default function CruiseCabinShowcase({
                     )}
 
                     <div className="absolute right-2.5 bottom-2.5 left-2.5">
-                      <h4 className="text-sm font-bold text-white">{room.name}</h4>
+                      <h4 className="font-bold text-white">{room.name}</h4>
                     </div>
                   </div>
 
@@ -620,7 +620,7 @@ export default function CruiseCabinShowcase({
             </div>
 
             <div className="p-4 text-center">
-              <h3 className="text-lg font-bold text-white">
+              <h3 className="font-bold text-white">
                 {displayCabinTitle}
               </h3>
               <p className="text-xs text-white/60">
@@ -646,7 +646,7 @@ export default function CruiseCabinShowcase({
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="font-bold text-white">
                   Request Stateroom Upgrade or Change
                 </h3>
                 <p className="text-xs text-white/60">
