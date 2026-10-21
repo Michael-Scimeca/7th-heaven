@@ -26,7 +26,6 @@ import {
   Clock,
   Maximize2,
   SlidersHorizontal,
-  ArrowUp,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
@@ -408,21 +407,9 @@ export default function MediaClient({
 
   const projectsContainerRef = useRef<HTMLElement>(null);
 
-  type ScrollModeOption = "gallery" | "page" | "inline" | "floating";
-  const [scrollMode, setScrollMode] = useState<ScrollModeOption>("gallery");
-
-  const handleScrollToTop = useCallback((mode: ScrollModeOption = scrollMode) => {
+  const handleScrollToTop = useCallback(() => {
     requestAnimationFrame(() => {
       const lenis = typeof window !== "undefined" ? (window as any).__lenis : null;
-      if (mode === "page") {
-        if (lenis?.scrollTo) {
-          lenis.scrollTo(0, { duration: 0.85 });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-        return;
-      }
-
       // Default: scroll to gallery with clearance for sticky/fixed navigation bar
       const el = projectsContainerRef.current;
       if (el) {
@@ -441,7 +428,7 @@ export default function MediaClient({
         }
       }
     });
-  }, [scrollMode]);
+  }, []);
 
   useScrollLock(Boolean(playingVideo || selectedPhoto || isAddModalOpen));
 
@@ -1215,35 +1202,9 @@ export default function MediaClient({
                   }}
                 />
 
-                {/* ── PAGINATION CONTROLS: TEXT LINKS WITH SCROLL OPTIONS ── */}
+                {/* ── PAGINATION CONTROLS ── */}
                 {totalPages > 1 && (
                   <div className="mt-12 flex flex-col items-center justify-center gap-5">
-                    {/* Live Scroll Mode Interactive Tester */}
-                    <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 rounded-full border border-white/10 bg-black/40 p-1.5 backdrop-blur-md">
-                      <span className="px-2.5 text-[11px] font-mono uppercase tracking-wider text-white/40">
-                        Scroll Option:
-                      </span>
-                      {[
-                        { id: "gallery", label: "1 · Gallery Top (Auto)" },
-                        { id: "page", label: "2 · Page Top (Auto)" },
-                        { id: "inline", label: "3 · With Inline '↑ Top'" },
-                        { id: "floating", label: "4 · With Floating '↑'" },
-                      ].map((opt) => (
-                        <button
-                          key={opt.id}
-                          type="button"
-                          onClick={() => setScrollMode(opt.id as ScrollModeOption)}
-                          className={`cursor-pointer rounded-full px-3 py-1 text-xs font-medium transition-all ${
-                            scrollMode === opt.id
-                              ? "bg-[#f2efa3] text-[#1d1d1b] font-bold shadow-md"
-                              : "text-white/60 hover:text-white hover:bg-white/10"
-                          }`}
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
-
                     <MediaPagination
                       variant={paginationVariant}
                       page={currentPage}
@@ -1252,28 +1213,10 @@ export default function MediaClient({
                       pageSize={pageSize}
                       onPageChange={(nextPage) => {
                         setCurrentPage(nextPage);
-                        handleScrollToTop(scrollMode);
+                        handleScrollToTop();
                       }}
-                      onBackToTop={
-                        scrollMode === "inline"
-                          ? () => handleScrollToTop("gallery")
-                          : undefined
-                      }
-                      backToTopLabel="↑ Top"
                       label="videos"
                     />
-
-                    {scrollMode === "floating" && (
-                      <button
-                        type="button"
-                        onClick={() => handleScrollToTop("gallery")}
-                        aria-label="Scroll back to top of gallery"
-                        className="fixed bottom-8 right-8 z-50 flex items-center gap-2 rounded-full border border-[#f2efa3]/40 bg-black/85 px-4 py-2 text-xs font-bold text-[#f2efa3] shadow-2xl backdrop-blur-md transition-all hover:bg-[#f2efa3] hover:text-black hover:scale-105 active:scale-95 cursor-pointer"
-                      >
-                        <ArrowUp className="h-4 w-4" />
-                        <span>Back To Top</span>
-                      </button>
-                    )}
                   </div>
                 )}
 
