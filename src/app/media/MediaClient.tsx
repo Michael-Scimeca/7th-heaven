@@ -1099,6 +1099,22 @@ export default function MediaClient({
                       </span>
                     )}
                   </button>
+
+                  {/* Reset all filters button text on the right of all of this on the same row */}
+                  {(activeFilterCount > 0 || sortBy !== "default" || searchQuery.trim() !== "") && (
+                    <button
+                      id="media-reset-all-filters"
+                      type="button"
+                      onClick={() => {
+                        clearDrawerFilters();
+                        setSortBy("default");
+                        setSearchQuery("");
+                      }}
+                      className="cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
+                    >
+                      Reset all filters ✕
+                    </button>
+                  )}
                 </div>
               </div>
 
