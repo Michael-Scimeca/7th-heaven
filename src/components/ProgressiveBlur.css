@@ -30,6 +30,7 @@
 }
 
 .progressive-blur.is-top {
+  --pb-height: calc(var(--header-height, 70px) * var(--pb-scale) + 30px);
   top: -1px;
   bottom: auto;
   height: calc(var(--pb-height) + env(safe-area-inset-top, 0px));
