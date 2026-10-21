@@ -56,7 +56,6 @@ import AddCmsButton from "@/components/AddCmsButton";
 import PageHero from "@/components/PageHero";
 import InputField from "@/components/InputField";
 import CustomDropdown from "@/components/CustomDropdown";
-import { SearchInput } from "@/components/SearchInput";
 import MediaFilterDrawer from "@/components/MediaFilterDrawer";
 import { FanPhoto } from "@/lib/fanPhotos";
 import SectionBadge from "@/components/SectionBadge";
@@ -774,17 +773,36 @@ export default function FanPhotoWallClient({
             aria-label="Fan Media Filters"
             className="mb-6 flex flex-wrap items-center gap-3 sm:gap-4 border-b border-white/10 pb-4"
           >
-            <p className="mr-auto text-[13px] text-white/55" aria-live="polite">
+            <p className="mr-auto flex h-10 items-center text-[13px] text-white/55" aria-live="polite">
               {displayedPhotos.length} {displayedPhotos.length === 1 ? "item" : "items"}
             </p>
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="Search by fan name, venue, city..."
-              containerClassName="w-full sm:w-[260px] lg:w-[300px]"
-            />
 
-            {/* Sort Order Dropdown */}
+            {/* Unified Search Input (40px / h-10) */}
+            <div className="relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
+              <div className="pointer-events-none absolute left-3 flex items-center justify-center text-white/50">
+                <Search className="h-3.5 w-3.5" aria-hidden="true" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by fan name, venue, city..."
+                aria-label="Search fan moments"
+                className="h-full w-full bg-transparent pl-9 pr-8 text-xs text-white placeholder:text-white/40 focus:outline-none"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-2.5 flex h-5 w-5 items-center justify-center text-white/40 transition-colors hover:text-white"
+                >
+                  <X className="h-3.5 w-3.5" aria-hidden="true" />
+                </button>
+              )}
+            </div>
+
+            {/* Sort Order Dropdown (40px / h-10) */}
             <CustomDropdown
               ariaLabel="Sort fan moments"
               value={sortBy}
@@ -793,19 +811,21 @@ export default function FanPhotoWallClient({
               minWidth={200}
               maxHeight={320}
               triggerPrefix={sortTriggerPrefix}
-              buttonClassName="rounded-none border border-white/15 bg-black/35 px-4 py-2.5 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
+              wrapperClassName="!inline-flex h-10 items-center"
+              buttonClassName="!h-10 !py-0 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold backdrop-blur-md  transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
             />
 
+            {/* Filter Drawer Trigger Button (40px / h-10) */}
             <button
               ref={filterTriggerRef}
               type="button"
               onClick={() => setFilterDrawerOpen(true)}
               aria-haspopup="dialog"
               aria-expanded={filterDrawerOpen}
-              className="flex cursor-pointer items-center gap-2 border border-white/20 px-4 py-2.5 text-xs text-white transition-colors hover:border-white/50 hover:bg-white/5"
+              className="flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md  transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-              Filters
+              <span>Filters</span>
               {activeFilterCount > 0 && (
                 <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--color-action,#f5b942)] px-1 text-[11px] font-bold text-black">
                   {activeFilterCount}
@@ -826,7 +846,7 @@ export default function FanPhotoWallClient({
             onMediaTypeChange={(v) => setMediaFilter(v as "all" | "photos" | "videos")}
             yearBounds={null}
             yearRange={null}
-            onYearRangeChange={() => {}}
+            onYearRangeChange={() => { }}
             resultCount={displayedPhotos.length}
             onClearAll={() => {
               setMediaFilter("all");
@@ -996,9 +1016,8 @@ export default function FanPhotoWallClient({
                           role="button"
                           tabIndex={0}
                           onClick={() => setSelectedPhoto(photo)}
-                          className={`group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-black/40 cursor-pointer transition-all hover:border-purple-400/50 hover:shadow-2xl ${
-                            isLarge ? "sm:col-span-2 sm:row-span-2 min-h-[380px]" : isWide ? "sm:col-span-2 min-h-[260px]" : "min-h-[220px]"
-                          }`}
+                          className={`group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-black/40 cursor-pointer transition-all hover:border-purple-400/50 hover:shadow-2xl ${isLarge ? "sm:col-span-2 sm:row-span-2 min-h-[380px]" : isWide ? "sm:col-span-2 min-h-[260px]" : "min-h-[220px]"
+                            }`}
                         >
                           <Image
                             src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
@@ -1564,9 +1583,8 @@ export default function FanPhotoWallClient({
                           role="button"
                           tabIndex={0}
                           onClick={() => setSelectedPhoto(photo)}
-                          className={`group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] hover:border-purple-400/50 cursor-pointer transition-all ${
-                            isLarge ? "sm:col-span-2 min-h-[340px]" : "min-h-[220px]"
-                          }`}
+                          className={`group relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] hover:border-purple-400/50 cursor-pointer transition-all ${isLarge ? "sm:col-span-2 min-h-[340px]" : "min-h-[220px]"
+                            }`}
                         >
                           <Image
                             src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
@@ -1604,378 +1622,170 @@ export default function FanPhotoWallClient({
                 const coverDetails = coverStory ? getMediaDetails(coverStory) : null;
                 const dispatches = displayedPhotos.slice(1);
                 return (
-                <div className="flex flex-col gap-10 border-t-2 border-white/20 pt-6 [overflow-anchor:auto]">
-                  <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
-                    <h3 className="font-serif font-black uppercase text-white tracking-tight">
-                      FAN ARCHIVE &bull; DISPATCHES
-                    </h3>
-                    <span className="font-serif italic text-sm text-white/60">Issue No. 40 &bull; Live Concert Chronicles</span>
-                  </div>
-
-                  {/* Large Magazine Cover Story Hero */}
-                  {coverStory && (
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedPhoto(coverStory)}
-                      className="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-10 cursor-pointer"
-                    >
-                      <div className="lg:col-span-8 relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-black">
-                        <Image
-                          src={coverDetails?.isYouTube ? `https://img.youtube.com/vi/${coverDetails.youtubeId}/hqdefault.jpg` : coverStory.src}
-                          alt={coverStory.name}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 66vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          priority
-                        />
-                        <div className="absolute top-4 left-4 bg-white text-black font-serif text-xs font-bold uppercase px-3 py-1 tracking-widest">
-                          Cover Story Feature
-                        </div>
-                      </div>
-                      <div className="lg:col-span-4 flex flex-col gap-3 font-serif">
-                        <span className="text-xs uppercase tracking-widest text-purple-300 font-sans font-bold">
-                          {coverStory.venue || "Tour Feature"} {coverStory.date && `• ${coverStory.date}`}
-                        </span>
-                        <h4 className="font-bold text-white group-hover:text-purple-300 transition-colors leading-tight">
-                          {coverStory.name}&apos;s Live Experience
-                        </h4>
-                        {coverStory.caption && (
-                          <p className="text-sm sm:text-base text-white/80 leading-relaxed italic mt-2">
-                            &ldquo;{coverStory.caption}&rdquo;
-                          </p>
-                        )}
-                        <span className="text-xs text-purple-400 font-sans font-bold uppercase tracking-wider mt-4">
-                          Read Full Dispatch &rarr;
-                        </span>
-                      </div>
+                  <div className="flex flex-col gap-10 border-t-2 border-white/20 pt-6 [overflow-anchor:auto]">
+                    <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
+                      <h3 className="font-serif font-black uppercase text-white tracking-tight">
+                        FAN ARCHIVE &bull; DISPATCHES
+                      </h3>
+                      <span className="font-serif italic text-sm text-white/60">Issue No. 40 &bull; Live Concert Chronicles</span>
                     </div>
-                  )}
 
-                  {/* Supporting Magazine Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {dispatches.map((photo) => {
-                      const mediaDetails = getMediaDetails(photo);
-                      return (
-                        <div
-                          key={photo.id}
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setSelectedPhoto(photo)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              setSelectedPhoto(photo);
-                            }
-                          }}
-                          className="group border-b border-white/10 pb-6 flex flex-col justify-between cursor-pointer"
-                        >
-                          <div>
-                            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-black">
-                              <Image
-                                src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 33vw"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
-                            </div>
-                            <div className="mt-3 flex items-center justify-between font-serif text-xs text-white/60">
-                              <span>{photo.venue || "Live Concert"}</span>
-                              <span>{photo.date || "2026"}</span>
-                            </div>
-                            <h4 className="mt-1 font-serif font-bold text-white group-hover:text-purple-300 transition-colors">
-                              {photo.name}
-                            </h4>
-                            {photo.caption && (
-                              <p className="mt-1 font-serif text-xs text-white/75 leading-relaxed italic line-clamp-2">
-                                &ldquo;{photo.caption}&rdquo;
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            }
-
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 11: HERO FILMSTRIP (Cinematic Stage Reel)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 11) {
-              const headliner = displayedPhotos[0];
-              const headlinerDetails = headliner ? getMediaDetails(headliner) : null;
-              const reelPhotos = displayedPhotos.slice(1);
-
-              return (
-                <div className="flex flex-col gap-10 [overflow-anchor:auto]">
-                  {headliner && (
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedPhoto(headliner)}
-                      className="group relative overflow-hidden rounded-[var(--radius-box)] border border-amber-500/30 bg-gradient-to-t from-black via-zinc-950 to-black p-4 sm:p-6 shadow-2xl cursor-pointer"
-                    >
-                      <div className="relative aspect-[21/9] min-h-[300px] w-full overflow-hidden rounded-2xl bg-black">
-                        {headlinerDetails?.isDirectVideo ? (
-                          <video src={headlinerDetails.videoSrc} className="h-full w-full object-cover" muted autoPlay loop playsInline />
-                        ) : (
-                          <Image
-                            src={headlinerDetails?.isYouTube ? `https://img.youtube.com/vi/${headlinerDetails.youtubeId}/hqdefault.jpg` : headliner.src}
-                            alt={headliner.name}
-                            fill
-                            sizes="100vw"
-                            priority
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                        <div className="absolute top-4 left-4 rounded-full border border-amber-400/40 bg-black/80 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-300">
-                          Cinematic Reel Feature
-                        </div>
-                        <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-                          <div>
-                            <p className="text-xs uppercase font-mono tracking-widest text-amber-400">
-                              {headliner.venue || "Tour Feature"} &bull; {headliner.date || "Live"}
-                            </p>
-                            <h3 className="font-extrabold text-white mt-1">
-                              {headliner.name}
-                            </h3>
-                            {headliner.caption && (
-                              <p className="text-sm text-white/80 max-w-2xl mt-1.5 line-clamp-2">
-                                &ldquo;{headliner.caption}&rdquo;
-                              </p>
-                            )}
-                          </div>
-                          <span className="shrink-0 rounded-full bg-amber-500 text-black px-4 py-2 text-xs font-bold uppercase tracking-wider shadow-lg">
-                            View Cinema Cut &rarr;
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Horizontal Film Reel Strip */}
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                      <div className="flex items-center gap-2">
-                        <Film className="h-4 w-4 text-amber-400" />
-                        <h4 className="font-mono uppercase tracking-wider text-white">Film Reel Gallery</h4>
-                      </div>
-                      <span className="text-xs text-white/50">Scroll horizontally &rarr;</span>
-                    </div>
-                    <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory custom-scrollbar">
-                      {reelPhotos.map((photo) => {
-                        const details = getMediaDetails(photo);
-                        return (
-                          <div
-                            key={photo.id}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setSelectedPhoto(photo)}
-                            className="group relative min-w-[280px] sm:min-w-[340px] shrink-0 snap-start overflow-hidden rounded-2xl border-2 border-white/10 bg-zinc-950 p-2.5 transition-all hover:border-amber-400/60 cursor-pointer"
-                          >
-                            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="340px"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
-                              {details.isVideo && (
-                                <div className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-amber-300">
-                                  <Play className="h-3 w-3 fill-current" />
-                                </div>
-                              )}
-                            </div>
-                            <div className="mt-3 flex flex-col gap-0.5 text-xs">
-                              <span className="font-bold text-white group-hover:text-amber-300 transition-colors truncate">{photo.name}</span>
-                              <div className="flex items-center justify-between text-white/50 text-[10px]">
-                                <span className="truncate">{photo.venue || photo.city || "7th Heaven"}</span>
-                                <span className="shrink-0">{photo.date || "2026"}</span>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 12: SPOTLIGHT SIDEBAR (Sticky Super-Card + Archive)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 12) {
-              const spotlight = displayedPhotos[0];
-              const spotDetails = spotlight ? getMediaDetails(spotlight) : null;
-              const archive = displayedPhotos.slice(1);
-
-              return (
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start [overflow-anchor:auto]">
-                  {/* Left Sticky 5-Cols */}
-                  {spotlight && (
-                    <div className="lg:col-span-5 lg:sticky lg:top-24">
+                    {/* Large Magazine Cover Story Hero */}
+                    {coverStory && (
                       <div
                         role="button"
                         tabIndex={0}
-                        onClick={() => setSelectedPhoto(spotlight)}
-                        className="group relative overflow-hidden rounded-[var(--radius-box)] border border-cyan-400/30 bg-cyan-950/20 p-5 backdrop-blur-xl shadow-2xl cursor-pointer"
+                        onClick={() => setSelectedPhoto(coverStory)}
+                        className="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-10 cursor-pointer"
                       >
-                        <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                          <span className="text-xs font-mono font-bold uppercase text-cyan-400 tracking-wider">Spotlight Pin</span>
-                          <span className="text-xs text-white/60">{spotlight.date || "Active Season"}</span>
+                        <div className="lg:col-span-8 relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-black">
+                          <Image
+                            src={coverDetails?.isYouTube ? `https://img.youtube.com/vi/${coverDetails.youtubeId}/hqdefault.jpg` : coverStory.src}
+                            alt={coverStory.name}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 66vw"
+                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            priority
+                          />
+                          <div className="absolute top-4 left-4 bg-white text-black font-serif text-xs font-bold uppercase px-3 py-1 tracking-widest">
+                            Cover Story Feature
+                          </div>
                         </div>
-                        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-black">
-                          {spotDetails?.isDirectVideo ? (
-                            <video src={spotDetails.videoSrc} className="h-full w-full object-cover" muted autoPlay loop playsInline />
-                          ) : (
-                            <Image
-                              src={spotDetails?.isYouTube ? `https://img.youtube.com/vi/${spotDetails.youtubeId}/hqdefault.jpg` : spotlight.src}
-                              alt={spotlight.name}
-                              fill
-                              sizes="(max-width: 1024px) 100vw, 40vw"
-                              priority
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                          )}
-                        </div>
-                        <div className="mt-4 flex flex-col gap-2">
-                          <h3 className="font-black text-white group-hover:text-cyan-300 transition-colors">
-                            {spotlight.name}
-                          </h3>
-                          <p className="text-xs font-mono text-cyan-300">
-                            {spotlight.venue ? `${spotlight.venue} • ` : ""}{spotlight.city || "Chicago, IL"}
-                          </p>
-                          {spotlight.caption && (
-                            <p className="text-sm text-white/80 italic mt-1 leading-relaxed">
-                              &ldquo;{spotlight.caption}&rdquo;
+                        <div className="lg:col-span-4 flex flex-col gap-3 font-serif">
+                          <span className="text-xs uppercase tracking-widest text-purple-300 font-sans font-bold">
+                            {coverStory.venue || "Tour Feature"} {coverStory.date && `• ${coverStory.date}`}
+                          </span>
+                          <h4 className="font-bold text-white group-hover:text-purple-300 transition-colors leading-tight">
+                            {coverStory.name}&apos;s Live Experience
+                          </h4>
+                          {coverStory.caption && (
+                            <p className="text-sm sm:text-base text-white/80 leading-relaxed italic mt-2">
+                              &ldquo;{coverStory.caption}&rdquo;
                             </p>
                           )}
-                          <button
-                            type="button"
-                            className="mt-3 w-full rounded-xl bg-cyan-500/20 border border-cyan-400/40 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-cyan-200 hover:bg-cyan-500/30 transition-colors"
-                          >
-                            Expand Stage Capture
-                          </button>
+                          <span className="text-xs text-purple-400 font-sans font-bold uppercase tracking-wider mt-4">
+                            Read Full Dispatch &rarr;
+                          </span>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Right 7-Cols Archive Feed */}
-                  <div className="lg:col-span-7 flex flex-col gap-4">
-                    <div className="border-b border-white/10 pb-3 flex items-center justify-between">
-                      <h4 className="font-bold uppercase tracking-wider text-white">Live Concert Stream</h4>
-                      <span className="text-xs text-white/50">{archive.length} Moments</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {archive.map((photo) => {
-                        const details = getMediaDetails(photo);
+                    {/* Supporting Magazine Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      {dispatches.map((photo) => {
+                        const mediaDetails = getMediaDetails(photo);
                         return (
                           <div
                             key={photo.id}
                             role="button"
                             tabIndex={0}
                             onClick={() => setSelectedPhoto(photo)}
-                            className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-3 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all cursor-pointer"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                setSelectedPhoto(photo);
+                              }
+                            }}
+                            className="group border-b border-white/10 pb-6 flex flex-col justify-between cursor-pointer"
                           >
-                            <div className="relative aspect-[16/11] w-full overflow-hidden rounded-xl bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="300px"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
-                            </div>
-                            <div className="mt-3 flex flex-col gap-0.5">
-                              <span className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors truncate">{photo.name}</span>
-                              <span className="text-xs text-white/60 truncate">{photo.venue || photo.city || "Live Show"}</span>
-                              <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
+                            <div>
+                              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-black">
+                                <Image
+                                  src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 33vw"
+                                  className="object-cover group-hover:scale-105 transition-transform"
+                                />
+                              </div>
+                              <div className="mt-3 flex items-center justify-between font-serif text-xs text-white/60">
+                                <span>{photo.venue || "Live Concert"}</span>
+                                <span>{photo.date || "2026"}</span>
+                              </div>
+                              <h4 className="mt-1 font-serif font-bold text-white group-hover:text-purple-300 transition-colors">
+                                {photo.name}
+                              </h4>
+                              {photo.caption && (
+                                <p className="mt-1 font-serif text-xs text-white/75 leading-relaxed italic line-clamp-2">
+                                  &ldquo;{photo.caption}&rdquo;
+                                </p>
+                              )}
                             </div>
                           </div>
                         );
                       })}
                     </div>
                   </div>
-                </div>
-              );
-            }
+                );
+              }
 
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 13: TRIPTYCH ARENA (3 Balanced Stage Pillars)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 13) {
-              const triptych = displayedPhotos.slice(0, 3);
-              const remainder = displayedPhotos.slice(3);
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 11: HERO FILMSTRIP (Cinematic Stage Reel)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 11) {
+                const headliner = displayedPhotos[0];
+                const headlinerDetails = headliner ? getMediaDetails(headliner) : null;
+                const reelPhotos = displayedPhotos.slice(1);
 
-              return (
-                <div className="flex flex-col gap-10 [overflow-anchor:auto]">
-                  {/* Triptych 3-Column Pillars */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {triptych.map((photo, idx) => {
-                      const details = getMediaDetails(photo);
-                      const colors = [
-                        "border-fuchsia-500/40 bg-fuchsia-950/20",
-                        "border-indigo-500/40 bg-indigo-950/20",
-                        "border-purple-500/40 bg-purple-950/20",
-                      ];
-                      const accents = ["text-fuchsia-400", "text-indigo-400", "text-purple-400"];
-
-                      return (
-                        <div
-                          key={photo.id}
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setSelectedPhoto(photo)}
-                          className={`group relative overflow-hidden rounded-[var(--radius-box)] border ${colors[idx % 3]} p-4 sm:p-5 flex flex-col justify-between transition-all hover:scale-[1.02] cursor-pointer shadow-xl`}
-                        >
-                          <div>
-                            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
-                              <span className={`text-xs font-mono font-bold uppercase tracking-wider ${accents[idx % 3]}`}>
-                                Stage Pillar 0{idx + 1}
-                              </span>
-                              <span className="text-xs text-white/50">{photo.date || "Tour 2026"}</span>
-                            </div>
-                            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 33vw"
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                              />
-                            </div>
-                            <h3 className="mt-4 font-black text-white group-hover:text-purple-200 transition-colors">
-                              {photo.name}
-                            </h3>
-                            <p className="text-xs text-white/60 mt-0.5">{photo.venue || photo.city || "Stage Center"}</p>
-                            {photo.caption && (
-                              <p className="text-xs text-white/80 mt-2 line-clamp-3 leading-relaxed">
-                                &ldquo;{photo.caption}&rdquo;
-                              </p>
-                            )}
+                return (
+                  <div className="flex flex-col gap-10 [overflow-anchor:auto]">
+                    {headliner && (
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setSelectedPhoto(headliner)}
+                        className="group relative overflow-hidden rounded-[var(--radius-box)] border border-amber-500/30 bg-gradient-to-t from-black via-zinc-950 to-black p-4 sm:p-6 shadow-2xl cursor-pointer"
+                      >
+                        <div className="relative aspect-[21/9] min-h-[300px] w-full overflow-hidden rounded-2xl bg-black">
+                          {headlinerDetails?.isDirectVideo ? (
+                            <video src={headlinerDetails.videoSrc} className="h-full w-full object-cover" muted autoPlay loop playsInline />
+                          ) : (
+                            <Image
+                              src={headlinerDetails?.isYouTube ? `https://img.youtube.com/vi/${headlinerDetails.youtubeId}/hqdefault.jpg` : headliner.src}
+                              alt={headliner.name}
+                              fill
+                              sizes="100vw"
+                              priority
+                              className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+                          <div className="absolute top-4 left-4 rounded-full border border-amber-400/40 bg-black/80 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-300">
+                            Cinematic Reel Feature
                           </div>
-                          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-white/70">
-                            <span>Full Resolution</span>
-                            <Maximize2 className="h-3.5 w-3.5 text-purple-300" />
+                          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+                            <div>
+                              <p className="text-xs uppercase font-mono tracking-widest text-amber-400">
+                                {headliner.venue || "Tour Feature"} &bull; {headliner.date || "Live"}
+                              </p>
+                              <h3 className="font-extrabold text-white mt-1">
+                                {headliner.name}
+                              </h3>
+                              {headliner.caption && (
+                                <p className="text-sm text-white/80 max-w-2xl mt-1.5 line-clamp-2">
+                                  &ldquo;{headliner.caption}&rdquo;
+                                </p>
+                              )}
+                            </div>
+                            <span className="shrink-0 rounded-full bg-amber-500 text-black px-4 py-2 text-xs font-bold uppercase tracking-wider shadow-lg">
+                              View Cinema Cut &rarr;
+                            </span>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    )}
 
-                  {/* Bottom Supporting Grid */}
-                  {remainder.length > 0 && (
-                    <div className="flex flex-col gap-4 border-t border-white/10 pt-6">
-                      <h4 className="font-mono uppercase tracking-widest text-white/60">Community Stage Ribbons</h4>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-                        {remainder.map((photo) => {
+                    {/* Horizontal Film Reel Strip */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                        <div className="flex items-center gap-2">
+                          <Film className="h-4 w-4 text-amber-400" />
+                          <h4 className="font-mono uppercase tracking-wider text-white">Film Reel Gallery</h4>
+                        </div>
+                        <span className="text-xs text-white/50">Scroll horizontally &rarr;</span>
+                      </div>
+                      <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory custom-scrollbar">
+                        {reelPhotos.map((photo) => {
                           const details = getMediaDetails(photo);
                           return (
                             <div
@@ -1983,37 +1793,646 @@ export default function FanPhotoWallClient({
                               role="button"
                               tabIndex={0}
                               onClick={() => setSelectedPhoto(photo)}
-                              className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-black cursor-pointer hover:border-purple-400 transition-all"
+                              className="group relative min-w-[280px] sm:min-w-[340px] shrink-0 snap-start overflow-hidden rounded-2xl border-2 border-white/10 bg-zinc-950 p-2.5 transition-all hover:border-amber-400/60 cursor-pointer"
                             >
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="160px"
-                                className="object-cover group-hover:scale-110 transition-transform"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-end">
-                                <span className="text-[10px] font-bold text-white truncate">{photo.name}</span>
-                                <span className="text-[9px] text-white/70 truncate">{photo.venue || photo.city || "Tour"}</span>
-                                <span className="text-[9px] text-white/40 truncate">{photo.date || "2026"}</span>
+                              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-black">
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="340px"
+                                  className="object-cover group-hover:scale-105 transition-transform"
+                                />
+                                {details.isVideo && (
+                                  <div className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-amber-300">
+                                    <Play className="h-3 w-3 fill-current" />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="mt-3 flex flex-col gap-0.5 text-xs">
+                                <span className="font-bold text-white group-hover:text-amber-300 transition-colors truncate">{photo.name}</span>
+                                <div className="flex items-center justify-between text-white/50 text-[10px]">
+                                  <span className="truncate">{photo.venue || photo.city || "7th Heaven"}</span>
+                                  <span className="shrink-0">{photo.date || "2026"}</span>
+                                </div>
                               </div>
                             </div>
                           );
                         })}
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            }
+                  </div>
+                );
+              }
 
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 14: HERO ACCORDION (Interactive Story Slices)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 14) {
-              return (
-                <div className="flex flex-col gap-8 [overflow-anchor:auto]">
-                  <div className="flex flex-col gap-4">
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 12: SPOTLIGHT SIDEBAR (Sticky Super-Card + Archive)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 12) {
+                const spotlight = displayedPhotos[0];
+                const spotDetails = spotlight ? getMediaDetails(spotlight) : null;
+                const archive = displayedPhotos.slice(1);
+
+                return (
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start [overflow-anchor:auto]">
+                    {/* Left Sticky 5-Cols */}
+                    {spotlight && (
+                      <div className="lg:col-span-5 lg:sticky lg:top-24">
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setSelectedPhoto(spotlight)}
+                          className="group relative overflow-hidden rounded-[var(--radius-box)] border border-cyan-400/30 bg-cyan-950/20 p-5 backdrop-blur-xl shadow-2xl cursor-pointer"
+                        >
+                          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                            <span className="text-xs font-mono font-bold uppercase text-cyan-400 tracking-wider">Spotlight Pin</span>
+                            <span className="text-xs text-white/60">{spotlight.date || "Active Season"}</span>
+                          </div>
+                          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-black">
+                            {spotDetails?.isDirectVideo ? (
+                              <video src={spotDetails.videoSrc} className="h-full w-full object-cover" muted autoPlay loop playsInline />
+                            ) : (
+                              <Image
+                                src={spotDetails?.isYouTube ? `https://img.youtube.com/vi/${spotDetails.youtubeId}/hqdefault.jpg` : spotlight.src}
+                                alt={spotlight.name}
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 40vw"
+                                priority
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            )}
+                          </div>
+                          <div className="mt-4 flex flex-col gap-2">
+                            <h3 className="font-black text-white group-hover:text-cyan-300 transition-colors">
+                              {spotlight.name}
+                            </h3>
+                            <p className="text-xs font-mono text-cyan-300">
+                              {spotlight.venue ? `${spotlight.venue} • ` : ""}{spotlight.city || "Chicago, IL"}
+                            </p>
+                            {spotlight.caption && (
+                              <p className="text-sm text-white/80 italic mt-1 leading-relaxed">
+                                &ldquo;{spotlight.caption}&rdquo;
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              className="mt-3 w-full rounded-xl bg-cyan-500/20 border border-cyan-400/40 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-cyan-200 hover:bg-cyan-500/30 transition-colors"
+                            >
+                              Expand Stage Capture
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Right 7-Cols Archive Feed */}
+                    <div className="lg:col-span-7 flex flex-col gap-4">
+                      <div className="border-b border-white/10 pb-3 flex items-center justify-between">
+                        <h4 className="font-bold uppercase tracking-wider text-white">Live Concert Stream</h4>
+                        <span className="text-xs text-white/50">{archive.length} Moments</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {archive.map((photo) => {
+                          const details = getMediaDetails(photo);
+                          return (
+                            <div
+                              key={photo.id}
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => setSelectedPhoto(photo)}
+                              className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-3 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all cursor-pointer"
+                            >
+                              <div className="relative aspect-[16/11] w-full overflow-hidden rounded-xl bg-black">
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="300px"
+                                  className="object-cover group-hover:scale-105 transition-transform"
+                                />
+                              </div>
+                              <div className="mt-3 flex flex-col gap-0.5">
+                                <span className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors truncate">{photo.name}</span>
+                                <span className="text-xs text-white/60 truncate">{photo.venue || photo.city || "Live Show"}</span>
+                                <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 13: TRIPTYCH ARENA (3 Balanced Stage Pillars)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 13) {
+                const triptych = displayedPhotos.slice(0, 3);
+                const remainder = displayedPhotos.slice(3);
+
+                return (
+                  <div className="flex flex-col gap-10 [overflow-anchor:auto]">
+                    {/* Triptych 3-Column Pillars */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {triptych.map((photo, idx) => {
+                        const details = getMediaDetails(photo);
+                        const colors = [
+                          "border-fuchsia-500/40 bg-fuchsia-950/20",
+                          "border-indigo-500/40 bg-indigo-950/20",
+                          "border-purple-500/40 bg-purple-950/20",
+                        ];
+                        const accents = ["text-fuchsia-400", "text-indigo-400", "text-purple-400"];
+
+                        return (
+                          <div
+                            key={photo.id}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => setSelectedPhoto(photo)}
+                            className={`group relative overflow-hidden rounded-[var(--radius-box)] border ${colors[idx % 3]} p-4 sm:p-5 flex flex-col justify-between transition-all hover:scale-[1.02] cursor-pointer shadow-xl`}
+                          >
+                            <div>
+                              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                                <span className={`text-xs font-mono font-bold uppercase tracking-wider ${accents[idx % 3]}`}>
+                                  Stage Pillar 0{idx + 1}
+                                </span>
+                                <span className="text-xs text-white/50">{photo.date || "Tour 2026"}</span>
+                              </div>
+                              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black">
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 33vw"
+                                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                              </div>
+                              <h3 className="mt-4 font-black text-white group-hover:text-purple-200 transition-colors">
+                                {photo.name}
+                              </h3>
+                              <p className="text-xs text-white/60 mt-0.5">{photo.venue || photo.city || "Stage Center"}</p>
+                              {photo.caption && (
+                                <p className="text-xs text-white/80 mt-2 line-clamp-3 leading-relaxed">
+                                  &ldquo;{photo.caption}&rdquo;
+                                </p>
+                              )}
+                            </div>
+                            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-white/70">
+                              <span>Full Resolution</span>
+                              <Maximize2 className="h-3.5 w-3.5 text-purple-300" />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Bottom Supporting Grid */}
+                    {remainder.length > 0 && (
+                      <div className="flex flex-col gap-4 border-t border-white/10 pt-6">
+                        <h4 className="font-mono uppercase tracking-widest text-white/60">Community Stage Ribbons</h4>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                          {remainder.map((photo) => {
+                            const details = getMediaDetails(photo);
+                            return (
+                              <div
+                                key={photo.id}
+                                role="button"
+                                tabIndex={0}
+                                onClick={() => setSelectedPhoto(photo)}
+                                className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-black cursor-pointer hover:border-purple-400 transition-all"
+                              >
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="160px"
+                                  className="object-cover group-hover:scale-110 transition-transform"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-end">
+                                  <span className="text-[10px] font-bold text-white truncate">{photo.name}</span>
+                                  <span className="text-[9px] text-white/70 truncate">{photo.venue || photo.city || "Tour"}</span>
+                                  <span className="text-[9px] text-white/40 truncate">{photo.date || "2026"}</span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 14: HERO ACCORDION (Interactive Story Slices)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 14) {
+                return (
+                  <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                    <div className="flex flex-col gap-4">
+                      {displayedPhotos.map((photo, idx) => {
+                        const details = getMediaDetails(photo);
+                        return (
+                          <div
+                            key={photo.id}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => setSelectedPhoto(photo)}
+                            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-5 hover:border-purple-500/50 hover:bg-white/[0.04] transition-all cursor-pointer shadow-lg"
+                          >
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                              <div className="md:col-span-1 flex md:flex-col items-center justify-between md:justify-center gap-1 font-mono text-xs text-purple-400 font-bold">
+                                <span>#{String(idx + 1).padStart(2, "0")}</span>
+                                <span className="hidden md:inline text-[10px] text-white/40">CUT</span>
+                              </div>
+                              <div className="md:col-span-4 relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-black">
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 30vw"
+                                  className="object-cover group-hover:scale-105 transition-transform"
+                                />
+                              </div>
+                              <div className="md:col-span-5 flex flex-col gap-1.5">
+                                <span className="text-xs uppercase font-mono text-purple-300">
+                                  {photo.venue || photo.city || "Tour Stage"} {photo.date && `• ${photo.date}`}
+                                </span>
+                                <h3 className="font-black text-white group-hover:text-purple-300 transition-colors">
+                                  {photo.name}
+                                </h3>
+                                {photo.caption && (
+                                  <p className="text-sm text-white/70 line-clamp-2 italic">
+                                    &ldquo;{photo.caption}&rdquo;
+                                  </p>
+                                )}
+                              </div>
+                              <div className="md:col-span-2 flex items-center justify-end">
+                                <span className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white group-hover:border-purple-400 group-hover:bg-purple-600 transition-all">
+                                  Inspect &rarr;
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 15: TOUR METRO GRID (Prominent Venue Banners)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 15) {
+                return (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 [overflow-anchor:auto]">
+                    {displayedPhotos.map((photo) => {
+                      const details = getMediaDetails(photo);
+                      return (
+                        <div
+                          key={photo.id}
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setSelectedPhoto(photo)}
+                          className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 hover:border-emerald-400/50 transition-all shadow-xl cursor-pointer"
+                        >
+                          {/* City Venue Ribbon */}
+                          <div className="flex items-center justify-between bg-gradient-to-r from-emerald-950/80 to-teal-950/60 border-b border-emerald-500/20 px-4 py-2 text-xs font-mono">
+                            <span className="font-bold text-emerald-300 flex items-center gap-1.5 truncate">
+                              <MapPin className="h-3 w-3 shrink-0" />
+                              {photo.venue || photo.city || "Concert Venue"}
+                            </span>
+                            <span className="text-white/60 shrink-0">{photo.date || "2026"}</span>
+                          </div>
+
+                          <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
+                            <Image
+                              src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                              alt={photo.name}
+                              fill
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                              className="object-cover group-hover:scale-105 transition-transform"
+                            />
+                            {details.isVideo && (
+                              <div className="absolute bottom-2 right-2 rounded-full bg-emerald-500 text-black px-2.5 py-0.5 text-[10px] font-bold">
+                                VIDEO
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="p-4 flex flex-col justify-between flex-1 gap-2">
+                            <div>
+                              <h4 className="font-bold text-white group-hover:text-emerald-300 transition-colors">
+                                {photo.name}
+                              </h4>
+                              {photo.caption && (
+                                <p className="text-xs text-white/70 mt-1 line-clamp-2 italic">
+                                  &ldquo;{photo.caption}&rdquo;
+                                </p>
+                              )}
+                            </div>
+                            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-white/50">
+                              <span>7th Heaven Archive</span>
+                              <span className="font-bold text-emerald-400">View &rarr;</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              }
+
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 16: GOLDEN RATIO 62/38 (Harmonic Asymmetry)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 16) {
+                const goldenMain = displayedPhotos[0];
+                const goldenDetails = goldenMain ? getMediaDetails(goldenMain) : null;
+                const goldenStack = displayedPhotos.slice(1, 4);
+                const goldenRest = displayedPhotos.slice(4);
+
+                return (
+                  <div className="flex flex-col gap-10 [overflow-anchor:auto]">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                      {/* Left 62% Primary Feature */}
+                      {goldenMain && (
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setSelectedPhoto(goldenMain)}
+                          className="lg:col-span-7 group relative overflow-hidden rounded-[var(--radius-box)] border border-amber-500/40 bg-zinc-950 p-6 flex flex-col justify-between shadow-2xl cursor-pointer"
+                        >
+                          <div>
+                            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                              <span className="text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">&Phi; Golden Stage Canvas</span>
+                              <span className="text-xs text-white/60">{goldenMain.date || "7th Heaven"}</span>
+                            </div>
+                            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black">
+                              <Image
+                                src={goldenDetails?.isYouTube ? `https://img.youtube.com/vi/${goldenDetails.youtubeId}/hqdefault.jpg` : goldenMain.src}
+                                alt={goldenMain.name}
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 60vw"
+                                priority
+                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                              />
+                            </div>
+                          </div>
+                          <div className="mt-5">
+                            <h3 className="font-extrabold text-white group-hover:text-amber-300 transition-colors">
+                              {goldenMain.name}
+                            </h3>
+                            <p className="text-xs font-mono text-white/60 mt-1">{goldenMain.venue || goldenMain.city || "Live Concert"}</p>
+                            {goldenMain.caption && (
+                              <p className="text-sm text-white/80 mt-2 leading-relaxed">
+                                &ldquo;{goldenMain.caption}&rdquo;
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Right 38% Vertical Harmonic Stack */}
+                      <div className="lg:col-span-5 flex flex-col gap-4 justify-between">
+                        {goldenStack.map((photo) => {
+                          const details = getMediaDetails(photo);
+                          return (
+                            <div
+                              key={photo.id}
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => setSelectedPhoto(photo)}
+                              className="group flex-1 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-3.5 hover:border-amber-400/40 hover:bg-white/[0.05] transition-all cursor-pointer"
+                            >
+                              <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-black">
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="120px"
+                                  className="object-cover group-hover:scale-105 transition-transform"
+                                />
+                              </div>
+                              <div className="flex flex-col gap-0.5 min-w-0">
+                                <span className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors truncate">{photo.name}</span>
+                                <span className="text-xs text-white/60 truncate">{photo.venue || photo.city || "Live Capture"}</span>
+                                <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
+                                {photo.caption && <p className="text-xs text-white/70 line-clamp-1 italic mt-0.5">&ldquo;{photo.caption}&rdquo;</p>}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Bottom Golden Grid */}
+                    {goldenRest.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4 border-t border-white/10 pt-6">
+                        {goldenRest.map((photo) => {
+                          const details = getMediaDetails(photo);
+                          return (
+                            <div
+                              key={photo.id}
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => setSelectedPhoto(photo)}
+                              className="group flex flex-col rounded-xl border border-white/10 p-2 bg-black/40 hover:border-amber-400/50 cursor-pointer"
+                            >
+                              <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
+                                <Image
+                                  src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                  alt={photo.name}
+                                  fill
+                                  sizes="200px"
+                                  className="object-cover group-hover:scale-105 transition-transform"
+                                />
+                              </div>
+                              <span className="mt-2 text-xs font-bold text-white truncate">{photo.name}</span>
+                              <span className="text-[10px] text-white/60 truncate">{photo.venue || photo.city || "Live Show"}</span>
+                              <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 17: BILLBOARD MARQUEE (Ultra-Wide Header + Matrix)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 17) {
+                const billboard = displayedPhotos[0];
+                const billDetails = billboard ? getMediaDetails(billboard) : null;
+                const matrix = displayedPhotos.slice(1);
+
+                return (
+                  <div className="flex flex-col gap-8 [overflow-anchor:auto]">
+                    {billboard && (
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setSelectedPhoto(billboard)}
+                        className="group relative overflow-hidden rounded-[var(--radius-box)] shadow-2xl cursor-pointer"
+                      >
+                        <div className="relative aspect-[24/9] min-h-[220px] w-full overflow-hidden bg-black">
+                          <Image
+                            src={billDetails?.isYouTube ? `https://img.youtube.com/vi/${billDetails.youtubeId}/hqdefault.jpg` : billboard.src}
+                            alt={billboard.name}
+                            fill
+                            sizes="100vw"
+                            priority
+                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                          {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
+                          <div className="absolute top-4 left-4 z-20">
+                            {billDetails?.isVideo ? (
+                              <span className="flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/80 backdrop-blur-md px-3 py-1 text-xs font-mono font-bold tracking-wider text-purple-200 shadow-xl">
+                                <span className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+                                <Film className="h-3.5 w-3.5 text-purple-300" />
+                                <span>FAN VIDEO</span>
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/50 bg-black/80 backdrop-blur-md px-3 py-1 text-xs font-mono font-bold tracking-wider text-emerald-200 shadow-xl">
+                                <Camera className="h-3.5 w-3.5 text-emerald-300" />
+                                <span>FAN PHOTO</span>
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+                            {billDetails?.isVideo ? (
+                              <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
+                                <GlassPlayButton
+                                  size="lg"
+                                  as="div"
+                                  glow
+                                  className="pointer-events-none"
+                                />
+                              </div>
+                            ) : (
+                              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
+                                <Maximize2 className="h-6 w-6" />
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
+                            <span className="text-xs uppercase font-mono tracking-widest text-purple-300 font-bold">24:9 Panoramic Marquee</span>
+                            <h3 className="font-black text-white mt-1">{billboard.name}</h3>
+                            <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
+                              {billboard.venue || billboard.city || "Live Stage"}{billboard.venue && billboard.city ? ` • ${billboard.city}` : ""}{billboard.date ? ` • ${billboard.date}` : ""}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 4-Column Matrix (Enlarged) */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                      {matrix.map((photo) => {
+                        const details = getMediaDetails(photo);
+                        return (
+                          <div
+                            key={photo.id}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => setSelectedPhoto(photo)}
+                            className="group flex flex-col transition-all cursor-pointer"
+                          >
+                            <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black">
+                              <Image
+                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                                alt={photo.name}
+                                fill
+                                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                                className="object-cover group-hover:scale-105 transition-transform"
+                              />
+
+                              {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
+                              <div className="absolute top-2 left-2 z-10">
+                                {details.isVideo ? (
+                                  <span className="flex items-center gap-1 rounded-md border border-purple-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-purple-200 shadow-md">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
+                                    <Film className="h-3 w-3 text-purple-300" />
+                                    <span>VIDEO</span>
+                                  </span>
+                                ) : (
+                                  <span className="flex items-center gap-1 rounded-md border border-emerald-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-emerald-200 shadow-md">
+                                    <Camera className="h-3 w-3 text-emerald-300" />
+                                    <span>PHOTO</span>
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                              <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
+                                {details.isVideo ? (
+                                  <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
+                                    <GlassPlayButton
+                                      size="md"
+                                      as="div"
+                                      glow
+                                      className="pointer-events-none"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
+                                    <Maximize2 className="h-5 w-5" />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Bottom Meta Row (Split Left/Right matching reference) */}
+                            <div className="mt-3 flex items-start justify-between gap-2.5 px-0.5">
+                              {/* Left: Bold All-Caps Title & Subtext in Quisas */}
+                              <div className="min-w-0 flex-1">
+                                <h3
+                                  className="font-heading text-lg sm:text-xl lg:text-2xl uppercase text-white group-hover:text-[#f2efa3] transition-colors duration-150 line-clamp-1 leading-tight tracking-normal"
+                                  title={photo.name}
+                                >
+                                  {photo.name}
+                                </h3>
+                                <div className="font-quisas text-xs sm:text-sm text-white/80 tracking-wide line-clamp-1 leading-normal mt-0.5">
+                                  {photo.venue || (photo.city ? "Live Concert" : "7th Heaven Fan Wall")}
+                                </div>
+                              </div>
+
+                              {/* Right: Date & Location matching reference */}
+                              <div className="text-right shrink-0">
+                                <span className="block text-xs font-semibold text-white/50 tracking-normal">
+                                  {details.isVideo
+                                    ? (photo.date ? `Recorded • ${photo.date}` : "Live Video")
+                                    : (photo.date ? `Captured • ${photo.date}` : "Fan Photo")}
+                                </span>
+                                <span className="block text-xs font-medium text-white/90 tracking-wide leading-none mt-1">
+                                  {photo.venue && photo.city
+                                    ? photo.city
+                                    : photo.city || (details.isVideo ? "Fan Video" : "Live Moment")}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 18: BRUTALIST NEON (High-Contrast Yellow & Black)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 18) {
+                return (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono [overflow-anchor:auto]">
                     {displayedPhotos.map((photo, idx) => {
                       const details = getMediaDetails(photo);
                       return (
@@ -2022,303 +2441,46 @@ export default function FanPhotoWallClient({
                           role="button"
                           tabIndex={0}
                           onClick={() => setSelectedPhoto(photo)}
-                          className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-5 hover:border-purple-500/50 hover:bg-white/[0.04] transition-all cursor-pointer shadow-lg"
+                          className="group border-2 border-amber-400 bg-black p-4 text-left shadow-[6px_6px_0px_0px_rgba(251,191,36,0.8)] hover:shadow-[10px_10px_0px_0px_rgba(251,191,36,1)] transition-all cursor-pointer"
                         >
-                          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
-                            <div className="md:col-span-1 flex md:flex-col items-center justify-between md:justify-center gap-1 font-mono text-xs text-purple-400 font-bold">
-                              <span>#{String(idx + 1).padStart(2, "0")}</span>
-                              <span className="hidden md:inline text-[10px] text-white/40">CUT</span>
-                            </div>
-                            <div className="md:col-span-4 relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 30vw"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
-                            </div>
-                            <div className="md:col-span-5 flex flex-col gap-1.5">
-                              <span className="text-xs uppercase font-mono text-purple-300">
-                                {photo.venue || photo.city || "Tour Stage"} {photo.date && `• ${photo.date}`}
-                              </span>
-                              <h3 className="font-black text-white group-hover:text-purple-300 transition-colors">
-                                {photo.name}
-                              </h3>
-                              {photo.caption && (
-                                <p className="text-sm text-white/70 line-clamp-2 italic">
-                                  &ldquo;{photo.caption}&rdquo;
-                                </p>
-                              )}
-                            </div>
-                            <div className="md:col-span-2 flex items-center justify-end">
-                              <span className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white group-hover:border-purple-400 group-hover:bg-purple-600 transition-all">
-                                Inspect &rarr;
-                              </span>
-                            </div>
+                          <div className="flex items-center justify-between border-b-2 border-amber-400 pb-2 mb-3 text-xs">
+                            <span className="bg-amber-400 text-black px-2 py-0.5 font-black uppercase">SYS.0{idx + 1}</span>
+                            <span className="text-amber-300 font-bold">{photo.date || "LIVE"}</span>
+                          </div>
+                          <div className="relative aspect-video w-full overflow-hidden border border-amber-400/50 bg-black">
+                            <Image
+                              src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                              alt={photo.name}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                            />
+                          </div>
+                          <div className="mt-3 flex flex-col gap-1">
+                            <h4 className="font-black uppercase tracking-tight text-white group-hover:text-amber-400">
+                              {photo.name}
+                            </h4>
+                            <span className="text-xs text-amber-300/80 truncate">&gt; {photo.venue || photo.city || "VENUE UNKNOWN"}</span>
+                            {photo.caption && (
+                              <p className="text-xs text-white/70 mt-1 line-clamp-2">
+                              // {photo.caption}
+                              </p>
+                            )}
                           </div>
                         </div>
                       );
                     })}
                   </div>
-                </div>
-              );
-            }
+                );
+              }
 
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 15: TOUR METRO GRID (Prominent Venue Banners)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 15) {
-              return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 [overflow-anchor:auto]">
-                  {displayedPhotos.map((photo) => {
-                    const details = getMediaDetails(photo);
-                    return (
-                      <div
-                        key={photo.id}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedPhoto(photo)}
-                        className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 hover:border-emerald-400/50 transition-all shadow-xl cursor-pointer"
-                      >
-                        {/* City Venue Ribbon */}
-                        <div className="flex items-center justify-between bg-gradient-to-r from-emerald-950/80 to-teal-950/60 border-b border-emerald-500/20 px-4 py-2 text-xs font-mono">
-                          <span className="font-bold text-emerald-300 flex items-center gap-1.5 truncate">
-                            <MapPin className="h-3 w-3 shrink-0" />
-                            {photo.venue || photo.city || "Concert Venue"}
-                          </span>
-                          <span className="text-white/60 shrink-0">{photo.date || "2026"}</span>
-                        </div>
-
-                        <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
-                          <Image
-                            src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                            alt={photo.name}
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                            className="object-cover group-hover:scale-105 transition-transform"
-                          />
-                          {details.isVideo && (
-                            <div className="absolute bottom-2 right-2 rounded-full bg-emerald-500 text-black px-2.5 py-0.5 text-[10px] font-bold">
-                              VIDEO
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="p-4 flex flex-col justify-between flex-1 gap-2">
-                          <div>
-                            <h4 className="font-bold text-white group-hover:text-emerald-300 transition-colors">
-                              {photo.name}
-                            </h4>
-                            {photo.caption && (
-                              <p className="text-xs text-white/70 mt-1 line-clamp-2 italic">
-                                &ldquo;{photo.caption}&rdquo;
-                              </p>
-                            )}
-                          </div>
-                          <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-white/50">
-                            <span>7th Heaven Archive</span>
-                            <span className="font-bold text-emerald-400">View &rarr;</span>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            }
-
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 16: GOLDEN RATIO 62/38 (Harmonic Asymmetry)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 16) {
-              const goldenMain = displayedPhotos[0];
-              const goldenDetails = goldenMain ? getMediaDetails(goldenMain) : null;
-              const goldenStack = displayedPhotos.slice(1, 4);
-              const goldenRest = displayedPhotos.slice(4);
-
-              return (
-                <div className="flex flex-col gap-10 [overflow-anchor:auto]">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                    {/* Left 62% Primary Feature */}
-                    {goldenMain && (
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedPhoto(goldenMain)}
-                        className="lg:col-span-7 group relative overflow-hidden rounded-[var(--radius-box)] border border-amber-500/40 bg-zinc-950 p-6 flex flex-col justify-between shadow-2xl cursor-pointer"
-                      >
-                        <div>
-                          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                            <span className="text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">&Phi; Golden Stage Canvas</span>
-                            <span className="text-xs text-white/60">{goldenMain.date || "7th Heaven"}</span>
-                          </div>
-                          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black">
-                            <Image
-                              src={goldenDetails?.isYouTube ? `https://img.youtube.com/vi/${goldenDetails.youtubeId}/hqdefault.jpg` : goldenMain.src}
-                              alt={goldenMain.name}
-                              fill
-                              sizes="(max-width: 1024px) 100vw, 60vw"
-                              priority
-                              className="object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                          </div>
-                        </div>
-                        <div className="mt-5">
-                          <h3 className="font-extrabold text-white group-hover:text-amber-300 transition-colors">
-                            {goldenMain.name}
-                          </h3>
-                          <p className="text-xs font-mono text-white/60 mt-1">{goldenMain.venue || goldenMain.city || "Live Concert"}</p>
-                          {goldenMain.caption && (
-                            <p className="text-sm text-white/80 mt-2 leading-relaxed">
-                              &ldquo;{goldenMain.caption}&rdquo;
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Right 38% Vertical Harmonic Stack */}
-                    <div className="lg:col-span-5 flex flex-col gap-4 justify-between">
-                      {goldenStack.map((photo) => {
-                        const details = getMediaDetails(photo);
-                        return (
-                          <div
-                            key={photo.id}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setSelectedPhoto(photo)}
-                            className="group flex-1 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-3.5 hover:border-amber-400/40 hover:bg-white/[0.05] transition-all cursor-pointer"
-                          >
-                            <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="120px"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
-                            </div>
-                            <div className="flex flex-col gap-0.5 min-w-0">
-                              <span className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors truncate">{photo.name}</span>
-                              <span className="text-xs text-white/60 truncate">{photo.venue || photo.city || "Live Capture"}</span>
-                              <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
-                              {photo.caption && <p className="text-xs text-white/70 line-clamp-1 italic mt-0.5">&ldquo;{photo.caption}&rdquo;</p>}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Bottom Golden Grid */}
-                  {goldenRest.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4 border-t border-white/10 pt-6">
-                      {goldenRest.map((photo) => {
-                        const details = getMediaDetails(photo);
-                        return (
-                          <div
-                            key={photo.id}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setSelectedPhoto(photo)}
-                            className="group flex flex-col rounded-xl border border-white/10 p-2 bg-black/40 hover:border-amber-400/50 cursor-pointer"
-                          >
-                            <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="200px"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
-                            </div>
-                            <span className="mt-2 text-xs font-bold text-white truncate">{photo.name}</span>
-                            <span className="text-[10px] text-white/60 truncate">{photo.venue || photo.city || "Live Show"}</span>
-                            <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 17: BILLBOARD MARQUEE (Ultra-Wide Header + Matrix)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 17) {
-              const billboard = displayedPhotos[0];
-              const billDetails = billboard ? getMediaDetails(billboard) : null;
-              const matrix = displayedPhotos.slice(1);
-
-              return (
-                <div className="flex flex-col gap-8 [overflow-anchor:auto]">
-                  {billboard && (
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedPhoto(billboard)}
-                      className="group relative overflow-hidden rounded-[var(--radius-box)] shadow-2xl cursor-pointer"
-                    >
-                      <div className="relative aspect-[24/9] min-h-[220px] w-full overflow-hidden bg-black">
-                        <Image
-                          src={billDetails?.isYouTube ? `https://img.youtube.com/vi/${billDetails.youtubeId}/hqdefault.jpg` : billboard.src}
-                          alt={billboard.name}
-                          fill
-                          sizes="100vw"
-                          priority
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
-                        <div className="absolute top-4 left-4 z-20">
-                          {billDetails?.isVideo ? (
-                            <span className="flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/80 backdrop-blur-md px-3 py-1 text-xs font-mono font-bold tracking-wider text-purple-200 shadow-xl">
-                              <span className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
-                              <Film className="h-3.5 w-3.5 text-purple-300" />
-                              <span>FAN VIDEO</span>
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/50 bg-black/80 backdrop-blur-md px-3 py-1 text-xs font-mono font-bold tracking-wider text-emerald-200 shadow-xl">
-                              <Camera className="h-3.5 w-3.5 text-emerald-300" />
-                              <span>FAN PHOTO</span>
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
-                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
-                          {billDetails?.isVideo ? (
-                            <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
-                              <GlassPlayButton
-                                size="lg"
-                                as="div"
-                                glow
-                                className="pointer-events-none"
-                              />
-                            </div>
-                          ) : (
-                            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
-                              <Maximize2 className="h-6 w-6" />
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
-                          <span className="text-xs uppercase font-mono tracking-widest text-purple-300 font-bold">24:9 Panoramic Marquee</span>
-                          <h3 className="font-black text-white mt-1">{billboard.name}</h3>
-                          <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
-                            {billboard.venue || billboard.city || "Live Stage"}{billboard.venue && billboard.city ? ` • ${billboard.city}` : ""}{billboard.date ? ` • ${billboard.date}` : ""}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 4-Column Matrix (Enlarged) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-                    {matrix.map((photo) => {
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 19: COMPACT DENSITY (High-Speed Quick View)
+                 ═══════════════════════════════════════════════════ */
+              if (layoutMode === 19) {
+                return (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 [overflow-anchor:auto]">
+                    {displayedPhotos.map((photo) => {
                       const details = getMediaDetails(photo);
                       return (
                         <div
@@ -2326,70 +2488,42 @@ export default function FanPhotoWallClient({
                           role="button"
                           tabIndex={0}
                           onClick={() => setSelectedPhoto(photo)}
-                          className="group flex flex-col transition-all cursor-pointer"
+                          className="group relative overflow-hidden rounded-xl border border-white/10 bg-zinc-950 p-2 hover:border-purple-400 hover:scale-105 transition-all cursor-pointer shadow-md"
                         >
                           <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black">
                             <Image
                               src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={photo.name}
                               fill
-                              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                              className="object-cover group-hover:scale-105 transition-transform"
+                              sizes="180px"
+                              className="object-cover"
                             />
-
-                            {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
-                            <div className="absolute top-2 left-2 z-10">
-                              {details.isVideo ? (
-                                <span className="flex items-center gap-1 rounded-md border border-purple-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-purple-200 shadow-md">
-                                  <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
-                                  <Film className="h-3 w-3 text-purple-300" />
-                                  <span>VIDEO</span>
-                                </span>
-                              ) : (
-                                <span className="flex items-center gap-1 rounded-md border border-emerald-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-emerald-200 shadow-md">
-                                  <Camera className="h-3 w-3 text-emerald-300" />
-                                  <span>PHOTO</span>
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
-                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
-                              {details.isVideo ? (
-                                <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
-                                  <GlassPlayButton
-                                    size="md"
-                                    as="div"
-                                    glow
-                                    className="pointer-events-none"
-                                  />
-                                </div>
-                              ) : (
-                                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
-                                  <Maximize2 className="h-5 w-5" />
-                                </div>
-                              )}
-                            </div>
+                            {details.isVideo && (
+                              <div className="absolute top-1.5 right-1.5 rounded-full bg-purple-600 p-1 text-white">
+                                <Play className="h-2.5 w-2.5 fill-current" />
+                              </div>
+                            )}
                           </div>
-                          <span className="mt-2.5 text-sm font-bold text-white truncate" title={photo.name}>{photo.name}</span>
-                          <span className="text-xs text-white/70 truncate" title={photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}>
-                            {photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}
-                          </span>
-                          <span className="text-xs text-white/45 truncate">{photo.date || "2026"}</span>
+                          <div className="mt-2 flex flex-col">
+                            <span className="text-xs font-bold text-white truncate group-hover:text-purple-300">{photo.name}</span>
+                            <span className="text-[10px] text-white/60 truncate">{photo.venue || photo.city || "Tour"}</span>
+                            <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
+                          </div>
                         </div>
                       );
                     })}
                   </div>
-                </div>
-              );
-            }
+                );
+              }
 
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 18: BRUTALIST NEON (High-Contrast Yellow & Black)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 18) {
+              /* ═══════════════════════════════════════════════════
+                 LAYOUT 20: CHRONICLE FEED (Violet Nocturne Center Storyline)
+                 ═══════════════════════════════════════════════════ */
               return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono [overflow-anchor:auto]">
+                <div className="relative max-w-3xl mx-auto flex flex-col gap-12 [overflow-anchor:auto]">
+                  {/* Vertical glowing timeline line with Nocturne gradient */}
+                  <div className="absolute top-0 bottom-0 left-4 sm:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-nocturne-rose via-nocturne-plum to-nocturne-midnight pointer-events-none" />
+
                   {displayedPhotos.map((photo, idx) => {
                     const details = getMediaDetails(photo);
                     return (
@@ -2398,29 +2532,38 @@ export default function FanPhotoWallClient({
                         role="button"
                         tabIndex={0}
                         onClick={() => setSelectedPhoto(photo)}
-                        className="group border-2 border-amber-400 bg-black p-4 text-left shadow-[6px_6px_0px_0px_rgba(251,191,36,0.8)] hover:shadow-[10px_10px_0px_0px_rgba(251,191,36,1)] transition-all cursor-pointer"
+                        className="group relative flex flex-col gap-4 rounded-3xl border border-nocturne-mauve/40 bg-nocturne-midnight/90 p-5 sm:p-7 backdrop-blur-xl shadow-2xl shadow-nocturne-midnight/80 hover:border-nocturne-rose transition-all cursor-pointer z-10"
                       >
-                        <div className="flex items-center justify-between border-b-2 border-amber-400 pb-2 mb-3 text-xs">
-                          <span className="bg-amber-400 text-black px-2 py-0.5 font-black uppercase">SYS.0{idx + 1}</span>
-                          <span className="text-amber-300 font-bold">{photo.date || "LIVE"}</span>
+                        <div className="flex items-center justify-between border-b border-nocturne-mauve/30 pb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="flex h-3 w-3 rounded-full bg-nocturne-rose shadow-[0_0_8px_#d2a8a2]" />
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-nocturne-rose">
+                              Chronicle Entry #{idx + 1}
+                            </span>
+                          </div>
+                          <span className="text-xs text-nocturne-rose/70">{photo.date || "Live Show"}</span>
                         </div>
-                        <div className="relative aspect-video w-full overflow-hidden border border-amber-400/50 bg-black">
+
+                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black">
                           <Image
                             src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                             alt={photo.name}
                             fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                            sizes="(max-width: 768px) 100vw, 680px"
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <div className="mt-3 flex flex-col gap-1">
-                          <h4 className="font-black uppercase tracking-tight text-white group-hover:text-amber-400">
+
+                        <div className="flex flex-col gap-1.5">
+                          <h3 className="font-black text-white group-hover:text-nocturne-rose transition-colors">
                             {photo.name}
-                          </h4>
-                          <span className="text-xs text-amber-300/80 truncate">&gt; {photo.venue || photo.city || "VENUE UNKNOWN"}</span>
+                          </h3>
+                          <p className="text-xs font-mono text-nocturne-rose/90">
+                            {photo.venue ? `${photo.venue} &bull; ` : ""}{photo.city || "Tour Concert"}
+                          </p>
                           {photo.caption && (
-                            <p className="text-xs text-white/70 mt-1 line-clamp-2">
-                              // {photo.caption}
+                            <p className="text-sm text-white/85 leading-relaxed italic mt-1">
+                              &ldquo;{photo.caption}&rdquo;
                             </p>
                           )}
                         </div>
@@ -2429,107 +2572,7 @@ export default function FanPhotoWallClient({
                   })}
                 </div>
               );
-            }
-
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 19: COMPACT DENSITY (High-Speed Quick View)
-               ═══════════════════════════════════════════════════ */
-            if (layoutMode === 19) {
-              return (
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 [overflow-anchor:auto]">
-                  {displayedPhotos.map((photo) => {
-                    const details = getMediaDetails(photo);
-                    return (
-                      <div
-                        key={photo.id}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedPhoto(photo)}
-                        className="group relative overflow-hidden rounded-xl border border-white/10 bg-zinc-950 p-2 hover:border-purple-400 hover:scale-105 transition-all cursor-pointer shadow-md"
-                      >
-                        <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black">
-                          <Image
-                            src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                            alt={photo.name}
-                            fill
-                            sizes="180px"
-                            className="object-cover"
-                          />
-                          {details.isVideo && (
-                            <div className="absolute top-1.5 right-1.5 rounded-full bg-purple-600 p-1 text-white">
-                              <Play className="h-2.5 w-2.5 fill-current" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="mt-2 flex flex-col">
-                          <span className="text-xs font-bold text-white truncate group-hover:text-purple-300">{photo.name}</span>
-                          <span className="text-[10px] text-white/60 truncate">{photo.venue || photo.city || "Tour"}</span>
-                          <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            }
-
-            /* ═══════════════════════════════════════════════════
-               LAYOUT 20: CHRONICLE FEED (Violet Nocturne Center Storyline)
-               ═══════════════════════════════════════════════════ */
-            return (
-              <div className="relative max-w-3xl mx-auto flex flex-col gap-12 [overflow-anchor:auto]">
-                {/* Vertical glowing timeline line with Nocturne gradient */}
-                <div className="absolute top-0 bottom-0 left-4 sm:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-nocturne-rose via-nocturne-plum to-nocturne-midnight pointer-events-none" />
-
-                {displayedPhotos.map((photo, idx) => {
-                  const details = getMediaDetails(photo);
-                  return (
-                    <div
-                      key={photo.id}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedPhoto(photo)}
-                      className="group relative flex flex-col gap-4 rounded-3xl border border-nocturne-mauve/40 bg-nocturne-midnight/90 p-5 sm:p-7 backdrop-blur-xl shadow-2xl shadow-nocturne-midnight/80 hover:border-nocturne-rose transition-all cursor-pointer z-10"
-                    >
-                      <div className="flex items-center justify-between border-b border-nocturne-mauve/30 pb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="flex h-3 w-3 rounded-full bg-nocturne-rose shadow-[0_0_8px_#d2a8a2]" />
-                          <span className="text-xs font-mono font-bold uppercase tracking-wider text-nocturne-rose">
-                            Chronicle Entry #{idx + 1}
-                          </span>
-                        </div>
-                        <span className="text-xs text-nocturne-rose/70">{photo.date || "Live Show"}</span>
-                      </div>
-
-                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black">
-                        <Image
-                          src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                          alt={photo.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 680px"
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <h3 className="font-black text-white group-hover:text-nocturne-rose transition-colors">
-                          {photo.name}
-                        </h3>
-                        <p className="text-xs font-mono text-nocturne-rose/90">
-                          {photo.venue ? `${photo.venue} &bull; ` : ""}{photo.city || "Tour Concert"}
-                        </p>
-                        {photo.caption && (
-                          <p className="text-sm text-white/85 leading-relaxed italic mt-1">
-                            &ldquo;{photo.caption}&rdquo;
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })()
+            })()
           ) : approvedPhotos.length > 0 ? (
             /* Filter empty state */
             <div className="py-20 text-center">
