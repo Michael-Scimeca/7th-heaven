@@ -2746,7 +2746,8 @@ button,
 /* Page wrapper visibility and smooth fade-out when the 3D Disc Vault opens */
 #page-content-wrapper {
   opacity: 1;
-  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(0px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body.vault-open #page-content-wrapper,
@@ -7287,19 +7288,82 @@ canvas.webgl-noise-overlay {
   will-change: auto;
 }
 
+/* ── Page Exit Text Blur Out ── */
+.tt-page-exiting .tt-char,
+.page-blur-out .tt-char {
+  animation: ttBlurSweepOut 380ms cubic-bezier(0.4, 0, 1, 1) both !important;
+}
+
+.tt-page-exiting .tt-word,
+.page-blur-out .tt-word {
+  animation: ttWordFallOut 380ms cubic-bezier(0.4, 0, 1, 1) both !important;
+}
+
+.tt-page-exiting .tt-block,
+.page-blur-out .tt-block {
+  animation: ttBlockOut 380ms cubic-bezier(0.4, 0, 1, 1) both !important;
+}
+
+@keyframes ttBlurSweepOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(16px);
+    transform: translate3d(0, -0.12em, 0);
+  }
+}
+
+@keyframes ttWordFallOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes ttBlockOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tt-char,
-  .tt-word {
+  .tt-word,
+  .tt-block,
+  .tt-page-exiting .tt-char,
+  .page-blur-out .tt-char,
+  .tt-page-exiting .tt-word,
+  .page-blur-out .tt-word,
+  .tt-page-exiting .tt-block,
+  .page-blur-out .tt-block {
     animation: none !important;
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
+    transition: none !important;
   }
 }
 
 /* ── Page enter / exit blur, synced with the canvas transition ──────────────
-   Driven by <PageBlur />. `filter` is only present while animating: it makes
-   the element a containing block for fixed children, so it must not linger.
+   Driven by <PageBlur /> and <TextTransitions />. `filter` is only present while animating:
+   it makes the element a containing block for fixed children, so it must not linger.
    ─────────────────────────────────────────────────────────────────────────── */
 .page-blur-out {
   filter: blur(14px);
