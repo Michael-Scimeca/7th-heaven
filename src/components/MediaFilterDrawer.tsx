@@ -14,7 +14,7 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
+import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion, type Variants } from "framer-motion";
 import { X } from "lucide-react";
 import { useScrollLock } from "@/lib/useScrollLock";
 import { Button } from "@/components/Button";
@@ -56,42 +56,38 @@ export interface MediaFilterDrawerProps {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/* Panel slides in, then hands off to its children one after another.
-   Closing is the reverse: children leave bottom-to-top, then the panel slides out. */
+/* Symmetrical drawer transition:
+   Transition in: panel slides in from 100% to 0, backdrop fades 0 to 1.
+   Transition out: exact reverse — panel slides from 0 to 100%, backdrop fades 1 to 0. */
 const PANEL: Variants = {
   hidden: { x: "100%" },
   show: {
     x: 0,
-    transition: { duration: 0.5, ease: EASE, delayChildren: 0.14, staggerChildren: 0.07 },
+    transition: { duration: 0.4, ease: EASE },
   },
   exit: {
     x: "100%",
-    transition: {
-      x: { duration: 0.38, ease: [0.55, 0, 0.75, 0.06], delay: 0.22 },
-      staggerChildren: 0.04,
-      staggerDirection: -1,
-    },
+    transition: { duration: 0.4, ease: EASE },
   },
 };
 
-/* Header / single rows: drift in from the right; drift back out on close. */
+/* Content elements remain stable inside the drawer so they slide cleanly with the panel */
 const ITEM: Variants = {
-  hidden: { opacity: 0, x: 24 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE } },
-  exit: { opacity: 0, x: 24, transition: { duration: 0.2, ease: [0.55, 0, 1, 0.45] } },
+  hidden: { opacity: 0, x: 20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
+  exit: { opacity: 1, x: 0 },
 };
 
-/* A filter group: its legend and each option row cascade in turn (reversed on close). */
 const GROUP: Variants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.2, staggerChildren: 0.035 } },
-  exit: { opacity: 1, transition: { staggerChildren: 0.015, staggerDirection: -1 } },
+  show: { opacity: 1, transition: { duration: 0.25 } },
+  exit: { opacity: 1 },
 };
 
 const FOOTER: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE, delay: 0.25 } },
-  exit: { opacity: 0, y: 24, transition: { duration: 0.2, ease: [0.55, 0, 1, 0.45] } },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE, delay: 0.1 } },
+  exit: { opacity: 1, y: 0 },
 };
 
 export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
@@ -147,99 +143,99 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
 
   if (!mounted) return null;
 
-  const n = props.resultCount;
+  const n = props.resultCount;  return createPortal(
+    <LazyMotion features={domAnimation}>
+      <AnimatePresence>
+        {open && (
+          <div className="mfd-root fixed inset-0 z-[100000] flex justify-end" data-scroll-lock="true">
+            <m.button
+              type="button"
+              aria-label="Close filters"
+              tabIndex={-1}
+              className="absolute inset-0 h-full w-full cursor-default bg-black/20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.4, ease: EASE } }}
+              exit={{ opacity: 0, transition: { duration: 0.4, ease: EASE } }}
+              onClick={onClose}
+            />
 
-  return createPortal(
-    <AnimatePresence>
-      {open && (
-        <div className="mfd-root fixed inset-0 z-[100000] flex justify-end" data-scroll-lock="true">
-          <motion.button
-            type="button"
-            aria-label="Close filters"
-            tabIndex={-1}
-            className="absolute inset-0 h-full w-full cursor-default bg-black/20"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.3, ease: EASE } }}
-            exit={{ opacity: 0, transition: { duration: 0.35, ease: EASE, delay: 0.25 } }}
-            onClick={onClose}
-          />
+            <m.aside
+              ref={panelRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="mfd-title"
+              className="mfd-panel relative z-10 flex h-[100dvh] w-full flex-col bg-[#0c0a14]/45 text-white shadow-[-12px_0_36px_rgba(0,0,0,0.8),0_0_45px_rgba(168,85,247,0.15)] backdrop-blur-2xl sm:w-[400px]"
+              variants={PANEL}
+              initial={reduceMotion ? false : "hidden"}
+              animate="show"
+              exit={reduceMotion ? undefined : "exit"}
+            >
+              {/* Header */}
+              <m.div variants={ITEM} className="mfd-header flex items-center justify-between">
+                <h2 id="mfd-title" className="mfd-title font-heading">
+                  Filters
+                </h2>
+                <button
+                  ref={closeBtnRef}
+                  type="button"
+                  aria-label="Close filters"
+                  onClick={onClose}
+                  className="rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 transition-colors hover:bg-white/20 hover:text-white"
+                >
+                  <X className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </m.div>
 
-          <motion.aside
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mfd-title"
-            className="mfd-panel relative z-10 flex h-[100dvh] w-full flex-col bg-[#0c0a14]/45 text-white shadow-[-12px_0_36px_rgba(0,0,0,0.8),0_0_45px_rgba(168,85,247,0.15)] backdrop-blur-2xl sm:w-[400px]"
-            variants={PANEL}
-            initial={reduceMotion ? false : "hidden"}
-            animate="show"
-            exit={reduceMotion ? undefined : "exit"}
-          >
-            {/* Header */}
-            <motion.div variants={ITEM} className="mfd-header flex items-center justify-between">
-              <h2 id="mfd-title" className="mfd-title font-heading">
-                Filters
-              </h2>
-              <button
-                ref={closeBtnRef}
-                type="button"
-                aria-label="Close filters"
-                onClick={onClose}
-                className="rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 transition-colors hover:bg-white/20 hover:text-white"
-              >
-                <X className="h-4 w-4" aria-hidden="true" />
-              </button>
-            </motion.div>
-
-            {/* Body */}
-            <div className="mfd-body custom-scrollbar flex-1 overflow-y-auto" data-lenis-prevent="true">
-              <RadioGroup
-                legend="Category"
-                name="mfd-category"
-                options={props.categoryOptions}
-                value={props.category}
-                onChange={props.onCategoryChange}
-              />
-              <RadioGroup
-                legend="Media Type"
-                name="mfd-media-type"
-                options={props.mediaTypeOptions}
-                value={props.mediaType}
-                onChange={props.onMediaTypeChange}
-              />
-              {props.lengthOptions && props.onLengthChange && (
+              {/* Body */}
+              <div className="mfd-body custom-scrollbar flex-1 overflow-y-auto" data-lenis-prevent="true">
                 <RadioGroup
-                  legend="Length"
-                  name="mfd-length"
-                  options={props.lengthOptions}
-                  value={props.length ?? "all"}
-                  onChange={props.onLengthChange}
+                  legend="Category"
+                  name="mfd-category"
+                  options={props.categoryOptions}
+                  value={props.category}
+                  onChange={props.onCategoryChange}
                 />
-              )}
-              {props.yearBounds && props.yearRange && props.yearBounds[0] < props.yearBounds[1] && (
-                <YearRange
-                  bounds={props.yearBounds}
-                  value={props.yearRange}
-                  onChange={props.onYearRangeChange}
+                <RadioGroup
+                  legend="Media Type"
+                  name="mfd-media-type"
+                  options={props.mediaTypeOptions}
+                  value={props.mediaType}
+                  onChange={props.onMediaTypeChange}
                 />
-              )}
-            </div>
+                {props.lengthOptions && props.onLengthChange && (
+                  <RadioGroup
+                    legend="Length"
+                    name="mfd-length"
+                    options={props.lengthOptions}
+                    value={props.length ?? "all"}
+                    onChange={props.onLengthChange}
+                  />
+                )}
+                {props.yearBounds && props.yearRange && props.yearBounds[0] < props.yearBounds[1] && (
+                  <YearRange
+                    bounds={props.yearBounds}
+                    value={props.yearRange}
+                    onChange={props.onYearRangeChange}
+                  />
+                )}
+              </div>
 
-            {/* Footer */}
-            <motion.div variants={FOOTER} className="mfd-footer grid grid-cols-2 items-center gap-3">
-              <Button variant="secondary" fullWidth onClick={props.onClearAll}>
-                Clear all
-              </Button>
-              <Button variant="primary" size="md" fullWidth onClick={onClose} className="uppercase tracking-wide">
-                Show {n} {n === 1 ? "item" : "items"}
-              </Button>
-            </motion.div>
-          </motion.aside>
+              {/* Footer */}
+              <m.div variants={FOOTER} className="mfd-footer grid grid-cols-2 items-center gap-3">
+                <Button variant="secondary" fullWidth onClick={props.onClearAll}>
+                  Clear all
+                </Button>
+                <Button variant="primary" size="md" fullWidth onClick={onClose} className="uppercase tracking-wide">
+                  Show {n} {n === 1 ? "item" : "items"}
+                </Button>
+              </m.div>
+            </m.aside>
 
-          <style>{DRAWER_CSS}</style>
-        </div>
-      )}
-    </AnimatePresence>,
+            <style>{DRAWER_CSS}</style>
+          </div>
+        )}
+      </AnimatePresence>
+    </LazyMotion>,
     document.body,
   );
 }
@@ -259,13 +255,13 @@ function RadioGroup({
 }) {
   if (options.length === 0) return null; // never render an empty facet
   return (
-    <motion.fieldset variants={GROUP} className="mfd-group">
-      <motion.legend variants={ITEM} className="mfd-legend">
+    <m.fieldset variants={GROUP} className="mfd-group">
+      <m.legend variants={ITEM} className="mfd-legend">
         {legend}
-      </motion.legend>
+      </m.legend>
       <div className="flex flex-col gap-[10px]">
         {options.map((opt) => (
-          <motion.label
+          <m.label
             key={opt.value}
             variants={ITEM}
             className={`mfd-option${value === opt.value ? " is-selected" : ""}`}
@@ -279,10 +275,10 @@ function RadioGroup({
             />
             <span className="mfd-label">{opt.label}</span>
             {typeof opt.count === "number" && <span className="mfd-count">{opt.count}</span>}
-          </motion.label>
+          </m.label>
         ))}
       </div>
-    </motion.fieldset>
+    </m.fieldset>
   );
 }
 
@@ -308,12 +304,12 @@ function YearRange({
   }
 
   return (
-    <motion.fieldset variants={GROUP} className="mfd-group">
-      <motion.legend variants={ITEM} className="mfd-legend">
+    <m.fieldset variants={GROUP} className="mfd-group">
+      <m.legend variants={ITEM} className="mfd-legend">
         Year
-      </motion.legend>
+      </m.legend>
       {decades.length > 1 && (
-        <motion.div variants={ITEM} className="mfd-decades" role="group" aria-label="Jump to decade">
+        <m.div variants={ITEM} className="mfd-decades" role="group" aria-label="Jump to decade">
           {decades.map((dec) => {
             const active = lo === dec.range[0] && hi === dec.range[1];
             return (
@@ -328,12 +324,12 @@ function YearRange({
               </button>
             );
           })}
-        </motion.div>
+        </m.div>
       )}
-      <motion.span variants={ITEM} className="mfd-range-value">
+      <m.span variants={ITEM} className="mfd-range-value">
         {lo} – {hi}
-      </motion.span>
-      <motion.div variants={ITEM} className="mfd-range">
+      </m.span>
+      <m.div variants={ITEM} className="mfd-range">
         <span className="mfd-range-track" aria-hidden="true" />
         <span
           className="mfd-range-fill"
@@ -362,12 +358,12 @@ function YearRange({
           aria-label="Latest year"
           onChange={(e) => onChange([lo, Math.max(Number(e.target.value), lo)])}
         />
-      </motion.div>
-      <motion.div variants={ITEM} className="mfd-range-labels">
+      </m.div>
+      <m.div variants={ITEM} className="mfd-range-labels">
         <span>{min}</span>
         <span>{max}</span>
-      </motion.div>
-    </motion.fieldset>
+      </m.div>
+    </m.fieldset>
   );
 }
 
