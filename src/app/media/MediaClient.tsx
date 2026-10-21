@@ -350,7 +350,7 @@ export default function MediaClient({
 
   // Fixed layout: Layout 2 (Fixed Bottom Audio Dock + Hero Video + Fan Mosaic)
   const [layoutVariant, setLayoutVariant] = useState<number>(2);
-  const [paginationVariant, setPaginationVariant] = useState<PaginationVariant>("classic");
+  const [paginationVariant, setPaginationVariant] = useState<PaginationVariant>("dots");
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -1227,51 +1227,9 @@ export default function MediaClient({
                   }}
                 />
 
-                {/* ── PAGINATION CONTROLS: 20 INTERACTIVE VARIANTS & LIVE SWITCHER ── */}
+                {/* ── PAGINATION CONTROLS: CAROUSEL DOTS ── */}
                 {totalPages > 1 && (
-                  <div className="mt-12 flex flex-col items-center justify-center gap-6">
-                    {/* Live Pagination Style Switcher Dock */}
-                    <div className="flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-purple-500/30 bg-black/70 p-2 shadow-2xl backdrop-blur-xl">
-                      <div className="flex items-center gap-1.5 px-3 py-1 font-mono text-xs font-semibold text-purple-300">
-                        <span className="flex h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
-                        <span>📑 Style ({PAGINATION_VARIANTS.indexOf(paginationVariant) + 1}/20):</span>
-                      </div>
-                      <select
-                        value={paginationVariant}
-                        onChange={(e) => handlePaginationVariantChange(e.target.value as PaginationVariant)}
-                        aria-label="Choose Pagination Style"
-                        className="rounded-lg border border-purple-400/40 bg-purple-950/80 px-3 py-1.5 font-mono text-xs text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-400"
-                      >
-                        {PAGINATION_VARIANTS.map((v, idx) => (
-                          <option key={v} value={v} className="bg-zinc-950 text-white">
-                            {idx + 1}. {PAGINATION_INFO[v].name}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const currentIndex = PAGINATION_VARIANTS.indexOf(paginationVariant);
-                          const nextVariant = PAGINATION_VARIANTS[(currentIndex + 1) % PAGINATION_VARIANTS.length];
-                          handlePaginationVariantChange(nextVariant);
-                        }}
-                        title="Cycle to next pagination design"
-                        className="cursor-pointer rounded-lg border border-purple-400/40 bg-white/10 px-3 py-1.5 font-mono text-xs font-semibold text-purple-200 transition-colors hover:bg-purple-600 hover:text-white"
-                      >
-                        Next Style ➔
-                      </button>
-                      <a
-                        href="/pagination-preview"
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Open full showcase page to see all 20 designs at once"
-                        className="cursor-pointer rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-white/70 transition-colors hover:bg-white/20 hover:text-white"
-                      >
-                        Compare All 20 ↗
-                      </a>
-                    </div>
-
-                    {/* Active Pagination Variant */}
+                  <div className="mt-12 flex flex-col items-center justify-center">
                     <MediaPagination
                       variant={paginationVariant}
                       page={currentPage}

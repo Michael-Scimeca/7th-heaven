@@ -261,14 +261,14 @@ export default function MediaPagination({
 
       /* 4 ─────────────────────────────────────────────── */
       case "dots": {
-        const arrow = `flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 ${focusRing} ${disabledCls}`;
+        const arrow = `flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-[background-color,transform] duration-200 hover:bg-white/20 hover:scale-105 active:scale-95 ${focusRing} ${disabledCls}`;
         return (
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-4">
               <button type="button" aria-label="Previous page" disabled={isFirst} onClick={() => go(page - 1)} className={arrow}>
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <div className="flex flex-wrap items-center justify-center gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-1.5">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                   <button
                     key={n}
@@ -276,17 +276,23 @@ export default function MediaPagination({
                     aria-label={`Page ${n}`}
                     aria-current={n === page ? "page" : undefined}
                     onClick={() => go(n)}
-                    className={`h-2 cursor-pointer rounded-full transition-all duration-300 ${focusRing} ${
-                      n === page ? "w-8 bg-[var(--color-action)]" : "w-2 bg-white/25 hover:bg-white/50"
-                    }`}
-                  />
+                    className={`group relative flex h-8 items-center justify-center px-1 cursor-pointer ${focusRing}`}
+                  >
+                    <span
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        n === page
+                          ? "w-8 bg-[#f2efa3] shadow-[0_0_14px_rgba(242,239,163,0.6)]"
+                          : "w-2 bg-white/30 group-hover:bg-white/60"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
               <button type="button" aria-label="Next page" disabled={isLast} onClick={() => go(page + 1)} className={arrow}>
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
-            <p className="font-mono text-xs uppercase tracking-wider text-white/50">
+            <p className="font-mono text-xs uppercase tracking-widest text-white/60">
               Page {page} of {totalPages}
             </p>
           </div>
