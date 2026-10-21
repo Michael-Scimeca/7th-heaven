@@ -225,13 +225,13 @@ export default function MediaPagination({
 
       /* 3 ─────────────────────────────────────────────── */
       case "text": {
-        const link = `cursor-pointer text-sm font-semibold text-white/70 transition-colors hover:text-white ${focusRing} ${disabledCls}`;
+        const link = `cursor-pointer text-sm font-semibold text-white/80 transition-colors hover:text-white py-2 px-2 ${focusRing} ${disabledCls}`;
         return (
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
             <button type="button" disabled={isFirst} onClick={() => go(page - 1)} className={link}>
               ← Previous
             </button>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               {items.map((it) =>
                 typeof it === "number" ? (
                   <button
@@ -239,10 +239,10 @@ export default function MediaPagination({
                     type="button"
                     aria-current={it === page ? "page" : undefined}
                     onClick={() => go(it)}
-                    className={`cursor-pointer text-sm transition-colors ${focusRing} ${
+                    className={`cursor-pointer px-2 py-1 text-sm font-medium transition-colors ${focusRing} ${
                       it === page
-                        ? "font-bold text-white underline decoration-[var(--color-action)] decoration-2 underline-offset-8"
-                        : "text-white/50 hover:text-white"
+                        ? "font-bold text-white underline decoration-[var(--color-action,#f2efa3)] decoration-2 underline-offset-8"
+                        : "text-white/60 hover:text-white"
                     }`}
                   >
                     {it}

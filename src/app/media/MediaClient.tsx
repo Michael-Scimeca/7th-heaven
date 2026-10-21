@@ -350,7 +350,7 @@ export default function MediaClient({
 
   // Fixed layout: Layout 2 (Fixed Bottom Audio Dock + Hero Video + Fan Mosaic)
   const [layoutVariant, setLayoutVariant] = useState<number>(2);
-  const [paginationVariant, setPaginationVariant] = useState<PaginationVariant>("dots");
+  const [paginationVariant, setPaginationVariant] = useState<PaginationVariant>("text");
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -361,11 +361,6 @@ export default function MediaClient({
     const pagParam = p.get("pagination") as PaginationVariant;
     if (pagParam && PAGINATION_VARIANTS.includes(pagParam)) {
       setPaginationVariant(pagParam);
-    } else {
-      const saved = localStorage.getItem("7th_pagination_variant") as PaginationVariant;
-      if (saved && PAGINATION_VARIANTS.includes(saved)) {
-        setPaginationVariant(saved);
-      }
     }
   }, []);
 
