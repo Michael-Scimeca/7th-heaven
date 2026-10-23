@@ -161,7 +161,7 @@ export default function ContactClient({
   return (
     <main
       id="contact-page"
-      className="site-container page-container page-stack-sm relative min-h-screen"
+      className="site-container page-container page-stack-sm relative z-10 min-h-screen"
     >
       {/* Hero Header */}
       <PageHero

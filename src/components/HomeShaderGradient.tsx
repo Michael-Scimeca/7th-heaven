@@ -330,15 +330,19 @@ function HomeShaderGradientComponent() {
       if (!wrapper) return;
       const hero = document.getElementById("hero");
       if (hero) {
+        wrapper.style.zIndex = "1";
         const rect = hero.getBoundingClientRect();
         const clipTop = Math.max(0, Math.round(rect.bottom));
         if (clipTop !== lastClip) {
           lastClip = clipTop;
           wrapper.style.clipPath = `inset(${clipTop}px 0 0 0)`;
         }
-      } else if (lastClip !== 0) {
-        lastClip = 0;
-        wrapper.style.clipPath = "none";
+      } else {
+        wrapper.style.zIndex = "-10";
+        if (lastClip !== 0) {
+          lastClip = 0;
+          wrapper.style.clipPath = "none";
+        }
       }
     };
 
@@ -618,7 +622,7 @@ function HomeShaderGradientComponent() {
       {/* Background Shader Canvas Container */}
       <div
         ref={wrapperRef}
-        className="pointer-events-none fixed inset-0 z-[1] overflow-hidden"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       >
         <canvas
           ref={canvasRef}
