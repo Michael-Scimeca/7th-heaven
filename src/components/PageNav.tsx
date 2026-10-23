@@ -197,6 +197,7 @@ export function PageNav() {
 
   return (
     <div
+      data-page-nav
       className="pointer-events-auto fixed bottom-8 left-8 z-[999999] select-none"
       ref={menuRef}
     >

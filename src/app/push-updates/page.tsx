@@ -92,6 +92,24 @@ const PRESET_SCENARIOS: BroadcastScenario[] = [
   },
 ];
 
+async function getDevicePushSubscription(): Promise<PushSubscription> {
+  const reg =
+    (await navigator.serviceWorker.getRegistration()) ||
+    (await navigator.serviceWorker.register("/sw.js"));
+  await navigator.serviceWorker.ready;
+  let sub = await reg.pushManager.getSubscription();
+  if (!sub) {
+    const key = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
+    const padded = (key + "=".repeat((4 - (key.length % 4)) % 4))
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+    const raw = atob(padded);
+    const applicationServerKey = Uint8Array.from(raw, (c) => c.charCodeAt(0));
+    sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey });
+  }
+  return sub;
+}
+
 export default function PushUpdatesShowcasePage() {
   const [selectedScenario, setSelectedScenario] = useState<BroadcastScenario>(
     PRESET_SCENARIOS[0],
@@ -129,10 +147,75 @@ export default function PushUpdatesShowcasePage() {
     setDispatchLog(null);
   };
 
+  // Real push to THIS device (dev-only route; never touches the fan list)
+  const [devicePushSending, setDevicePushSending] = useState(false);
+  const [devicePushStatus, setDevicePushStatus] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
+
+  const handleSendRealPushToDevice = async () => {
+    if (devicePushSending) return;
+    setDevicePushSending(true);
+    setDevicePushStatus(null);
+    try {
+      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+      const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (navigator as Navigator & { standalone?: boolean }).standalone === true;
+      if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+        throw new Error(
+          isIOS && !isStandalone
+            ? "On iPhone: tap Share → Add to Home Screen, open 7th Heaven from your home screen, then tap this button again."
+            : "This browser doesn't support push notifications.",
+        );
+      }
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        throw new Error("Notifications are blocked. Allow them for this site in your browser settings and try again.");
+      }
+      const sub = await getDevicePushSubscription();
+      const res = await fetch("/api/dev/push-test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subscription: sub.toJSON(),
+          title: selectedScenario.title,
+          body: selectedScenario.body,
+          url: "/shows",
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(
+          res.status === 404
+            ? "Real device tests only work on your local dev server."
+            : "Push service rejected the test.",
+        );
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!data.ok) {
+        throw new Error(data.error || "Push service rejected the test.");
+      }
+      setDevicePushStatus({
+        success: true,
+        message: "Sent! Look for the alert on this device's screen (lock it on a phone to see it there).",
+      });
+    } catch (err) {
+      setDevicePushStatus({
+        success: false,
+        message: err instanceof Error ? err.message : "Something went wrong.",
+      });
+    } finally {
+      setDevicePushSending(false);
+    }
+  };
+
   const handleSimulateBroadcast = () => {
     if (isSimulating) return;
     setIsSimulating(true);
     setDispatchComplete(false);
+    // Also fire a REAL push to the device that clicked (dev-only route, never the fan list)
+    if (pushEnabled) void handleSendRealPushToDevice();
 
     setTimeout(() => {
       setIsSimulating(false);
@@ -474,6 +557,29 @@ export default function PushUpdatesShowcasePage() {
                   </>
                 )}
               </button>
+
+              {/* Real push to this device */}
+              <button
+                type="button"
+                disabled={devicePushSending}
+                onClick={handleSendRealPushToDevice}
+                className="w-full flex items-center justify-center gap-2 rounded-xl border border-purple-400/40 bg-white/5 px-5 py-3 text-sm font-bold text-purple-100 hover:bg-white/10 active:scale-98 transition-[background-color,transform] duration-150 disabled:opacity-50 cursor-pointer"
+              >
+                {devicePushSending ? (
+                  <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <Smartphone className="w-4 h-4" />
+                )}
+                <span>Send a Real Test to This Device</span>
+              </button>
+              {devicePushStatus && (
+                <p
+                  role="status"
+                  className={`text-xs ${devicePushStatus.success ? "text-emerald-300" : "text-amber-300"}`}
+                >
+                  {devicePushStatus.message}
+                </p>
+              )}
 
               {/* Dispatch Complete Toast */}
               {dispatchComplete && dispatchLog && (

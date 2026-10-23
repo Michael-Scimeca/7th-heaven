@@ -1,7 +1,7 @@
 /* eslint-disable react-doctor/iframe-missing-sandbox */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import SeventhButton from "@/components/SeventhButton";
 import Button from "@/components/Button";
@@ -16,7 +16,6 @@ import {
   Guitar,
   Compass,
   Film,
-  Palette,
   Gamepad2,
   Heart,
   Sparkles,
@@ -33,6 +32,10 @@ import {
   Sliders,
   ChevronRight,
 } from "lucide-react";
+import {
+  HERO_LAYOUT_PRESETS,
+  HeroContentRenderer,
+} from "./hero-layouts/heroLayoutPresets";
 
 const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
@@ -545,6 +548,118 @@ export const COMIC_LAYOUT_PRESETS = [
   { id: 20, name: "Chronicle Odyssey", desc: "Full-Bleed Center-Stage Timeline with Illuminated Trail", icon: "Sparkles" },
 ] as const;
 
+export interface HeroColorTheme {
+  id: string;
+  name: string;
+  shortLabel: string;
+  swatchBg: string;
+  accentBar: string;
+  subtitle: string;
+  numbers: string;
+  primaryBtn: string;
+  secondaryBtn: string;
+  ambientTint: string;
+}
+
+export const HERO_COLOR_THEMES: HeroColorTheme[] = [
+  {
+    id: "cyber-lime",
+    name: "Cyber Lime & Neon Rock",
+    shortLabel: "Lime",
+    swatchBg: "bg-lime-400",
+    accentBar: "border-lime-400",
+    subtitle: "text-lime-300/90",
+    numbers: "text-lime-400",
+    primaryBtn: "bg-lime-400 text-slate-950 shadow-lime-950/30 hover:bg-lime-300",
+    secondaryBtn: "border-lime-400/40 text-lime-300 hover:bg-white/5",
+    ambientTint: "from-lime-950/25 via-transparent to-transparent",
+  },
+  {
+    id: "imperial-gold",
+    name: "Imperial Gold & Comic Amber",
+    shortLabel: "Gold",
+    swatchBg: "bg-amber-400",
+    accentBar: "border-amber-400",
+    subtitle: "text-amber-300/90",
+    numbers: "text-amber-400",
+    primaryBtn: "bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 shadow-amber-950/30 hover:from-amber-300 hover:to-yellow-300",
+    secondaryBtn: "border-amber-400/40 text-amber-300 hover:bg-white/5",
+    ambientTint: "from-amber-950/30 via-transparent to-transparent",
+  },
+  {
+    id: "electric-cyan",
+    name: "Electric Cyan & Tron Neon",
+    shortLabel: "Cyan",
+    swatchBg: "bg-cyan-400",
+    accentBar: "border-cyan-400",
+    subtitle: "text-cyan-300/90",
+    numbers: "text-cyan-400",
+    primaryBtn: "bg-cyan-400 text-slate-950 shadow-cyan-950/30 hover:bg-cyan-300",
+    secondaryBtn: "border-cyan-400/40 text-cyan-300 hover:bg-white/5",
+    ambientTint: "from-cyan-950/30 via-transparent to-transparent",
+  },
+  {
+    id: "sunset-flare",
+    name: "Sunset Flame & Crimson",
+    shortLabel: "Flame",
+    swatchBg: "bg-orange-500",
+    accentBar: "border-orange-500",
+    subtitle: "text-orange-300/90",
+    numbers: "text-orange-400",
+    primaryBtn: "bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-orange-950/30 hover:from-orange-400 hover:to-rose-400",
+    secondaryBtn: "border-orange-400/40 text-orange-300 hover:bg-white/5",
+    ambientTint: "from-orange-950/30 via-transparent to-transparent",
+  },
+  {
+    id: "canary-comic",
+    name: "Canary Yellow & Pop Art",
+    shortLabel: "Canary",
+    swatchBg: "bg-yellow-400",
+    accentBar: "border-yellow-400",
+    subtitle: "text-yellow-200/90",
+    numbers: "text-yellow-400",
+    primaryBtn: "bg-yellow-400 text-slate-950 shadow-yellow-950/30 hover:bg-yellow-300",
+    secondaryBtn: "border-yellow-400/40 text-yellow-300 hover:bg-white/5",
+    ambientTint: "from-yellow-950/20 via-transparent to-transparent",
+  },
+  {
+    id: "amethyst-purple",
+    name: "7th Heaven Royal Amethyst",
+    shortLabel: "Purple",
+    swatchBg: "bg-purple-500",
+    accentBar: "border-purple-400",
+    subtitle: "text-purple-300/90",
+    numbers: "text-purple-400",
+    primaryBtn: "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-purple-950/30 hover:from-purple-400 hover:to-indigo-400",
+    secondaryBtn: "border-purple-400/40 text-purple-200 hover:bg-white/5",
+    ambientTint: "from-purple-950/35 via-transparent to-transparent",
+  },
+  {
+    id: "aurora-mint",
+    name: "Aurora Mint & Emerald",
+    shortLabel: "Mint",
+    swatchBg: "bg-emerald-400",
+    accentBar: "border-emerald-400",
+    subtitle: "text-emerald-300/90",
+    numbers: "text-emerald-400",
+    primaryBtn: "bg-emerald-400 text-slate-950 shadow-emerald-950/30 hover:bg-emerald-300",
+    secondaryBtn: "border-emerald-400/40 text-emerald-300 hover:bg-white/5",
+    ambientTint: "from-emerald-950/30 via-transparent to-transparent",
+  },
+  {
+    id: "arctic-ice",
+    name: "Arctic Silver & Ice White",
+    shortLabel: "Ice",
+    swatchBg: "bg-white",
+    accentBar: "border-white",
+    subtitle: "text-slate-200/90",
+    numbers: "text-white",
+    primaryBtn: "bg-white text-slate-950 shadow-white/20 hover:bg-slate-200",
+    secondaryBtn: "border-white/40 text-white hover:bg-white/5",
+    ambientTint: "from-slate-900/40 via-transparent to-transparent",
+  },
+];
+
 export default function RockNRollKidsClient({
   sanityContent,
 }: {
@@ -553,8 +668,10 @@ export default function RockNRollKidsClient({
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
   const [bookFilter, setBookFilter] = useState<"all" | "episodes" | "art">("all");
   const [comicLayout, setComicLayout] = useState<number>(3);
+  const [heroLayout, setHeroLayout] = useState<number>(1);
+  const [colorTheme, setColorTheme] = useState<string>("arctic-ice");
 
-  // Sync layout from URL (?layout=1..20)
+  // Sync layout, hero layout, and color theme from URL / localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
     const urlParams = new URLSearchParams(window.location.search);
@@ -563,7 +680,40 @@ export default function RockNRollKidsClient({
       const parsed = parseInt(param, 10);
       if (parsed >= 1 && parsed <= 20) setComicLayout(parsed);
     }
+    const heroParam = urlParams.get("heroLayout");
+    if (heroParam) {
+      const parsed = parseInt(heroParam, 10);
+      if (parsed >= 1 && parsed <= 20) setHeroLayout(parsed);
+    } else {
+      try {
+        const savedHero = localStorage.getItem("7h_rrk_hero_layout_v1");
+        if (savedHero) {
+          const parsed = parseInt(savedHero, 10);
+          if (parsed >= 1 && parsed <= 20) setHeroLayout(parsed);
+        }
+      } catch {
+        // ignore
+      }
+    }
+    const colorParam = urlParams.get("color");
+    if (colorParam && HERO_COLOR_THEMES.some((t) => t.id === colorParam)) {
+      setColorTheme(colorParam);
+    } else {
+      try {
+        const saved = localStorage.getItem("7h_rrk_hero_color_v1");
+        if (saved && HERO_COLOR_THEMES.some((t) => t.id === saved)) {
+          setColorTheme(saved);
+        } else {
+          setColorTheme("arctic-ice");
+        }
+      } catch {
+        // ignore
+      }
+    }
   }, []);
+
+  const activeColorTheme =
+    HERO_COLOR_THEMES.find((t) => t.id === colorTheme) || HERO_COLOR_THEMES[7];
 
   const aboutSection = sanityContent?.sections?.find(
     (s: any) => s.sectionId === "about",
@@ -588,139 +738,142 @@ export default function RockNRollKidsClient({
     return true;
   });
 
-  const titleText = aboutSection?.title || "Story & Concept";
   const badgeText = aboutSection?.badge || "We love art";
   const para1 = aboutSection?.subtitle || ABOUT_DATA.paragraph1;
   const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
+  const FRANCHISE_PILLARS = [
+    {
+      Icon: Tv,
+      title: "Animated TV Series",
+      desc: "Multi-episode animated adventures teaching positivity through rock.",
+      tag: "TV Series",
+      accent: "text-cyan-300",
+      pillClass: "border-cyan-400/40 bg-cyan-950/60 text-cyan-200",
+    },
+    {
+      Icon: Gamepad2,
+      title: "Mobile Games & Apps",
+      desc: "Interactive video games, mobile apps, and coloring books.",
+      tag: "Games & Apps",
+      accent: "text-emerald-300",
+      pillClass: "border-emerald-400/40 bg-emerald-950/60 text-emerald-200",
+    },
+    {
+      Icon: BookOpen,
+      title: "12 Published Comic Books",
+      desc: "Action-packed superhero graphic novels available worldwide.",
+      tag: "Comic Books",
+      accent: "text-amber-300",
+      pillClass: "border-amber-400/40 bg-amber-950/60 text-amber-200",
+    },
+    {
+      Icon: Guitar,
+      title: "Original Rock Soundtracks",
+      desc: "Original band songs, music videos, and animated singles.",
+      tag: "Rock Music",
+      accent: "text-purple-300",
+      pillClass: "border-purple-400/40 bg-purple-950/60 text-purple-200",
+    },
+  ];
+
   return (
     <main className="site-container page-container page-stack min-h-screen w-full overflow-x-hidden" id="rrk-main-page">
-      {/* ── HERO: COMIC UNIVERSE (Split Issue #1 Showcase + Cast Lineup) ── */}
-      <section id="rrk-hero" aria-labelledby="rrk-hero-heading" className="section pt-0">
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <h1 id="rrk-hero-heading" className="font-extrabold tracking-tight text-white">
-              7th Heaven &amp; The <span className="bg-gradient-to-r from-amber-400 via-rose-400 to-purple-400 bg-clip-text text-transparent">Rock &apos;n&apos; Roll Kids</span>
-            </h1>
-            <p className="mt-4 text-base text-white/80 leading-relaxed sm:text-lg max-w-2xl">
-              {sanityContent?.heroSubheading ||
-                "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <a
-                href="#rrk-comics"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-purple-900/40 hover:scale-105 transition-all"
-              >
-                <BookOpen className="h-4 w-4" />
-                Explore Comic Books ({productsList.length} Titles)
-              </a>
-              <a
-                href="#rrk-videos"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-white transition-all"
-              >
-                <Play className="h-4 w-4 text-purple-400" />
-                Watch Animated Singles
-              </a>
-            </div>
-          </div>
-          <div className="lg:col-span-5">
-            <div className="relative overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-b from-purple-900/20 to-black/60 p-4 shadow-2xl">
-              <Image
-                src={getMediaUrl(
-                  sanityContent?.heroBannerImage,
-                  "/images/7hrrk/c-all.png",
-                )}
-                alt="7th Heaven Rock 'n' Roll Kids"
-                width={1918}
-                height={748}
-                className="h-auto w-full object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]"
-                priority
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STORY & CONCEPT SECTION ── */}
-      <section
-        id="rrk-story"
-        aria-labelledby="rrk-story-heading"
-        className="section pt-0"
+      {/* ── HERO: Full-Bleed Background Cast Artwork with Content Below (Zero Overlap) ── */}
+      <header
+        id="rrk-hero"
+        aria-labelledby="rrk-hero-heading"
+        className="relative flex flex-col gap-6 w-full"
       >
-        <div className="w-full">
-          <SectionHeader
-            id="rrk-story-heading"
-            title={titleText}
-            visuallyHidden
+        {/* Full-bleed cast artwork background running edge-to-edge under the navbar */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-[calc(-1*(var(--header-height)+var(--page-top)+env(safe-area-inset-top,0px))+80px)] w-screen aspect-[1918/748] max-h-[640px] -z-10 overflow-hidden"
+        >
+          <Image
+            src={getMediaUrl(
+              sanityContent?.heroBannerImage,
+              "/images/7hrrk/c-all.png",
+            )}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-contain object-top"
+            priority
           />
+          {/* Subtle bottom fade to blend seamlessly into the site background and enhance overlapping text legibility */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[var(--color-bg-deep)] via-[var(--color-bg-deep)]/80 to-transparent"
+          />
+          {/* Active color setup ambient glow */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-tr ${activeColorTheme.ambientTint}`}
+          />
+        </div>
 
-          {/* Merged Content Grid */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-            {/* Left Side: Highlighted Quote & Story Narrative */}
-            <div className="flex flex-col gap-6 lg:col-span-7">
-              <blockquote className="relative border-l-2 border-purple-400/80 py-1 pl-4">
-                <div className="mb-1 text-xs font-bold tracking-widest text-purple-300 uppercase">
-                  Mission Statement
-                </div>
-                <p className="text-lg font-semibold leading-relaxed text-white italic sm:text-xl">
-                  &ldquo;{para1}&rdquo;
-                </p>
-              </blockquote>
+        {/* Visual spacer with negative margin pulling content to overlap onto the hero section */}
+        <div
+          aria-hidden="true"
+          className="w-full aspect-[1918/748] max-h-[640px] pointer-events-none -mb-28 sm:-mb-36 lg:-mb-44"
+        />
 
-              {para2 && (
-                <div className="flex flex-col gap-4 text-base font-normal leading-relaxed text-white/90">
-                  <p>{para2}</p>
-                </div>
-              )}
+        {/* Content Section: 20 Architectural Layout Presets Overlapping onto the Hero Section */}
+        <HeroContentRenderer
+          layoutId={heroLayout}
+          activeColorTheme={activeColorTheme}
+          sanityContent={sanityContent}
+          para1={para1}
+          para2={para2}
+          productsList={productsList}
+          pillars={FRANCHISE_PILLARS}
+        />
+
+        {/* ── 20 HERO LAYOUT PRESETS EXPLORER BAR ── */}
+        <div className="relative z-10 mt-8 rounded-[var(--radius-box)] border border-white/10 bg-slate-950/70 p-4 backdrop-blur-xl shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-cyan-400 animate-pulse" />
+              <h2 className="font-bold uppercase tracking-wider text-xs sm:text-sm text-white">
+                Rock &apos;n&apos; Roll Kids — 20 Hero Section Layout Presets
+              </h2>
             </div>
+            <span className="text-slate-300 font-medium text-xs">
+              Layout {heroLayout} of 20: <strong className="text-white">{HERO_LAYOUT_PRESETS[heroLayout - 1]?.name}</strong> ({HERO_LAYOUT_PRESETS[heroLayout - 1]?.desc})
+            </span>
+          </div>
 
-            {/* Right Side: Pronounced Feature Items */}
-            <div className="flex flex-col justify-center gap-4 lg:col-span-5">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-500/10 text-cyan-300">
-                  <Tv className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-white uppercase">
-                    Animated TV Series &amp; Comic Books
-                  </h3>
-                  <p className="text-xs text-white/70">
-                    Multi-episode animated adventures &amp; published comic books.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-400/40 bg-emerald-500/10 text-emerald-300">
-                  <Guitar className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-white uppercase">
-                    Original Songs, Mobile Apps &amp; Games
-                  </h3>
-                  <p className="text-xs text-white/70">
-                    Soundtracks, mobile games, interactive apps, and coloring books.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-500/10 text-purple-300">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-white uppercase">
-                    Positive Influence &amp; Inspiration
-                  </h3>
-                  <p className="text-xs text-white/70">
-                    Problem solving, kindness, and social consciousness through rock.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5 sm:gap-2">
+            {HERO_LAYOUT_PRESETS.map((p) => {
+              const active = heroLayout === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    setHeroLayout(p.id);
+                    if (typeof window !== "undefined") {
+                      const url = new URL(window.location.href);
+                      url.searchParams.set("heroLayout", p.id.toString());
+                      window.history.replaceState({}, "", url.toString());
+                      try {
+                        localStorage.setItem("7h_rrk_hero_layout_v1", p.id.toString());
+                      } catch {}
+                    }
+                  }}
+                  className={`flex flex-col items-center justify-center rounded-xl p-2 sm:p-2.5 text-center transition-all cursor-pointer ${
+                    active
+                      ? "bg-white text-slate-950 font-bold shadow-lg shadow-white/10 border border-white"
+                      : "bg-white/[0.04] text-white/70 hover:bg-white/[0.08] hover:text-white border border-white/5"
+                  }`}
+                >
+                  <span className="text-[11px] font-bold tracking-tight">#{p.id}</span>
+                  <span className="mt-0.5 text-[9px] sm:text-[10px] font-semibold truncate max-w-full">{p.name}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Character Roster Info Cards Grid */}
       <section

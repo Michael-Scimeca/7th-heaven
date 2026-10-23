@@ -331,9 +331,10 @@ function MerchDashboard() {
                 <Image
                   src={prod.image}
                   alt={prod.name}
-                  fill
+                  width={500}
+                  height={500}
                   sizes="(max-width: 768px) 100vw, 25vw"
-                  className="object-contain p-4 transition-transform duration-300 hover:scale-105"
+                  className="h-full w-full object-contain p-4 transition-transform duration-300 hover:scale-105"
                 />
                 <span className="absolute top-3 right-3 rounded-full bg-purple-600/80 px-2.5 py-0.5 text-xs font-bold text-white shadow-md">
                   {prod.price}

@@ -176,6 +176,7 @@ export function Footer() {
                 key={brand.name}
                 src={`${brand.logoPath}?v=3`}
                 alt={brand.name}
+                title={brand.name}
                 className="h-[clamp(16px,4.5vw,28px)] w-auto max-w-[28vw] shrink-0 object-contain opacity-100 sm:max-w-none md:h-7"
                 loading="lazy"
               />

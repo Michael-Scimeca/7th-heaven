@@ -486,9 +486,11 @@ export default function AudioPlayerSection() {
                       <Image
                         src={album.image}
                         alt={album.title}
-                        fill
-                        sizes="28px"
-                        className="object-cover"
+                        title={album.title}
+                        width={56}
+                        height={56}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
                       />
                     </div>
                   )}
@@ -660,7 +662,7 @@ export default function AudioPlayerSection() {
         onMouseEnter={preloadDiscVault}
         onTouchStart={preloadDiscVault}
       >
-        <div className="relative flex w-full flex-wrap sm:flex-nowrap items-center justify-center gap-[var(--music-vault-gap,1.5rem)]">
+        <div className="relative flex w-full flex-wrap sm:flex-nowrap items-center md:justify-center gap-1 md:gap-[var(--music-vault-gap,1.5rem)]">
           <div className="flex items-center gap-[var(--music-vault-inner-gap,1rem)]">
             {latestAlbum?.image ? (
               <button
@@ -812,9 +814,11 @@ export default function AudioPlayerSection() {
                       <Image
                         src={activeAlbum.image}
                         alt={activeAlbum.title}
-                        fill
-                        sizes="44px"
-                        className="object-cover"
+                        title={activeAlbum.title}
+                        width={88}
+                        height={88}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
                       />
                     ) : (
                       <div className="h-full w-full bg-purple-900/50" />
@@ -987,9 +991,11 @@ export default function AudioPlayerSection() {
                   <Image
                     src={activeAlbum.image}
                     alt={activeAlbum.title}
-                    fill
-                    sizes="100px"
-                    className="object-cover"
+                    title={activeAlbum.title}
+                    width={200}
+                    height={200}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
                   />
                 ) : (
                   <svg
@@ -1158,10 +1164,12 @@ export default function AudioPlayerSection() {
               {activeAlbum?.image ? (
                 <Image
                   src={activeAlbum.image}
-                  alt="Cover"
-                  fill
-                  sizes="46px"
-                  className="object-cover"
+                  alt={activeAlbum.title || "Album Cover"}
+                  title={activeAlbum.title || "Album Cover"}
+                  width={92}
+                  height={92}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
                 />
               ) : (
                 <div className="h-full w-full bg-[var(--color-bg-card)]" />

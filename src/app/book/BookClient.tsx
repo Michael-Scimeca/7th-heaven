@@ -1971,7 +1971,7 @@ function BookPageContent({
                     {/* Detailed Gate & Parking Directions Textarea */}
                     <div className="flex flex-col gap-2 pt-2">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <label htmlFor="parkingNotes" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+                        <label htmlFor="parkingNotes" className="min-w-0 whitespace-normal text-xs font-semibold uppercase tracking-wider text-white/60">
                           Specific Gate / Dock &amp; Load-in Instructions
                         </label>
                         <div className="flex flex-wrap items-center gap-2 text-xs">

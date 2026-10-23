@@ -1,6 +1,7 @@
 /* eslint-disable react-doctor/no-giant-component */
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
+import SoundBarsIcon from "@/components/SoundBarsIcon";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { Loader2 } from "lucide-react";
@@ -777,81 +778,16 @@ export function Header() {
                 )}
               </div>{/* end auth min-w wrapper */}
 
-              {/* Mobile Menu Toggle Button — 4-Bar Soundwave / Music Playing Symbol (Max Height: 24px, Max Width: 80px) */}
+              {/* Mobile Menu Toggle Button — three menu lines that stand up into
+                  pulsing sound bars on hover and while open; see SoundBarsIcon.tsx.
+                  (Previous icon: <GuitarPickIcon open={mobileOpen} /> from GuitarPickIcon.tsx.) */}
               <button
-                className="transition-colors relative flex h-10 max-w-[80px] w-12 shrink-0 cursor-pointer items-center justify-center p-1 hover:text-[var(--color-accent)] sm:h-11 sm:w-14 md:h-12 md:w-16 lg:hidden"
+                className="group transition-colors relative flex h-10 max-w-[80px] w-12 shrink-0 cursor-pointer items-center justify-center p-1 hover:text-[var(--color-accent)] sm:h-11 sm:w-14 md:h-12 md:w-16 lg:hidden"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
                 id="mobile-menu-toggle"
               >
-                <svg
-                  viewBox="0 0 32 28"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  className="h-[28px] w-[32px] overflow-visible"
-                >
-                  {/* Option 2: Symmetrical Center-Peak Soundwave (5 Bars, Max Height 24px at center, centered around y = 14)
-                    Bar 1: 8px  (y: 10 -> 18) at x = 6
-                    Bar 2: 16px (y: 6 -> 22)  at x = 11
-                    Bar 3: 24px (y: 2 -> 26)  at x = 16 (Tallest = exactly 24px)
-                    Bar 4: 16px (y: 6 -> 22)  at x = 21
-                    Bar 5: 8px  (y: 10 -> 18) at x = 26 */}
-                  {[
-                    { x: 6, y1: 10, y2: 18, len: 8 },
-                    { x: 11, y1: 6, y2: 22, len: 16 },
-                    { x: 16, y1: 2, y2: 26, len: 24 },
-                    { x: 21, y1: 6, y2: 22, len: 16 },
-                    { x: 26, y1: 10, y2: 18, len: 8 },
-                  ].map(({ x, y1, y2, len }, i) => (
-                    <line
-                      key={`soundwave-bar-${x}`}
-                      x1={x}
-                      y1={y1}
-                      x2={x}
-                      y2={y2}
-                      stroke="#ffffff"
-                      style={{
-                        strokeDasharray: len,
-                        strokeDashoffset: mobileOpen ? len : 0,
-                        opacity: mobileOpen ? 0 : 1,
-                        transition: `stroke-dashoffset 400ms ${PAGE_RECEDE_EASE}, opacity 400ms ${PAGE_RECEDE_EASE}`,
-                        transitionDelay: mobileOpen ? `${i * 50}ms` : `${(4 - i) * 50 + 150}ms`,
-                      }}
-                    />
-                  ))}
-
-                  {/* Close (X) — 2 diagonal lines centered in the 32x28 box */}
-                  <line
-                    x1="7"
-                    y1="5"
-                    x2="25"
-                    y2="23"
-                    stroke="#ffffff"
-                    style={{
-                      strokeDasharray: 25.5,
-                      strokeDashoffset: mobileOpen ? 0 : 25.5,
-                      opacity: mobileOpen ? 1 : 0,
-                      transition: `stroke-dashoffset 450ms ${PAGE_RECEDE_EASE}, opacity 450ms ${PAGE_RECEDE_EASE}`,
-                      transitionDelay: mobileOpen ? "350ms" : "50ms",
-                    }}
-                  />
-                  <line
-                    x1="25"
-                    y1="5"
-                    x2="7"
-                    y2="23"
-                    stroke="#ffffff"
-                    style={{
-                      strokeDasharray: 25.5,
-                      strokeDashoffset: mobileOpen ? 0 : 25.5,
-                      opacity: mobileOpen ? 1 : 0,
-                      transition: `stroke-dashoffset 450ms ${PAGE_RECEDE_EASE}, opacity 450ms ${PAGE_RECEDE_EASE}`,
-                      transitionDelay: mobileOpen ? "420ms" : "0ms",
-                    }}
-                  />
-                </svg>
+                <SoundBarsIcon open={mobileOpen} />
               </button>
             </nav>
 
@@ -942,7 +878,7 @@ export function Header() {
                         </div>
                       </div>
 
-                      <nav className="flex w-fit max-w-full flex-col items-start gap-1.5">
+                      <nav className="flex w-fit max-w-full flex-col items-start gap-3.5 sm:gap-4 md:gap-5">
                         {[
                           { href: "/", label: "HOME" },
                           { href: "/media", label: "MEDIA" },
@@ -968,7 +904,7 @@ export function Header() {
                               key={link.href}
                               href={link.href}
                               onClick={() => setMobileOpen(false)}
-                              className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${isActive
+                              className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.9rem,8vw,2.5rem)] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${isActive
                                 ? "active cursor-default !text-[#c084fc]"
                                 : "!text-white hover:!text-[#c084fc] cursor-pointer"
                                 }`}

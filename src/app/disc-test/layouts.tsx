@@ -19,7 +19,7 @@ export type LayoutProps = {
 const D = "font-[family-name:var(--font-display)] uppercase leading-[0.9] text-white";
 const MUTED = "text-[var(--color-text-muted)]";
 const SEC = "text-[var(--color-text-secondary)]";
-const CHIP = "rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs backdrop-blur-md";
+const CHIP = "rounded-none border border-white/15 bg-white/5 px-3 py-1 text-xs backdrop-blur-md";
 const pad = (v: number) => String(v).padStart(2, "0");
 
 function Chips({ item }: { item: DiscItem }) {
@@ -61,7 +61,7 @@ function TimelineDots({ items, active, onGo }: Pick<LayoutProps, "items" | "acti
           {/* line runs dot-center to dot-center (buttons are h-8 w-8, so inset by 1rem) */}
           <span className="absolute left-4 right-4 top-1/2 h-px bg-white/20" />
           <span
-            className="absolute left-4 top-1/2 h-px bg-[var(--color-action)] transition-[width] duration-500"
+            className="absolute left-4 top-1/2 h-px bg-[#5f5167] transition-[width] duration-500"
             style={{ width: `calc((100% - 2rem) * ${active / Math.max(1, items.length - 1)})` }}
           />
           {items.map((it, i) => (
@@ -72,13 +72,12 @@ function TimelineDots({ items, active, onGo }: Pick<LayoutProps, "items" | "acti
               className="pointer-events-auto relative flex h-8 w-8 items-center justify-center"
             >
               <span
-                className={`block rounded-full transition-all duration-300 ${
-                  i === active
-                    ? "h-3 w-3 bg-[var(--color-action)]"
-                    : i < active
-                      ? "h-2 w-2 bg-white"
-                      : "h-2 w-2 bg-white/30"
-                }`}
+                className={`block rounded-full transition-all duration-300 ${i === active
+                  ? "h-3 w-3 bg-[var(--color-action)]"
+                  : i < active
+                    ? "h-2 w-2 bg-white"
+                    : "h-2 w-2 bg-[#5f5167] "
+                  }`}
               />
             </button>
           ))}
@@ -91,7 +90,7 @@ function TimelineDots({ items, active, onGo }: Pick<LayoutProps, "items" | "acti
 /** Small inline player for the centered album's first track. */
 function MiniPlayer({ preview, onToggle }: { preview: Preview; onToggle: () => void }) {
   return (
-    <div className="pointer-events-auto flex w-[min(86vw,320px)] items-center gap-3 rounded-full border border-white/15 bg-white/5 py-1.5 pl-1.5 pr-4 backdrop-blur-md">
+    <div className="pointer-events-auto flex w-[min(86vw,320px)] items-center gap-3 rounded-none backdrop-blur-md">
       <button
         onClick={onToggle}
         aria-label={preview.playing ? `Pause ${preview.title}` : `Play ${preview.title}`}
@@ -117,7 +116,52 @@ function MiniPlayer({ preview, onToggle }: { preview: Preview; onToggle: () => v
           />
         </div>
       </div>
+      <LedMeter active={preview.playing} />
     </div>
+  );
+}
+
+// Resting shape (tall on the left, stepping down) — matches the LED meter mock.
+const LED_BARS = [1, 0.85, 0.72, 0.6, 0.5, 0.42, 0.36];
+const LED_CSS = `
+.disc-led-bar {
+  background: repeating-linear-gradient(to top, rgba(255,255,255,0.9) 0 2px, transparent 2px 3px);
+  background-position: bottom;
+  animation: disc-led-bounce 0.8s ease-in-out infinite alternate;
+}
+@keyframes disc-led-bounce {
+  0% { height: 22%; }
+  35% { height: 95%; }
+  60% { height: 48%; }
+  100% { height: 78%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .disc-led-bar { animation: none; }
+}
+`;
+
+/** Segmented LED level meter shown beside the track title while music is playing. */
+function LedMeter({ active }: { active: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`flex h-[18px] shrink-0 items-end gap-[1.5px] overflow-hidden transition-[width,margin,opacity] duration-300 ${active ? "ml-0 w-[30px] opacity-100" : "-ml-3 w-0 opacity-0"
+        }`}
+    >
+      <style>{LED_CSS}</style>
+      {LED_BARS.map((h, i) => (
+        <span
+          key={i}
+          className="disc-led-bar block w-[3px] shrink-0"
+          style={{
+            height: `${h * 100}%`,
+            animationDuration: `${0.62 + (i % 3) * 0.17}s`,
+            animationDelay: `${-i * 0.13}s`,
+            animationPlayState: active ? "running" : "paused",
+          }}
+        />
+      ))}
+    </span>
   );
 }
 
@@ -126,15 +170,13 @@ function NavDisc({ item, active }: { item: DiscItem; active: boolean }) {
   return (
     // scale lives on the outer element so it can't clash with the inner tilt
     <span
-      className={`relative block h-10 w-10 shrink-0 transition-transform duration-300 ease-out [perspective:600px] group-hover:scale-[1.35] ${
-        active ? "scale-110" : ""
-      }`}
+      className={`relative block h-10 w-10 shrink-0 transition-transform duration-300 ease-out [perspective:600px] group-hover:scale-[1.35] ${active ? "scale-110" : ""
+        }`}
     >
       <span className="absolute inset-0" style={{ transform: "rotateX(-35deg) rotateZ(16deg)" }}>
         <span
-          className={`block h-full w-full rounded-full bg-cover bg-center shadow-[0_2px_6px_rgba(0,0,0,0.6)] ring-1 ring-white/30 group-hover:[animation:discThumbSpin_2.6s_linear_infinite] ${
-            active ? "[animation:discThumbSpin_7s_linear_infinite]" : ""
-          }`}
+          className={`block h-full w-full rounded-full bg-cover bg-center shadow-[0_2px_6px_rgba(0,0,0,0.6)] ring-1 ring-white/30 group-hover:[animation:discThumbSpin_2.6s_linear_infinite] ${active ? "[animation:discThumbSpin_7s_linear_infinite]" : ""
+            }`}
           style={{ backgroundImage: `url("${item.thumb}")` }}
         />
         <span className="pointer-events-none absolute left-1/2 top-1/2 h-[30%] w-[30%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#140a1c] ring-1 ring-white/25" />
@@ -169,7 +211,7 @@ function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" |
     <nav
       ref={ref}
       aria-label="All CDs"
-      className="disc-nav-glass pointer-events-auto absolute inset-x-0 bottom-0 z-20 flex w-full items-center gap-2.5 sm:gap-3.5 overflow-x-auto border-t border-white/15 px-6 sm:px-12 py-2 sm:py-2.5 shadow-[0_-16px_40px_rgba(0,0,0,0.85)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="disc-nav-glass pointer-events-auto absolute inset-x-0 bottom-0 z-20 flex w-full items-center gap-2.5 sm:gap-3.5 overflow-x-scroll overflow-y-hidden px-6 sm:px-12 py-2 sm:py-2.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:!hidden [&::-webkit-scrollbar]:!w-0 [&::-webkit-scrollbar]:!h-0"
     >
       {items.map((it, i) => {
         const on = i === active;
@@ -178,25 +220,26 @@ function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" |
             key={it.slug}
             onClick={() => onGo(i)}
             aria-current={on ? "true" : undefined}
-            className={`group flex shrink-0 items-center gap-2.5 rounded-full border px-3 py-1.5 transition-all duration-200 ${
-              on
-                ? "border-white/30 bg-white/15 text-white shadow-[0_0_20px_rgba(180,90,240,0.3)]"
-                : "border-transparent text-white/80 hover:border-white/10 hover:bg-white/10 hover:text-white"
-            }`}
+            className={`group flex shrink-0 items-center gap-2.5 rounded-full px-3 py-1.5 transition-all duration-200 cursor-pointer ${on
+              ? "opacity-100"
+              : "opacity-40 hover:opacity-90 hover:bg-white/10"
+              }`}
           >
             <NavDisc item={it} active={on} />
             <span className="flex flex-col items-start leading-tight">
               <span
-                className={`whitespace-nowrap text-xs sm:text-[13px] font-extrabold uppercase tracking-wide transition-colors ${
-                  on ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" : "text-white group-hover:text-purple-300"
-                }`}
+                className={`whitespace-nowrap text-xs sm:text-[13px] font-extrabold uppercase tracking-wide transition-colors ${on
+                  ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                  : "text-white/80 group-hover:text-white"
+                  }`}
               >
                 {it.title}
               </span>
               <span
-                className={`text-[10px] sm:text-[11px] tabular-nums font-bold tracking-wider transition-colors ${
-                  on ? "text-purple-300 font-extrabold" : "text-white/70"
-                }`}
+                className={`text-[10px] sm:text-[11px] tabular-nums font-bold tracking-wider transition-colors ${on
+                  ? "text-purple-300 font-extrabold"
+                  : "text-white/50 group-hover:text-purple-300"
+                  }`}
               >
                 {it.meta[0]?.[1]}
               </span>
@@ -208,7 +251,7 @@ function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" |
   );
 }
 
-/** Centered caption under the disc, with the horizontal CD navigation docked at the bottom. */
+/** Centered caption under the disc, with the timeline and horizontal CD navigation docked at the bottom. */
 export function InfoLayout({
   item,
   items,
@@ -225,7 +268,7 @@ export function InfoLayout({
 
         <div
           key={item.slug}
-          className="disc-card absolute inset-x-0 bottom-[92px] sm:bottom-[100px] flex flex-col items-center gap-2 px-4 text-center"
+          className="disc-card absolute inset-x-0 bottom-[130x] sm:bottom-[130px] flex flex-col items-center gap-4 px-4 text-center"
         >
           <p className={`text-xs uppercase ${MUTED}`}>{item.category}</p>
           <div className={`${D} text-[clamp(28px,8vw,46px)]`}>
@@ -235,6 +278,13 @@ export function InfoLayout({
           {preview && onTogglePreview && (
             <MiniPlayer preview={preview} onToggle={onTogglePreview} />
           )}
+        </div>
+
+        {/* Timeline Scrubber Dots */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-[84px] sm:bottom-[80px] z-20 flex justify-center px-5 sm:px-8">
+          <div className="w-full max-w-[500px]">
+            <TimelineDots items={items} active={active} onGo={onGo} />
+          </div>
         </div>
       </div>
 

@@ -32,6 +32,10 @@ const BLOCKED = [
   "textarea",
   "select",
   "button",
+  "[role='button']",
+  ".btn",
+  ".btn-pill-glass",
+  ".badge",
   ".mfd-panel",
   ".preloader-overlay",
   ".disc-stage",
@@ -42,8 +46,8 @@ const BLOCKED = [
   "footer",
 ].join(",");
 
-const CHAR_STAGGER = 26; // ms between characters
-const CHAR_DURATION = 760;
+const CHAR_STAGGER = 13; // ms between characters
+const CHAR_DURATION = 400;
 const WORD_STAGGER = 55;
 const WORD_DURATION = 620;
 const MAX_CHARS = 90; // very long titles fall back to a word reveal
@@ -76,10 +80,23 @@ function prepare(el: HTMLElement) {
 function subtextFor(heading: HTMLElement): HTMLElement | null {
   const next = heading.nextElementSibling as HTMLElement | null;
   if (!next) return null;
-  const isTextElement = next.tagName === "P" || next.tagName === "DIV" || next.classList.contains("subtext");
+  // If next element contains complex children (cards, forms, badges, multiple child blocks), it is not a subtext paragraph.
+  if (
+    next.querySelector(
+      "button, a, input, textarea, select, [role='button'], .btn-pill-glass, .badge"
+    ) ||
+    next.children.length > 1
+  ) {
+    return null;
+  }
+  const isTextElement =
+    next.tagName === "P" ||
+    next.classList.contains("subtext") ||
+    (next.tagName === "DIV" && !next.children.length);
   if (!isTextElement) return null;
   const text = (next.textContent ?? "").trim();
-  if (!text || text.length > 320) return null;
+  // Only split concise single-line subtext into words; longer paragraphs animate cleanly as whole blocks
+  if (!text || text.length > 90) return null;
   if (next.hasAttribute(DONE) || next.closest(BLOCKED)) return null;
 
   next.setAttribute(DONE, "");
@@ -87,7 +104,7 @@ function subtextFor(heading: HTMLElement): HTMLElement | null {
   const pieces = splitInto(next, "words");
   if (!pieces.length) return null;
   pieces.forEach((p, i) => {
-    p.style.animationDelay = `${160 + i * WORD_STAGGER}ms`;
+    p.style.animationDelay = `${Math.min(100 + i * 25, 250)}ms`;
     p.style.animationDuration = `${WORD_DURATION}ms`;
   });
   next.classList.add("tt-pending");

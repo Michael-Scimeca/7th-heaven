@@ -1,0 +1,161 @@
+/* Staggered blur fade-in headline. Durations come in as --bf-* custom
+ * properties so callers can speed the whole sequence up (see timeScale). */
+
+.title {
+  --icon-size: 0.85em;
+  --icon-gap: 0.2em;
+  --slot-closed: 0.25em;
+  --slot-open: calc(var(--icon-size) + 2 * var(--icon-gap));
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  /* --font-anton is set by next/font on <html>, so it exists on every page */
+  font-family: var(--font-heading, var(--font-anton)), sans-serif;
+  font-size: clamp(44px, 9vw, 120px);
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* globals.css sets `span { font-family: var(--font-body) }`; the words are
+   spans, so pull the display font back down from .title. */
+.title span {
+  font-family: inherit;
+}
+
+/* 1. Line reveal */
+.line {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.25em);
+  animation: lineIn var(--bf-line-dur, 900ms) var(--ease-out) forwards;
+}
+
+@keyframes lineIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+/* 2. Gap opens between the words */
+.slot {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--slot-closed);
+  height: var(--icon-size);
+  animation: slotOpen var(--bf-slot-dur, 700ms) var(--ease-out) forwards;
+}
+
+@keyframes slotOpen {
+  to {
+    width: var(--slot-open);
+  }
+}
+
+/* 3. Image pops into the gap */
+.slotInner {
+  position: relative;
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  opacity: 0;
+  filter: blur(7px);
+  transform: scale(0.78);
+  animation: iconIn var(--bf-icon-dur, 650ms) var(--ease-out-expo) forwards;
+}
+
+@keyframes iconIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+.iconButton {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 30%;
+}
+
+button.iconButton {
+  cursor: pointer;
+  transition: transform 200ms var(--ease-out);
+}
+
+button.iconButton:hover {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+button.iconButton:active {
+  transform: scale(0.94);
+}
+
+button.iconButton:focus-visible {
+  outline: 2px solid var(--color-action, #f5b942);
+  outline-offset: 4px;
+}
+
+/* 4. Cycling: inactive layers sit blurred and shrunk underneath */
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 30%;
+  /* Tile behind the member cutouts so they read as icons, not floating heads */
+  background: radial-gradient(circle at 50% 30%, #3b2468 0%, #140c24 75%);
+  opacity: 0;
+  filter: blur(7px);
+  transform: scale(0.78);
+  transition:
+    opacity 450ms var(--ease-out),
+    filter 450ms var(--ease-out),
+    transform 550ms var(--ease-out-expo);
+}
+
+.layerActive {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Reduced motion: finished state immediately, no blur or movement */
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .slot,
+  .slotInner {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .slot {
+    width: var(--slot-open);
+  }
+
+  .layer {
+    transition: none;
+  }
+}

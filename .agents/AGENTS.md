@@ -55,3 +55,8 @@ Page sections = `<section id aria-labelledby className="section|section-sm|secti
 
 Boxes use rounded-[var(--radius-box)] (20px) via the shared components; pills use rounded-full; media gets radius on an overflow-hidden wrapper. Never redefine radius tokens.
 
+## 🚫 No Content-Boxing / Enclosing Cards in Hero Sections (MANDATORY)
+
+Never wrap hero text, headlines, narrative descriptions, or feature lists in heavy card containers with visible borders, background fills (`bg-*`), and internal card padding. Content must sit directly and openly on the hero backdrop/canvas using typography hierarchy, spatial breathing room, and subtle legibility gradients. Avoid heavy bento card containers or boxed-in card wrappers around text content.
+
+

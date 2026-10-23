@@ -8,9 +8,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const title =
     sanityContent?.seo?.metaTitle ||
     "7th Heaven Media Vault & Fan Media Wall | Videos, Music & Live Fan Moments";
-  const description =
+  const rawDescription =
     sanityContent?.seo?.metaDescription ||
-    "Explore 40 years of 7th Heaven media: live concert photos, official music videos, Billboard charting singles, audio jukebox tracks, and fan-submitted concert memories.";
+    "Explore 40 years of 7th Heaven media: live concert photos, official music videos, Billboard hits, audio jukebox tracks, and fan-submitted concert memories.";
+  const description =
+    rawDescription.length > 158
+      ? rawDescription.slice(0, 155).replace(/\s+\S*$/, "") + "…"
+      : rawDescription;
   const canonicalUrl = "https://7thheavenband.com/media";
 
   return {

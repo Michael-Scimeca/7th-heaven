@@ -165,10 +165,13 @@ export default function VideoArchiveRenderer({
               <Image
                 src={firstImgSrc}
                 alt={firstVideo.title}
-                fill
+                title={firstVideo.title}
+                width={1280}
+                height={720}
                 sizes="(min-width: 1024px) 66vw, 100vw"
                 priority
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                loading="eager"
+                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3">
@@ -219,9 +222,13 @@ export default function VideoArchiveRenderer({
                   <Image
                     src={src}
                     alt={v.title}
-                    fill
+                    title={v.title}
+                    width={1280}
+                    height={720}
                     sizes="(min-width: 1024px) 33vw, 100vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    priority
+                    loading="eager"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 sm:p-5">
                     <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-[#f2efa3]">
@@ -304,10 +311,13 @@ export default function VideoArchiveRenderer({
               <Image
                 src={videoThumb(firstVideo.id)}
                 alt={firstVideo.title}
-                fill
+                title={firstVideo.title}
+                width={1280}
+                height={800}
                 sizes="(min-width: 768px) 66vw, 100vw"
                 priority
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="eager"
+                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-6 flex flex-col justify-end">
                 <span className="text-xs font-mono uppercase text-[#f2efa3] font-bold">Bento Headliner</span>
@@ -356,9 +366,11 @@ export default function VideoArchiveRenderer({
                 <Image
                   src={videoThumb(video.id)}
                   alt={video.title}
-                  fill
-                  sizes="112px"
-                  className="object-cover group-hover:scale-105 transition-transform"
+                  title={video.title}
+                  width={224}
+                  height={128}
+                  loading={idx < 4 ? "eager" : "lazy"}
+                  className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                   <Play className="h-4 w-4 fill-white text-white drop-shadow transition-transform duration-300 transform scale-90 group-hover:scale-100" />
@@ -399,10 +411,13 @@ export default function VideoArchiveRenderer({
                 <Image
                   src={videoThumb(firstVideo.id)}
                   alt={firstVideo.title}
-                  fill
+                  title={firstVideo.title}
+                  width={1280}
+                  height={720}
                   sizes="(min-width: 1024px) 60vw, 100vw"
                   priority
-                  className="object-cover"
+                  loading="eager"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300">
                   <GlassPlayButton size="lg" as="div" glow className="transition-transform duration-300 transform scale-90 group-hover:scale-100" />
@@ -430,9 +445,11 @@ export default function VideoArchiveRenderer({
                 <Image
                   src={videoThumb(v.id)}
                   alt={v.title}
-                  fill
-                  sizes="96px"
-                  className="object-cover"
+                  title={v.title}
+                  width={192}
+                  height={128}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
               <div className="min-w-0 flex flex-col justify-center">
@@ -493,10 +510,13 @@ export default function VideoArchiveRenderer({
                   <Image
                     src={videoThumb(firstVideo.id)}
                     alt={firstVideo.title}
-                    fill
+                    title={firstVideo.title}
+                    width={1280}
+                    height={720}
                     sizes="(min-width: 1024px) 66vw, 100vw"
                     priority
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="eager"
+                    className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <GlassPlayButton size="lg" as="div" glow className="transition-transform duration-300 transform scale-90 group-hover:scale-100" />
@@ -505,7 +525,7 @@ export default function VideoArchiveRenderer({
                 <h3 className="font-heading text-3xl sm:text-5xl uppercase text-white mt-4 group-hover:text-[#f2efa3] transition-colors leading-tight">
                   {firstVideo.title}
                 </h3>
-                <p className="font-quisas text-base text-white/80 mt-2">{firstVideo.category} — Released {firstVideo.year}</p>
+                <p className="text-base text-white/80 font-medium mt-2">{firstVideo.category} — Released {firstVideo.year}</p>
               </div>
             </div>
           )}
@@ -583,9 +603,12 @@ export default function VideoArchiveRenderer({
               <Image
                 src={videoThumb(v.id)}
                 alt={v.title}
-                fill
+                title={v.title}
+                width={600}
+                height={600}
+                loading="lazy"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform"
+                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform"
               />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                 <Play className="h-8 w-8 fill-[#f2efa3] text-[#f2efa3]" />
@@ -628,9 +651,12 @@ export default function VideoArchiveRenderer({
                 <Image
                   src={videoThumb(v.id)}
                   alt={v.title}
-                  fill
+                  title={v.title}
+                  width={1280}
+                  height={720}
+                  loading="lazy"
                   sizes="(min-width: 1024px) 33vw, 50vw"
-                  className="object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
               <h4 className="font-bold text-sm text-white uppercase mt-3 truncate group-hover:text-green-400">
@@ -733,9 +759,12 @@ export default function VideoArchiveRenderer({
               <Image
                 src={videoThumb(v.id)}
                 alt={v.title}
-                fill
+                title={v.title}
+                width={1280}
+                height={720}
+                loading="lazy"
                 sizes="(min-width: 1024px) 33vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <GlassPlayButton size="md" as="div" className="transition-transform duration-300 transform scale-90 group-hover:scale-100" />
@@ -767,10 +796,13 @@ export default function VideoArchiveRenderer({
             <Image
               src={videoThumb(firstVideo.id)}
               alt={firstVideo.title}
-              fill
+              title={firstVideo.title}
+              width={1920}
+              height={823}
               sizes="100vw"
               priority
-              className="object-cover"
+              loading="eager"
+              className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-8 flex flex-col justify-end">
               <span className="text-xs font-mono text-[#f2efa3] uppercase font-bold">Featured Video of the Week</span>
@@ -831,9 +863,12 @@ export default function VideoArchiveRenderer({
                     <Image
                       src={videoThumb(v.id)}
                       alt={v.title}
-                      fill
+                      title={v.title}
+                      width={600}
+                      height={338}
+                      loading="lazy"
                       sizes="300px"
-                      className="object-cover group-hover:scale-105 transition-transform"
+                      className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform"
                     />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40">
                       <Play className="h-6 w-6 fill-white text-white drop-shadow transition-transform duration-300 transform scale-90 group-hover:scale-100" />
@@ -872,9 +907,12 @@ export default function VideoArchiveRenderer({
               <Image
                 src={videoThumb(v.id)}
                 alt={v.title}
-                fill
+                title={v.title}
+                width={1280}
+                height={720}
+                loading="lazy"
                 sizes="(min-width: 1024px) 33vw, 50vw"
-                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                className="absolute inset-0 h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
               />
             </div>
             <h4 className="font-black text-lg uppercase text-white group-hover:text-amber-400 mt-3 truncate">
@@ -908,9 +946,12 @@ export default function VideoArchiveRenderer({
             <Image
               src={videoThumb(v.id)}
               alt={v.title}
-              fill
+              title={v.title}
+              width={1280}
+              height={720}
+              loading="lazy"
               sizes="(min-width: 1024px) 33vw, 50vw"
-              className="object-cover group-hover:scale-105 transition-transform"
+              className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform"
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300">
               <GlassPlayButton size="md" as="div" glow className="transition-transform duration-300 transform scale-90 group-hover:scale-100" />

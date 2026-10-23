@@ -150,25 +150,25 @@ export function createDiscKit(renderer: THREE.WebGLRenderer, scene: THREE.Scene)
     side: THREE.DoubleSide,
   });
 
-  // soft elliptical shadow cast onto the page behind each disc
+  // rich soft elliptical shadow cast behind each disc
+  const shadowCanvas = document.createElement("canvas");
   const shadowTex = (() => {
     const size = 512;
-    const c = document.createElement("canvas");
-    c.width = c.height = size;
-    const g = c.getContext("2d")!;
+    shadowCanvas.width = shadowCanvas.height = size;
+    const g = shadowCanvas.getContext("2d")!;
     const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    grad.addColorStop(0, "rgba(0,0,0,0.68)");
-    grad.addColorStop(0.2, "rgba(0,0,0,0.52)");
-    grad.addColorStop(0.45, "rgba(0,0,0,0.26)");
-    grad.addColorStop(0.72, "rgba(0,0,0,0.08)");
+    grad.addColorStop(0, "rgba(0,0,0,0.52)");
+    grad.addColorStop(0.3, "rgba(0,0,0,0.38)");
+    grad.addColorStop(0.55, "rgba(0,0,0,0.20)");
+    grad.addColorStop(0.78, "rgba(0,0,0,0.06)");
     grad.addColorStop(1, "rgba(0,0,0,0)");
     g.fillStyle = grad;
     g.fillRect(0, 0, size, size);
-    const t = new THREE.CanvasTexture(c);
+    const t = new THREE.CanvasTexture(shadowCanvas);
     t.colorSpace = THREE.SRGBColorSpace;
     return t;
   })();
-  const shadowGeo = new THREE.PlaneGeometry(RADIUS * 2.8, RADIUS * 2.8);
+  const shadowGeo = new THREE.PlaneGeometry(RADIUS * 3.4, RADIUS * 3.4);
   const shadowMat = new THREE.MeshBasicMaterial({
     map: shadowTex,
     transparent: true,
@@ -185,6 +185,8 @@ export function createDiscKit(renderer: THREE.WebGLRenderer, scene: THREE.Scene)
     holeEdgeGeo,
     silver,
     back,
+    shadowCanvas,
+    shadowTex,
     shadowGeo,
     shadowMat,
     dispose() {
@@ -199,6 +201,32 @@ export function createDiscKit(renderer: THREE.WebGLRenderer, scene: THREE.Scene)
   };
 }
 export type DiscKit = ReturnType<typeof createDiscKit>;
+
+export function updateShadowTexture(
+  kit: DiscKit,
+  softness = 1.0,
+  innerOpacity = 0.52,
+) {
+  if (!kit.shadowCanvas || !kit.shadowTex) return;
+  const c = kit.shadowCanvas;
+  const g = c.getContext("2d");
+  if (!g) return;
+  const size = c.width;
+  g.clearRect(0, 0, size, size);
+  const half = size / 2;
+  const safeSoftness = Math.max(0.1, Math.min(3.0, softness));
+  const innerR = Math.max(0, half * Math.max(0, 1 - safeSoftness * 0.75));
+  const grad = g.createRadialGradient(half, half, innerR, half, half, half);
+  const op = Math.max(0, Math.min(1, innerOpacity));
+  grad.addColorStop(0, `rgba(0,0,0,${op})`);
+  grad.addColorStop(0.3, `rgba(0,0,0,${(op * 0.88).toFixed(3)})`);
+  grad.addColorStop(0.55, `rgba(0,0,0,${(op * 0.58).toFixed(3)})`);
+  grad.addColorStop(0.78, `rgba(0,0,0,${(op * 0.22).toFixed(3)})`);
+  grad.addColorStop(1, "rgba(0,0,0,0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, size, size);
+  kit.shadowTex.needsUpdate = true;
+}
 
 export type Disc = {
   group: THREE.Group;
@@ -285,11 +313,56 @@ export function disposeDisc(d: Disc) {
   (d.hitMesh.material as THREE.Material).dispose();
 }
 
+export interface ShadowConfig {
+  offsetX: number;
+  offsetY: number;
+  offsetZ: number;
+  scale: number;
+  opacity: number;
+  softness: number;
+  rotationZ: number;
+  visible: boolean;
+}
+
+export const DEFAULT_SHADOW_CONFIG: ShadowConfig = {
+  offsetX: 0.08,
+  offsetY: -0.20,
+  offsetZ: -0.18,
+  scale: 1.15,
+  opacity: 0.50,
+  softness: 1.0,
+  rotationZ: 0,
+  visible: true,
+};
+
 /** Place a disc's shadow for a disc at (x, y, z) with uniform scale s. */
-export function placeShadow(d: Disc, x: number, y: number, z: number, s: number, opacity: number) {
-  d.shadow.position.set(x + 0.05 * s, y - 0.08 * s, z - 0.15);
-  d.shadow.scale.set(s * 1.15, Math.cos(TILT.x) * 1.05 * s, 1);
-  d.shadow.material.opacity = opacity;
+export function placeShadow(
+  d: Disc,
+  x: number,
+  y: number,
+  z: number,
+  s: number,
+  opacity: number,
+  rx: number = TILT.x,
+  ry: number = TILT.y,
+  config?: ShadowConfig,
+) {
+  if (config && !config.visible) {
+    d.shadow.visible = false;
+    return;
+  }
+  const ox = config?.offsetX ?? DEFAULT_SHADOW_CONFIG.offsetX;
+  const oy = config?.offsetY ?? DEFAULT_SHADOW_CONFIG.offsetY;
+  const oz = config?.offsetZ ?? DEFAULT_SHADOW_CONFIG.offsetZ;
+  const scaleMult = config?.scale ?? DEFAULT_SHADOW_CONFIG.scale;
+  const opMult = config?.opacity ?? DEFAULT_SHADOW_CONFIG.opacity;
+  const rotZ = (config?.rotationZ ? (config.rotationZ * Math.PI) / 180 : 0) + TILT.z;
+
+  // Offset downward and slightly right to match top-left directional key light
+  d.shadow.position.set(x + ox * s, y + oy * s, z + oz);
+  d.shadow.rotation.set(rx, ry, rotZ);
+  d.shadow.scale.set(s * scaleMult, s * scaleMult, 1);
+  d.shadow.material.opacity = opacity * opMult;
 }
 
 /** Point the camera like the full-screen vault does for a viewport of w × h. */

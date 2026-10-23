@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import TransitionLink from "@/components/TransitionLink";
+
 export interface SeventhButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "children"
@@ -51,7 +53,7 @@ export const SeventhButton = React.forwardRef<
   ) => {
     const forced = Boolean(isActive || active);
     const combinedClassName = [
-      "seventh--btn",
+      "seventh--btn inline-flex items-center justify-center",
       forced ? "is-active active" : "",
       className,
     ]
@@ -75,6 +77,19 @@ export const SeventhButton = React.forwardRef<
     );
 
     if (href) {
+      if (href.startsWith("/") && (!target || target === "_self")) {
+        return (
+          <TransitionLink
+            href={href}
+            showSpinner={false}
+            className={combinedClassName}
+            style={{ ...(cssVars as React.CSSProperties), ...style }}
+            {...(props as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          >
+            {content}
+          </TransitionLink>
+        );
+      }
       return (
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}

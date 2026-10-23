@@ -49,7 +49,7 @@ export default function BannerDisc({ image }: { image: string }) {
         }`}
       >
         <div className="absolute inset-0 overflow-hidden rounded-full ring-1 ring-inset ring-white/45 [mask-image:radial-gradient(circle_closest-side,transparent_14.6%,#000_15.2%)]">
-          <Image src={image} alt="" fill sizes="144px" className="object-cover" />
+          <Image src={image} alt="" width={144} height={144} className="h-full w-full object-cover" />
         </div>
       </div>
 

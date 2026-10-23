@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import nextDynamic from "next/dynamic";
 import { fetchPageContent } from "@/lib/sanity";
 import HeroVideoPlayer from "@/components/HeroVideoPlayer";
+import HeroCoverGlass from "@/components/HeroCoverGlass";
 
 // const HomeVideoShowcase = nextDynamic(
 //   () => import("@/components/HomeVideoShowcase"),
@@ -108,7 +109,7 @@ export default async function Home() {
       </section>
 
       {/* Content Stack: slides up over the sticky hero */}
-      <div className="page-stack relative z-10 min-h-screen">
+      <HeroCoverGlass>
         {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint. */}
         <HomeDataLoader />
 
@@ -123,7 +124,7 @@ export default async function Home() {
 
         {/* ====== LATEST BAND NEWS ====== */}
         <HomeNewsSection sanityContent={sanityContent} />
-      </div>
+      </HeroCoverGlass>
     </main>
   );
 }

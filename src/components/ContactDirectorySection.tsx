@@ -22,6 +22,10 @@ export interface ContactPhoto {
   scaleClass: string;
   name: string;
   role: string;
+  width: number;
+  height: number;
+  mobileWidth: number;
+  mobileHeight: number;
 }
 
 export const ALL_PHOTOS: ContactPhoto[] = [
@@ -30,45 +34,65 @@ export const ALL_PHOTOS: ContactPhoto[] = [
     desktop: "/images/contact/dickie-contact.webp",
     mobile: "/images/contact/dickie-contact-mobile.webp",
     alt: "Dickie - Booking & Management",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Dickie",
     role: "Booking & Management",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
   {
     id: "lenny",
     desktop: "/images/contact/lenny-contact.webp",
     mobile: "/images/contact/lenny-contact-mobile.webp",
     alt: "Lenny Rago - Press & Media",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Lenny Rago",
     role: "Press & Media",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
   {
     id: "jeff",
     desktop: "/images/contact/jeff-contact.webp",
     mobile: "/images/contact/jeff-contact-mobile.webp",
     alt: "Jeff Dobbs - Technical & Production",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Jeff Dobbs",
     role: "Technical & Production",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
   {
     id: "alan",
     desktop: "/images/contact/alan-contact.webp",
     mobile: "/images/contact/alan-contact-mobile.webp",
     alt: "Alan McRae - Advance Non-Technical",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Alan McRae",
     role: "Advance Non-Technical",
+    width: 1074,
+    height: 688,
+    mobileWidth: 654,
+    mobileHeight: 419,
   },
   {
     id: "mary",
     desktop: "/images/contact/mary-contact.webp",
     mobile: "/images/contact/mary-contact-mobile.webp",
     alt: "Mary Grivas - 7th Heaven Cruise & Vacations",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Mary Grivas",
     role: "Cruise & Vacations",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
 ];
 
@@ -206,7 +230,7 @@ export function ContactDirectorySection({
               return (
                 <article
                   key={`mobile-${cardKey}-${idx}`}
-                  className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 text-left"
+                  className="flex flex-col text-left"
                 >
                   <h3 className="text-white text-xl font-bold">{repName}</h3>
 
@@ -228,12 +252,12 @@ export function ContactDirectorySection({
                     </p>
                   )}
 
-                  <address className="not-italic flex flex-col gap-2 mt-4">
+                  <address className="not-italic flex flex-col gap-1.5 mt-4 w-fit">
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
                         aria-label={`Send email to ${repName} (${contact.category}): ${contact.email}`}
-                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)] min-h-[44px]"
+                        className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit min-h-[36px]"
                       >
                         <Mail className="h-4 w-4 text-action shrink-0" />
                         <span className="truncate">{contact.email}</span>
@@ -243,7 +267,7 @@ export function ContactDirectorySection({
                       <a
                         href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
                         aria-label={`Call ${repName} (${contact.category}): ${contact.phone}`}
-                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)] min-h-[44px]"
+                        className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit min-h-[36px]"
                       >
                         <Phone className="h-4 w-4 text-action shrink-0" />
                         <span>{contact.phone}</span>
@@ -256,9 +280,12 @@ export function ContactDirectorySection({
                     <img
                       src={photo.desktop || photo.mobile}
                       alt={photo.alt}
-                      loading={idx === 0 ? "eager" : "lazy"}
+                      title={photo.alt}
+                      width={photo.width}
+                      height={photo.height}
+                      loading="eager"
                       decoding="async"
-                      className="w-full object-contain object-top max-h-[500px]"
+                      className="w-full object-contain object-top max-h-[340px] sm:max-h-[380px]"
                     />
                   </div>
                 </article>
@@ -266,11 +293,11 @@ export function ContactDirectorySection({
             })}
           </div>
 
-          {/* Desktop Split View (lg:grid) */}
-          <div className="hidden grid-cols-1 gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
+          {/* Desktop Layout (Position absolute representative stage with overlapping z-10 content) */}
+          <div className="hidden lg:block relative flex-1 w-full min-h-[calc(100dvh-14rem)]">
             {/* Left Column: Contact Cards Directory */}
-            <div className="flex flex-col text-left lg:col-span-5">
-              <ul className="flex flex-col gap-4">
+            <div className="relative z-10 flex flex-col text-left w-full max-w-xl items-start">
+              <ul className="flex flex-col gap-6">
                 {contacts.map((contact) => {
                   const photoKey = getPhotoForCategory(contact);
                   const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
@@ -287,25 +314,17 @@ export function ContactDirectorySection({
                       <article
                         onMouseEnter={() => setActivePhotoId(photoKey)}
                         onFocus={() => setActivePhotoId(photoKey)}
-                        className={`w-full text-left p-4 rounded-[var(--radius-box)] transition-[background-color,color,border-color,box-shadow,transform] border ${
+                        className={`w-full text-left transition-opacity duration-200 cursor-pointer ${
                           isCardActive
-                            ? "border-nocturne-mauve/60 bg-nocturne-wine/30 shadow-[0_0_20px_rgba(83,17,97,0.3)]"
-                            : "border-white/5 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+                            ? "opacity-100"
+                            : "opacity-75 hover:opacity-100"
                         }`}
                       >
-                        <h3
-                          className={`text-white transition-opacity ${
-                            isCardActive ? "opacity-100" : "opacity-75"
-                          }`}
-                        >
+                        <h3 className="text-white">
                           {repName}
                         </h3>
 
-                        <div
-                          className={`mb-2 flex flex-wrap items-center gap-1.5 text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)] transition-opacity ${
-                            isCardActive ? "opacity-100" : "opacity-75"
-                          }`}
-                        >
+                        <div className="mb-2 flex flex-wrap items-center gap-1.5 text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)]">
                           <span>{contact.category}</span>
                           {contact.company && (
                             <>
@@ -318,11 +337,7 @@ export function ContactDirectorySection({
                         </div>
 
                         {contact.note && (
-                          <p
-                            className={`mb-2 italic text-[color:var(--color-text-muted)] text-sm transition-opacity ${
-                              isCardActive ? "opacity-100" : "opacity-75"
-                            }`}
-                          >
+                          <p className="mb-2 italic text-[color:var(--color-text-muted)] text-sm">
                             {contact.note}
                           </p>
                         )}
@@ -356,10 +371,10 @@ export function ContactDirectorySection({
               </ul>
             </div>
 
-            {/* Right Column: Preloaded Representative Photo Stage for Desktop */}
+            {/* Right Side: Preloaded Representative Photo Stage for Desktop */}
             <aside
               aria-label="Contact Representative Media Stage"
-              className="contact-rep-stage lg:col-span-7"
+              className="contact-rep-stage"
             >
               {ALL_PHOTOS.map((photo) => {
                 const isActive = activePhotoId === photo.id;
@@ -376,17 +391,22 @@ export function ContactDirectorySection({
                       <source
                         media="(max-width: 768px)"
                         srcSet={photo.mobile}
+                        width={photo.mobileWidth}
+                        height={photo.mobileHeight}
                       />
                       <source
                         media="(min-width: 769px)"
                         srcSet={photo.desktop}
+                        width={photo.width}
+                        height={photo.height}
                       />
                       <img
                         src={photo.desktop}
                         alt={photo.alt}
-                        loading={
-                          photo.id === DEFAULT_PHOTO_ID ? "eager" : "lazy"
-                        }
+                        title={photo.alt}
+                        width={photo.width}
+                        height={photo.height}
+                        loading="eager"
                         fetchPriority={isActive ? "high" : "low"}
                         decoding={
                           photo.id === DEFAULT_PHOTO_ID ? "sync" : "async"
@@ -413,6 +433,7 @@ export function ContactDirectorySection({
             id="contact-guide-heading"
             title="Booking & Department Guidelines"
             subtitle="Direct information for festival committees, corporate event buyers, media, and travelers."
+            divider={false}
           />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
@@ -420,9 +441,9 @@ export function ContactDirectorySection({
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                   <Calendar className="h-6 w-6" />
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-white">
+                <h5 className="mb-2 font-bold text-white">
                   Concert & Event Booking
-                </h3>
+                </h5>
                 <p className="text-sm text-white/70 leading-relaxed">
                   Looking to bring 7th Heaven to your summer festival, county
                   fair, casino ballroom, corporate gala, or private party? With
@@ -441,9 +462,9 @@ export function ContactDirectorySection({
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                   <Radio className="h-6 w-6" />
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-white">
+                <h5 className="mb-2 font-bold text-white">
                   Press & Media Relations
-                </h3>
+                </h5>
                 <p className="text-sm text-white/70 leading-relaxed">
                   For radio and television appearances, podcast interviews, press
                   credentials, high-resolution band photos, and feature stories,
@@ -461,9 +482,9 @@ export function ContactDirectorySection({
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                   <Sliders className="h-6 w-6" />
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-white">
+                <h5 className="mb-2 font-bold text-white">
                   Technical Advance & Production
-                </h3>
+                </h5>
                 <p className="text-sm text-white/70 leading-relaxed">
                   Venue production managers, audio engineers, and stage leads
                   can coordinate technical riders, stage plots, patch lists,
@@ -481,9 +502,9 @@ export function ContactDirectorySection({
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
                   <Compass className="h-6 w-6" />
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-white">
+                <h5 className="mb-2 font-bold text-white">
                   Annual Music Cruise Inquiries
-                </h3>
+                </h5>
                 <p className="text-sm text-white/70 leading-relaxed">
                   Planning to sail with 7th Heaven on our annual Caribbean or
                   European music voyage? Mary Grivas at NTD Vacations assists

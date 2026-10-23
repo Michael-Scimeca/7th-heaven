@@ -95,3 +95,8 @@ test-results/
 /schedules.json
 /LAYOUT_STRUCTURE_AUDIT.md
 /discord-bot/
+
+# iPhone screenshots from npm run test:iphone
+/mobile-screenshots
+/public/images/test-*.png
+/public/images/debug-*.png

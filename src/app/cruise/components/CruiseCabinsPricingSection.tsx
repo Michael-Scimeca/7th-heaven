@@ -408,11 +408,19 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open(
-                        "https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH",
-                        "_blank",
-                        "noopener,noreferrer",
-                      );
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(
+                          new CustomEvent("7h-open-cruise-video", {
+                            detail: {
+                              id: "vid-ship-star",
+                              title: "Star of the Seas — Video of the Ship",
+                              category: "Ship Tour",
+                              url: "https://youtu.be/SOf67Ysk04U",
+                              youtubeId: "SOf67Ysk04U",
+                            },
+                          }),
+                        );
+                      }
                     }}
                     className="!w-full !justify-start"
                   >
@@ -442,11 +450,19 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open(
-                        "https://youtu.be/0LxUHSdFDtY",
-                        "_blank",
-                        "noopener,noreferrer",
-                      );
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(
+                          new CustomEvent("7h-open-cruise-video", {
+                            detail: {
+                              id: "vid-ship-icon-tour",
+                              title: "Icon of the Seas — Ship Tour Video",
+                              category: "Ship Tour",
+                              url: "https://youtu.be/0LxUHSdFDtY",
+                              youtubeId: "0LxUHSdFDtY",
+                            },
+                          }),
+                        );
+                      }
                     }}
                     className="!w-full !justify-start"
                   >
@@ -459,11 +475,19 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open(
-                        "https://youtu.be/6xCQ4xE7L38",
-                        "_blank",
-                        "noopener,noreferrer",
-                      );
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(
+                          new CustomEvent("7h-open-cruise-video", {
+                            detail: {
+                              id: "vid-star-promo",
+                              title: "Star of the Seas — Official Promo Video",
+                              category: "Promo & Announcements",
+                              url: "https://youtu.be/6xCQ4xE7L38",
+                              youtubeId: "6xCQ4xE7L38",
+                            },
+                          }),
+                        );
+                      }
                     }}
                     className="!w-full !justify-start"
                   >
@@ -1368,7 +1392,7 @@ function CruiseCabinsPricingSectionComponent({
       <section
         id="concierge"
         aria-labelledby="concierge-heading"
-        className="section site-container relative z-20"
+        className="section site-container relative z-20 scroll-mt-28"
       >
         <div className="mb-6 max-w-3xl text-left">
           <SectionHeader

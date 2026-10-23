@@ -355,12 +355,12 @@ function CruiseShipExplorerSectionComponent({
                   alt={item.title}
                   className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/75 to-transparent pt-14">
                   <SectionBadge
                     label={item.category}
                     className="self-start !border-white/20 !bg-black/80 shadow-md"
                   />
-                  <p>{item.title}</p>
+                  <p className="mt-1 font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] text-fluid-body">{item.title}</p>
                 </div>
               </article>
             </li>
@@ -594,12 +594,12 @@ function CruiseShipExplorerSectionComponent({
                 alt={food.name}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/75 to-transparent pt-14">
                 <SectionBadge
                   label={food.tag}
                   className="self-start !border-white/20 !bg-black/80 shadow-md"
                 />
-                <p>{food.name}</p>
+                <p className="mt-1 font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] text-fluid-body">{food.name}</p>
               </div>
             </div>
           ))}
@@ -653,12 +653,12 @@ function CruiseShipExplorerSectionComponent({
                 alt={item.name}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/75 to-transparent pt-14">
                 <SectionBadge
                   label={item.tag}
                   className="self-start !border-white/20 !bg-black/80 shadow-md"
                 />
-                <p>{item.name}</p>
+                <p className="mt-1 font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] text-fluid-body">{item.name}</p>
               </div>
             </div>
           ))}

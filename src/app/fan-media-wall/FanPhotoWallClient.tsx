@@ -29,6 +29,8 @@ import {
   Calendar,
   Filter,
   ArrowUpDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import React, {
@@ -171,7 +173,7 @@ export default function FanPhotoWallClient({
   const [mediaFilter, setMediaFilter] = useState<"all" | "photos" | "videos">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [venueFilter, setVenueFilter] = useState("ALL");
-  const [sortBy, setSortBy] = useState<"default" | "newest" | "oldest" | "fan">("default");
+  const [sortBy, setSortBy] = useState<"default" | "newest" | "oldest" | "fan">("newest");
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const filterTriggerRef = useRef<HTMLButtonElement>(null);
   const mounted = useMounted();
@@ -506,6 +508,86 @@ export default function FanPhotoWallClient({
     return list;
   }, [approvedPhotos, mediaFilter, venueFilter, searchQuery, sortBy]);
 
+  // Lightbox carousel navigation
+  const currentPhotoIndex = useMemo(() => {
+    if (!selectedPhoto) return -1;
+    return displayedPhotos.findIndex((p) => p.id === selectedPhoto.id);
+  }, [selectedPhoto, displayedPhotos]);
+
+  const handlePrevPhoto = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (displayedPhotos.length <= 1) return;
+      const idx = displayedPhotos.findIndex((p) => p.id === selectedPhoto?.id);
+      const nextIdx = idx <= 0 ? displayedPhotos.length - 1 : idx - 1;
+      setSelectedPhoto(displayedPhotos[nextIdx]);
+    },
+    [displayedPhotos, selectedPhoto],
+  );
+
+  const handleNextPhoto = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (displayedPhotos.length <= 1) return;
+      const idx = displayedPhotos.findIndex((p) => p.id === selectedPhoto?.id);
+      const nextIdx = idx >= displayedPhotos.length - 1 ? 0 : idx + 1;
+      setSelectedPhoto(displayedPhotos[nextIdx]);
+    },
+    [displayedPhotos, selectedPhoto],
+  );
+
+  // Keyboard navigation for lightbox
+  const navHandlersRef = useRef({ handlePrevPhoto, handleNextPhoto });
+  useEffect(() => {
+    navHandlersRef.current = { handlePrevPhoto, handleNextPhoto };
+  }, [handlePrevPhoto, handleNextPhoto]);
+
+  const isLightboxOpen = Boolean(selectedPhoto);
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navHandlersRef.current.handlePrevPhoto();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navHandlersRef.current.handleNextPhoto();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        setSelectedPhoto(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLightboxOpen]);
+
+  // Touch swipe gesture for lightbox on mobile
+  const lightboxTouchStartX = useRef<number | null>(null);
+  const lightboxTouchStartY = useRef<number | null>(null);
+
+  const handleLightboxTouchStart = (e: React.TouchEvent) => {
+    lightboxTouchStartX.current = e.touches[0].clientX;
+    lightboxTouchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleLightboxTouchEnd = (e: React.TouchEvent) => {
+    if (lightboxTouchStartX.current === null || lightboxTouchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - lightboxTouchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - lightboxTouchStartY.current;
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+      if (deltaX > 0) {
+        handlePrevPhoto();
+      } else {
+        handleNextPhoto();
+      }
+    }
+    lightboxTouchStartX.current = null;
+    lightboxTouchStartY.current = null;
+  };
+
   return (
     <div
       className={embedMode ? "w-full" : "page-container page-stack min-h-screen"}
@@ -697,9 +779,9 @@ export default function FanPhotoWallClient({
                                 : photo.src
                             }
                             alt="Fan Upload"
-                            fill
+                            width={800} height={600}
                             sizes="(max-width: 768px) 100vw, 400px"
-                            className="object-cover"
+                            className="h-full w-full object-cover"
                           />
                         )}
                         <div className="absolute top-2.5 right-2.5 border border-white/10 bg-black/80 px-2.5 py-1 text-white">
@@ -771,14 +853,10 @@ export default function FanPhotoWallClient({
           <div
             role="toolbar"
             aria-label="Fan Media Filters"
-            className="mb-6 flex flex-wrap items-center gap-3 sm:gap-4 border-b border-white/10 pb-4"
+            className="mb-6 flex flex-wrap items-center justify-end gap-3 sm:gap-4 border-b border-white/10 pb-4"
           >
-            <p className="mr-auto flex h-10 items-center text-[13px] text-white/55" aria-live="polite">
-              {displayedPhotos.length} {displayedPhotos.length === 1 ? "item" : "items"}
-            </p>
-
-            {/* Unified Search Input (40px / h-10) */}
-            <div className="relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
+            {/* Unified Search Input (40px / h-10) - full-width top row on mobile */}
+            <div className="order-1 sm:order-2 relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
               <div className="pointer-events-none absolute left-3 flex items-center justify-center text-white/50">
                 <Search className="h-3.5 w-3.5" aria-hidden="true" />
               </div>
@@ -802,6 +880,11 @@ export default function FanPhotoWallClient({
               )}
             </div>
 
+            {/* Items Count - placed on the left next to newest first dropdown on mobile */}
+            <p className="order-2 sm:order-1 mr-auto sm:mr-0 flex h-10 items-center text-xs sm:text-[13px] font-medium text-white/55 whitespace-nowrap text-left sm:text-right" aria-live="polite">
+              {displayedPhotos.length} {displayedPhotos.length === 1 ? "item" : "items"}
+            </p>
+
             {/* Sort Order Dropdown (40px / h-10) */}
             <CustomDropdown
               ariaLabel="Sort fan moments"
@@ -811,7 +894,7 @@ export default function FanPhotoWallClient({
               minWidth={200}
               maxHeight={320}
               triggerPrefix={sortTriggerPrefix}
-              wrapperClassName="!inline-flex h-10 items-center"
+              wrapperClassName="order-3 sm:order-3 !inline-flex h-10 items-center"
               buttonClassName="!h-10 !py-0 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold backdrop-blur-md  transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
             />
 
@@ -822,7 +905,7 @@ export default function FanPhotoWallClient({
               onClick={() => setFilterDrawerOpen(true)}
               aria-haspopup="dialog"
               aria-expanded={filterDrawerOpen}
-              className="flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md  transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
+              className="order-4 sm:order-4 flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md  transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Filters</span>
@@ -906,7 +989,7 @@ export default function FanPhotoWallClient({
                                 allow="autoplay; encrypted-media"
                               />
                             ) : (
-                              <Image src={heroPhoto.src} alt="Hero photo" fill sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover" priority />
+                              <Image src={heroPhoto.src} alt="Hero photo" width={800} height={600} sizes="(max-width: 1024px) 100vw, 66vw" className="h-full w-full object-cover" priority />
                             )}
                           </div>
                           <div className="lg:col-span-4 flex flex-col justify-between h-full gap-4">
@@ -974,9 +1057,9 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                                 alt={`Media by ${photo.name}`}
-                                fill
+                                width={800} height={600}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 priority={index < 3}
                               />
                               <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
@@ -1022,9 +1105,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                             alt={`Photo by ${photo.name}`}
-                            fill
+                            width={800} height={600}
                             sizes="(max-width: 768px) 100vw, 50vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-4 flex flex-col justify-end">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-300">
@@ -1065,9 +1148,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={heroDetails?.isYouTube ? `https://img.youtube.com/vi/${heroDetails.youtubeId}/hqdefault.jpg` : heroPhoto.src}
                             alt={`Featured broadside by ${heroPhoto.name}`}
-                            fill
+                            width={800} height={600}
                             sizes="100vw"
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                             priority
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
@@ -1102,9 +1185,9 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                                 alt={`Media by ${photo.name}`}
-                                fill
+                                width={800} height={600}
                                 sizes="(max-width: 768px) 100vw, 33vw"
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                               />
                             </div>
                             <div className="p-4 flex flex-col justify-between flex-1">
@@ -1147,9 +1230,9 @@ export default function FanPhotoWallClient({
                         <Image
                           src={leadDetails?.isYouTube ? `https://img.youtube.com/vi/${leadDetails.youtubeId}/hqdefault.jpg` : leadReel.src}
                           alt={`Lead Story by ${leadReel.name}`}
-                          fill
+                          width={800} height={600}
                           sizes="(max-width: 1024px) 100vw, 42vw"
-                          className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                          className="h-full w-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
                           priority
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-6 sm:p-8 flex flex-col justify-between">
@@ -1195,9 +1278,9 @@ export default function FanPhotoWallClient({
                             <Image
                               src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={`Reel by ${photo.name}`}
-                              fill
+                              width={800} height={600}
                               sizes="(max-width: 768px) 50vw, 20vw"
-                              className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                              className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-3.5 flex flex-col justify-end">
                               <span className="text-[10px] font-bold uppercase text-purple-300">{mediaDetails.isVideo ? "Video" : "Photo"}</span>
@@ -1230,9 +1313,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={mainDetails?.isYouTube ? `https://img.youtube.com/vi/${mainDetails.youtubeId}/hqdefault.jpg` : mainItem.src}
                             alt={mainItem.name}
-                            fill
+                            width={800} height={600}
                             sizes="(max-width: 1024px) 100vw, 60vw"
-                            className="object-cover"
+                            className="h-full w-full object-cover"
                             priority
                           />
                           <div className="absolute top-3 left-3 rounded-full bg-black/70 px-3 py-1 text-xs font-bold text-white uppercase tracking-wider backdrop-blur-md">
@@ -1283,9 +1366,9 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                                 alt={photo.name}
-                                fill
+                                width={800} height={600}
                                 sizes="96px"
-                                className="object-cover"
+                                className="h-full w-full object-cover"
                               />
                             </div>
                             <div className="min-w-0 flex-1">
@@ -1325,9 +1408,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={centerDetails?.isYouTube ? `https://img.youtube.com/vi/${centerDetails.youtubeId}/hqdefault.jpg` : centerPolaroid.src}
                             alt={centerPolaroid.name}
-                            fill
+                            width={800} height={600}
                             sizes="(max-width: 768px) 100vw, 672px"
-                            className="object-cover"
+                            className="h-full w-full object-cover"
                             priority
                           />
                           <div className="absolute top-3 left-3 bg-red-600 text-white font-mono text-[10px] font-bold uppercase px-2.5 py-1 tracking-widest shadow">
@@ -1365,9 +1448,9 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                                 alt={photo.name}
-                                fill
+                                width={800} height={600}
                                 sizes="(max-width: 768px) 100vw, 33vw"
-                                className="object-cover"
+                                className="h-full w-full object-cover"
                               />
                             </div>
                             <div className="mt-4 text-center font-sans">
@@ -1407,9 +1490,9 @@ export default function FanPhotoWallClient({
                             <Image
                               src={glassHeroDetails?.isYouTube ? `https://img.youtube.com/vi/${glassHeroDetails.youtubeId}/hqdefault.jpg` : glassHero.src}
                               alt={glassHero.name}
-                              fill
+                              width={800} height={600}
                               sizes="(max-width: 1024px) 100vw, 55vw"
-                              className="object-cover group-hover:scale-105 transition-transform duration-700"
+                              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
                               priority
                             />
                             <div className="absolute top-3 left-3 rounded-full bg-nocturne-wine/90 border border-nocturne-rose/40 px-3 py-1 text-xs font-bold uppercase tracking-wider text-nocturne-rose backdrop-blur-md">
@@ -1455,9 +1538,9 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                                 alt={photo.name}
-                                fill
+                                width={800} height={600}
                                 sizes="(max-width: 768px) 100vw, 33vw"
-                                className="object-cover transition-transform group-hover:scale-105"
+                                className="h-full w-full object-cover transition-transform group-hover:scale-105"
                               />
                             </div>
                             <div className="mt-4 flex items-center justify-between">
@@ -1509,9 +1592,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={hero.details?.isYouTube ? `https://img.youtube.com/vi/${hero.details.youtubeId}/hqdefault.jpg` : hero.item.src}
                                   alt={hero.item.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="(max-width: 1024px) 100vw, 50vw"
-                                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
                                   priority
                                 />
                                 <div className="absolute top-3 left-3 rounded-full bg-rose-600 px-3 py-1 text-xs font-bold uppercase text-white shadow-lg">
@@ -1549,9 +1632,9 @@ export default function FanPhotoWallClient({
                             <Image
                               src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={photo.name}
-                              fill
+                              width={800} height={600}
                               sizes="(max-width: 768px) 50vw, 25vw"
-                              className="object-cover group-hover:scale-105 transition-transform"
+                              className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-3 flex flex-col justify-end">
                               <p className="text-xs font-bold text-white truncate">{photo.name}</p>
@@ -1589,9 +1672,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                             alt={photo.name}
-                            fill
+                            width={800} height={600}
                             sizes={isLarge ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-5 flex flex-col justify-end">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300">
@@ -1642,9 +1725,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={coverDetails?.isYouTube ? `https://img.youtube.com/vi/${coverDetails.youtubeId}/hqdefault.jpg` : coverStory.src}
                             alt={coverStory.name}
-                            fill
+                            width={800} height={600}
                             sizes="(max-width: 1024px) 100vw, 66vw"
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
                             priority
                           />
                           <div className="absolute top-4 left-4 bg-white text-black font-serif text-xs font-bold uppercase px-3 py-1 tracking-widest">
@@ -1693,9 +1776,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={mediaDetails.isYouTube ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="(max-width: 768px) 100vw, 33vw"
-                                  className="object-cover group-hover:scale-105 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                                 />
                               </div>
                               <div className="mt-3 flex items-center justify-between font-serif text-xs text-white/60">
@@ -1743,10 +1826,10 @@ export default function FanPhotoWallClient({
                             <Image
                               src={headlinerDetails?.isYouTube ? `https://img.youtube.com/vi/${headlinerDetails.youtubeId}/hqdefault.jpg` : headliner.src}
                               alt={headliner.name}
-                              fill
+                              width={800} height={600}
                               sizes="100vw"
                               priority
-                              className="object-cover group-hover:scale-105 transition-transform duration-700"
+                              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
                             />
                           )}
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
@@ -1799,9 +1882,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="340px"
-                                  className="object-cover group-hover:scale-105 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                                 />
                                 {details.isVideo && (
                                   <div className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-amber-300">
@@ -1855,10 +1938,10 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={spotDetails?.isYouTube ? `https://img.youtube.com/vi/${spotDetails.youtubeId}/hqdefault.jpg` : spotlight.src}
                                 alt={spotlight.name}
-                                fill
+                                width={800} height={600}
                                 sizes="(max-width: 1024px) 100vw, 40vw"
                                 priority
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             )}
                           </div>
@@ -1906,9 +1989,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="300px"
-                                  className="object-cover group-hover:scale-105 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                                 />
                               </div>
                               <div className="mt-3 flex flex-col gap-0.5">
@@ -1964,9 +2047,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="(max-width: 768px) 100vw, 33vw"
-                                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 />
                               </div>
                               <h3 className="mt-4 font-black text-white group-hover:text-purple-200 transition-colors">
@@ -2006,9 +2089,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="160px"
-                                  className="object-cover group-hover:scale-110 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-110 transition-transform"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-end">
                                   <span className="text-[10px] font-bold text-white truncate">{photo.name}</span>
@@ -2051,9 +2134,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="(max-width: 768px) 100vw, 30vw"
-                                  className="object-cover group-hover:scale-105 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                                 />
                               </div>
                               <div className="md:col-span-5 flex flex-col gap-1.5">
@@ -2112,9 +2195,9 @@ export default function FanPhotoWallClient({
                             <Image
                               src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={photo.name}
-                              fill
+                              width={800} height={600}
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                              className="object-cover group-hover:scale-105 transition-transform"
+                              className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                             />
                             {details.isVideo && (
                               <div className="absolute bottom-2 right-2 rounded-full bg-emerald-500 text-black px-2.5 py-0.5 text-[10px] font-bold">
@@ -2175,10 +2258,10 @@ export default function FanPhotoWallClient({
                               <Image
                                 src={goldenDetails?.isYouTube ? `https://img.youtube.com/vi/${goldenDetails.youtubeId}/hqdefault.jpg` : goldenMain.src}
                                 alt={goldenMain.name}
-                                fill
+                                width={800} height={600}
                                 sizes="(max-width: 1024px) 100vw, 60vw"
                                 priority
-                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
                               />
                             </div>
                           </div>
@@ -2212,9 +2295,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="120px"
-                                  className="object-cover group-hover:scale-105 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                                 />
                               </div>
                               <div className="flex flex-col gap-0.5 min-w-0">
@@ -2246,9 +2329,9 @@ export default function FanPhotoWallClient({
                                 <Image
                                   src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                                   alt={photo.name}
-                                  fill
+                                  width={800} height={600}
                                   sizes="200px"
-                                  className="object-cover group-hover:scale-105 transition-transform"
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                                 />
                               </div>
                               <span className="mt-2 text-xs font-bold text-white truncate">{photo.name}</span>
@@ -2271,157 +2354,163 @@ export default function FanPhotoWallClient({
                 const billDetails = billboard ? getMediaDetails(billboard) : null;
                 const matrix = displayedPhotos.slice(1);
 
-                return (
-                  <div className="flex flex-col gap-8 [overflow-anchor:auto]">
-                    {billboard && (
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedPhoto(billboard)}
-                        className="group relative overflow-hidden rounded-[var(--radius-box)] shadow-2xl cursor-pointer"
-                      >
-                        <div className="relative aspect-[24/9] min-h-[220px] w-full overflow-hidden bg-black">
-                          <Image
-                            src={billDetails?.isYouTube ? `https://img.youtube.com/vi/${billDetails.youtubeId}/hqdefault.jpg` : billboard.src}
-                            alt={billboard.name}
-                            fill
-                            sizes="100vw"
-                            priority
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                          {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
-                          <div className="absolute top-4 left-4 z-20">
-                            {billDetails?.isVideo ? (
-                              <span className="flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/80 backdrop-blur-md px-3 py-1 text-xs font-mono font-bold tracking-wider text-purple-200 shadow-xl">
-                                <span className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
-                                <Film className="h-3.5 w-3.5 text-purple-300" />
-                                <span>FAN VIDEO</span>
-                              </span>
-                            ) : (
-                              <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/50 bg-black/80 backdrop-blur-md px-3 py-1 text-xs font-mono font-bold tracking-wider text-emerald-200 shadow-xl">
-                                <Camera className="h-3.5 w-3.5 text-emerald-300" />
-                                <span>FAN PHOTO</span>
-                              </span>
-                            )}
-                          </div>
+                const renderMatrixCard = (photo: (typeof displayedPhotos)[number]) => {
+                  const details = getMediaDetails(photo);
+                  return (
+                    <div
+                      key={photo.id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelectedPhoto(photo)}
+                      className="group flex flex-col transition-all cursor-pointer"
+                    >
+                      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black">
+                        <Image
+                          src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
+                          alt={photo.name}
+                          width={600}
+                          height={600}
+                          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                          className="h-full w-full object-cover group-hover:scale-105 transition-transform"
+                        />
 
-                          {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
-                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
-                            {billDetails?.isVideo ? (
-                              <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
-                                <GlassPlayButton
-                                  size="lg"
-                                  as="div"
-                                  glow
-                                  className="pointer-events-none"
-                                />
-                              </div>
-                            ) : (
-                              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
-                                <Maximize2 className="h-6 w-6" />
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
-                            <span className="text-xs uppercase font-mono tracking-widest text-purple-300 font-bold">24:9 Panoramic Marquee</span>
-                            <h3 className="font-black text-white mt-1">{billboard.name}</h3>
-                            <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
-                              {billboard.venue || billboard.city || "Live Stage"}{billboard.venue && billboard.city ? ` • ${billboard.city}` : ""}{billboard.date ? ` • ${billboard.date}` : ""}
-                            </p>
-                          </div>
+                        {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
+                          {details.isVideo ? (
+                            <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
+                              <GlassPlayButton
+                                size="md"
+                                as="div"
+                                glow
+                                className="pointer-events-none"
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
+                              <Maximize2 className="h-5 w-5" />
+                            </div>
+                          )}
                         </div>
                       </div>
-                    )}
 
-                    {/* 4-Column Matrix (Enlarged) */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                      {matrix.map((photo) => {
-                        const details = getMediaDetails(photo);
-                        return (
-                          <div
-                            key={photo.id}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setSelectedPhoto(photo)}
-                            className="group flex flex-col transition-all cursor-pointer"
-                          >
-                            <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black">
-                              <Image
-                                src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
-                                alt={photo.name}
-                                fill
-                                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                                className="object-cover group-hover:scale-105 transition-transform"
-                              />
+                      {/* Bottom Meta Row (Split Left/Right matching reference) */}
+                      <div className="mt-3 flex items-start justify-between gap-2.5 px-0.5">
+                        {/* Left: Bold All-Caps Title & Subtext in Quisas */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <h3
+                              className="font-heading text-lg sm:text-xl lg:text-2xl uppercase text-white group-hover:text-[#f2efa3] transition-colors duration-150 line-clamp-1 leading-tight tracking-normal"
+                              title={photo.name}
+                            >
+                              {photo.name}
+                            </h3>
+                            {details.isVideo ? (
+                              <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-purple-400/50 bg-black/80 backdrop-blur-md px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider text-purple-200 shadow-sm">
+                                <Film className="h-2.5 w-2.5 text-purple-300" />
+                                <span>VIDEO</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-emerald-400/50 bg-black/80 backdrop-blur-md px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider text-emerald-200 shadow-sm">
+                                <Camera className="h-2.5 w-2.5 text-emerald-300" />
+                                <span>PHOTO</span>
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs sm:text-sm text-white/75 font-medium tracking-wide line-clamp-1 leading-normal mt-0.5">
+                            {photo.venue || (photo.city ? "Live Concert" : "7th Heaven Fan Wall")}
+                          </div>
+                        </div>
 
-                              {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
-                              <div className="absolute top-2 left-2 z-10">
-                                {details.isVideo ? (
-                                  <span className="flex items-center gap-1 rounded-md border border-purple-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-purple-200 shadow-md">
-                                    <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
-                                    <Film className="h-3 w-3 text-purple-300" />
-                                    <span>VIDEO</span>
-                                  </span>
-                                ) : (
-                                  <span className="flex items-center gap-1 rounded-md border border-emerald-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-emerald-200 shadow-md">
-                                    <Camera className="h-3 w-3 text-emerald-300" />
-                                    <span>PHOTO</span>
-                                  </span>
-                                )}
-                              </div>
+                        {/* Right: Date & Location matching reference */}
+                        <div className="text-right shrink-0">
+                          <span className="block text-xs font-semibold text-white/50 tracking-normal">
+                            {details.isVideo
+                              ? (photo.date ? `Recorded • ${photo.date}` : "Live Video")
+                              : (photo.date ? `Captured • ${photo.date}` : "Fan Photo")}
+                          </span>
+                          <span className="block text-xs font-medium text-white/90 tracking-wide leading-none mt-1">
+                            {photo.venue && photo.city
+                              ? photo.city
+                              : photo.city || (details.isVideo ? "Fan Video" : "Live Moment")}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                };
 
-                              {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
-                              <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
-                                {details.isVideo ? (
-                                  <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
-                                    <GlassPlayButton
-                                      size="md"
-                                      as="div"
-                                      glow
-                                      className="pointer-events-none"
-                                    />
-                                  </div>
-                                ) : (
-                                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
-                                    <Maximize2 className="h-5 w-5" />
-                                  </div>
-                                )}
-                              </div>
+                return (
+                  <div className="[overflow-anchor:auto]">
+                    {/* Mobile: All cards styled uniformly as standard matrix cards */}
+                    <div className="grid grid-cols-1 gap-6 sm:hidden">
+                      {displayedPhotos.map((photo) => renderMatrixCard(photo))}
+                    </div>
+
+                    {/* Tablet / Desktop: 24:9 Panoramic Marquee Billboard + 4-Column Matrix */}
+                    <div className="hidden sm:flex sm:flex-col sm:gap-8">
+                      {billboard && (
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setSelectedPhoto(billboard)}
+                          className="group relative overflow-hidden rounded-[var(--radius-box)] shadow-2xl cursor-pointer"
+                        >
+                          <div className="relative aspect-[24/9] min-h-[220px] w-full overflow-hidden bg-black">
+                            <Image
+                              src={billDetails?.isYouTube ? `https://img.youtube.com/vi/${billDetails.youtubeId}/hqdefault.jpg` : billboard.src}
+                              alt={billboard.name}
+                              width={1920}
+                              height={720}
+                              sizes="100vw"
+                              priority
+                              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+                              {billDetails?.isVideo ? (
+                                <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
+                                  <GlassPlayButton
+                                    size="lg"
+                                    as="div"
+                                    glow
+                                    className="pointer-events-none"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="flex h-14 w-14 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
+                                  <Maximize2 className="h-6 w-6" />
+                                </div>
+                              )}
                             </div>
 
-                            {/* Bottom Meta Row (Split Left/Right matching reference) */}
-                            <div className="mt-3 flex items-start justify-between gap-2.5 px-0.5">
-                              {/* Left: Bold All-Caps Title & Subtext in Quisas */}
-                              <div className="min-w-0 flex-1">
-                                <h3
-                                  className="font-heading text-lg sm:text-xl lg:text-2xl uppercase text-white group-hover:text-[#f2efa3] transition-colors duration-150 line-clamp-1 leading-tight tracking-normal"
-                                  title={photo.name}
-                                >
-                                  {photo.name}
-                                </h3>
-                                <div className="font-quisas text-xs sm:text-sm text-white/80 tracking-wide line-clamp-1 leading-normal mt-0.5">
-                                  {photo.venue || (photo.city ? "Live Concert" : "7th Heaven Fan Wall")}
-                                </div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
+                              <div className="flex flex-wrap items-center gap-2 mb-1">
+                                {billDetails?.isVideo ? (
+                                  <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/80 backdrop-blur-md px-3 py-0.5 text-xs font-mono font-bold tracking-wider text-purple-200 shadow-xl">
+                                    <Film className="h-3.5 w-3.5 text-purple-300" />
+                                    <span>FAN VIDEO</span>
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/50 bg-black/80 backdrop-blur-md px-3 py-0.5 text-xs font-mono font-bold tracking-wider text-emerald-200 shadow-xl">
+                                    <Camera className="h-3.5 w-3.5 text-emerald-300" />
+                                    <span>FAN PHOTO</span>
+                                  </span>
+                                )}
+                                <span className="text-xs uppercase font-mono tracking-widest text-purple-300/80 font-bold">24:9 Panoramic Marquee</span>
                               </div>
-
-                              {/* Right: Date & Location matching reference */}
-                              <div className="text-right shrink-0">
-                                <span className="block text-xs font-semibold text-white/50 tracking-normal">
-                                  {details.isVideo
-                                    ? (photo.date ? `Recorded • ${photo.date}` : "Live Video")
-                                    : (photo.date ? `Captured • ${photo.date}` : "Fan Photo")}
-                                </span>
-                                <span className="block text-xs font-medium text-white/90 tracking-wide leading-none mt-1">
-                                  {photo.venue && photo.city
-                                    ? photo.city
-                                    : photo.city || (details.isVideo ? "Fan Video" : "Live Moment")}
-                                </span>
-                              </div>
+                              <h3 className="font-black text-white mt-1">{billboard.name}</h3>
+                              <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
+                                {billboard.venue || billboard.city || "Live Stage"}{billboard.venue && billboard.city ? ` • ${billboard.city}` : ""}{billboard.date ? ` • ${billboard.date}` : ""}
+                              </p>
                             </div>
                           </div>
-                        );
-                      })}
+                        </div>
+                      )}
+
+                      {/* 4-Column Matrix */}
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {matrix.map((photo) => renderMatrixCard(photo))}
+                      </div>
                     </div>
                   </div>
                 );
@@ -2451,9 +2540,9 @@ export default function FanPhotoWallClient({
                             <Image
                               src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={photo.name}
-                              fill
+                              width={800} height={600}
                               sizes="(max-width: 768px) 100vw, 33vw"
-                              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                              className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
                             />
                           </div>
                           <div className="mt-3 flex flex-col gap-1">
@@ -2494,9 +2583,9 @@ export default function FanPhotoWallClient({
                             <Image
                               src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={photo.name}
-                              fill
+                              width={800} height={600}
                               sizes="180px"
-                              className="object-cover"
+                              className="h-full w-full object-cover"
                             />
                             {details.isVideo && (
                               <div className="absolute top-1.5 right-1.5 rounded-full bg-purple-600 p-1 text-white">
@@ -2548,9 +2637,9 @@ export default function FanPhotoWallClient({
                           <Image
                             src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                             alt={photo.name}
-                            fill
+                            width={800} height={600}
                             sizes="(max-width: 768px) 100vw, 680px"
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
 
@@ -2628,16 +2717,26 @@ export default function FanPhotoWallClient({
                 const mediaDetails = getMediaDetails(selectedPhoto);
                 return (
                   <div
-                    className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
+                    className="fixed inset-0 z-[9999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0 select-none"
                     onClick={() => setSelectedPhoto(null)}
+                    onTouchStart={handleLightboxTouchStart}
+                    onTouchEnd={handleLightboxTouchEnd}
                   >
-                    <div className="relative flex h-full w-full flex-col overflow-hidden bg-black">
+                    <div
+                      className="relative flex h-full w-full flex-col overflow-hidden bg-black"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {/* Header Bar */}
                       <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/95 px-4 pt-safe sm:px-6">
                         <div className="flex items-center gap-3 min-w-0">
-                          <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 text-purple-300 shrink-0">
+                          <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 text-purple-300 shrink-0 font-mono text-xs">
                             {mediaDetails.isVideo ? "FAN VIDEO" : "FAN PHOTO"}
                           </span>
+                          {displayedPhotos.length > 1 && currentPhotoIndex >= 0 && (
+                            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-xs font-mono text-white/80 shrink-0">
+                              {currentPhotoIndex + 1} / {displayedPhotos.length}
+                            </span>
+                          )}
                           <div className="flex items-center gap-2 truncate text-sm text-white font-semibold">
                             <span>{selectedPhoto.name}</span>
                             {(selectedPhoto.venue || selectedPhoto.city) && (
@@ -2691,8 +2790,33 @@ export default function FanPhotoWallClient({
 
                       {/* Stage (Full Screen Edge-to-Edge Media) */}
                       <div className="relative flex-1 w-full h-[calc(100vh-3.5rem)] h-[calc(100dvh-3.5rem)] overflow-hidden bg-black pb-safe flex items-center justify-center">
+                        {/* Previous Button */}
+                        {displayedPhotos.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={handlePrevPhoto}
+                            aria-label="Previous photo or video"
+                            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-white/90 shadow-2xl transition-all duration-200 hover:scale-110 hover:border-purple-400 hover:bg-purple-600/80 hover:text-white active:scale-95 group focus:outline-none focus:ring-2 focus:ring-purple-400"
+                          >
+                            <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:-translate-x-0.5" />
+                          </button>
+                        )}
+
+                        {/* Next Button */}
+                        {displayedPhotos.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={handleNextPhoto}
+                            aria-label="Next photo or video"
+                            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-white/90 shadow-2xl transition-all duration-200 hover:scale-110 hover:border-purple-400 hover:bg-purple-600/80 hover:text-white active:scale-95 group focus:outline-none focus:ring-2 focus:ring-purple-400"
+                          >
+                            <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:translate-x-0.5" />
+                          </button>
+                        )}
+
                         {mediaDetails.isDirectVideo ? (
                           <video
+                            key={selectedPhoto.id}
                             src={mediaDetails.videoSrc}
                             className="h-full w-full object-contain bg-black"
                             controls
@@ -2702,6 +2826,7 @@ export default function FanPhotoWallClient({
                           />
                         ) : mediaDetails.isYouTube ? (
                           <iframe
+                            key={selectedPhoto.id}
                             src={`https://www.youtube.com/embed/${mediaDetails.youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
                             title={selectedPhoto.caption || selectedPhoto.name}
                             className="h-full w-full border-0"
@@ -2710,8 +2835,11 @@ export default function FanPhotoWallClient({
                           />
                         ) : (
                           <img
+                            key={selectedPhoto.id}
                             src={selectedPhoto.src}
                             alt={selectedPhoto.name}
+                            width={1920}
+                            height={1080}
                             className="h-full w-full object-contain bg-black"
                           />
                         )}

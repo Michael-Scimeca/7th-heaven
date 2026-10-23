@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+
+const emptySubscribe = () => () => { };
+const getBody = () => (typeof document !== "undefined" ? document.body : null);
+const getBodyServer = () => null;
 import * as THREE from "three";
 import {
   TILT,
@@ -12,8 +16,13 @@ import {
   disposeDisc,
   placeShadow,
   screenDiscToWorld,
+  updateShadowTexture,
   type Disc,
+  type DiscKit,
+  type ShadowConfig,
+  DEFAULT_SHADOW_CONFIG,
 } from "./discScene";
+import DiscShadowTuner from "./DiscShadowTuner";
 import { ALBUMS, type Album } from "./data";
 import { InfoLayout } from "./layouts";
 import { TRANSITIONS, type TransitionName } from "./transitions";
@@ -65,10 +74,12 @@ export default function DiscTestClient({
     document.body.appendChild(el);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("vault-open");
     document.body.classList.add("vault-open");
     setHost(el);
     return () => {
       document.body.style.overflow = prev;
+      document.documentElement.classList.remove("vault-open", "vault-closing");
       document.body.classList.remove("vault-open", "vault-closing");
       el.remove();
     };
@@ -101,9 +112,10 @@ function DiscStage({
   const handoffRef = useRef(onHandoff);
   const closedRef = useRef(false);
   const targetRef = useRef(0);
-  const goToRef = useRef<(i: number) => void>(() => {});
+  const goToRef = useRef<(i: number) => void>(() => { });
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
+  const bodyEl = useSyncExternalStore(emptySubscribe, getBody, getBodyServer);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   // Active fast transition state (versioned localStorage persistence)
@@ -121,6 +133,29 @@ function DiscStage({
 
   const transitionRef = useRef(currentTransition);
 
+  // 3D Disc Shadow Config & Tuner state (persisted in localStorage)
+  const [shadowConfig, setShadowConfig] = useState<ShadowConfig>(DEFAULT_SHADOW_CONFIG);
+  const shadowConfigRef = useRef(shadowConfig);
+  const kitRef = useRef<DiscKit | null>(null);
+
+  useEffect(() => {
+    shadowConfigRef.current = shadowConfig;
+    if (kitRef.current) {
+      updateShadowTexture(kitRef.current, shadowConfig.softness, shadowConfig.opacity);
+    }
+  }, [shadowConfig]);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("disc_shadow_config_v2");
+      if (saved) {
+        setShadowConfig((prev) => ({ ...prev, ...JSON.parse(saved) }));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   // preview player: first track of whichever album disc is centered
   const [preview, setPreview] = useState<{ title: string; playing: boolean; pct: number } | null>(null);
   const lastPreviewed = useRef<number | null>(null);
@@ -137,7 +172,7 @@ function DiscStage({
     const first = id ? ALBUMS.find((a) => a.id === id)?.tracks[0] : undefined;
     if (!audio || !first) return;
     audio.src = first.audioUrl;
-    void audio.play().catch(() => {});
+    void audio.play().catch(() => { });
   };
   const openDiscRef = useRef(openDisc);
 
@@ -149,7 +184,7 @@ function DiscStage({
   const togglePreview = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (audio.paused) void audio.play().catch(() => {});
+    if (audio.paused) void audio.play().catch(() => { });
     else audio.pause();
   };
   const closeRef = useRef(closeDisc);
@@ -166,6 +201,8 @@ function DiscStage({
     if (!onClose || phaseTarget.current === 0) return;
     phaseTarget.current = 0;
     setClosing(true);
+    document.documentElement.classList.remove("vault-open");
+    document.documentElement.classList.add("vault-closing");
     document.body.classList.remove("vault-open");
     document.body.classList.add("vault-closing");
     audioRef.current?.pause();
@@ -202,6 +239,8 @@ function DiscStage({
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
     const kit = createDiscKit(renderer, scene);
+    kitRef.current = kit;
+    updateShadowTexture(kit, shadowConfigRef.current.softness, shadowConfigRef.current.opacity);
 
     const discs: Disc[] = [];
     const hitMeshes: THREE.Mesh[] = [];
@@ -421,10 +460,10 @@ function DiscStage({
         d.group.visible = vis;
 
         d.shadow.visible = vis;
-        const carouselShadow = Math.max(0, 0.45 - a * 0.16) * intro;
-        const pageShadow = 0.78;
+        const carouselShadow = Math.max(0, 0.95 - a * 0.16) * intro;
+        const pageShadow = 0.95;
         const currentShadow = i === 0 && home ? lerp(pageShadow, carouselShadow, launch) : carouselShadow;
-        placeShadow(d, x, y, z, s, currentShadow);
+        placeShadow(d, x, y, z, s, currentShadow, rx, ry, shadowConfigRef.current);
       });
 
       const now = Math.round(clamp(progress));
@@ -458,6 +497,7 @@ function DiscStage({
       el.removeEventListener("pointerup", onUp);
       el.removeEventListener("pointercancel", onUp);
       discs.forEach(disposeDisc);
+      kitRef.current = null;
       kit.dispose();
       renderer.dispose();
       el.remove();
@@ -488,7 +528,7 @@ function DiscStage({
     const t = window.setTimeout(() => {
       // always try; the browser refuses until the visitor has interacted,
       // and that rejection is harmless
-      void audio.play().catch(() => {});
+      void audio.play().catch(() => { });
     }, 320);
     return () => window.clearTimeout(t);
   }, [active, open, items]);
@@ -501,10 +541,10 @@ function DiscStage({
       setPreview((p) =>
         p
           ? {
-              ...p,
-              playing: !audio.paused,
-              pct: audio.duration ? (audio.currentTime / audio.duration) * 100 : 0,
-            }
+            ...p,
+            playing: !audio.paused,
+            pct: audio.duration ? (audio.currentTime / audio.duration) * 100 : 0,
+          }
           : p,
       );
     const evts = ["play", "playing", "pause", "timeupdate", "ended"] as const;
@@ -523,7 +563,7 @@ function DiscStage({
     <section
       data-lenis-prevent
       ref={stageRef}
-      className={`disc-stage fixed inset-x-0 top-0 h-[100dvh] z-[2147483000] overflow-hidden text-[var(--color-text-primary)] select-none ${closing ? "is-closing" : ""}`}
+      className={`disc-stage fixed inset-x-0 top-0 h-[100dvh] z-[90000] overflow-hidden text-[var(--color-text-primary)] select-none ${closing ? "is-closing" : ""}`}
     >
       <h1 className="sr-only">Disc library</h1>
 
@@ -546,6 +586,12 @@ function DiscStage({
         role="region"
       />
 
+      {/* 3D Disc Shadow UI Tuner */}
+      <DiscShadowTuner
+        config={shadowConfig}
+        onChange={setShadowConfig}
+        onReset={() => setShadowConfig(DEFAULT_SHADOW_CONFIG)}
+      />
 
       {/* Info layout */}
       <InfoLayout
@@ -558,25 +604,33 @@ function DiscStage({
         onTogglePreview={togglePreview}
       />
 
-      {/* Detail panel — docked right, no dimmed backdrop */}
-      {detail && (
-        <dialog open className="fixed inset-0 z-30 m-0 h-full w-full max-h-none max-w-none border-0 bg-transparent p-0 block" aria-modal="false" aria-label={detail.title}>
-          {/* click-away: transparent, so the discs stay visible */}
-          <button aria-label="Close" onClick={closeDisc} className="absolute inset-0 cursor-default" />
-          <div className="disc-panel disc-panel-glass absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden sm:w-[min(92vw,24rem)] sm:border-l sm:border-white/15 shadow-[-24px_0_60px_rgba(0,0,0,0.85)]">
-            <button
-              onClick={closeDisc}
-              aria-label="Close"
-              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white backdrop-blur-md transition-[background-color,transform] duration-150 hover:scale-105 hover:bg-white/15 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-ring)]"
-            >
-              <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true">
-                <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="1.6" />
-              </svg>
-            </button>
-            {album ? <TrackModal album={album} item={detail} audioRef={audioRef} /> : null}
-          </div>
-        </dialog>
-      )}
+      {/* Detail panel — docked right, portaled to body with higher z-index than the site nav */}
+      {detail &&
+        bodyEl &&
+        createPortal(
+          <dialog
+            open
+            className="fixed inset-0 z-[2147483020] m-0 h-full w-full max-h-none max-w-none border-0 bg-transparent p-0 block"
+            aria-modal="false"
+            aria-label={detail.title}
+          >
+            {/* click-away: transparent, so the discs stay visible */}
+            <button aria-label="Close" onClick={closeDisc} className="absolute inset-0 cursor-default" />
+            <div className="disc-panel disc-panel-glass absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden sm:w-[min(92vw,24rem)] sm:border-l sm:border-white/15 shadow-[-24px_0_60px_rgba(0,0,0,0.85)] z-10">
+              <button
+                onClick={closeDisc}
+                aria-label="Close"
+                className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white backdrop-blur-md transition-[background-color,transform] duration-150 hover:scale-105 hover:bg-white/15 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-ring)]"
+              >
+                <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true">
+                  <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="1.6" />
+                </svg>
+              </button>
+              {album ? <TrackModal album={album} item={detail} audioRef={audioRef} /> : null}
+            </div>
+          </dialog>,
+          bodyEl,
+        )}
 
       {/* one audio element for the whole stage, so playback can start inside the click */}
       <audio ref={audioRef} preload="none">
@@ -656,11 +710,6 @@ function DiscStage({
           }
         }
         .disc-nav-glass {
-          background: rgba(15, 8, 28, 0.68) !important;
-          background-image: radial-gradient(120% 45% at 50% 0%, rgba(140, 25, 170, 0.35) 0%, transparent 70%),
-                            linear-gradient(180deg, rgba(50, 15, 65, 0.35) 0%, rgba(12, 7, 22, 0.72) 100%) !important;
-          -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
-          backdrop-filter: blur(32px) saturate(180%) !important;
           isolation: auto !important;
           transform: none !important;
         }
@@ -804,9 +853,8 @@ function TrackModal({
         <img
           src={album.coverImage}
           alt={`${item.title} album cover`}
-          className={`aspect-square w-40 rounded-[calc(var(--radius-box)-4px)] border border-white/15 object-cover transition-transform duration-500 ${
-            isPlaying ? "scale-[1.02]" : ""
-          }`}
+          className={`aspect-square w-40 rounded-[calc(var(--radius-box)-4px)] border border-white/15 object-cover transition-transform duration-500 ${isPlaying ? "scale-[1.02]" : ""
+            }`}
         />
         <div className="flex w-full flex-col items-center gap-0.5">
           <p className="text-xs uppercase text-[var(--color-text-muted)]">
@@ -893,9 +941,8 @@ function TrackModal({
               <button
                 onClick={() => play(i)}
                 aria-current={isOn}
-                className={`group flex min-h-[48px] w-full items-center gap-3 rounded-[calc(var(--radius-box)-6px)] px-3 text-left transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-ring)] ${
-                  isOn ? "bg-white/10" : ""
-                }`}
+                className={`group flex min-h-[48px] w-full items-center gap-3 rounded-[calc(var(--radius-box)-6px)] px-3 text-left transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-ring)] ${isOn ? "bg-white/10" : ""
+                  }`}
               >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-xs tabular-nums text-[var(--color-text-muted)] group-hover:text-white">
                   {isOn && isPlaying ? (

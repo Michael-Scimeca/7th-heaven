@@ -370,6 +370,9 @@ export default function FooterProximityAlerts() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. John Doe"
                 wrapperClassName="w-full"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                autoComplete="off"
               />
             </div>
 
@@ -383,6 +386,9 @@ export default function FooterProximityAlerts() {
                 onChange={(e) => setZip(e.target.value)}
                 placeholder="e.g. 60056 or City"
                 wrapperClassName="w-full"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                autoComplete="off"
               />
             </div>
 
@@ -396,6 +402,9 @@ export default function FooterProximityAlerts() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 wrapperClassName="w-full"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                autoComplete="off"
               />
             </div>
           </div>
@@ -448,7 +457,7 @@ export default function FooterProximityAlerts() {
                     return (
                       <div
                         key={item.id}
-                        className={`group flex items-center justify-between rounded-xl border p-2.5 sm:p-3 text-left transition-colors duration-200 ${isSelected
+                        className={`group flex items-stretch justify-between rounded-xl border pr-2.5 sm:pr-3 text-left transition-colors duration-200 ${isSelected
                           ? "border-purple-400/60 bg-purple-950/40 text-white ring-1 ring-purple-500/50 "
                           : "border-white/10 bg-white/[0.02] text-white/60 hover:border-white/20 hover:text-white"
                           }`}
@@ -458,7 +467,7 @@ export default function FooterProximityAlerts() {
                           role="checkbox"
                           aria-checked={isSelected}
                           onClick={(e) => toggleType(item.id, e)}
-                          className="flex flex-1 items-center justify-between min-w-0 pr-1 text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-purple-400 rounded-lg"
+                          className="flex flex-1 min-h-[44px] items-center justify-between min-w-0 py-2.5 pl-2.5 pr-1 sm:py-3 sm:pl-3 text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-purple-400 rounded-lg"
                         >
                           <div className="min-w-0 pr-2">
                             <div className="flex items-center gap-2">
@@ -481,7 +490,7 @@ export default function FooterProximityAlerts() {
                           <button
                             type="button"
                             onClick={(e) => selectOnlyType(item.id, e)}
-                            className="opacity-0 group-hover:opacity-100 hover:!opacity-100 focus:opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white cursor-pointer shrink-0 ml-1"
+                            className="opacity-0 group-hover:opacity-100 hover:!opacity-100 focus:opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white cursor-pointer shrink-0 ml-1 self-center"
                             title={`Select only ${item.label}`}
                             aria-label={`Select only ${item.label}`}
                           >
@@ -505,7 +514,7 @@ export default function FooterProximityAlerts() {
                     return (
                       <div
                         key={item.id}
-                        className={`group flex items-center justify-between rounded-xl border p-2.5 sm:p-3 text-left transition-colors duration-200 ${isSelected
+                        className={`group flex items-stretch justify-between rounded-xl border pr-2.5 sm:pr-3 text-left transition-colors duration-200 ${isSelected
                           ? "border-purple-400/60 bg-purple-950/40 text-white ring-1 ring-purple-500/50 "
                           : "border-white/10 bg-white/[0.02] text-white/60 hover:border-white/20 hover:text-white"
                           }`}
@@ -515,7 +524,7 @@ export default function FooterProximityAlerts() {
                           role="checkbox"
                           aria-checked={isSelected}
                           onClick={(e) => toggleType(item.id, e)}
-                          className="flex flex-1 items-center justify-between min-w-0 pr-1 text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-purple-400 rounded-lg"
+                          className="flex flex-1 min-h-[44px] items-center justify-between min-w-0 py-2.5 pl-2.5 pr-1 sm:py-3 sm:pl-3 text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-purple-400 rounded-lg"
                         >
                           <div className="min-w-0 pr-2">
                             <div className="flex items-center gap-2">
@@ -538,7 +547,7 @@ export default function FooterProximityAlerts() {
                           <button
                             type="button"
                             onClick={(e) => selectOnlyType(item.id, e)}
-                            className="opacity-0 group-hover:opacity-100 hover:!opacity-100 focus:opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white cursor-pointer shrink-0 ml-1"
+                            className="opacity-0 group-hover:opacity-100 hover:!opacity-100 focus:opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white cursor-pointer shrink-0 ml-1 self-center"
                             title={`Select only ${item.label}`}
                             aria-label={`Select only ${item.label}`}
                           >
@@ -587,7 +596,7 @@ export default function FooterProximityAlerts() {
           <div className="relative z-10 flex flex-col items-start justify-start gap-3">
             {permission === "granted" ? (
               <div className="flex shrink-0 flex-wrap items-center gap-3">
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/40 bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-emerald-300">
+                <span className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold whitespace-nowrap text-emerald-300">
                   <Check className="h-3.5 w-3.5 shrink-0 text-emerald-400" /> Push
                   Enabled
                 </span>

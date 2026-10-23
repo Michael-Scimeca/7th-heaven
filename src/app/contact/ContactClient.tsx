@@ -2,10 +2,10 @@
 /* eslint-disable react-doctor/nextjs-no-img-element */
 
 import { useState } from "react";
-import Link from "next/link";
-import { Mail, Phone, Calendar, Radio, Sliders, Compass } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
+import SeventhButton from "@/components/SeventhButton";
 
 export interface ContactItem {
   category: string;
@@ -24,6 +24,10 @@ interface ContactPhoto {
   scaleClass: string;
   name: string;
   role: string;
+  width: number;
+  height: number;
+  mobileWidth: number;
+  mobileHeight: number;
 }
 
 const ALL_PHOTOS: ContactPhoto[] = [
@@ -32,45 +36,65 @@ const ALL_PHOTOS: ContactPhoto[] = [
     desktop: "/images/contact/dickie-contact.webp",
     mobile: "/images/contact/dickie-contact-mobile.webp",
     alt: "Dickie - Booking & Management",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Dickie",
     role: "Booking & Management",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
   {
     id: "lenny",
     desktop: "/images/contact/lenny-contact.webp",
     mobile: "/images/contact/lenny-contact-mobile.webp",
     alt: "Lenny Rago - Press & Media",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Lenny Rago",
     role: "Press & Media",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
   {
     id: "jeff",
     desktop: "/images/contact/jeff-contact.webp",
     mobile: "/images/contact/jeff-contact-mobile.webp",
     alt: "Jeff Dobbs - Technical & Production",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Jeff Dobbs",
     role: "Technical & Production",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
   {
     id: "alan",
     desktop: "/images/contact/alan-contact.webp",
     mobile: "/images/contact/alan-contact-mobile.webp",
     alt: "Alan McRae - Advance Non-Technical",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Alan McRae",
     role: "Advance Non-Technical",
+    width: 1074,
+    height: 688,
+    mobileWidth: 654,
+    mobileHeight: 419,
   },
   {
     id: "mary",
     desktop: "/images/contact/mary-contact.webp",
     mobile: "/images/contact/mary-contact-mobile.webp",
     alt: "Mary Grivas - 7th Heaven Cruise & Vacations",
-    scaleClass: "scale-100",
+    scaleClass: "",
     name: "Mary Grivas",
     role: "Cruise & Vacations",
+    width: 1074,
+    height: 768,
+    mobileWidth: 654,
+    mobileHeight: 468,
   },
 ];
 
@@ -152,10 +176,10 @@ export default function ContactClient({
       <section
         id="contact-team"
         aria-labelledby="contact-team-heading"
-        className="section relative pb-0"
+        className="section relative pb-0 lg:min-h-[calc(100dvh-12rem)] flex flex-col"
       >
         <SectionHeader id="contact-team-heading" title="Contact Directory" visuallyHidden />
-        <div className="relative z-10 w-full">
+        <div className="relative z-10 w-full flex-1 flex flex-col">
           {/* Mobile & Tablet Stacked View (< lg) */}
           <div className="flex flex-col gap-8 lg:hidden">
             {contacts.map((contact, idx) => {
@@ -197,12 +221,12 @@ export default function ContactClient({
                   )}
 
                   {/* Action Buttons: Stacked vertically matching action styling */}
-                  <address className="not-italic flex flex-col gap-3 w-full">
+                  <address className="not-italic flex flex-col gap-1.5 w-fit">
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
                         aria-label={`Send email to ${repName} (${contact.category}): ${contact.email}`}
-                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)] min-h-[44px]"
+                        className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit min-h-[36px]"
                       >
                         <Mail className="h-4 w-4 text-action shrink-0" />
                         <span className="truncate">{contact.email}</span>
@@ -212,7 +236,7 @@ export default function ContactClient({
                       <a
                         href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
                         aria-label={`Call ${repName} (${contact.category}): ${contact.phone}`}
-                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)] min-h-[44px]"
+                        className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit min-h-[36px]"
                       >
                         <Phone className="h-4 w-4 text-action shrink-0" />
                         <span>{contact.phone}</span>
@@ -225,21 +249,45 @@ export default function ContactClient({
                     <img
                       src={photo.desktop || photo.mobile}
                       alt={photo.alt}
-                      loading={idx === 0 ? "eager" : "lazy"}
+                      title={photo.alt}
+                      width={photo.width}
+                      height={photo.height}
+                      loading="eager"
                       decoding="async"
-                      className="w-full object-contain object-top max-h-[500px]"
+                      className="w-full object-contain object-top max-h-[340px] sm:max-h-[380px]"
                     />
                   </div>
                 </article>
               );
             })}
+            {/* Booking CTA on Mobile (Stacked directly below contacts) */}
+            <div
+              id="contact-booking-cta-mobile"
+              className="mt-2 pt-6 border-t border-white/10 w-full"
+            >
+              <div className="flex flex-col items-start gap-4 w-full max-w-xl">
+                <div>
+                  <h2 id="contact-booking-heading-mobile" className="text-white">
+                    Book 7th Heaven for an Event
+                  </h2>
+                  <p className="mt-2 text-sm sm:text-base text-nocturne-rose leading-relaxed">
+                    Check live touring availability, lock in your date, review staging and technical riders, and submit your custom concert request directly online.
+                  </p>
+                </div>
+                <div>
+                  <SeventhButton href="/book">
+                    Go to Online Booking Form →
+                  </SeventhButton>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Desktop Split View (lg:grid) */}
-          <div className="hidden grid-cols-1 gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
+          {/* Desktop Layout (Position absolute representative stage with overlapping z-10 content) */}
+          <div className="hidden lg:block relative flex-1 w-full min-h-[calc(100dvh-14rem)]">
             {/* Left Column: Contact Cards Directory */}
-            <div className="flex flex-col text-left lg:col-span-5">
-              <ul className="flex flex-col gap-4">
+            <div className="relative z-10 flex flex-col text-left w-full max-w-xl items-start">
+              <ul className="flex flex-col gap-6 w-full max-w-lg items-start">
                 {contacts.map((contact) => {
                   const photoKey = getPhotoForCategory(contact);
                   const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
@@ -251,17 +299,20 @@ export default function ContactClient({
                   const repName = contact.name || photo.name || "7th Heaven Representative";
 
                   return (
-                    <li key={cardKey}>
+                    <li key={cardKey} className="w-full">
                       <article
                         onMouseEnter={() => setActivePhotoId(photoKey)}
                         onFocus={() => setActivePhotoId(photoKey)}
-                        className="w-full text-left transition-[background-color,color,border-color,box-shadow,transform]"
+                        className={`w-full text-left transition-opacity duration-200 cursor-pointer ${isCardActive
+                          ? "opacity-100"
+                          : "opacity-75 hover:opacity-100"
+                          }`}
                       >
-                        <h3 className={`text-white transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
+                        <h3 className="text-white">
                           {repName}
                         </h3>
 
-                        <div className={`mb-2 flex flex-wrap items-center gap-1.5 text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)] transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
+                        <div className="mb-1 flex flex-wrap items-center gap-1.5 text-xs sm:text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)]">
                           <span>{contact.category}</span>
                           {contact.company && (
                             <>
@@ -272,17 +323,17 @@ export default function ContactClient({
                         </div>
 
                         {contact.note && (
-                          <p className={`mb-2 italic text-[color:var(--color-text-muted)] text-sm transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
+                          <p className="mb-1 italic text-[color:var(--color-text-muted)] text-xs sm:text-sm">
                             {contact.note}
                           </p>
                         )}
 
-                        <address className="not-italic flex flex-col gap-1.5">
+                        <address className="not-italic flex flex-col gap-1 text-sm">
                           {contact.email && (
                             <a
                               href={`mailto:${contact.email}`}
                               aria-label={`Send email to ${repName} (${contact.category}): ${contact.email}`}
-                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit min-h-[36px]"
+                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit min-h-[32px]"
                             >
                               <Mail className="h-4 w-4 text-action shrink-0" />
                               <span>{contact.email}</span>
@@ -292,7 +343,7 @@ export default function ContactClient({
                             <a
                               href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
                               aria-label={`Call ${repName} (${contact.category}): ${contact.phone}`}
-                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit min-h-[36px]"
+                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit min-h-[32px]"
                             >
                               <Phone className="h-4 w-4 text-action shrink-0" />
                               <span>{contact.phone}</span>
@@ -304,12 +355,34 @@ export default function ContactClient({
                   );
                 })}
               </ul>
+
+              {/* Booking CTA on Desktop (Directly below contact cards in left column) */}
+              <div
+                id="contact-booking-cta"
+                className="mt-8 pt-6 border-t border-white/10 w-full"
+              >
+                <div className="flex flex-col items-start gap-4 w-full max-w-xl">
+                  <div>
+                    <h2 id="contact-booking-heading" className="text-white">
+                      Book 7th Heaven for an Event
+                    </h2>
+                    <p className="mt-2 text-sm text-nocturne-rose leading-relaxed">
+                      Check live touring availability, lock in your date, review staging and technical riders, and submit your custom concert request directly online.
+                    </p>
+                  </div>
+                  <div>
+                    <SeventhButton href="/book">
+                      Go to Online Booking Form →
+                    </SeventhButton>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Right Column: Preloaded Representative Photo Stage for Desktop */}
+            {/* Right Side: Preloaded Representative Photo Stage for Desktop */}
             <aside
               aria-label="Contact Representative Media Stage"
-              className="contact-rep-stage lg:col-span-7"
+              className="contact-rep-stage"
             >
               {ALL_PHOTOS.map((photo) => {
                 const isActive = activePhotoId === photo.id;
@@ -322,15 +395,28 @@ export default function ContactClient({
                       }`}
                   >
                     <picture className="pointer-events-none flex h-full w-full items-end justify-end">
-                      <source media="(max-width: 768px)" srcSet={photo.mobile} />
-                      <source media="(min-width: 769px)" srcSet={photo.desktop} />
+                      <source
+                        media="(max-width: 768px)"
+                        srcSet={photo.mobile}
+                        width={photo.mobileWidth}
+                        height={photo.mobileHeight}
+                      />
+                      <source
+                        media="(min-width: 769px)"
+                        srcSet={photo.desktop}
+                        width={photo.width}
+                        height={photo.height}
+                      />
                       <img
                         src={photo.desktop}
                         alt={photo.alt}
-                        loading={photo.id === DEFAULT_PHOTO_ID ? "eager" : "lazy"}
+                        title={photo.alt}
+                        width={photo.width}
+                        height={photo.height}
+                        loading="eager"
                         fetchPriority={isActive ? "high" : "low"}
                         decoding={photo.id === DEFAULT_PHOTO_ID ? "sync" : "async"}
-                        className={`contact-rep-stage-img ${photo.scaleClass}`}
+                        className="contact-rep-stage-img"
                       />
                     </picture>
                   </div>
@@ -338,114 +424,6 @@ export default function ContactClient({
               })}
             </aside>
           </div>
-        </div>
-      </section>
-
-      {/* ── 2. BOOKING SECTION (BELOW CONTACT PEOPLE) ── */}
-      <section
-        id="contact-booking-cta"
-        aria-labelledby="contact-booking-heading"
-        className="section relative"
-      >
-        <div className="relative z-10 w-full rounded-[var(--radius-box)] border border-nocturne-mauve/40 bg-gradient-to-r from-nocturne-midnight via-nocturne-wine/40 to-nocturne-midnight p-6 sm:p-8 shadow-[0_8px_32px_rgba(33,14,42,0.5)]">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="max-w-2xl">
-              <h2 id="contact-booking-heading" className="font-bold text-white flex items-center gap-2">
-                <span>📅</span> Looking to Book 7th Heaven for an Event?
-              </h2>
-              <p className="mt-2 text-sm sm:text-base text-nocturne-rose leading-relaxed">
-                Check live touring availability, lock in your date, review staging and technical riders, and submit your custom concert request directly online.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-              <Link
-                href="/book"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-nocturne-rose/50 bg-gradient-to-r from-nocturne-plum to-nocturne-wine px-6 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(83,17,97,0.6)] hover:scale-105 transition-all text-center"
-              >
-                <span>Go to Online Booking Form</span>
-                <span>→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── DEPARTMENT INFORMATION & BOOKING GUIDE ── */}
-      <section
-        id="contact-guide"
-        aria-labelledby="contact-guide-heading"
-        className="section"
-      >
-        <SectionHeader
-          id="contact-guide-heading"
-          title="Booking & Department Guidelines"
-          subtitle="Direct information for festival committees, corporate event buyers, media, and travelers."
-        />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Calendar className="h-6 w-6" />
-              </div>
-              <h3 className="mb-2 font-bold text-white">Concert & Event Booking</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Looking to bring 7th Heaven to your summer festival, county fair, casino ballroom, corporate gala, or
-                private party? With over 100 high-energy concerts annually, our management team provides full tour riders,
-                staging specs, and marketing collateral.
-              </p>
-            </div>
-            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
-              Department: NTD Management
-            </div>
-          </article>
-
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Radio className="h-6 w-6" />
-              </div>
-              <h3 className="mb-2 font-bold text-white">Press & Media Relations</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                For radio and television appearances, podcast interviews, press credentials, high-resolution band photos,
-                and feature stories, reach out directly to our public relations and record label team at NTD Records.
-              </p>
-            </div>
-            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
-              Department: NTD Records
-            </div>
-          </article>
-
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Sliders className="h-6 w-6" />
-              </div>
-              <h3 className="mb-2 font-bold text-white">Technical Advance & Production</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Venue production managers, audio engineers, and stage leads can coordinate technical riders, stage plots,
-                patch lists, lighting requirements, and power specifications directly with our touring production crew.
-              </p>
-            </div>
-            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
-              Department: Tour Technical Advance
-            </div>
-          </article>
-
-          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
-            <div>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
-                <Compass className="h-6 w-6" />
-              </div>
-              <h3 className="mb-2 font-bold text-white">Annual Music Cruise Inquiries</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Planning to sail with 7th Heaven on our annual Caribbean or European music voyage? Mary Grivas at NTD Vacations
-                assists with cabin selection, VIP concert passes, group rates, airfare, hotel packages, and travel insurance.
-              </p>
-            </div>
-            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
-              Department: NTD Vacations
-            </div>
-          </article>
         </div>
       </section>
     </main>

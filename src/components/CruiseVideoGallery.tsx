@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Play, X } from "lucide-react";
 import SeventhButton from "./SeventhButton";
 import SegmentedTabs from "./SegmentedTabs";
@@ -8,10 +9,26 @@ import GlassPlayButton from "./GlassPlayButton";
 import { SectionBadge } from "./SectionBadge";
 import SectionHeader from "./SectionHeader";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import type { CruiseVideoItem } from "@/app/api/cruise/videos/route";
 import { useScrollLock } from "@/lib/useScrollLock";
+
+const CustomVideoPlayer = dynamic(
+  () => import("@/components/CustomVideoPlayer"),
+  { ssr: false },
+);
+
+const emptySubscribe = () => () => {};
+
+const getYouTubeId = (video: CruiseVideoItem): string | null => {
+  if (video.youtubeId) return video.youtubeId;
+  if (!video.url) return null;
+  const match = video.url.match(
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
+  );
+  return match ? match[1] : null;
+};
 
 const FALLBACK_VIDEOS: CruiseVideoItem[] = [
   {
@@ -165,7 +182,17 @@ export default function CruiseVideoGallery() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState<CruiseVideoItem | null>(null);
   const [loading, setLoading] = useState(false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+
   useScrollLock(Boolean(activeVideo));
+
+  const handleCloseVideo = useCallback(() => {
+    setActiveVideo(null);
+  }, []);
 
   const fetchVideos = useCallback(async () => {
     try {
@@ -191,7 +218,7 @@ export default function CruiseVideoGallery() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setActiveVideo(null);
+        handleCloseVideo();
       }
     };
     if (activeVideo) {
@@ -200,7 +227,20 @@ export default function CruiseVideoGallery() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activeVideo]);
+  }, [activeVideo, handleCloseVideo]);
+
+  useEffect(() => {
+    const handleOpenVideo = (e: Event) => {
+      const customEvent = e as CustomEvent<CruiseVideoItem>;
+      if (customEvent.detail) {
+        setActiveVideo(customEvent.detail);
+      }
+    };
+    window.addEventListener("7h-open-cruise-video", handleOpenVideo);
+    return () => {
+      window.removeEventListener("7h-open-cruise-video", handleOpenVideo);
+    };
+  }, []);
 
   const categories = [
     "All",
@@ -328,53 +368,49 @@ export default function CruiseVideoGallery() {
         )}
       </div>
 
-      {/* Full-screen Video Player Modal Portaled to Body for Unclipped Viewport Blur */}
-      {activeVideo &&
-        typeof window !== "undefined" &&
+      {/* FULL SCREEN VIDEO MODAL (Matching Media Page) */}
+      {mounted &&
+        activeVideo &&
         createPortal(
           <div
-            onClick={() => setActiveVideo(null)}
-            className="animate-in fade-in fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-3xl md:p-8"
+            className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
+            onClick={handleCloseVideo}
           >
-            {/* Floating Top-Right Close Button for immediate screen dismiss */}
-            <button
-              type="button"
-              aria-label="Close video modal"
-              onClick={() => setActiveVideo(null)}
-              className="group absolute top-4 right-4 z-[9999999] flex cursor-pointer items-center justify-center !rounded-full border border-white/10 bg-white/15 p-3 transition-[background-color,border-color,transform] sm:top-6 sm:right-6"
-            >
-              <X className="h-6 w-6" />
-            </button>
-
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl overflow-hidden rounded-[var(--radius-box)] bg-[#0c071e] p-4 md:p-6"
-            >
-              <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-                <div className="min-w-0 flex-1">
-                  <span className="mb-1 block text-purple-400">
-                    {activeVideo.category}
+            <div className="relative flex h-full w-full flex-col overflow-hidden bg-black">
+              {/* Modal Header Bar */}
+              <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 pt-safe sm:px-6">
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 text-xs font-bold tracking-wider text-purple-200 uppercase">
+                    {activeVideo.category || "CHICAGO MUSIC CRUISE"}
                   </span>
-                  <h3>{activeVideo.title}</h3>
+                  <span className="line-clamp-1 text-white sm:text-lg">
+                    {activeVideo.title}
+                  </span>
                 </div>
+                <button
+                  type="button"
+                  onClick={handleCloseVideo}
+                  className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+                  aria-label="Close modal"
+                >
+                  <X className="h-6 w-6" />
+                </button>
               </div>
 
-              <div className="relative aspect-video w-full overflow-hidden rounded-[var(--radius-box)] bg-black shadow-2xl">
+              {/* Full-Screen Edge-to-Edge Video Player Stage */}
+              <div
+                className="relative flex-1 w-full h-[calc(100vh-3.5rem)] h-[calc(100dvh-3.5rem)] overflow-hidden bg-black pb-safe"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {(() => {
-                  const ytId =
-                    activeVideo.youtubeId ||
-                    (activeVideo.url &&
-                      activeVideo.url.match(
-                        /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
-                      )?.[1]);
+                  const ytId = getYouTubeId(activeVideo);
                   if (ytId) {
                     return (
-                      <iframe
-                        src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                      <CustomVideoPlayer
+                        videoId={ytId}
                         title={activeVideo.title}
-                        className="h-full w-full border-0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
+                        hideTitle
+                        onClose={handleCloseVideo}
                       />
                     );
                   }

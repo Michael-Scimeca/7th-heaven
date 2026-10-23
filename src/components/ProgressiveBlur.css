@@ -90,14 +90,42 @@ html[data-pb-layers="3"] .progressive-blur__layer.is--2 {
   display: none;
 }
 
-/* Phones / touch: 3 layers and a shorter strip keep iOS Safari scrolling smooth. */
+/* Phones / touch: blur covers the header bar plus safe-area and tapers smoothly.
+   --pb-mobile-base is the solid-blur height; every layer's fade stop derives from it. */
 @media (max-width: 1023px), (pointer: coarse) {
   :root {
-    --pb-scale: 1.4;
+    --pb-scale: 1.8;
+    --pb-mobile-base: 60px;
   }
+  .progressive-blur.is-top {
+    --pb-height: calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px));
+    min-height: calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px));
+    height: calc(var(--pb-height) + 36px);
+    transform: none;
+  }
+
   html:not([data-pb-layers]) .progressive-blur__layer.is--1,
   html:not([data-pb-layers]) .progressive-blur__layer.is--2 {
     display: none;
+  }
+
+  .progressive-blur.is-top .progressive-blur__layer.is--1,
+  .progressive-blur.is-top .progressive-blur__layer.is--2,
+  .progressive-blur.is-top .progressive-blur__layer.is--3 {
+    -webkit-mask: linear-gradient(to bottom, #000 0%, #000 calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px)), transparent calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px) + 36px));
+    mask: linear-gradient(to bottom, #000 0%, #000 calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px)), transparent calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px) + 36px));
+  }
+  .progressive-blur.is-top .progressive-blur__layer.is--4 {
+    -webkit-mask: linear-gradient(to bottom, #000 0%, #000 calc(var(--pb-mobile-base) - 15px + env(safe-area-inset-top, 0px)), transparent calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px) + 20px));
+    mask: linear-gradient(to bottom, #000 0%, #000 calc(var(--pb-mobile-base) - 15px + env(safe-area-inset-top, 0px)), transparent calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px) + 20px));
+  }
+  .progressive-blur.is-top .progressive-blur__layer.is--5 {
+    -webkit-mask: linear-gradient(to bottom, #000 0%, #000 calc(var(--pb-mobile-base) - 30px + env(safe-area-inset-top, 0px)), transparent calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px)));
+    mask: linear-gradient(to bottom, #000 0%, #000 calc(var(--pb-mobile-base) - 30px + env(safe-area-inset-top, 0px)), transparent calc(var(--pb-mobile-base) + env(safe-area-inset-top, 0px)));
+  }
+
+  .progressive-blur.is-top::after {
+    background: linear-gradient(to bottom, #05030a 0%, transparent 100%);
   }
 }
 

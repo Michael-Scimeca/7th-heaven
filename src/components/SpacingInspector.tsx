@@ -248,6 +248,10 @@ export default function SpacingInspector() {
   }, [pillPos]);
 
   useEffect(() => {
+    window.dispatchEvent(new CustomEvent("tuner-dock-mounted"));
+  }, []);
+
+  useEffect(() => {
     try {
       if (localStorage.getItem("spacing_inspector_active") === "true") {
         setIsActive(true);
@@ -355,7 +359,7 @@ export default function SpacingInspector() {
 
     const handlePointerMove = (moveX: number, moveY: number) => {
       if (!isDraggingPillRef.current) return;
-      const widthAllowance = isPill ? 220 : 420;
+      const widthAllowance = isPill ? 560 : 420;
       const newX = Math.max(10, Math.min(window.innerWidth - widthAllowance, moveX - dragStartRef.current.x));
       const newY = Math.max(10, Math.min(window.innerHeight - 60, moveY - dragStartRef.current.y));
       const nextPos = { x: newX, y: newY };
@@ -677,17 +681,7 @@ export default function SpacingInspector() {
           </svg>
         </div>
 
-        <button
-          onClick={() => {
-            window.dispatchEvent(new CustomEvent("open-fluid-gap-tuner"));
-            window.dispatchEvent(new KeyboardEvent("keydown", { altKey: true, key: "g" }));
-          }}
-          title="Open Fluid Gap Controller (Alt+G)"
-          className="transition-colors flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-zinc-950/90 px-3 py-2 font-mono text-xs text-cyan-300 shadow-2xl backdrop-blur-xl hover:bg-cyan-950/80 hover:text-white cursor-pointer"
-        >
-          <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span>🌊 Fluid Gap</span>
-        </button>
+
         <button
           onClick={() => {
             window.dispatchEvent(new CustomEvent("open-fluid-gap-tuner", { detail: { tab: "banner" } }));
@@ -706,6 +700,9 @@ export default function SpacingInspector() {
           <span className="h-2 w-2 rounded-full bg-zinc-500" />
           <span>📐 Spacing</span>
         </button>
+
+        {/* Section Gap slot (portals Section Gap pill into the dock) */}
+        <div id="tuner-dock-section-gap-slot" className="contents" />
       </div>
     );
   }
@@ -1199,6 +1196,18 @@ export default function SpacingInspector() {
               <div>Parent Gap: {siblingInfo.parentGap || "none"}</div>
               {siblingInfo.prevDistance !== undefined && <div>Prev Sibling Gap: {siblingInfo.prevDistance}px</div>}
               {siblingInfo.nextDistance !== undefined && <div>Next Sibling Gap: {siblingInfo.nextDistance}px</div>}
+              {(metrics.gap || siblingInfo.parentGap) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent("open-fluid-gap-tuner"));
+                    window.dispatchEvent(new KeyboardEvent("keydown", { altKey: true, key: "g" }));
+                  }}
+                  className="mt-2 w-full flex items-center justify-center gap-1.5 rounded bg-cyan-500/20 px-2 py-1 font-mono text-[10px] text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition cursor-pointer"
+                >
+                  <span>🌊 Tune Gap in UI (Alt+G)</span>
+                </button>
+              )}
             </div>
 
             {/* Class Name */}

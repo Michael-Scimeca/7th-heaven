@@ -27,6 +27,8 @@ import {
   Maximize2,
   SlidersHorizontal,
   Search,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
@@ -700,6 +702,141 @@ export default function MediaClient({
     return list;
   }, [allVideos, visibleVideoIds, sortBy]);
 
+  // Media Vault full-screen video modal navigation
+  const currentVaultVideoIndex = useMemo(() => {
+    if (!playingVideo) return -1;
+    return filteredVideos.findIndex((v) => v.id === playingVideo.id);
+  }, [playingVideo, filteredVideos]);
+
+  const handlePrevVideo = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (filteredVideos.length <= 1) return;
+      const idx = filteredVideos.findIndex((v) => v.id === playingVideo?.id);
+      const nextIdx = idx <= 0 ? filteredVideos.length - 1 : idx - 1;
+      setPlayingVideo(filteredVideos[nextIdx]);
+    },
+    [filteredVideos, playingVideo],
+  );
+
+  const handleNextVideo = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (filteredVideos.length <= 1) return;
+      const idx = filteredVideos.findIndex((v) => v.id === playingVideo?.id);
+      const nextIdx = idx >= filteredVideos.length - 1 ? 0 : idx + 1;
+      setPlayingVideo(filteredVideos[nextIdx]);
+    },
+    [filteredVideos, playingVideo],
+  );
+
+  // Media Vault photo lightbox navigation
+  const currentVaultPhotoIndex = useMemo(() => {
+    if (!selectedPhoto) return -1;
+    return filteredVideos.findIndex((v) => v.id === selectedPhoto.id);
+  }, [selectedPhoto, filteredVideos]);
+
+  const handlePrevVaultPhoto = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (filteredVideos.length <= 1) return;
+      const idx = filteredVideos.findIndex((v) => v.id === selectedPhoto?.id);
+      const nextIdx = idx <= 0 ? filteredVideos.length - 1 : idx - 1;
+      setSelectedPhoto(filteredVideos[nextIdx]);
+    },
+    [filteredVideos, selectedPhoto],
+  );
+
+  const handleNextVaultPhoto = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (filteredVideos.length <= 1) return;
+      const idx = filteredVideos.findIndex((v) => v.id === selectedPhoto?.id);
+      const nextIdx = idx >= filteredVideos.length - 1 ? 0 : idx + 1;
+      setSelectedPhoto(filteredVideos[nextIdx]);
+    },
+    [filteredVideos, selectedPhoto],
+  );
+
+  // Keyboard navigation for Media Vault modals
+  const vaultModalStateRef = useRef({
+    playingVideo,
+    selectedPhoto,
+    handlePrevVideo,
+    handleNextVideo,
+    handlePrevVaultPhoto,
+    handleNextVaultPhoto,
+  });
+  useEffect(() => {
+    vaultModalStateRef.current = {
+      playingVideo,
+      selectedPhoto,
+      handlePrevVideo,
+      handleNextVideo,
+      handlePrevVaultPhoto,
+      handleNextVaultPhoto,
+    };
+  }, [
+    playingVideo,
+    selectedPhoto,
+    handlePrevVideo,
+    handleNextVideo,
+    handlePrevVaultPhoto,
+    handleNextVaultPhoto,
+  ]);
+
+  const isVaultModalOpen = Boolean(playingVideo || selectedPhoto);
+
+  useEffect(() => {
+    if (!isVaultModalOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const state = vaultModalStateRef.current;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (state.playingVideo) state.handlePrevVideo();
+        else if (state.selectedPhoto) state.handlePrevVaultPhoto();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (state.playingVideo) state.handleNextVideo();
+        else if (state.selectedPhoto) state.handleNextVaultPhoto();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        if (state.playingVideo) setPlayingVideo(null);
+        else if (state.selectedPhoto) setSelectedPhoto(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isVaultModalOpen]);
+
+  // Touch swipe gesture for vault modals
+  const vaultTouchStartX = useRef<number | null>(null);
+  const vaultTouchStartY = useRef<number | null>(null);
+
+  const handleVaultTouchStart = (e: React.TouchEvent) => {
+    vaultTouchStartX.current = e.touches[0].clientX;
+    vaultTouchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleVaultTouchEnd = (e: React.TouchEvent) => {
+    if (vaultTouchStartX.current === null || vaultTouchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - vaultTouchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - vaultTouchStartY.current;
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+      if (deltaX > 0) {
+        if (playingVideo) handlePrevVideo();
+        else if (selectedPhoto) handlePrevVaultPhoto();
+      } else {
+        if (playingVideo) handleNextVideo();
+        else if (selectedPhoto) handleNextVaultPhoto();
+      }
+    }
+    vaultTouchStartX.current = null;
+    vaultTouchStartY.current = null;
+  };
+
   const totalPages = Math.ceil(filteredVideos.length / pageSize) || 1;
 
   // Paginated videos: displays exactly 20 videos for the active page
@@ -764,7 +901,7 @@ export default function MediaClient({
     () => (
       <span className="flex items-center gap-1.5 min-w-0">
         <ArrowUpDown className="h-3.5 w-3.5 text-purple-300/80" />
-        <span className="text-[11px] font-semibold text-white/50 tracking-wider uppercase">
+        <span className="hidden sm:inline text-[11px] font-semibold text-white/50 tracking-wider uppercase">
           Sort:
         </span>
       </span>
@@ -924,10 +1061,13 @@ export default function MediaClient({
                 <Image
                   src={imgSrc}
                   alt={video.title}
-                  fill
+                  title={video.title}
+                  width={1280}
+                  height={720}
                   priority={priority}
+                  loading={priority ? "eager" : "lazy"}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className={`object-cover transition-transform duration-700 ease-out ${isHovered ? "scale-[1.05]" : "scale-100"
+                  className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out ${isHovered ? "scale-[1.05]" : "scale-100"
                     }`}
                 />
 
@@ -935,19 +1075,17 @@ export default function MediaClient({
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                   {isPhoto ? (
                     <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 ${
-                        isHovered ? "scale-110 bg-purple-600 text-white shadow-lg shadow-purple-600/50" : "opacity-0 group-hover:opacity-100"
-                      }`}
+                      className={`flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 ${isHovered ? "scale-110 bg-purple-600 text-white shadow-lg shadow-purple-600/50" : "opacity-0 group-hover:opacity-100"
+                        }`}
                     >
                       <Maximize2 className="h-5 w-5" />
                     </div>
                   ) : (
                     <div
-                      className={`transition-all duration-300 ${
-                        isHovered
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100"
-                      }`}
+                      className={`transition-all duration-300 ${isHovered
+                        ? "opacity-100 scale-100"
+                        : "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100"
+                        }`}
                     >
                       <GlassPlayButton
                         size="lg"
@@ -975,7 +1113,7 @@ export default function MediaClient({
                 <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl uppercase text-white group-hover:text-[#f2efa3] transition-colors duration-150 line-clamp-1 leading-tight tracking-normal">
                   {video.title}
                 </h2>
-                <div className="font-quisas text-sm sm:text-base text-white/90 tracking-wide line-clamp-1 leading-normal mt-0.5">
+                <div className="text-sm sm:text-base text-white/80 font-medium tracking-wide line-clamp-1 leading-normal mt-0.5">
                   {video.category || "7th Heaven Official Release"}
                 </div>
               </div>
@@ -1063,32 +1201,29 @@ export default function MediaClient({
               ref={projectsContainerRef}
               id="media-gallery"
               aria-labelledby="media-gallery-heading"
-              className="relative w-full scroll-mt-24"
+              className="relative w-full scroll-mt-24 -mt-4 sm:mt-0"
             >
               <SectionHeader id="media-gallery-heading" title="Media Gallery" visuallyHidden />
               {/* ── MEDIA TOOLBAR: SEARCH, ERA, SORT, CATEGORY DROPDOWN & CMS BUTTON ── */}
               <div
                 role="toolbar"
                 aria-label="Media Filters"
-                className="mb-6 flex flex-col gap-4"
+                className="mb-4 sm:mb-6 flex flex-col gap-2.5 sm:gap-4"
               >
-                {/* Top Row: CMS action */}
-                <div className="flex flex-wrap items-center justify-end gap-3 border-b border-white/10 pb-4">
-
-                  <AddCmsButton
-                    label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
-                    onClick={() => setIsAddModalOpen(true)}
-                  />
-                </div>
+                {/* Top Row: CMS action (Admin / Crew only) */}
+                {isAdmin && (
+                  <div className="flex flex-wrap items-center justify-end gap-3 border-b border-white/10 pb-4">
+                    <AddCmsButton
+                      label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+                      onClick={() => setIsAddModalOpen(true)}
+                    />
+                  </div>
+                )}
 
                 {/* Main Filter & Search Control Row */}
-                <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-4">
-                  <span className="flex h-10 items-center text-xs sm:text-[13px] font-medium text-white/55 whitespace-nowrap" aria-live="polite">
-                    {filteredVideos.length} {filteredVideos.length === 1 ? "item" : "items"}
-                  </span>
-
-                  {/* Unified Search Input (h-10, border, bg-black/35, backdrop-blur-md) */}
-                  <div className="relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
+                <div className="flex flex-wrap items-center justify-end gap-1.5 sm:gap-4">
+                  {/* Unified Search Input (h-10, border, bg-black/35, backdrop-blur-md) - full width top row on mobile */}
+                  <div className="order-1 sm:order-2 relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
                     <div className="pointer-events-none absolute left-3 flex items-center justify-center text-white/50">
                       <Search className="h-3.5 w-3.5" aria-hidden="true" />
                     </div>
@@ -1112,6 +1247,11 @@ export default function MediaClient({
                     )}
                   </div>
 
+                  {/* Items Count - placed on the left next to newest first dropdown on mobile */}
+                  <span className="order-2 sm:order-1 mr-auto sm:mr-0 flex h-auto sm:h-10 items-center text-xs sm:text-[13px] font-medium text-white/55 whitespace-nowrap text-left sm:text-right" aria-live="polite">
+                    {filteredVideos.length} {filteredVideos.length === 1 ? "item" : "items"}
+                  </span>
+
                   {/* Sort Order Dropdown (h-10) */}
                   <CustomDropdown
                     ariaLabel="Sort videos"
@@ -1121,8 +1261,8 @@ export default function MediaClient({
                     minWidth={200}
                     maxHeight={320}
                     triggerPrefix={sortTriggerPrefix}
-                    wrapperClassName="!inline-flex h-10 items-center"
-                    buttonClassName="!h-10 !py-0 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
+                    wrapperClassName="order-3 sm:order-3 !inline-flex h-10 items-center"
+                    buttonClassName="!h-10 !py-0 rounded-none border border-white/15 bg-black/35 px-2.5 sm:px-4 text-xs font-semibold backdrop-blur-md transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
                   />
 
                   {/* Filter Drawer Trigger Button (h-10) */}
@@ -1133,7 +1273,7 @@ export default function MediaClient({
                     onClick={() => setFilterDrawerOpen(true)}
                     aria-haspopup="dialog"
                     aria-expanded={filterDrawerOpen}
-                    className="flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
+                    className="order-4 sm:order-4 flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
                   >
                     <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>Filters</span>
@@ -1154,7 +1294,7 @@ export default function MediaClient({
                         setSortBy("default");
                         setSearchQuery("");
                       }}
-                      className="flex h-10 items-center cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
+                      className="order-5 sm:order-5 flex h-10 items-center cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
                     >
                       Reset all filters ✕
                     </button>
@@ -1278,16 +1418,26 @@ export default function MediaClient({
         playingVideo &&
         createPortal(
           <div
-            className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
+            className="fixed inset-0 z-[9999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0 select-none"
             onClick={handleCloseVideo}
+            onTouchStart={handleVaultTouchStart}
+            onTouchEnd={handleVaultTouchEnd}
           >
-            <div className="relative flex h-full w-full flex-col overflow-hidden bg-black">
+            <div
+              className="relative flex h-full w-full flex-col overflow-hidden bg-black"
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Modal Header Bar */}
               <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 pt-safe sm:px-6">
-                <div className="flex items-center gap-3">
-                  <span className="rounded-full border border-[#f2efa3]/30 bg-[#f2efa3]/20 px-3 py-1 text-xs font-bold tracking-wider text-[#f2efa3] uppercase">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="rounded-full border border-[#f2efa3]/30 bg-[#f2efa3]/20 px-3 py-1 text-xs font-bold tracking-wider text-[#f2efa3] uppercase shrink-0">
                     {playingVideo.category || "7TH HEAVEN"}
                   </span>
+                  {filteredVideos.length > 1 && currentVaultVideoIndex >= 0 && (
+                    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-xs font-mono text-white/80 shrink-0">
+                      {currentVaultVideoIndex + 1} / {filteredVideos.length}
+                    </span>
+                  )}
                   <span className="line-clamp-1 text-white sm:text-lg">
                     {playingVideo.title}
                   </span>
@@ -1304,7 +1454,32 @@ export default function MediaClient({
 
               {/* Full-Screen Edge-to-Edge Video Player Stage */}
               <div className="relative flex-1 w-full h-[calc(100vh-3.5rem)] h-[calc(100dvh-3.5rem)] overflow-hidden bg-black pb-safe">
+                {/* Previous Button */}
+                {filteredVideos.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handlePrevVideo}
+                    aria-label="Previous video"
+                    className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-white/90 shadow-2xl transition-all duration-200 hover:scale-110 hover:border-purple-400 hover:bg-purple-600/80 hover:text-white active:scale-95 group focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  >
+                    <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:-translate-x-0.5" />
+                  </button>
+                )}
+
+                {/* Next Button */}
+                {filteredVideos.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handleNextVideo}
+                    aria-label="Next video"
+                    className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-white/90 shadow-2xl transition-all duration-200 hover:scale-110 hover:border-purple-400 hover:bg-purple-600/80 hover:text-white active:scale-95 group focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  >
+                    <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:translate-x-0.5" />
+                  </button>
+                )}
+
                 <CustomVideoPlayer
+                  key={playingVideo.id}
                   videoId={playingVideo.id}
                   title={playingVideo.title}
                   hideTitle
@@ -1321,8 +1496,10 @@ export default function MediaClient({
         selectedPhoto &&
         createPortal(
           <div
-            className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black/95 backdrop-blur-xl p-0"
+            className="fixed inset-0 z-[9999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black/95 backdrop-blur-xl p-0 select-none"
             onClick={() => setSelectedPhoto(null)}
+            onTouchStart={handleVaultTouchStart}
+            onTouchEnd={handleVaultTouchEnd}
           >
             <div
               className="relative flex h-full w-full flex-col overflow-hidden"
@@ -1335,6 +1512,11 @@ export default function MediaClient({
                     <Camera className="h-3 w-3 text-purple-300" />
                     <span>PHOTO ARCHIVE</span>
                   </span>
+                  {filteredVideos.length > 1 && currentVaultPhotoIndex >= 0 && (
+                    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-xs font-mono text-white/80 shrink-0">
+                      {currentVaultPhotoIndex + 1} / {filteredVideos.length}
+                    </span>
+                  )}
                   <span className="line-clamp-1 text-white font-heading text-lg sm:text-xl uppercase tracking-wide">
                     {selectedPhoto.title}
                   </span>
@@ -1351,13 +1533,40 @@ export default function MediaClient({
 
               {/* Lightbox Image Stage */}
               <div className="relative flex-1 w-full flex items-center justify-center p-4 sm:p-8 bg-black/60">
+                {/* Previous Button */}
+                {filteredVideos.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handlePrevVaultPhoto}
+                    aria-label="Previous photo"
+                    className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-white/90 shadow-2xl transition-all duration-200 hover:scale-110 hover:border-purple-400 hover:bg-purple-600/80 hover:text-white active:scale-95 group focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  >
+                    <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:-translate-x-0.5" />
+                  </button>
+                )}
+
+                {/* Next Button */}
+                {filteredVideos.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handleNextVaultPhoto}
+                    aria-label="Next photo"
+                    className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-white/90 shadow-2xl transition-all duration-200 hover:scale-110 hover:border-purple-400 hover:bg-purple-600/80 hover:text-white active:scale-95 group focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  >
+                    <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:translate-x-0.5" />
+                  </button>
+                )}
+
                 <div className="relative max-h-full max-w-full w-auto h-auto flex items-center justify-center">
                   <Image
+                    key={selectedPhoto.id}
                     src={selectedPhoto.photoSrc || videoThumb(selectedPhoto.id)}
                     alt={selectedPhoto.title}
+                    title={selectedPhoto.title}
                     width={1600}
                     height={1000}
                     priority
+                    loading="eager"
                     className="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl border border-white/10"
                   />
                 </div>
@@ -1456,9 +1665,11 @@ export default function MediaClient({
                           <Image
                             src={`https://img.youtube.com/vi/${parsed}/hqdefault.jpg`}
                             alt="Thumbnail preview"
-                            fill
-                            sizes="96px"
-                            className="object-cover"
+                            title="Thumbnail preview"
+                            width={480}
+                            height={360}
+                            loading="lazy"
+                            className="h-full w-full object-cover"
                           />
                         </div>
                         <div>

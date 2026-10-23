@@ -1,0 +1,88 @@
+/* Page chrome around the shared BlurFadeHeadline (the effect itself lives in
+ * src/components/BlurFadeHeadline). */
+
+.page {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 120px 16px 80px;
+  background: #05030a;
+  color: #fff;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+  max-width: 1100px;
+}
+
+.fadeIn {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+  animation: fadeIn 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+.page p {
+  max-width: 34ch;
+  color: var(--color-text-secondary, rgba(255, 255, 255, 0.72));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.primary {
+  background: var(--color-action, #f5b942);
+  color: #05030a;
+}
+
+.primary:hover {
+  background: var(--color-action-hover, #ffd27a);
+}
+
+.secondary {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fadeIn {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}

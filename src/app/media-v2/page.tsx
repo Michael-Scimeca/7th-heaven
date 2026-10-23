@@ -7,9 +7,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const title =
     sanityContent?.seo?.metaTitle ||
     "7th Heaven Media Archive — Made By Yellow Layout";
-  const description =
+  const rawDescription =
     sanityContent?.seo?.metaDescription ||
-    "Experience 7th Heaven's official media archive featuring music videos, festival concerts, and live footage in a curated House of Yellow inspired editorial layout.";
+    "Experience 7th Heaven's media archive featuring music videos, festival concerts, and live footage in a curated House of Yellow inspired editorial layout.";
+  const description =
+    rawDescription.length > 158
+      ? rawDescription.slice(0, 155).replace(/\s+\S*$/, "") + "…"
+      : rawDescription;
   const canonicalUrl = "https://7thheavenband.com/media-v2";
 
   return {

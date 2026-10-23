@@ -56,6 +56,7 @@ export const InputField = forwardRef<
     return (
       <div
         className={`flex w-full flex-col justify-start ${containerClassName} ${className}`}
+        suppressHydrationWarning
       >
         {label && (
           <div className="flex items-center justify-between min-h-[24px] gap-2 mb-2">
@@ -70,7 +71,7 @@ export const InputField = forwardRef<
             )}
           </div>
         )}
-        <div className={`${glow ? "input-glow-border" : ""} w-full`}>
+        <div className={`${glow ? "input-glow-border" : ""} w-full`} suppressHydrationWarning>
           {multiline ? (
             <textarea
               ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -83,6 +84,7 @@ export const InputField = forwardRef<
                 props["aria-label"] || (label ? label : "Input field")
               }
               className={`form-input ${inputClassName}`}
+              suppressHydrationWarning
               {...(props as any)}
             />
           ) : (
@@ -96,6 +98,7 @@ export const InputField = forwardRef<
                 props["aria-label"] || (label ? label : "Input field")
               }
               className={`form-input ${inputClassName}`}
+              suppressHydrationWarning
               {...(props as any)}
             />
           )}

@@ -366,9 +366,9 @@ export default function RootLayout({
          * (html.is-preloading) and all timing lives in Preloader.tsx, so a
          * blocked or failed script degrades to simply not showing the
          * preloader rather than to a stuck black screen. */}
-        <script
+        <Script
           id="preloader-check"
-          async
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: PRELOAD_SCRIPT_CONTENT,
           }}

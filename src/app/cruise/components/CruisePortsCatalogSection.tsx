@@ -99,44 +99,54 @@ export default function CruisePortsCatalogSection({
 
                     {/* Gallery Thumbnail Strip */}
                     {port.gallery && port.gallery.length > 1 && (
-                      <div className="mt-5 flex flex-wrap gap-2 border-t border-white/10 pt-4">
-                        {port.gallery.map((gImg: string, gIdx: number) => {
-                          const isActive = currentImg === gImg;
-                          return (
-                            <button
-                              key={gIdx}
-                              type="button"
-                              aria-label={`View photo ${gIdx + 1} of ${port.name}`}
-                              onMouseEnter={() =>
-                                setActivePortImages((prev) => ({
-                                  ...prev,
-                                  [port.name]: gImg,
-                                }))
-                              }
-                              onClick={() =>
-                                setActivePortImages((prev) => ({
-                                  ...prev,
-                                  [port.name]: gImg,
-                                }))
-                              }
-                              className={`h-11 w-14 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,box-shadow] md:h-11 md:w-14 lg:h-11 lg:w-16 min-h-[44px] min-w-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
-                                isActive
-                                  ? "z-10 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60"
-                                  : "border-white/20 hover:border-white/60"
-                              }`}
-                              title={`View photo ${gIdx + 1}`}
-                            >
-                              <Image
-                                width={120}
-                                height={80}
-                                unoptimized
-                                src={gImg}
-                                alt={`${port.name} thumbnail ${gIdx + 1}`}
-                                className="h-full w-full object-cover"
-                              />
-                            </button>
-                          );
-                        })}
+                      <div className="mt-5 border-t border-white/10 pt-4">
+                        <div className="mb-2.5 flex items-center justify-between">
+                          <span className="text-[11px] font-semibold tracking-wider text-white/50 uppercase">
+                            Port Gallery ({port.gallery.length})
+                          </span>
+                          <span className="text-[10px] text-white/40">
+                            Hover or click to preview
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-2.5">
+                          {port.gallery.map((gImg: string, gIdx: number) => {
+                            const isActive = currentImg === gImg;
+                            return (
+                              <button
+                                key={gIdx}
+                                type="button"
+                                aria-label={`View photo ${gIdx + 1} of ${port.name}`}
+                                onMouseEnter={() =>
+                                  setActivePortImages((prev) => ({
+                                    ...prev,
+                                    [port.name]: gImg,
+                                  }))
+                                }
+                                onClick={() =>
+                                  setActivePortImages((prev) => ({
+                                    ...prev,
+                                    [port.name]: gImg,
+                                  }))
+                                }
+                                className={`group relative h-16 w-[calc(25%-8px)] min-w-[70px] max-w-[100px] shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 sm:h-18 ${
+                                  isActive
+                                    ? "z-10 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60 opacity-100"
+                                    : "border-white/20 hover:border-white/60 opacity-75 hover:opacity-100"
+                                }`}
+                                title={`View photo ${gIdx + 1}`}
+                              >
+                                <Image
+                                  width={240}
+                                  height={160}
+                                  unoptimized
+                                  src={gImg}
+                                  alt={`${port.name} thumbnail ${gIdx + 1}`}
+                                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>

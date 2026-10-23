@@ -127,7 +127,7 @@ export default function LogoTicker({
             loading="eager"
             priority={true}
             decoding="sync"
-            className={`pointer-events-none h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""}`}
+            className="pointer-events-none hoy-ticker-logo h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter]"
             unoptimized
           />
         </div>

@@ -24,7 +24,8 @@
     "predeploy": "netlify build",
     "analyze": "ANALYZE=true next build --webpack",
     "lhci": "lhci autorun",
-    "test:safari": "playwright test tests/mobile-safari.spec.ts"
+    "test:safari": "playwright test tests/mobile-safari.spec.ts",
+    "test:iphone": "playwright test tests/mobile-safari.spec.ts tests/mobile-screens.spec.ts --project=\"iPhone 15\" --project=\"iPhone SE\" --retries=1"
   },
   "browserslist": [
     "chrome >= 100",
@@ -67,6 +68,7 @@
     "lucide-react": "^1.30.0",
     "next": "^16.3.8",
     "next-sanity": "^13.3.2",
+    "quick-liquid": "^0.1.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-leaflet": "^5.0.0",

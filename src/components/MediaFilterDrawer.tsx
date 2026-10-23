@@ -275,7 +275,7 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="mfd-title"
-              className="mfd-panel relative z-10 flex h-[100dvh] w-full flex-col bg-[#0c0a14]/45 text-white shadow-[-12px_0_36px_rgba(0,0,0,0.8),0_0_45px_rgba(168,85,247,0.15)] backdrop-blur-2xl sm:w-[400px]"
+              className="mfd-panel relative z-10 flex h-[100dvh] w-full flex-col text-white shadow-[-12px_0_36px_rgba(0,0,0,0.8),0_0_45px_rgba(168,85,247,0.15)] sm:w-[400px]"
               variants={PANEL}
               initial={reduceMotion ? false : "hidden"}
               animate="show"
@@ -503,7 +503,15 @@ function YearRange({
 }
 
 const DRAWER_CSS = `
-.mfd-panel { font-family: var(--font-body); }
+.mfd-panel {
+  font-family: var(--font-body);
+  background: rgba(15, 8, 28, 0.68) !important;
+  background-image: radial-gradient(120% 45% at 50% 0%, rgba(140, 25, 170, 0.35) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(50, 15, 65, 0.35) 0%, rgba(12, 7, 22, 0.72) 100%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  isolation: auto !important;
+}
 .mfd-panel .mfd-header { padding: 20px 24px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 .mfd-panel .mfd-title { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: 400; line-height: 1; text-transform: uppercase; letter-spacing: 0.01em; color: #ffffff; margin: 0; }
 .mfd-panel .mfd-body { padding: 24px; display: flex; flex-direction: column; gap: 32px; overscroll-behavior: contain; }

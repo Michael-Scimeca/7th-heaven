@@ -324,14 +324,42 @@ function HomeShaderGradientComponent() {
     let cachedWinW = typeof window !== "undefined" ? window.innerWidth : 1920;
     let cachedWinH = typeof window !== "undefined" ? window.innerHeight : 1080;
 
+    let lastClip = -1;
+    const updateHeroClip = () => {
+      const wrapper = wrapperRef.current;
+      if (!wrapper) return;
+      const hero = document.getElementById("hero");
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        const clipTop = Math.max(0, Math.round(rect.bottom));
+        if (clipTop !== lastClip) {
+          lastClip = clipTop;
+          wrapper.style.clipPath = `inset(${clipTop}px 0 0 0)`;
+        }
+      } else if (lastClip !== 0) {
+        lastClip = 0;
+        wrapper.style.clipPath = "none";
+      }
+    };
+
     const onResize = () => {
       cachedWinW = window.innerWidth;
       cachedWinH = window.innerHeight;
+      updateHeroClip();
     };
 
     if (typeof window !== "undefined") {
       window.addEventListener("resize", onResize, { passive: true });
+      window.addEventListener("scroll", updateHeroClip, { passive: true });
     }
+
+    // Connect to Lenis smooth scroll if present
+    const attachLenis = () => {
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        (window as any).__lenis.on("scroll", updateHeroClip);
+      }
+    };
+    attachLenis();
 
     const updatePositionLayer = (t: number) => {
       if (!positionLayerRef.current) return;
@@ -367,6 +395,7 @@ function HomeShaderGradientComponent() {
         animFrameId = null;
         return;
       }
+      updateHeroClip();
       const baseCap =
         typeof window !== "undefined" && window.innerWidth < 768 ? 66 : 40;
       const frameCap = baseCap;
@@ -379,6 +408,7 @@ function HomeShaderGradientComponent() {
 
     // Render one static paint of the CSS background gradient for mobile/touch devices (zero ongoing frame cost)
     updatePositionLayer(startMs);
+    updateHeroClip();
 
     startLoop();
 
@@ -417,6 +447,12 @@ function HomeShaderGradientComponent() {
         }
         if (typeof window !== "undefined") {
           window.removeEventListener("resize", onResize);
+          window.removeEventListener("scroll", updateHeroClip);
+          if ((window as any).__lenis) {
+            try {
+              (window as any).__lenis.off("scroll", updateHeroClip);
+            } catch {}
+          }
         }
         if (observer) {
           observer.disconnect();
@@ -445,6 +481,15 @@ function HomeShaderGradientComponent() {
       cancelled = true;
       if (watermarkTimeout) {
         clearTimeout(watermarkTimeout);
+      }
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", onResize);
+        window.removeEventListener("scroll", updateHeroClip);
+        if ((window as any).__lenis) {
+          try {
+            (window as any).__lenis.off("scroll", updateHeroClip);
+          } catch {}
+        }
       }
       if (observer) {
         observer.disconnect();
@@ -573,7 +618,7 @@ function HomeShaderGradientComponent() {
       {/* Background Shader Canvas Container */}
       <div
         ref={wrapperRef}
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+        className="pointer-events-none fixed inset-0 z-[1] overflow-hidden"
       >
         <canvas
           ref={canvasRef}

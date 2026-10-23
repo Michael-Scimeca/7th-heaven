@@ -69,7 +69,7 @@ export function mountBannerDisc(host: HTMLElement, discSize: () => number, onRea
     disc.group.rotation.copy(TILT);
     disc.group.visible = true;
     disc.shadow.visible = true;
-    placeShadow(disc, p.x, p.y, 0, p.s, 0.78);
+    placeShadow(disc, p.x, p.y, 0, p.s, 0.40);
     renderer.render(scene, camera);
   }
 

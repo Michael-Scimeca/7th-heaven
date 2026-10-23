@@ -5,8 +5,13 @@ import {
   useSyncExternalStore,
   type ComponentType,
 } from "react";
+import { usePathname } from "next/navigation";
+
+// Sections that render CruiseChat for fans: /cruise/[username], /fans/[username], /live/*
+const CHAT_SECTION_RE = /^\/(cruise|fans|live)(\/|$)/;
 
 export default function ClientOnlyExtras() {
+  const pathname = usePathname();
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -16,9 +21,11 @@ export default function ClientOnlyExtras() {
   const [SpacingInspector, setSpacingInspector] = useState<ComponentType | null>(null);
   const [FluidGap, setFluidGap] = useState<ComponentType | null>(null);
   const [BlurTuner, setBlurTuner] = useState<ComponentType | null>(null);
+  const [PickTuner, setPickTuner] = useState<ComponentType | null>(null);
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
   const [MemberDash, setMemberDash] = useState<ComponentType | null>(null);
+  const [LiveCursors, setLiveCursors] = useState<ComponentType | null>(null);
 
   useEffect(() => {
     let loaded = false;
@@ -53,6 +60,17 @@ export default function ClientOnlyExtras() {
       ) {
         import("@/components/BlurTuner")
           .then((m) => setBlurTuner(() => m.default))
+          .catch(() => {});
+      }
+
+      // Guitar-pick menu icon tuner: always in dev, or ?tuner=true / ?picks=true
+      if (
+        process.env.NODE_ENV === "development" ||
+        (typeof window !== "undefined" &&
+          /[?&](tuner|tune|picks)=true/.test(window.location.search))
+      ) {
+        import("@/components/PickIconTuner")
+          .then((m) => setPickTuner(() => m.default))
           .catch(() => {});
       }
 
@@ -100,6 +118,17 @@ export default function ClientOnlyExtras() {
     }
   }, []);
 
+  // Live cursors + "N here": only on pages with the fan chat (CruiseChat).
+  // Loaded on first visit to one of those sections; unmounting on other pages
+  // disconnects from the realtime channel.
+  const onChatPage = CHAT_SECTION_RE.test(pathname ?? "");
+  useEffect(() => {
+    if (!onChatPage || LiveCursors) return;
+    import("@/components/LiveCursors")
+      .then((m) => setLiveCursors(() => m.default))
+      .catch(() => {});
+  }, [onChatPage, LiveCursors]);
+
   if (!mounted) return null;
 
   return (
@@ -108,9 +137,11 @@ export default function ClientOnlyExtras() {
       {SpacingInspector && <SpacingInspector />}
       {FluidGap && <FluidGap />}
       {BlurTuner && <BlurTuner />}
+      {PickTuner && <PickTuner />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}
       {MemberDash && <MemberDash />}
+      {LiveCursors && onChatPage && <LiveCursors />}
     </>
   );
 }
