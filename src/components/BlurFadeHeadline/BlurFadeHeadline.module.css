@@ -33,7 +33,6 @@
   align-items: center;
   opacity: 0;
   filter: blur(12px);
-  transform: translateY(0.25em);
   animation: lineIn var(--bf-line-dur, 900ms) var(--ease-out) forwards;
 }
 
@@ -41,7 +40,6 @@
   to {
     opacity: 1;
     filter: blur(0);
-    transform: none;
   }
 }
 

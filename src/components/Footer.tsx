@@ -13,7 +13,6 @@ import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
-import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 import { InstallAppButton } from "@/components/InstallAppButton";
 
 const FALLBACK_PLATFORM_LINKS = [
@@ -153,18 +152,11 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative overflow-hidden ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"}`}
+      className={`relative z-20 overflow-hidden ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"}`}
       id="footer"
       suppressHydrationWarning
     >
       <div className="site-container relative z-10">
-        {/* Proximity Distance & Free Push Alerts Section */}
-        {!isCrewOrAdminRoute && (
-          <div id="push-alerts-footer">
-            <FooterProximityAlerts />
-          </div>
-        )}
-
         {/* Endorsements */}
         <div className="pb-6 text-left">
           <div className="flex flex-wrap items-center justify-start gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">

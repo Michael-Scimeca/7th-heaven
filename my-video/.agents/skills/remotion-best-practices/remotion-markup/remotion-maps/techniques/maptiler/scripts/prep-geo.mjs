@@ -74,7 +74,7 @@ for (const name of COUNTRIES) {
 	const fc = read(BORDER(name));
 	polys[name] = fc;
 	for (const f of fc.features) {
-		f.properties = {...(f.properties || {}), country: name};
+		f.properties = {...f.properties, country: name};
 		borders.features.push(f);
 	}
 }

@@ -7,11 +7,8 @@
         mask: url(#mask);
       }
 
-      .st1 {
-        fill: #fff;
-      }
-
       .st1, .st2 {
+        fill: #fff;
         fill-rule: evenodd;
       }
 

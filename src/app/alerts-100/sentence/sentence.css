@@ -1,0 +1,352 @@
+/* Sentence Form — 20 Conversational Versions. Anton / LT Lemon / Inter only, no surface fills. */
+.st {
+  --ink: #f3eef8;
+  --soft: rgba(243, 238, 248, 0.65);
+  --dim: rgba(243, 238, 248, 0.38);
+  --line: rgba(243, 238, 248, 0.22);
+  --hair: rgba(243, 238, 248, 0.12);
+  --sun: #fffbb5;
+  --neon: #ffd84d;
+  --accent: #d896ff;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --display: var(--font-family-display, "Anton", var(--font-anton), sans-serif);
+  --lemon: var(--font-family-lemon, "LTLemon", var(--font-ltlemon), cursive, sans-serif);
+  --body: var(--font-family-sans, "Inter", var(--font-inter), sans-serif);
+  color: var(--ink);
+  font-family: var(--body);
+  padding: calc(110px + env(safe-area-inset-top, 0px)) max(20px, 3vw) 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.st button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.st :focus-visible { outline: 1px solid var(--sun); outline-offset: 3px; }
+.st a { color: inherit; }
+
+.st .st-anton { font-family: var(--display) !important; font-weight: 400; text-transform: uppercase; line-height: 0.95; letter-spacing: 0.01em; }
+.st .st-lemon { font-family: var(--lemon) !important; }
+.st-h1 { margin: 6px 0 0; font-size: clamp(48px, 7vw, 110px); }
+.st-lede { margin: 14px 0 0; max-width: 60ch; font-size: 15px; line-height: 1.5; color: var(--soft); }
+.st-label { margin: 0 0 12px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); }
+
+/* Navigation and quick switcher toolbar */
+.st-toolbar { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; justify-content: space-between; margin-top: 36px; padding: 16px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.st-links { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; font-size: 13px; }
+.st-link { color: var(--soft); text-decoration: none; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--hair); transition: all 200ms ease; }
+.st-link:hover { color: var(--ink); border-color: var(--line); }
+.st-link.active { color: var(--sun); border-color: var(--sun); background: rgba(255, 251, 181, 0.06); }
+.st-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.st .st-btn-pill {
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 8px 16px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--line) !important;
+  color: var(--soft) !important;
+  background: transparent !important;
+  transition: all 200ms ease !important;
+}
+.st .st-btn-pill:hover { color: var(--sun) !important; border-color: var(--sun) !important; background: rgba(255, 251, 181, 0.05) !important; }
+.st .st-btn-pill[aria-pressed="true"] { color: #120d1c !important; background: var(--sun) !important; border-color: var(--sun) !important; font-weight: 600 !important; }
+
+/* Grid container for 20 versions */
+.st-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 620px), 1fr)); gap: 70px 48px; margin-top: 60px; }
+.st-card { min-width: 0; display: flex; flex-direction: column; }
+.st-head { display: flex; align-items: baseline; gap: 14px; padding-bottom: 12px; margin-bottom: 22px; border-bottom: 1px solid var(--hair); }
+.st-num { font-size: 38px; color: var(--sun); }
+.st-name { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); }
+.st-tagline { font-size: 12px; color: var(--dim); margin-left: auto; text-align: right; }
+.st-stage { min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; }
+
+/* Common sentence line flex helper */
+.st-line { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 4px; }
+
+/* Base sentence inputs across variants */
+.st input.st-blank {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--sun) !important;
+  font: inherit !important;
+  letter-spacing: inherit !important;
+  line-height: inherit !important;
+  height: auto !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  vertical-align: baseline !important;
+  width: auto !important;
+  min-width: 3ch !important;
+  max-width: 100% !important;
+}
+.st input.st-blank::placeholder { color: rgba(243, 238, 248, 0.32); }
+.st input.st-blank:focus { outline: none; }
+
+/* Chips / Pills */
+.st .st-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  color: var(--soft) !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--line) !important;
+  transition: all 200ms ease !important;
+  vertical-align: middle !important;
+  background: transparent !important;
+}
+.st .st-chip:hover { color: var(--ink) !important; border-color: rgba(243, 238, 248, 0.5) !important; }
+.st .st-chip[aria-checked="true"] { color: #120d1c !important; background: var(--sun) !important; border-color: var(--sun) !important; font-weight: 500 !important; }
+
+/* Card Footers / Actions */
+.st-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 24px; padding-top: 14px; border-top: 1px dashed var(--hair); }
+.st .st-submit-mini {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #120d1c !important;
+  background: var(--sun) !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--sun) !important;
+  padding: 9px 20px !important;
+  transition: transform 200ms ease, opacity 200ms ease !important;
+}
+.st .st-submit-mini:hover { transform: translateY(-1px) !important; opacity: 0.92 !important; }
+.st-status { font-size: 12px; color: var(--dim); }
+
+/* ── 01: PURE UNDERLINE ────────────────────────────────────────── */
+.st-v1-flow { display: flex; flex-direction: column; gap: 14px; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; }
+.st-v1-flow .st-blank { border-bottom: 1.5px solid var(--line) !important; min-width: 6ch; }
+.st-v1-flow .st-blank:focus { border-bottom-color: var(--sun) !important; }
+
+/* ── 02: BIG TYPE POSTER (ANTON) ───────────────────────────────── */
+.st-v2-flow { display: flex; flex-direction: column; gap: 16px; font-family: var(--display); text-transform: uppercase; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: 0.01em; }
+.st-v2-flow .st-blank { font-family: var(--display) !important; text-transform: uppercase; color: var(--sun) !important; border-bottom: 3px solid var(--sun) !important; min-width: 5ch; }
+.st-v2-flow .st-chip { font-family: var(--display) !important; font-size: 18px !important; text-transform: uppercase !important; border-width: 2px !important; }
+
+/* ── 03: CONTINUOUS STORY PARAGRAPH ────────────────────────────── */
+.st-v3-flow { font-size: clamp(19px, 2vw, 24px); line-height: 1.85; max-width: 60ch; }
+.st-v3-flow .st-blank { border-bottom: 1px dotted var(--sun) !important; padding: 0 6px !important; }
+.st-v3-flow .st-chip { margin: 0 4px !important; padding: 4px 10px !important; font-size: 13px !important; }
+
+/* ── 04: MAD LIBS BRACKETED PUNCHCARD ──────────────────────────── */
+.st-v4-flow { display: flex; flex-direction: column; gap: 18px; font-size: clamp(18px, 1.9vw, 22px); line-height: 1.5; }
+.st-v4-slot { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 6px; }
+.st-v4-slot .st-blank { border: 1.5px dashed var(--sun) !important; border-radius: 6px !important; padding: 2px 8px !important; text-align: center; }
+.st-v4-meta { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--soft); margin-top: 3px; font-weight: 600; }
+
+/* ── 05: MONOSPACE TERMINAL / CLI PROMPT ───────────────────────── */
+.st-v5-flow { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 14px; line-height: 1.8; color: #a5d6a7; padding: 18px; border: 1px solid rgba(165, 214, 167, 0.25); border-radius: 12px; }
+.st-v5-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.st-v5-prompt { color: #81c784; font-weight: 700; user-select: none; }
+.st-v5-key { color: var(--soft); }
+.st-v5-flow .st-blank { font-family: inherit !important; color: #fff59d !important; border-bottom: 1px solid #81c784 !important; }
+.st-v5-chip { font-family: inherit !important; font-size: 12px !important; padding: 2px 8px !important; border: 1px solid rgba(165, 214, 167, 0.4) !important; border-radius: 4px !important; color: #c8e6c9 !important; background: transparent !important; }
+.st-v5-chip[aria-checked="true"] { background: #81c784 !important; color: #0b0712 !important; font-weight: 700 !important; }
+
+/* ── 06: BACKSTAGE VIP PASS RIDER ──────────────────────────────── */
+.st-v6-flow { font-size: 15px; line-height: 1.8; border-left: 2px solid var(--sun); padding-left: 18px; font-style: normal; }
+.st-v6-clause { font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; color: var(--sun); display: block; margin-bottom: 4px; }
+.st-v6-flow .st-blank { border-bottom: 1px solid var(--sun) !important; font-weight: 600; }
+
+/* ── 07: CAPSULE / PILL-SLOT EMBEDDED ──────────────────────────── */
+.st-v7-flow { display: flex; flex-direction: column; gap: 16px; font-size: clamp(19px, 2vw, 24px); line-height: 1.5; }
+.st-v7-flow .st-blank {
+  background: rgba(255, 251, 181, 0.08) !important;
+  border: 1px solid rgba(255, 251, 181, 0.35) !important;
+  border-radius: 999px !important;
+  padding: 4px 14px !important;
+  transition: all 200ms ease;
+}
+.st-v7-flow .st-blank:focus {
+  border-color: var(--sun) !important;
+  background: rgba(255, 251, 181, 0.16) !important;
+  box-shadow: 0 0 12px rgba(255, 251, 181, 0.25) !important;
+}
+
+/* ── 08: QUESTION & ANSWER PING-PONG ───────────────────────────── */
+.st-v8-flow { display: flex; flex-direction: column; gap: 18px; }
+.st-v8-row { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: baseline; }
+@media (max-width: 540px) { .st-v8-row { grid-template-columns: 1fr; gap: 4px; } }
+.st-v8-q { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); font-weight: 600; }
+.st-v8-a { font-size: 20px; line-height: 1.4; color: var(--ink); }
+.st-v8-a .st-blank { border-bottom: 1.5px solid var(--sun) !important; }
+
+/* ── 09: STEPPED LYRIC VERSE ───────────────────────────────────── */
+.st-v9-flow { display: flex; flex-direction: column; gap: 12px; font-size: 19px; line-height: 1.5; }
+.st-v9-line-0 { padding-left: 0; }
+.st-v9-line-1 { padding-left: 24px; border-left: 1px solid var(--hair); }
+.st-v9-line-2 { padding-left: 48px; border-left: 1px solid var(--hair); }
+.st-v9-line-3 { padding-left: 72px; border-left: 1px solid var(--hair); }
+.st-v9-line-4 { padding-left: 96px; border-left: 1px solid var(--hair); }
+@media (max-width: 600px) {
+  .st-v9-line-1, .st-v9-line-2, .st-v9-line-3, .st-v9-line-4 { padding-left: 14px; }
+}
+.st-v9-flow .st-blank { border-bottom: 1px solid var(--line) !important; }
+.st-v9-flow .st-blank:focus { border-bottom-color: var(--sun) !important; }
+
+/* ── 10: NEON CYBER GLOW ───────────────────────────────────────── */
+.st-v10-flow { display: flex; flex-direction: column; gap: 16px; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.5; }
+.st-v10-flow .st-blank {
+  border-bottom: 2px solid var(--neon) !important;
+  color: #fffbdf !important;
+  filter: drop-shadow(0 0 8px rgba(255, 216, 77, 0.45));
+}
+.st-v10-flow .st-chip {
+  border: 1px solid var(--neon) !important;
+  box-shadow: 0 0 10px rgba(255, 216, 77, 0.2);
+  color: #fffbdf !important;
+}
+.st-v10-flow .st-chip[aria-checked="true"] {
+  background: var(--neon) !important;
+  color: #0d0614 !important;
+  box-shadow: 0 0 18px rgba(255, 216, 77, 0.6);
+}
+
+/* ── 11: NUMBERED EDITORIAL STEPS (01 / 02 / 03 / 04) ──────────── */
+.st-v11-flow { display: flex; flex-direction: column; gap: 14px; }
+.st-v11-step { display: flex; gap: 18px; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid var(--hair); }
+.st-v11-idx { font-family: var(--display); font-size: 26px; color: var(--sun); flex: none; width: 34px; }
+.st-v11-body { font-size: 18px; line-height: 1.4; flex: 1; }
+.st-v11-body .st-blank { border-bottom: 1px solid var(--line) !important; }
+
+/* ── 12: DUAL HIGHLIGHT MARKER (SUN GOLD) ──────────────────────── */
+.st-v12-flow { display: flex; flex-direction: column; gap: 16px; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.5; }
+.st-v12-flow .st-blank {
+  background: linear-gradient(180deg, transparent 55%, rgba(255, 251, 181, 0.28) 55%) !important;
+  border-bottom: 2px solid var(--sun) !important;
+  padding: 0 6px !important;
+}
+
+/* ── 13: VINTAGE TYPEWRITER MANUSCRIPT ─────────────────────────── */
+.st-v13-flow { font-family: "Courier New", Courier, monospace; font-size: 15px; line-height: 2; letter-spacing: 0.04em; color: rgba(243, 238, 248, 0.82); }
+.st-v13-flow .st-blank {
+  font-family: inherit !important;
+  border-bottom: 1px solid rgba(243, 238, 248, 0.6) !important;
+  letter-spacing: 0.08em !important;
+  color: var(--sun) !important;
+}
+.st-v13-flow .st-chip {
+  font-family: inherit !important;
+  font-size: 13px !important;
+  border: 1px dashed var(--line) !important;
+  border-radius: 4px !important;
+}
+.st-v13-flow .st-chip[aria-checked="true"] { background: var(--sun) !important; color: #000 !important; border-style: solid !important; font-weight: 700 !important; }
+
+/* ── 14: DROP-CAP MAGAZINE FEATURE ─────────────────────────────── */
+.st-v14-flow { font-size: clamp(19px, 2vw, 23px); line-height: 1.7; position: relative; }
+.st-v14-drop {
+  float: left;
+  font-family: var(--display);
+  font-size: 78px;
+  line-height: 0.8;
+  padding: 8px 14px 4px 0;
+  color: var(--sun);
+}
+.st-v14-flow .st-blank { border-bottom: 1.5px solid var(--sun) !important; font-weight: 500; }
+
+/* ── 15: CLICK-TO-CYCLE QUICK PRESETS ──────────────────────────── */
+.st-v15-flow { display: flex; flex-direction: column; gap: 14px; font-size: clamp(18px, 1.9vw, 22px); line-height: 1.5; }
+.st .st-v15-cycle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  border-bottom: 1.5px solid var(--sun) !important;
+  color: var(--sun) !important;
+  font-weight: 600 !important;
+  padding: 0 4px !important;
+  cursor: pointer !important;
+  vertical-align: baseline !important;
+}
+.st-v15-cycle::after {
+  content: "▾";
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ── 16: TWO-COLUMN GREETING & DISPATCH ────────────────────────── */
+.st-v16-flow { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 680px) { .st-v16-flow { grid-template-columns: 1fr; gap: 20px; } }
+.st-v16-col { display: flex; flex-direction: column; gap: 14px; }
+.st-v16-badge { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sun); font-weight: 700; border-bottom: 1px solid var(--hair); padding-bottom: 6px; }
+.st-v16-col p { margin: 0; font-size: 17px; line-height: 1.5; }
+.st-v16-col .st-blank { border-bottom: 1px solid var(--line) !important; }
+
+/* ── 17: SPEECH BUBBLE DIALOGUE BALLOON ────────────────────────── */
+.st-v17-balloon {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  font-size: clamp(18px, 1.9vw, 22px);
+  line-height: 1.6;
+}
+.st-v17-balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 36px;
+  width: 18px;
+  height: 18px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background: #0f0a18;
+  transform: rotate(45deg);
+}
+.st-v17-balloon .st-blank { border-bottom: 1px solid var(--sun) !important; }
+
+/* ── 18: COMPACT ONE-LINER HORIZONTAL RIBBON ───────────────────── */
+.st-v18-flow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 18px 6px;
+  white-space: nowrap;
+  font-size: 16px;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+.st-v18-flow .st-blank { border-bottom: 1px solid var(--sun) !important; min-width: 8ch; }
+
+/* ── 19: BADGE TOKEN ASSEMBLER ─────────────────────────────────── */
+.st-v19-flow { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: baseline; font-size: 19px; line-height: 1.6; }
+.st-v19-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid var(--sun);
+  background: rgba(255, 251, 181, 0.1);
+  padding: 2px 12px;
+  color: var(--sun);
+  font-size: 15px;
+}
+.st-v19-flow .st-blank { border-bottom: 1px dashed var(--line) !important; }
+
+/* ── 20: TELEPROMPTER REALTIME SYNTHESIZER ─────────────────────── */
+.st-v20-top { font-size: 18px; line-height: 1.5; display: flex; flex-direction: column; gap: 12px; }
+.st-v20-top .st-blank { border-bottom: 1px solid var(--line) !important; }
+.st-v20-preview {
+  margin-top: 20px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px dashed var(--sun);
+  background: rgba(255, 251, 181, 0.04);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--sun);
+}
+.st-v20-preview-label { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--soft); margin-bottom: 6px; font-weight: 700; display: block; }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .st { padding: calc(90px + env(safe-area-inset-top, 0px)) 16px 90px; }
+  .st-grid { grid-template-columns: 1fr; gap: 50px; }
+  .st-toolbar { flex-direction: column; align-items: flex-start; }
+}

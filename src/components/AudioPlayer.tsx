@@ -680,14 +680,6 @@ export default function AudioPlayerSection() {
                 <Music className="h-6 w-6 sm:h-7 sm:w-7" />
               </div>
             )}
-            <div className="title-group title-group--sub">
-              <span className="block text-purple-400">
-                Music Vault
-              </span>
-              <h3 className="text-base sm:text-lg">
-                Official MP3 Discography & Audio Player (700+ Songs)
-              </h3>
-            </div>
           </div>
 
           <SeventhButton

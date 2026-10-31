@@ -21,6 +21,7 @@ import {
   Eye,
   Bookmark,
   Disc,
+  Camera,
 } from "lucide-react";
 import GlassPlayButton from "@/components/GlassPlayButton";
 
@@ -71,6 +72,7 @@ export const VIDEO_LAYOUT_PRESETS: VideoLayoutPreset[] = [
 
 interface VideoArchiveRendererProps {
   layoutId: number;
+  viewMode?: "grid" | "list";
   videos: VideoItem[];
   allVideos: VideoItem[];
   activeCategory: string;
@@ -81,6 +83,7 @@ interface VideoArchiveRendererProps {
 
 export default function VideoArchiveRenderer({
   layoutId,
+  viewMode = "grid",
   videos,
   allVideos,
   activeCategory,
@@ -124,6 +127,112 @@ export default function VideoArchiveRenderer({
     return null;
   }
 
+  /* -------------------------------------------------------------
+     FORMS.WORLD EDITORIAL LIST VIEW
+     ------------------------------------------------------------- */
+  if (viewMode === "list") {
+    return (
+      <div className="divide-y divide-white/10 border-y border-white/10">
+        {videos.map((video, idx) => {
+          const rawTitle = video.title || "Untitled";
+          const displayTitle = rawTitle.replace(/\s*\([^)]*\)/g, "").trim();
+          const subtitleMatch = rawTitle.match(/\(([^)]+)\)/);
+          const subtitleText = subtitleMatch
+            ? subtitleMatch[1]
+            : video.venue
+              ? `${video.venue}${video.city ? ` • ${video.city}` : ""}`
+              : `${video.year || "Archive"} Release`;
+
+          const isPhoto = video.mediaType === "photo";
+          const thumbSrc = isPhoto && video.photoSrc ? video.photoSrc : videoThumb(video.id);
+
+          return (
+            <div
+              key={video.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => onPlayVideo(video)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onPlayVideo(video);
+                }
+              }}
+              aria-label={`${isPhoto ? "View photo" : "Play video"}: ${rawTitle}`}
+              className="group relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 sm:py-5 md:py-6 px-2 sm:px-4 rounded-xl transition-all duration-200 cursor-pointer hover:bg-white/[0.04]"
+            >
+              {/* Left: Thumbnail Preview + Editorial Title & Subtitle */}
+              <div className="flex items-center gap-3.5 sm:gap-5 min-w-0 flex-1">
+                <div className="relative h-14 w-24 sm:h-16 sm:w-28 md:h-18 md:w-32 shrink-0 overflow-hidden rounded-lg bg-black/80 border border-white/10 group-hover:border-white/30 transition-all">
+                  <Image
+                    src={thumbSrc}
+                    alt={rawTitle}
+                    title={rawTitle}
+                    fill
+                    sizes="(min-width: 768px) 130px, 100px"
+                    loading={idx < 6 ? "eager" : "lazy"}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors flex items-center justify-center">
+                    <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-black/70 backdrop-blur-sm border border-white/20 text-white group-hover:bg-white group-hover:text-black group-hover:scale-110 transition-all duration-300">
+                      {isPhoto ? (
+                        <Camera className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                      ) : (
+                        <Play className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current ml-0.5" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col xl:flex-row xl:items-baseline gap-1 xl:gap-3 min-w-0">
+                  <h3 className="font-heading text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-tight text-white group-hover:text-[#f2efa3] transition-colors truncate">
+                    {displayTitle}
+                  </h3>
+                  <span className="font-serif italic font-normal text-white/50 text-xs sm:text-sm md:text-base shrink-0 whitespace-nowrap">
+                    {subtitleText}
+                  </span>
+                </div>
+              </div>
+
+              {/* Middle: Monospace Category */}
+              <div className="hidden lg:flex items-center justify-center px-2">
+                <span className="font-mono text-xs uppercase tracking-widest text-white/60 group-hover:text-white/90 transition-colors whitespace-nowrap">
+                  {video.category || "Official Release"}
+                </span>
+              </div>
+
+              {/* Right: Technical Badges & Play Action */}
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap justify-end">
+                {isPhoto ? (
+                  <span className="inline-flex items-center gap-1 rounded border border-white/15 bg-white/[0.03] px-2 py-0.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-white/80">
+                    <Camera className="h-2.5 w-2.5" /> Photo
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 rounded border border-white/15 bg-white/[0.03] px-2 py-0.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-white/80">
+                    <Film className="h-2.5 w-2.5" /> Video
+                  </span>
+                )}
+                {video.duration && (
+                  <span className="rounded border border-white/15 bg-white/[0.03] px-2 py-0.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-white/80">
+                    {video.duration}
+                  </span>
+                )}
+                {video.year && (
+                  <span className="rounded border border-white/15 bg-white/[0.03] px-2 py-0.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-white/80">
+                    {video.year}
+                  </span>
+                )}
+                <span className="inline-flex items-center gap-1 rounded border border-[#f2efa3]/30 bg-[#f2efa3]/10 px-2.5 py-0.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#f2efa3] group-hover:bg-[#f2efa3] group-hover:text-black transition-all">
+                  {isPhoto ? "View" : "Play"}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   const firstVideo = videos[0];
   const remainingVideos = videos.slice(1);
 
@@ -149,43 +258,43 @@ export default function VideoArchiveRenderer({
       ? firstVideo.photoSrc
       : videoThumb(firstVideo?.id ?? "");
 
-    const sideVideos = remainingVideos.slice(0, 3);
-    const gridVideos = remainingVideos.slice(3);
+    // 2 side videos perfectly match a 2-column 16:9 hero card height
+    const sideVideos = remainingVideos.slice(0, 2);
+    const gridVideos = remainingVideos.slice(2);
 
     return (
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {firstVideo && (
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onPlayVideo(firstVideo)}
-            className="group relative w-full overflow-hidden rounded-2xl shadow-2xl cursor-pointer lg:col-span-2 bg-black/60"
-          >
-            <div className="relative aspect-video w-full overflow-hidden bg-black lg:absolute lg:inset-0 lg:aspect-auto">
+      <div className="mx-auto flex w-full flex-col gap-4 sm:gap-6">
+        {/* Top Featured Stage: 2-Col Hero + 1-Col Queue */}
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+          {firstVideo && (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => onPlayVideo(firstVideo)}
+              className="group relative w-full overflow-hidden rounded-2xl shadow-xl cursor-pointer md:col-span-2 bg-black/60 aspect-video"
+            >
               <Image
                 src={firstImgSrc}
                 alt={firstVideo.title}
                 title={firstVideo.title}
                 width={1280}
                 height={720}
-                sizes="(min-width: 1024px) 66vw, 100vw"
+                sizes="(min-width: 1024px) 66vw, (min-width: 768px) 66vw, 100vw"
                 priority
                 loading="eager"
                 className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
-                <div className="flex items-center gap-3">
-                  <span
-                    className="flex h-3 w-3 rounded-full animate-pulse bg-rose-500"
-                  />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-4 sm:p-6 md:p-7 flex flex-col justify-end">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-2.5 w-2.5 rounded-full animate-pulse bg-rose-500" />
                   <span className="text-xs uppercase font-mono tracking-widest text-[#f2efa3] font-bold">
                     {isFirstPhoto ? "Featured Band Photography" : "Featured Spotlight Video"}
                   </span>
                 </div>
-                <h3 className="font-heading text-3xl sm:text-5xl uppercase text-white mt-2 group-hover:text-[#f2efa3] transition-colors">
+                <h3 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-white mt-1 group-hover:text-[#f2efa3] transition-colors line-clamp-2">
                   {firstVideo.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
+                <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-lg">
                   {firstVideo.category} • {firstVideo.year}
                   {firstVideo.duration ? ` • ${firstVideo.duration}` : ""}
                 </p>
@@ -196,61 +305,62 @@ export default function VideoArchiveRenderer({
                 </div>
               )}
             </div>
-          </div>
-        )}
+          )}
 
-        {sideVideos.length > 0 && (
-          <div className="flex flex-col gap-4 lg:col-span-1">
-            {sideVideos.map((v) => {
-              const isPhoto = v.mediaType === "photo";
-              const src = isPhoto && v.photoSrc ? v.photoSrc : videoThumb(v.id);
-              return (
-                <div
-                  key={v.id}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={isPhoto ? `View photo: ${v.title}` : `Play video: ${v.title}`}
-                  onClick={() => onPlayVideo(v)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      onPlayVideo(v);
-                    }
-                  }}
-                  className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-2xl bg-black/60"
-                >
-                  <Image
-                    src={src}
-                    alt={v.title}
-                    title={v.title}
-                    width={1280}
-                    height={720}
-                    sizes="(min-width: 1024px) 33vw, 100vw"
-                    priority
-                    loading="eager"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 sm:p-5">
-                    <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-[#f2efa3]">
-                      {isPhoto ? "Photo" : "Video"}
-                      {v.duration ? ` • ${v.duration}` : ""}
-                    </span>
-                    <h3 className="line-clamp-2 font-heading text-xl sm:text-2xl uppercase leading-tight tracking-wide text-white transition-colors group-hover:text-[#f2efa3] mt-1">
-                      {v.title}
-                    </h3>
-                  </div>
-                  {!isPhoto && (
-                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <GlassPlayButton size="sm" as="div" className="transition-transform duration-300 transform scale-90 group-hover:scale-100" />
+          {sideVideos.length > 0 && (
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-1 md:grid-rows-2 md:col-span-1">
+              {sideVideos.map((v) => {
+                const isPhoto = v.mediaType === "photo";
+                const src = isPhoto && v.photoSrc ? v.photoSrc : videoThumb(v.id);
+                return (
+                  <div
+                    key={v.id}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={isPhoto ? `View photo: ${v.title}` : `Play video: ${v.title}`}
+                    onClick={() => onPlayVideo(v)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        onPlayVideo(v);
+                      }
+                    }}
+                    className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-2xl bg-black/60 md:aspect-auto md:h-full"
+                  >
+                    <Image
+                      src={src}
+                      alt={v.title}
+                      title={v.title}
+                      width={1280}
+                      height={720}
+                      sizes="(min-width: 768px) 33vw, 50vw"
+                      priority
+                      loading="eager"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/40 to-transparent p-2.5 sm:p-3 md:p-4">
+                      <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-[#f2efa3]">
+                        {isPhoto ? "Photo" : "Video"}
+                        {v.duration ? ` • ${v.duration}` : ""}
+                      </span>
+                      <h3 className="line-clamp-2 font-heading text-sm sm:text-base md:text-lg uppercase leading-tight tracking-wide text-white transition-colors group-hover:text-[#f2efa3] mt-0.5">
+                        {v.title}
+                      </h3>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
+                    {!isPhoto && (
+                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <GlassPlayButton size="sm" as="div" className="transition-transform duration-300 transform scale-90 group-hover:scale-100" />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
+        {/* Remaining Archive Grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 sm:gap-6">
           {gridVideos.map((v, i) => (
             <div key={v.id}>{renderStandardCard(v, i < 4)}</div>
           ))}

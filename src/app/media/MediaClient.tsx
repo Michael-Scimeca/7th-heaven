@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { videoThumb } from "@/lib/videoThumb";
 import staticVideoCategories from "../../../public/data/videos.json";
 
@@ -22,19 +23,18 @@ import {
   Check,
   Play,
   Film,
-  ArrowUpDown,
   Clock,
   Maximize2,
   SlidersHorizontal,
-  Search,
   ChevronLeft,
   ChevronRight,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import PageHero from "@/components/PageHero";
 import AddCmsButton from "@/components/AddCmsButton";
-import CustomDropdown from "@/components/CustomDropdown";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SeventhButton } from "@/components/SeventhButton";
 import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
@@ -58,7 +58,7 @@ const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), {
   ssr: false,
 });
 const FanPhotoWallClient = dynamic(
-  () => import("@/app/fan-media-wall/FanPhotoWallClient"),
+  () => import("@/components/FanPhotoWallClient"),
   { ssr: false },
 );
 
@@ -353,6 +353,7 @@ export default function MediaClient({
   // Fixed layout: Layout 2 (Fixed Bottom Audio Dock + Hero Video + Fan Mosaic)
   const [layoutVariant, setLayoutVariant] = useState<number>(2);
   const [paginationVariant, setPaginationVariant] = useState<PaginationVariant>("text");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -363,6 +364,28 @@ export default function MediaClient({
     const pagParam = p.get("pagination") as PaginationVariant;
     if (pagParam && PAGINATION_VARIANTS.includes(pagParam)) {
       setPaginationVariant(pagParam);
+    }
+    const viewParam = p.get("view");
+    if (viewParam === "list" || viewParam === "grid") {
+      setViewMode(viewParam);
+    } else {
+      try {
+        const savedView = localStorage.getItem("7th_heaven_media_view_mode_v1");
+        if (savedView === "list" || savedView === "grid") {
+          setViewMode(savedView);
+        }
+      } catch {
+        // Ignore localStorage restrictions
+      }
+    }
+  }, []);
+
+  const handleViewModeChange = useCallback((mode: "grid" | "list") => {
+    setViewMode(mode);
+    try {
+      localStorage.setItem("7th_heaven_media_view_mode_v1", mode);
+    } catch {
+      // Ignore localStorage restrictions
     }
   }, []);
 
@@ -389,16 +412,21 @@ export default function MediaClient({
   // In Layout 2 ("Cinema Hero + Queue"), 4 videos are in the hero + side queue (1 hero + 3 side).
   // With pageSize = 22, the remaining 18 items form exactly 6 full rows of 3 in the grid (18 % 3 === 0),
   // ensuring the bottom row is always completely flushed with 3 videos all the way to the end.
+  // In List View, 24 items per page provides a generous, fast-scanning editorial directory.
   const pageSize = useMemo(() => {
+    if (viewMode === "list") return 24;
     if (layoutVariant === 2) return 22;
     if ([1, 4, 7, 8, 12, 13, 14, 18, 19, 20].includes(layoutVariant)) return 24;
     return 22;
-  }, [layoutVariant]);
+  }, [layoutVariant, viewMode]);
 
-  // Reset pagination to page 1 when filter, year range, length, sort or search changes
-  useEffect(() => {
+  // Reset pagination to page 1 during render when filter, sort, search or viewMode changes (avoid effect chaining)
+  const [prevFilterKey, setPrevFilterKey] = useState("");
+  const currentFilterKey = `${activeFilter}|${searchQuery}|${yearRange ? `${yearRange[0]}-${yearRange[1]}` : ""}|${lengthFilter}|${sortBy}|${mediaTypeFilter}|${viewMode}`;
+  if (prevFilterKey !== currentFilterKey) {
+    setPrevFilterKey(currentFilterKey);
     setCurrentPage(1);
-  }, [activeFilter, searchQuery, yearRange, lengthFilter, sortBy, mediaTypeFilter]);
+  }
 
   // Add video modal state (for Sanity CMS admins)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -587,13 +615,17 @@ export default function MediaClient({
     (activeFilter.toUpperCase() !== "ALL" ? 1 : 0) +
     (mediaTypeFilter !== "all" ? 1 : 0) +
     (lengthFilter !== "all" ? 1 : 0) +
-    (yearActive ? 1 : 0);
+    (yearActive ? 1 : 0) +
+    (searchQuery.trim() !== "" ? 1 : 0) +
+    (sortBy !== "default" ? 1 : 0);
 
   const clearDrawerFilters = useCallback(() => {
     setActiveFilter("ALL");
     setMediaTypeFilter("all");
     setLengthFilter("all");
     setYearRange(null);
+    setSearchQuery("");
+    setSortBy("default");
   }, []);
   const closeFilterDrawer = useCallback(() => setFilterDrawerOpen(false), []);
 
@@ -886,28 +918,16 @@ export default function MediaClient({
   }, [categories]);
 
 
-  // Dropdown options for sorting
+  // Drawer options for sorting
   const sortDropdownOptions = useMemo(() => {
     return [
-      { value: "default", label: "DEFAULT CURATED" },
-      { value: "newest", label: "RELEASE: NEWEST FIRST" },
-      { value: "oldest", label: "RELEASE: OLDEST FIRST" },
-      { value: "title", label: "ALPHABETICAL (A-Z)" },
-      { value: "duration", label: "LONGEST RUNTIME" },
+      { value: "default", label: "Default Curated" },
+      { value: "newest", label: "Release: Newest First" },
+      { value: "oldest", label: "Release: Oldest First" },
+      { value: "title", label: "Alphabetical (A–Z)" },
+      { value: "duration", label: "Longest Runtime" },
     ];
   }, []);
-
-  const sortTriggerPrefix = useMemo(
-    () => (
-      <span className="flex items-center gap-1.5 min-w-0">
-        <ArrowUpDown className="h-3.5 w-3.5 text-purple-300/80" />
-        <span className="hidden sm:inline text-[11px] font-semibold text-white/50 tracking-wider uppercase">
-          Sort:
-        </span>
-      </span>
-    ),
-    [],
-  );
 
   // Available categories for add form
   const availableCategories = useMemo(() => {
@@ -1220,85 +1240,91 @@ export default function MediaClient({
                   </div>
                 )}
 
-                {/* Main Filter & Search Control Row */}
-                <div className="flex flex-wrap items-center justify-end gap-1.5 sm:gap-4">
-                  {/* Unified Search Input (h-10, border, bg-black/35, backdrop-blur-md) - full width top row on mobile */}
-                  <div className="order-1 sm:order-2 relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
-                    <div className="pointer-events-none absolute left-3 flex items-center justify-center text-white/50">
-                      <Search className="h-3.5 w-3.5" aria-hidden="true" />
-                    </div>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={sanityContent?.searchPlaceholder || "Search by title, category, year..."}
-                      aria-label="Search media by title, category, year"
-                      className="h-full w-full bg-transparent pl-9 pr-8 text-xs text-white placeholder:text-white/40 focus:outline-none"
-                    />
-                    {searchQuery && (
-                      <button
-                        type="button"
-                        onClick={() => setSearchQuery("")}
-                        aria-label="Clear search"
-                        className="absolute right-2.5 flex h-5 w-5 items-center justify-center text-white/40 transition-colors hover:text-white"
-                      >
-                        <X className="h-3.5 w-3.5" aria-hidden="true" />
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Items Count - placed on the left next to newest first dropdown on mobile */}
-                  <span className="order-2 sm:order-1 mr-auto sm:mr-0 flex h-auto sm:h-10 items-center text-xs sm:text-[13px] font-medium text-white/55 whitespace-nowrap text-left sm:text-right" aria-live="polite">
+                {/* Main Filter & View Control Row */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
+                  {/* Items Count */}
+                  <span className="flex h-10 items-center text-xs sm:text-[13px] font-medium text-white/55 whitespace-nowrap text-left" aria-live="polite">
                     {filteredVideos.length} {filteredVideos.length === 1 ? "item" : "items"}
                   </span>
 
-                  {/* Sort Order Dropdown (h-10) */}
-                  <CustomDropdown
-                    ariaLabel="Sort videos"
-                    value={sortBy}
-                    options={sortDropdownOptions}
-                    onChange={(val) => setSortBy(val as any)}
-                    minWidth={200}
-                    maxHeight={320}
-                    triggerPrefix={sortTriggerPrefix}
-                    wrapperClassName="order-3 sm:order-3 !inline-flex h-10 items-center"
-                    buttonClassName="!h-10 !py-0 rounded-none border border-white/15 bg-black/35 px-2.5 sm:px-4 text-xs font-semibold backdrop-blur-md transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
-                  />
-
-                  {/* Filter Drawer Trigger Button (h-10) */}
-                  <button
-                    ref={filterTriggerRef}
-                    id="media-filter-drawer-trigger"
-                    type="button"
-                    onClick={() => setFilterDrawerOpen(true)}
-                    aria-haspopup="dialog"
-                    aria-expanded={filterDrawerOpen}
-                    className="order-4 sm:order-4 flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
-                  >
-                    <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>Filters</span>
-                    {activeFilterCount > 0 && (
-                      <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--color-action,#f5b942)] px-1 text-[11px] font-bold text-black">
-                        {activeFilterCount}
-                      </span>
-                    )}
-                  </button>
-
-                  {/* Reset all filters */}
-                  {(activeFilterCount > 0 || sortBy !== "default" || searchQuery.trim() !== "") && (
-                    <button
-                      id="media-reset-all-filters"
-                      type="button"
-                      onClick={() => {
-                        clearDrawerFilters();
-                        setSortBy("default");
-                        setSearchQuery("");
-                      }}
-                      className="order-5 sm:order-5 flex h-10 items-center cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
+                  <div className="flex flex-wrap items-center justify-end gap-1.5 sm:gap-3">
+                    {/* Cinema Feed Button (We Go Again layout) */}
+                    <Link
+                      href="/media"
+                      title="Switch to Cinema Feed"
+                      className="flex h-10 items-center gap-1.5 border border-purple-500/30 bg-purple-950/40 px-3 text-xs font-bold uppercase tracking-wider text-purple-300 backdrop-blur-md transition-colors hover:border-purple-400 hover:bg-purple-900/60 hover:text-white"
                     >
-                      Reset all filters ✕
+                      <Film className="h-3.5 w-3.5 text-purple-400" aria-hidden="true" />
+                      <span className="hidden sm:inline">Cinema Feed</span>
+                    </Link>
+
+                    {/* View Mode Switcher (Grid / List) */}
+                    <div
+                      role="radiogroup"
+                      aria-label="View layout mode"
+                      className="flex h-10 items-center rounded-none border border-white/15 bg-black/35 p-1 backdrop-blur-md"
+                    >
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={viewMode === "grid"}
+                        onClick={() => handleViewModeChange("grid")}
+                        title="Switch to Grid View"
+                        className={`flex h-full items-center gap-1.5 px-2.5 sm:px-3 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${viewMode === "grid"
+                            ? "bg-white text-black shadow-sm"
+                            : "text-white/60 hover:text-white"
+                          }`}
+                      >
+                        <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
+                        <span className="hidden sm:inline">Grid</span>
+                      </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={viewMode === "list"}
+                        onClick={() => handleViewModeChange("list")}
+                        title="Switch to List View"
+                        className={`flex h-full items-center gap-1.5 px-2.5 sm:px-3 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${viewMode === "list"
+                            ? "bg-white text-black shadow-sm"
+                            : "text-white/60 hover:text-white"
+                          }`}
+                      >
+                        <List className="h-3.5 w-3.5" aria-hidden="true" />
+                        <span className="hidden sm:inline">List</span>
+                      </button>
+                    </div>
+
+                    {/* Filter Drawer Trigger Button (h-10) */}
+                    <button
+                      ref={filterTriggerRef}
+                      id="media-filter-drawer-trigger"
+                      type="button"
+                      onClick={() => setFilterDrawerOpen(true)}
+                      aria-haspopup="dialog"
+                      aria-expanded={filterDrawerOpen}
+                      className="flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
+                    >
+                      <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
+                      <span>Filters</span>
+                      {activeFilterCount > 0 && (
+                        <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--color-action,#f5b942)] px-1 text-[11px] font-bold text-black">
+                          {activeFilterCount}
+                        </span>
+                      )}
                     </button>
-                  )}
+
+                    {/* Reset all filters */}
+                    {activeFilterCount > 0 && (
+                      <button
+                        id="media-reset-all-filters"
+                        type="button"
+                        onClick={clearDrawerFilters}
+                        className="flex h-10 items-center cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
+                      >
+                        Reset all filters ✕
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -1306,6 +1332,12 @@ export default function MediaClient({
                 open={filterDrawerOpen}
                 onClose={closeFilterDrawer}
                 returnFocusRef={filterTriggerRef}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                searchPlaceholder={sanityContent?.searchPlaceholder || "Search by title, category, year..."}
+                sortOptions={sortDropdownOptions}
+                sort={sortBy}
+                onSortChange={(val) => setSortBy(val as any)}
                 categoryOptions={categoryDropdownOptions.map((o) => ({
                   value: o.value,
                   label: o.value === "ALL" ? "All" : toTitleCase(o.label),
@@ -1334,6 +1366,7 @@ export default function MediaClient({
               <div className="relative mx-auto w-full">
                 <VideoArchiveRenderer
                   layoutId={layoutVariant}
+                  viewMode={viewMode}
                   videos={paginatedVideos}
                   allVideos={filteredVideos}
                   activeCategory={activeFilter}
@@ -1392,15 +1425,7 @@ export default function MediaClient({
               aria-labelledby="fan-wall-heading"
               className="relative w-full"
             >
-              <div className="site-container mx-auto">
-                <SectionHeader
-                  id="fan-wall-heading"
-                  title="Fan Media Wall & Live Concert Moments"
-                  subtitle="Discover crowd photos, fan memories, and live concert footage captured by 7th Heaven fans across the country."
-                  divider={false}
-                />
-              </div>
-              <div className="mt-8 w-full px-4 sm:px-6 lg:px-8">
+              <div className="w-full site-container mx-auto">
                 <FanPhotoWallClient
                   sanityContent={fanSanityContent}
                   initialPhotos={initialFanPhotos}
@@ -1411,6 +1436,7 @@ export default function MediaClient({
           }
         />
       </div>
+
 
 
       {/* FULL SCREEN VIDEO MODAL */}

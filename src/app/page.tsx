@@ -19,6 +19,7 @@ const HomeLogosSection = nextDynamic(
 );
 
 import SectionHeader from "@/components/SectionHeader";
+import HomeVideoBackdrop from "@/components/HomeVideoBackdrop";
 
 export const revalidate = 60;
 
@@ -71,25 +72,41 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
+export default async function Home(props: {
+  searchParams?: Promise<{ theme?: string }>;
+}) {
+  const searchParams = props.searchParams ? await props.searchParams : undefined;
+  if (
+    searchParams?.theme === "vretail" ||
+    searchParams?.theme === "lilac" ||
+    searchParams?.theme === "electric-lilac" ||
+    searchParams?.theme === "indigo"
+  ) {
+    const VretailHomeClient = (
+      await import("@/components/vretail/VretailHomeClient")
+    ).default;
+    return (
+      <main id="home-page" className="w-full min-h-screen">
+        <VretailHomeClient
+          defaultTheme={searchParams?.theme === "indigo" ? "indigo" : "lilac"}
+        />
+      </main>
+    );
+  }
+
   const sanityContent = await fetchPageContent("home");
 
   // Preload LCP hero posters immediately in SSR HTML for zero request discovery delay
-  ReactDOM.preload("/images/hero/hero-mobile-poster.webp", {
+  const heroPoster =
+    sanityContent?.heroPosterUrl || "/images/hero/tbwa-hakuhodo-poster.jpg";
+  ReactDOM.preload(heroPoster, {
     as: "image",
-    type: "image/webp",
     fetchPriority: "high",
-    media: "(max-width: 1023px)",
-  });
-  ReactDOM.preload("/images/hero/hero-desktop-poster.webp", {
-    as: "image",
-    type: "image/webp",
-    fetchPriority: "high",
-    media: "(min-width: 1024px)",
   });
 
   return (
     <main id="home-page" className="page-container page-container--hero flex flex-col !pt-0">
+
       {/* ====== HERO (Viewport Height - Sticky Pin) ====== */}
       <section
         id="hero"
@@ -119,11 +136,11 @@ export default async function Home() {
         {/* ====== SLIDEUP STACK SECTION (Temporarily disabled) ====== */}
         {/* <SlideupSection sanityContent={sanityContent} /> */}
 
-        {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-        <HomeLogosSection sanityContent={sanityContent} />
-
         {/* ====== LATEST BAND NEWS ====== */}
         <HomeNewsSection sanityContent={sanityContent} />
+
+        {/* ====== SHARED THE STAGE WITH / AS SEEN ON (Who We've Played With & Where We've Been Featured) ====== */}
+        <HomeLogosSection sanityContent={sanityContent} />
       </HeroCoverGlass>
     </main>
   );

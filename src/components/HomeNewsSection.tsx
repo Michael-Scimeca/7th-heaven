@@ -213,50 +213,41 @@ export default function HomeNewsSection({
           />
         </div>
 
-        {/* Featured Article + Remaining Grid */}
-        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-          {/* Featured Article Card (Left / Top - 7 Cols) */}
-          {featured && (
-            <article className="group relative overflow-hidden border-0 pb-4 md:pb-6 lg:col-span-7">
-              <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                <span className="text-muted text-sm font-medium">
-                  {featured.date}
-                </span>
-              </div>
-              <h3 className="mb-2">
-                <Link
-                  href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
-                  className="text-amber-50 transition-colors hover:text-action group-hover:text-action"
-                >
-                  {featured.title}
-                </Link>
-              </h3>
-              <p className="text-secondary max-w-[65ch]">{featured.content}</p>
-            </article>
-          )}
-
-          {/* Remaining Articles List (Right - 5 Cols) */}
-          <div className="flex flex-col gap-4 lg:col-span-5">
-            {news.slice(1).map((item) => {
-              const href = `/news/${item.slug || item.id || toSlug(item.title)}`;
-              return (
-                <Link
-                  key={item.title}
-                  href={href}
-                  className="transition-opacity group block w-full border-0 pb-3 text-left font-normal hover:opacity-90 md:pb-2"
-                >
+        {/* All News Articles in the Same Line */}
+        <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {news.map((item, idx) => {
+            const href = `/news/${item.slug || item.id || toSlug(item.title)}`;
+            return (
+              <article
+                key={item.title}
+                className="group relative flex flex-col justify-between overflow-hidden border-0 pb-4 text-left"
+              >
+                <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-muted text-xs">
+                    <span className="text-muted text-xs font-medium">
                       {item.date}
                     </span>
                     <span className="a-btn text-xs font-semibold">Read</span>
                   </div>
-                  <h4 className="line-clamp-1 mb-1.5 text-amber-50 transition-colors group-hover:text-action">{item.title}</h4>
-                  <p className="line-clamp-2 text-secondary max-w-[65ch]">{item.content}</p>
-                </Link>
-              );
-            })}
-          </div>
+                  <h3 className="line-clamp-2 mb-2 text-xl font-bold">
+                    <Link
+                      href={href}
+                      className={
+                        idx === 0
+                          ? "text-[#f02bf0] transition-colors hover:text-action group-hover:text-action"
+                          : "text-amber-50 transition-colors hover:text-action group-hover:text-action"
+                      }
+                    >
+                      {item.title}
+                    </Link>
+                  </h3>
+                  <p className="line-clamp-4 text-secondary text-sm leading-relaxed max-w-[65ch]">
+                    {item.content}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </>
 

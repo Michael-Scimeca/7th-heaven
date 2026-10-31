@@ -1,0 +1,62 @@
+/* ── "fed" motion mode (lib/motionMode.ts) ────────────────────────────────────
+   Federico Pian–style: dark glass + grain over the noise field, and headings that
+   rise character by character, in random order, out of masks. Everything is scoped
+   to html.fed-motion so ?motion=classic restores the previous look untouched.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.noise-field-glass {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 25;
+  background: transparent;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.noise-field-glass::after {
+  content: "";
+  position: absolute;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: var(--nf-grain, none);
+  opacity: var(--canvas-grain-opacity, 0.055);
+  mix-blend-mode: var(--canvas-grain-blend, overlay);
+  animation: nfGrain 2s steps(3) infinite both;
+}
+
+@media (max-width: 1023px) {
+  .noise-field-glass {
+    background: transparent;
+  }
+}
+
+@keyframes nfGrain {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -15%); }
+  50% { transform: translate(12%, 9%); }
+  70% { transform: translate(9%, 4%); }
+  90% { transform: translate(-1%, 7%); }
+  100% { transform: translate(0, 0); }
+}
+
+
+/* subtext under headings: words rise out of their masks */
+html.fed-motion .tt-run .tt-word {
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* the whole page dissolves instead of per-character exits */
+html.fed-motion.fed-exiting .tt-word,
+html.fed-motion.fed-exiting .tt-block {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noise-field-glass::after {
+    animation: none;
+  }
+}

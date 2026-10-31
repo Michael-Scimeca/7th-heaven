@@ -34,7 +34,7 @@ export function splitInto(el: HTMLElement, mode: SplitMode): HTMLElement[] {
         if (SKIP_TAGS.has(tag)) continue;
         if (childEl.matches?.(SKIP_SELECTORS) || childEl.closest?.(SKIP_SELECTORS)) continue;
         if (childEl.matches?.(".accent-gradient-text, [class*='gradient-text']")) {
-          childEl.classList.add(mode === "chars" ? "tt-char" : "tt-word");
+          childEl.classList.add("tt-word");
           pieces.push(childEl);
           continue;
         }
@@ -50,49 +50,22 @@ export function splitInto(el: HTMLElement, mode: SplitMode): HTMLElement[] {
     const frag = document.createDocumentFragment();
     const raw = text.textContent ?? "";
 
-    if (mode === "chars") {
-      const parts = raw.split(/(\s+)/);
-      for (const part of parts) {
-        if (!part) continue;
-        if (/^\s+$/.test(part)) {
-          const space = document.createElement("span");
-          space.className = "tt-space";
-          space.textContent = part;
-          frag.appendChild(space);
-          continue;
-        }
-        const wordWrap = document.createElement("span");
-        wordWrap.className = "tt-char-wrap";
-        for (const ch of part) {
-          const span = document.createElement("span");
-          span.className = "tt-char";
-          span.textContent = ch;
-          wordWrap.appendChild(span);
-          pieces.push(span);
-        }
-        frag.appendChild(wordWrap);
+    // Always split by words to preserve natural font kerning, ligatures, and glyph rendering
+    const parts = raw.split(/(\s+)/);
+    for (const part of parts) {
+      if (!part) continue;
+      if (/^\s+$/.test(part)) {
+        const space = document.createElement("span");
+        space.className = "tt-space";
+        space.textContent = part;
+        frag.appendChild(space);
+        continue;
       }
-    } else {
-      // keep leading/trailing spacing so words don't jam together
-      const parts = raw.split(/(\s+)/);
-      for (const part of parts) {
-        if (!part) continue;
-        if (/^\s+$/.test(part)) {
-          const space = document.createElement("span");
-          space.className = "tt-space";
-          space.textContent = part;
-          frag.appendChild(space);
-          continue;
-        }
-        const wrap = document.createElement("span");
-        wrap.className = "tt-word-wrap";
-        const span = document.createElement("span");
-        span.className = "tt-word";
-        span.textContent = part;
-        wrap.appendChild(span);
-        frag.appendChild(wrap);
-        pieces.push(span);
-      }
+      const span = document.createElement("span");
+      span.className = "tt-word";
+      span.textContent = part;
+      frag.appendChild(span);
+      pieces.push(span);
     }
     parent.replaceChild(frag, text);
   }

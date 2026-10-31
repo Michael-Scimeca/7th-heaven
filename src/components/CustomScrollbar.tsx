@@ -25,8 +25,8 @@ interface CustomScrollbarProps {
 export default function CustomScrollbar({
   children,
   className = "",
-  thumbColor = "var(--color-accent, #a855f7)",
-  trackColor = "rgba(88,28,135,0.35)",
+  thumbColor = "var(--scrollbar-inner-color-thumb, var(--color-accent, #a855f7))",
+  trackColor = "var(--scrollbar-inner-track-bg, rgba(88,28,135,0.35))",
   thumbWidth = 10,
   direction = "vertical",
   height,

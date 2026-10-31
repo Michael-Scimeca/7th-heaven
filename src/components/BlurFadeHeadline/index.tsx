@@ -28,7 +28,7 @@ const LINES: [string, string][] = [
 
 // Base timings (ms) at timeScale 1.
 const LINE_DURATION = 900;
-const LINE_STAGGER = 120;
+const LINE_STAGGER = 0; // no stagger: all lines of text fade in together
 const SLOT_OPEN_AT = 1100;
 const SLOT_STAGGER = 140;
 const SLOT_DURATION = 700;

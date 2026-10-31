@@ -78,27 +78,27 @@ export function ThemeProvider({
             const mergedTokens: ThemeTokens = {
               colors: {
                 ...DEFAULT_THEME_TOKENS.colors,
-                ...(data.tokens.colors || {}),
+                ...data.tokens.colors,
               },
               typography: {
                 ...DEFAULT_THEME_TOKENS.typography,
-                ...(data.tokens.typography || {}),
+                ...data.tokens.typography,
               },
               spacing: {
                 ...DEFAULT_THEME_TOKENS.spacing,
-                ...(data.tokens.spacing || {}),
+                ...data.tokens.spacing,
               },
               radii: {
                 ...DEFAULT_THEME_TOKENS.radii,
-                ...(data.tokens.radii || {}),
+                ...data.tokens.radii,
               },
               shadows: {
                 ...DEFAULT_THEME_TOKENS.shadows,
-                ...(data.tokens.shadows || {}),
+                ...data.tokens.shadows,
               },
               breakpoints: {
                 ...DEFAULT_THEME_TOKENS.breakpoints,
-                ...(data.tokens.breakpoints || {}),
+                ...data.tokens.breakpoints,
               },
             };
             setTokens(mergedTokens);

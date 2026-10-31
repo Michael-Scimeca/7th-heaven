@@ -15,7 +15,7 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion, type Variants } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Search } from "lucide-react";
 import { useScrollLock } from "@/lib/useScrollLock";
 import { Button } from "@/components/Button";
 
@@ -31,6 +31,15 @@ export interface MediaFilterDrawerProps {
   /** Element to return focus to when the drawer closes (the Filters trigger). */
   returnFocusRef?: RefObject<HTMLElement | null>;
 
+  searchQuery?: string;
+  onSearchChange?: (value: string) => void;
+  searchPlaceholder?: string;
+
+  sortOptions?: MediaFilterOption[];
+  sort?: string;
+  onSortChange?: (value: string) => void;
+
+  categoryLabel?: string;
   categoryOptions: MediaFilterOption[];
   category: string;
   onCategoryChange: (value: string) => void;
@@ -299,8 +308,51 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
 
               {/* Body */}
               <m.div variants={BODY} className="mfd-body custom-scrollbar flex-1 overflow-y-auto" data-lenis-prevent="true">
+                {props.onSearchChange && (
+                  <m.div variants={GROUP} className="mfd-group">
+                    <m.label variants={ITEM} htmlFor="mfd-search-input" className="mfd-legend">
+                      Search
+                    </m.label>
+                    <m.div
+                      variants={ITEM}
+                      className="relative flex h-11 w-full items-center rounded-none border border-white/15 bg-black/40 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-purple-400 focus-within:bg-black/60 focus-within:shadow-[0_0_12px_rgba(168,85,247,0.35)]"
+                    >
+                      <div className="pointer-events-none absolute left-3.5 flex items-center justify-center text-white/50">
+                        <Search className="h-4 w-4" aria-hidden="true" />
+                      </div>
+                      <input
+                        id="mfd-search-input"
+                        type="text"
+                        value={props.searchQuery ?? ""}
+                        onChange={(e) => props.onSearchChange?.(e.target.value)}
+                        placeholder={props.searchPlaceholder || "Search by title, category, year..."}
+                        aria-label={props.searchPlaceholder || "Search by title, category, year..."}
+                        className="h-full w-full bg-transparent pl-10 pr-9 text-sm text-white placeholder:text-white/40 focus:outline-none"
+                      />
+                      {Boolean(props.searchQuery) && (
+                        <button
+                          type="button"
+                          onClick={() => props.onSearchChange?.("")}
+                          aria-label="Clear search"
+                          className="absolute right-3 flex h-5 w-5 items-center justify-center text-white/40 transition-colors hover:text-white"
+                        >
+                          <X className="h-4 w-4" aria-hidden="true" />
+                        </button>
+                      )}
+                    </m.div>
+                  </m.div>
+                )}
+                {props.sortOptions && props.onSortChange && (
+                  <RadioGroup
+                    legend="Sort By"
+                    name="mfd-sort"
+                    options={props.sortOptions}
+                    value={props.sort ?? "default"}
+                    onChange={props.onSortChange}
+                  />
+                )}
                 <RadioGroup
-                  legend="Category"
+                  legend={props.categoryLabel ?? "Category"}
                   name="mfd-category"
                   options={props.categoryOptions}
                   value={props.category}
@@ -421,6 +473,14 @@ function YearRange({
 }) {
   const [min, max] = bounds;
   const [lo, hi] = value;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeHandle, setActiveHandle] = useState<"lo" | "hi" | "range" | "collided" | null>(null);
+  const [lastInteracted, setLastInteracted] = useState<"lo" | "hi">("lo");
+  const dragStartRef = useRef<{ startX: number; startLo: number; startHi: number }>({
+    startX: 0,
+    startLo: lo,
+    startHi: hi,
+  });
 
   // Decade quick picks for every decade the current bounds touch
   const decades: { label: string; range: [number, number] }[] = [];
@@ -430,6 +490,187 @@ function YearRange({
       range: [Math.max(d, min), Math.min(d + 9, max)],
     });
   }
+
+  const rangeSpan = Math.max(1, max - min);
+  const loPct = Math.max(0, Math.min(100, ((lo - min) / rangeSpan) * 100));
+  const hiPct = Math.max(0, Math.min(100, ((hi - min) / rangeSpan) * 100));
+
+  const getYearFromPointer = (clientX: number): number => {
+    if (!trackRef.current) return min;
+    const rect = trackRef.current.getBoundingClientRect();
+    if (rect.width <= 0) return min;
+    const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    return Math.round(min + pct * rangeSpan);
+  };
+
+  const handlePointerDownTrack = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    const target = e.target as HTMLElement;
+
+    // Direct handle: lo thumb
+    if (target.closest(".mfd-thumb-lo")) {
+      e.stopPropagation();
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {}
+      if (lo === hi) {
+        dragStartRef.current = { startX: e.clientX, startLo: lo, startHi: hi };
+        setActiveHandle("collided");
+      } else {
+        setActiveHandle("lo");
+        setLastInteracted("lo");
+      }
+      return;
+    }
+
+    // Direct handle: hi thumb
+    if (target.closest(".mfd-thumb-hi")) {
+      e.stopPropagation();
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {}
+      if (lo === hi) {
+        dragStartRef.current = { startX: e.clientX, startLo: lo, startHi: hi };
+        setActiveHandle("collided");
+      } else {
+        setActiveHandle("hi");
+        setLastInteracted("hi");
+      }
+      return;
+    }
+
+    // Direct handle: connecting range bar (slides the whole window)
+    if (target.closest(".mfd-range-fill")) {
+      e.stopPropagation();
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {}
+      dragStartRef.current = { startX: e.clientX, startLo: lo, startHi: hi };
+      setActiveHandle("range");
+      return;
+    }
+
+    // Track click outside handles: snap closest handle to pointer and begin drag
+    const year = getYearFromPointer(e.clientX);
+    const distLo = Math.abs(year - lo);
+    const distHi = Math.abs(year - hi);
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+
+    if (distLo < distHi || (distLo === distHi && year < lo)) {
+      onChange([year, hi]);
+      setActiveHandle("lo");
+      setLastInteracted("lo");
+    } else {
+      onChange([lo, year]);
+      setActiveHandle("hi");
+      setLastInteracted("hi");
+    }
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!activeHandle || !trackRef.current) return;
+
+    if (activeHandle === "collided") {
+      const delta = e.clientX - dragStartRef.current.startX;
+      if (Math.abs(delta) > 3) {
+        if (delta < 0) {
+          setActiveHandle("lo");
+          setLastInteracted("lo");
+        } else {
+          setActiveHandle("hi");
+          setLastInteracted("hi");
+        }
+      }
+      return;
+    }
+
+    if (activeHandle === "lo") {
+      const year = getYearFromPointer(e.clientX);
+      const nextLo = Math.max(min, Math.min(year, hi));
+      if (nextLo !== lo) {
+        onChange([nextLo, hi]);
+      }
+    } else if (activeHandle === "hi") {
+      const year = getYearFromPointer(e.clientX);
+      const nextHi = Math.max(lo, Math.min(year, max));
+      if (nextHi !== hi) {
+        onChange([lo, nextHi]);
+      }
+    } else if (activeHandle === "range") {
+      const rect = trackRef.current.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      const span = dragStartRef.current.startHi - dragStartRef.current.startLo;
+      const deltaYears = Math.round(((e.clientX - dragStartRef.current.startX) / rect.width) * rangeSpan);
+      let nextLo = dragStartRef.current.startLo + deltaYears;
+      let nextHi = nextLo + span;
+
+      if (nextLo < min) {
+        nextLo = min;
+        nextHi = min + span;
+      }
+      if (nextHi > max) {
+        nextHi = max;
+        nextLo = max - span;
+      }
+
+      if (nextLo !== lo || nextHi !== hi) {
+        onChange([nextLo, nextHi]);
+      }
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (activeHandle) {
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {}
+      setActiveHandle(null);
+    }
+  };
+
+  const handleKeyDown = (handle: "lo" | "hi", e: React.KeyboardEvent) => {
+    const step = e.shiftKey ? 5 : 1;
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+      e.preventDefault();
+      if (handle === "lo") {
+        onChange([Math.max(min, lo - step), hi]);
+        setLastInteracted("lo");
+      } else {
+        onChange([lo, Math.max(lo, hi - step)]);
+        setLastInteracted("hi");
+      }
+    } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (handle === "lo") {
+        onChange([Math.min(hi, lo + step), hi]);
+        setLastInteracted("lo");
+      } else {
+        onChange([lo, Math.min(max, hi + step)]);
+        setLastInteracted("hi");
+      }
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      if (handle === "lo") {
+        onChange([min, hi]);
+        setLastInteracted("lo");
+      } else {
+        onChange([lo, lo]);
+        setLastInteracted("hi");
+      }
+    } else if (e.key === "End") {
+      e.preventDefault();
+      if (handle === "lo") {
+        onChange([hi, hi]);
+        setLastInteracted("lo");
+      } else {
+        onChange([lo, max]);
+        setLastInteracted("hi");
+      }
+    }
+  };
 
   return (
     <m.fieldset variants={GROUP} className="mfd-group">
@@ -462,38 +703,60 @@ function YearRange({
         transition={{ duration: 0.2, ease: EASE }}
         className="mfd-range-value"
       >
-        {lo} – {hi}
+        {lo === hi ? lo : `${lo} – ${hi}`}
       </m.span>
-      <m.div variants={ITEM} className="mfd-range">
-        <span className="mfd-range-track" aria-hidden="true" />
-        <span
-          className="mfd-range-fill"
-          aria-hidden="true"
+      <div className="mfd-range-wrap">
+        <m.div
+          ref={trackRef}
+          variants={ITEM}
+          className={`mfd-range${activeHandle ? " is-active" : ""}`}
+          onPointerDown={handlePointerDownTrack}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
           style={{
-            left: `calc(7px + (100% - 14px) * ${(lo - min) / (max - min)})`,
-            right: `calc(7px + (100% - 14px) * ${(max - hi) / (max - min)})`,
-          }}
-        />
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={1}
-          value={lo}
-          aria-label="Earliest year"
-          onChange={(e) => onChange([Math.min(Number(e.target.value), hi), hi])}
-          style={{ zIndex: lo >= max - (max - min) * 0.05 ? 3 : 2 }}
-        />
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={1}
-          value={hi}
-          aria-label="Latest year"
-          onChange={(e) => onChange([lo, Math.max(Number(e.target.value), lo)])}
-        />
-      </m.div>
+            "--lo-pct": `${loPct}%`,
+            "--hi-pct": `${hiPct}%`,
+            "--lo-z": lastInteracted === "lo" ? 10 : 5,
+            "--hi-z": lastInteracted === "hi" ? 10 : 5,
+          } as React.CSSProperties}
+        >
+          <div className="mfd-range-track" aria-hidden="true" />
+          <div
+            className={`mfd-range-fill${activeHandle === "range" ? " is-dragging" : ""}`}
+            aria-hidden="true"
+            title="Drag to slide year window"
+          />
+          <div
+            role="slider"
+            tabIndex={0}
+            aria-label="Earliest year"
+            aria-valuemin={min}
+            aria-valuemax={hi}
+            aria-valuenow={lo}
+            aria-valuetext={`${lo}`}
+            className={`mfd-thumb mfd-thumb-lo${activeHandle === "lo" ? " is-dragging" : ""}`}
+            onKeyDown={(e) => handleKeyDown("lo", e)}
+            onFocus={() => setLastInteracted("lo")}
+          >
+            <span className="mfd-thumb-visual" aria-hidden="true" />
+          </div>
+          <div
+            role="slider"
+            tabIndex={0}
+            aria-label="Latest year"
+            aria-valuemin={lo}
+            aria-valuemax={max}
+            aria-valuenow={hi}
+            aria-valuetext={`${hi}`}
+            className={`mfd-thumb mfd-thumb-hi${activeHandle === "hi" ? " is-dragging" : ""}`}
+            onKeyDown={(e) => handleKeyDown("hi", e)}
+            onFocus={() => setLastInteracted("hi")}
+          >
+            <span className="mfd-thumb-visual" aria-hidden="true" />
+          </div>
+        </m.div>
+      </div>
       <m.div variants={ITEM} className="mfd-range-labels">
         <span>{min}</span>
         <span>{max}</span>
@@ -516,7 +779,7 @@ const DRAWER_CSS = `
 .mfd-panel .mfd-title { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: 400; line-height: 1; text-transform: uppercase; letter-spacing: 0.01em; color: #ffffff; margin: 0; }
 .mfd-panel .mfd-body { padding: 24px; display: flex; flex-direction: column; gap: 32px; overscroll-behavior: contain; }
 .mfd-panel .mfd-group { border: 0; margin: 0; padding: 0; min-width: 0; }
-.mfd-panel .mfd-legend { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); margin: 0 0 14px; padding: 0; }
+.mfd-panel .mfd-legend, .mfd-panel label.mfd-legend { font-family: var(--font-body); font-size: 11px !important; font-weight: 600 !important; letter-spacing: 0.15em !important; text-transform: uppercase !important; color: rgba(255, 255, 255, 0.5) !important; margin: 0 0 14px !important; padding: 0 !important; display: block; }
 /* beat the global label:not(.sr-only):not(.toggle) { display:block; margin-bottom } rule */
 .mfd-panel .mfd-group label.mfd-option { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 15px; font-weight: 500; white-space: normal; color: rgba(255, 255, 255, 0.72); cursor: pointer; z-index: auto; transition: color 0.2s ease; }
 .mfd-panel .mfd-group label.mfd-option:hover, .mfd-panel .mfd-group label.mfd-option.is-selected { color: #ffffff; }
@@ -528,17 +791,20 @@ const DRAWER_CSS = `
 .mfd-panel .mfd-decade:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
 .mfd-panel .mfd-decade.is-active { background: #9333ea; border-color: #a855f7; color: #ffffff; box-shadow: 0 0 10px rgba(147, 51, 234, 0.5); }
 .mfd-panel .mfd-range-value { display: block; font-size: 15px; font-weight: 600; color: #ffffff; margin: 0 0 14px; font-variant-numeric: tabular-nums; }
-.mfd-panel .mfd-range { position: relative; height: 20px; }
-.mfd-panel .mfd-range-track, .mfd-panel .mfd-range-fill { position: absolute; top: 50%; height: 2px; transform: translateY(-50%); border-radius: 2px; }
-.mfd-panel .mfd-range-track { left: 7px; right: 7px; background: rgba(255, 255, 255, 0.15); }
-.mfd-panel .mfd-range-fill { background: #a855f7; box-shadow: 0 0 10px rgba(147, 51, 234, 0.5); }
-.mfd-panel .mfd-range input[type=range] { position: absolute; inset: 0; width: 100%; height: 20px; margin: 0; background: transparent; pointer-events: none; -webkit-appearance: none; appearance: none; z-index: 2; }
-.mfd-panel .mfd-range input[type=range]::-webkit-slider-runnable-track { background: transparent; height: 20px; }
-.mfd-panel .mfd-range input[type=range]::-moz-range-track { background: transparent; height: 20px; }
-.mfd-panel .mfd-range input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 16px; height: 16px; margin-top: 2px; border-radius: 50%; background: #9333ea; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(147, 51, 234, 0.6); cursor: grab; }
-.mfd-panel .mfd-range input[type=range]::-moz-range-thumb { pointer-events: auto; width: 12px; height: 12px; border-radius: 50%; background: #9333ea; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(147, 51, 234, 0.6); cursor: grab; }
-.mfd-panel .mfd-range input[type=range]:focus-visible::-webkit-slider-thumb { outline: 2px solid #c084fc; outline-offset: 2px; }
-.mfd-panel .mfd-range input[type=range]:focus-visible::-moz-range-thumb { outline: 2px solid #c084fc; outline-offset: 2px; }
-.mfd-panel .mfd-range-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
+.mfd-panel .mfd-range-wrap { padding: 0 10px; margin: 0 -10px; }
+.mfd-panel .mfd-range { position: relative; height: 36px; display: flex; align-items: center; touch-action: none; cursor: pointer; user-select: none; }
+.mfd-panel .mfd-range-track { position: absolute; left: 0; right: 0; top: 50%; height: 4px; transform: translateY(-50%); border-radius: 9999px; background: rgba(255, 255, 255, 0.16); pointer-events: none; }
+.mfd-panel .mfd-range-fill { position: absolute; top: 50%; transform: translateY(-50%); left: var(--lo-pct); width: calc(var(--hi-pct) - var(--lo-pct)); height: 4px; border-radius: 9999px; background: linear-gradient(90deg, #9333ea, #c084fc, #9333ea); box-shadow: 0 0 10px rgba(147, 51, 234, 0.6); cursor: grab; z-index: 3; touch-action: none; transition: height 0.15s ease, box-shadow 0.15s ease; }
+.mfd-panel .mfd-range-fill:hover { height: 6px; box-shadow: 0 0 14px rgba(168, 85, 247, 0.85); }
+.mfd-panel .mfd-range-fill.is-dragging { cursor: grabbing; height: 6px; box-shadow: 0 0 18px rgba(168, 85, 247, 1); }
+.mfd-panel .mfd-thumb { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: grab; touch-action: none; outline: none; -webkit-tap-highlight-color: transparent; }
+.mfd-panel .mfd-thumb-lo { left: var(--lo-pct); z-index: var(--lo-z, 5); }
+.mfd-panel .mfd-thumb-hi { left: var(--hi-pct); z-index: var(--hi-z, 5); }
+.mfd-panel .mfd-thumb:active, .mfd-panel .mfd-thumb.is-dragging { cursor: grabbing; }
+.mfd-panel .mfd-thumb-visual { width: 20px; height: 20px; border-radius: 50%; background: #9333ea; border: 2.5px solid #ffffff; box-shadow: 0 0 12px rgba(147, 51, 234, 0.7); transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease; pointer-events: none; }
+.mfd-panel .mfd-thumb:hover .mfd-thumb-visual { transform: scale(1.15); box-shadow: 0 0 16px rgba(168, 85, 247, 0.95); }
+.mfd-panel .mfd-thumb:focus-visible .mfd-thumb-visual { outline: 2px solid #c084fc; outline-offset: 3px; }
+.mfd-panel .mfd-thumb.is-dragging .mfd-thumb-visual { transform: scale(1.25); background: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 1); }
+.mfd-panel .mfd-range-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px; color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
 .mfd-panel .mfd-footer { padding: 16px 24px; padding-bottom: max(16px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(255, 255, 255, 0.1); }
 `;

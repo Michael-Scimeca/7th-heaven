@@ -25,7 +25,7 @@ const getYouTubeId = (video: CruiseVideoItem): string | null => {
   if (video.youtubeId) return video.youtubeId;
   if (!video.url) return null;
   const match = video.url.match(
-    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
+    /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/,
   );
   return match ? match[1] : null;
 };

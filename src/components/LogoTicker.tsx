@@ -113,6 +113,9 @@ export default function LogoTicker({
   const renderItem = (item: TickerItem, key: string, isDuplicate = false) => {
     if (item.src) {
       const altText = item.alt ? `${item.alt} logo` : "Partner logo";
+      const srcWithVersion = item.src.includes("?")
+        ? `${item.src}&v=w4`
+        : `${item.src}?v=w4`;
       return (
         <div
           key={key}
@@ -120,7 +123,7 @@ export default function LogoTicker({
           className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center justify-center px-[clamp(12px,2.5vw,44px)]"
         >
           <Image
-            src={item.src}
+            src={srcWithVersion}
             alt={altText}
             width={160}
             height={64}

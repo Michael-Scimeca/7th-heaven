@@ -26,10 +26,17 @@ export async function waitForPageReady(): Promise<void> {
   });
 }
 
-export async function waitForCanvasReady(timeoutMs = 1800): Promise<void> {
+export async function waitForCanvasReady(timeoutMs = 600): Promise<void> {
   if (typeof window === "undefined" || typeof document === "undefined") return;
 
   if ((window as any).__7hCanvasReady) {
+    return;
+  }
+
+  // If there is no canvas in the document, resolve immediately without stalling
+  const canvas = document.querySelector("canvas");
+  if (!canvas) {
+    (window as any).__7hCanvasReady = true;
     return;
   }
 
@@ -69,7 +76,7 @@ export async function waitForHeroVideoReady(timeoutMs = 4000): Promise<void> {
 
   // Attempt to immediately play or prime hero video element if present
   const heroVideo = document.querySelector(
-    "#hero video",
+    "#hero video, #global-bleed-backdrop video",
   ) as HTMLVideoElement | null;
 
   if (
@@ -162,7 +169,7 @@ export async function waitForMapReady(timeoutMs = 5000): Promise<void> {
   });
 }
 
-export async function waitForMediaVideosReady(timeoutMs = 1200): Promise<void> {
+export async function waitForMediaVideosReady(timeoutMs = 300): Promise<void> {
   if (typeof window === "undefined" || typeof document === "undefined") return;
 
   // Only apply when the destination route is /media
@@ -172,11 +179,19 @@ export async function waitForMediaVideosReady(timeoutMs = 1200): Promise<void> {
     return;
   }
 
+  // If a video element already exists and is primed, resolve immediately
+  const video = document.querySelector("#full-site-backdrop-video video, video") as HTMLVideoElement | null;
+  if (!video || video.readyState >= 2 || (!video.paused && video.currentTime > 0)) {
+    (window as any).__7hMediaVideosReady = true;
+    return;
+  }
+
   return new Promise<void>((resolve) => {
     let settled = false;
     const timer = setTimeout(() => {
       if (!settled) {
         settled = true;
+        (window as any).__7hMediaVideosReady = true;
         cleanup();
         resolve();
       }
@@ -185,6 +200,7 @@ export async function waitForMediaVideosReady(timeoutMs = 1200): Promise<void> {
     const onReady = () => {
       if (!settled) {
         settled = true;
+        (window as any).__7hMediaVideosReady = true;
         cleanup();
         resolve();
       }
@@ -193,8 +209,12 @@ export async function waitForMediaVideosReady(timeoutMs = 1200): Promise<void> {
     const cleanup = () => {
       clearTimeout(timer);
       window.removeEventListener("7h-media-videos-ready", onReady);
+      video.removeEventListener("canplay", onReady);
+      video.removeEventListener("playing", onReady);
     };
 
     window.addEventListener("7h-media-videos-ready", onReady, { once: true });
+    video.addEventListener("canplay", onReady, { once: true });
+    video.addEventListener("playing", onReady, { once: true });
   });
 }

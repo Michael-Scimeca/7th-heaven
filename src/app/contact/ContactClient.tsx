@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { Mail, Phone } from "lucide-react";
-import PageHero from "@/components/PageHero";
+
 import { SectionHeader } from "@/components/SectionHeader";
 import SeventhButton from "@/components/SeventhButton";
 
@@ -163,14 +163,9 @@ export default function ContactClient({
       id="contact-page"
       className="site-container page-container page-stack-sm relative z-10 min-h-screen"
     >
-      {/* Hero Header */}
-      <PageHero
-        title={title}
-        titleId="contact-heading"
-        subtitle={subtitle}
-        className="relative z-10 max-w-5xl"
-        align="left"
-      />
+      <h1 id="contact-heading" className="sr-only">
+        {title}
+      </h1>
 
       {/* ── 1. CONTACT PEOPLE DIRECTORY (FIRST SECTION) ── */}
       <section
@@ -276,7 +271,7 @@ export default function ContactClient({
                 </div>
                 <div>
                   <SeventhButton href="/book">
-                    Go to Online Booking Form →
+                    Book Online →
                   </SeventhButton>
                 </div>
               </div>
@@ -372,7 +367,7 @@ export default function ContactClient({
                   </div>
                   <div>
                     <SeventhButton href="/book">
-                      Go to Online Booking Form →
+                      Book Online →
                     </SeventhButton>
                   </div>
                 </div>

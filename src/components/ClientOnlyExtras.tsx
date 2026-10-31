@@ -21,11 +21,13 @@ export default function ClientOnlyExtras() {
   const [SpacingInspector, setSpacingInspector] = useState<ComponentType | null>(null);
   const [FluidGap, setFluidGap] = useState<ComponentType | null>(null);
   const [BlurTuner, setBlurTuner] = useState<ComponentType | null>(null);
-  const [PickTuner, setPickTuner] = useState<ComponentType | null>(null);
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
   const [MemberDash, setMemberDash] = useState<ComponentType | null>(null);
   const [LiveCursors, setLiveCursors] = useState<ComponentType | null>(null);
+  const [AtmosphereTuner, setAtmosphereTuner] = useState<ComponentType | null>(null);
+  const [ScrollbarTuner, setScrollbarTuner] = useState<ComponentType | null>(null);
+  const [BackdropTuner, setBackdropTuner] = useState<ComponentType | null>(null);
 
   useEffect(() => {
     let loaded = false;
@@ -34,13 +36,13 @@ export default function ClientOnlyExtras() {
       if (loaded) return;
       loaded = true;
 
-      // Skip development-only guide overlay outside development
+      // Development guide overlays disabled by user preference
+      // Only loaded if explicitly requested via ?tuner=true or ?gap=true
       if (
-        process.env.NODE_ENV === "development" ||
-        (typeof window !== "undefined" &&
-          (window.location.search.includes("dev=true") ||
-            window.location.search.includes("gap=true") ||
-            window.location.search.includes("tuner=true")))
+        typeof window !== "undefined" &&
+        (window.location.search.includes("dev=true") ||
+          window.location.search.includes("gap=true") ||
+          window.location.search.includes("tuner=true"))
       ) {
         import("@/components/DevGuideLine")
           .then((m) => setDevGuide(() => m.default))
@@ -63,19 +65,22 @@ export default function ClientOnlyExtras() {
           .catch(() => {});
       }
 
-      // Guitar-pick menu icon tuner: always in dev, or ?tuner=true / ?picks=true
-      if (
-        process.env.NODE_ENV === "development" ||
-        (typeof window !== "undefined" &&
-          /[?&](tuner|tune|picks)=true/.test(window.location.search))
-      ) {
-        import("@/components/PickIconTuner")
-          .then((m) => setPickTuner(() => m.default))
-          .catch(() => {});
-      }
+
 
       import("@/components/WebVitalsReporter")
         .then((m) => setVitals(() => m.default))
+        .catch(() => {});
+
+      import("@/components/GradientAtmosphereTuner")
+        .then((m) => setAtmosphereTuner(() => m.default))
+        .catch(() => {});
+
+      import("@/components/ScrollbarTuner")
+        .then((m) => setScrollbarTuner(() => m.default))
+        .catch(() => {});
+
+      import("@/components/BackdropVideoTuner")
+        .then((m) => setBackdropTuner(() => m.default))
         .catch(() => {});
 
       // Defer internal annotation overlay to browser idle time
@@ -137,11 +142,13 @@ export default function ClientOnlyExtras() {
       {SpacingInspector && <SpacingInspector />}
       {FluidGap && <FluidGap />}
       {BlurTuner && <BlurTuner />}
-      {PickTuner && <PickTuner />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}
       {MemberDash && <MemberDash />}
       {LiveCursors && onChatPage && <LiveCursors />}
+      {AtmosphereTuner && <AtmosphereTuner />}
+      {ScrollbarTuner && <ScrollbarTuner />}
+      {BackdropTuner && <BackdropTuner />}
     </>
   );
 }

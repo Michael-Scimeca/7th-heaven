@@ -98,6 +98,8 @@ const PageNav = dynamic(() =>
 );
 const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
 import HomeShaderGradient from "@/components/HomeShaderGradient";
+import GlobalBackgroundLayer from "@/components/background/GlobalBackgroundLayer";
+import BackgroundViewsSwitcher from "@/components/background/BackgroundViewsSwitcher";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
@@ -109,12 +111,8 @@ import {
   SanitySiteSettings,
 } from "@/lib/sanity";
 
-// Runs on EVERY full document load, matching the reference site.
-// The reduced-motion check is the one exception: those users get no animation,
-// so the preloader would just be a black screen held for the minimum-visible
-// window. Going straight to the page is strictly better for them.
-const PRELOAD_SCRIPT_CONTENT =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.search.includes('bypass=true')){document.documentElement.classList.add('is-preloading')}}catch(e){}";
+// Preloader temporarily disabled per user request
+const PRELOAD_SCRIPT_CONTENT = "";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSanity<SanitySiteSettings>(queries.siteSettings);
@@ -368,7 +366,7 @@ export default function RootLayout({
          * preloader rather than to a stuck black screen. */}
         <Script
           id="preloader-check"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: PRELOAD_SCRIPT_CONTENT,
           }}
@@ -422,6 +420,7 @@ export default function RootLayout({
             <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
               <Providers>
                 <ScrollToTop />
+                <GlobalBackgroundLayer />
                 <div
                   id="global-ambient-gradient"
                   className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(circle_at_20%_25%,rgba(133,15,183,0.4)_0%,transparent_55%),radial-gradient(circle_at_75%_65%,rgba(97,30,189,0.35)_0%,transparent_55%),radial-gradient(circle_at_50%_35%,rgba(164,62,23,0.25)_0%,transparent_50%)]"
@@ -445,6 +444,9 @@ export default function RootLayout({
                     </Suspense>
                     <Suspense fallback={null}>
                       <PageBlur />
+                    </Suspense>
+                    <Suspense fallback={null}>
+                      <BackgroundViewsSwitcher />
                     </Suspense>
                     <ClientOnlyExtras />
                     <ServiceWorkerRegister />

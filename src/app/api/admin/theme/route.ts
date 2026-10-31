@@ -19,7 +19,7 @@ async function syncTokensToGlobalsCss(tokens: ThemeTokens): Promise<void> {
 
     Object.entries(flat).forEach(([varName, val]) => {
       // Escape regex special characters in variable name
-      const escaped = varName.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+      const escaped = varName.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
       const regex = new RegExp(`(${escaped}\\s*:\\s*)[^;]+(;)`, "g");
       css = css.replace(regex, `$1${val}$2`);
     });

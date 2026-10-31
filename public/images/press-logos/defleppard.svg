@@ -5,14 +5,11 @@
     <style>
       .st0 {
         fill: #fff;
-      }
-
-      .st0, .st1 {
         fill-rule: evenodd;
       }
 
       .st1 {
-        fill: #231f20;
+        display: none;
       }
     </style>
   </defs>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useTransition } from "@/context/TransitionContext";
 
@@ -15,11 +15,15 @@ import { useTransition } from "@/context/TransitionContext";
 export default function PageBlur() {
   const { mode } = useTransition();
   const pathname = usePathname();
+  const prevPathRef = useRef<string | null>(null);
 
   useEffect(() => {
     const el = document.getElementById("page-content-wrapper");
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // FedTransition handles its own synchronized exit & enter blur animation
+    if (document.documentElement.classList.contains("fed-exiting")) return;
 
     if (mode === "covering" || mode === "covered") {
       el.classList.add("page-blur-out");
@@ -27,10 +31,30 @@ export default function PageBlur() {
       return;
     }
 
-    // back to idle: the new page is in, so bring it up out of the blur
+    const isFirstMount = prevPathRef.current === null;
+    const isNewRoute = prevPathRef.current !== pathname;
+    prevPathRef.current = pathname;
+
+    // Skip if still idle on same route
+    if (!isFirstMount && !isNewRoute && mode === "idle") {
+      return;
+    }
+
+    // Skip initial mount if site preloader curtain is active
+    if (isFirstMount && document.documentElement.classList.contains("is-preloading")) {
+      return;
+    }
+
+    // New page is in, bring it up out of the blur
     el.classList.remove("page-blur-out");
+    el.classList.remove("page-blur-in");
+    void el.offsetWidth; // Force reflow to reliably restart CSS keyframe animation
     el.classList.add("page-blur-in");
-    const done = window.setTimeout(() => el.classList.remove("page-blur-in"), 700);
+
+    const done = window.setTimeout(() => {
+      el.classList.remove("page-blur-in");
+    }, 700);
+
     return () => window.clearTimeout(done);
   }, [mode, pathname]);
 

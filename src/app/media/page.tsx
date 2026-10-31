@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { fetchPageContent } from "@/lib/sanity";
-import { getApprovedFanPhotos } from "@/lib/fanPhotos";
-import MediaClient from "./MediaClient";
+import MediaWeGoAgainClient from "@/components/media/MediaWeGoAgainClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const sanityContent = await fetchPageContent("media");
@@ -50,18 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export const revalidate = 60;
 
-export default async function MediaPage() {
-  const [sanityContent, fanPageContent, initialFanPhotos] = await Promise.all([
-    fetchPageContent("media"),
-    fetchPageContent("fan-media-wall"),
-    getApprovedFanPhotos(),
-  ]);
-
-  return (
-    <MediaClient
-      sanityContent={sanityContent}
-      fanSanityContent={fanPageContent}
-      initialFanPhotos={initialFanPhotos}
-    />
-  );
+export default function MediaPage() {
+  return <MediaWeGoAgainClient />;
 }
+

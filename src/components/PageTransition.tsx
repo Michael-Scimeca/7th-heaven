@@ -1377,7 +1377,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         currentPath.startsWith("/studio") ||
         href.startsWith("/studio") ||
         currentPath.startsWith("/transition-test") ||
-        href.startsWith("/transition-test")
+        href.startsWith("/transition-test") ||
+        currentPath.startsWith("/halftone-test") ||
+        href.startsWith("/halftone-test")
       )
         return;
 
@@ -1438,7 +1440,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   if (
     pathname?.startsWith("/studio") ||
-    pathname?.startsWith("/transition-test")
+    pathname?.startsWith("/transition-test") ||
+    pathname?.startsWith("/halftone-test")
   ) {
     return <>{children}</>;
   }

@@ -3430,6 +3430,39 @@ html.tour-sort-stuck #tour-sort-bar {
   }
 }
 
+@utility bg-film-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.85 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: var(--backdrop-noise-size, 160px 160px);
+}
+
+@utility backdrop-noise-surface {
+  opacity: var(--backdrop-noise-opacity, 0.4);
+  mix-blend-mode: var(--backdrop-noise-blend, overlay);
+  display: var(--backdrop-noise-display, block);
+  animation: var(--backdrop-noise-animation, none);
+}
+
+@utility animate-film-grain {
+  animation: filmGrainJitter 0.35s steps(4) infinite both;
+}
+
+@utility jj-signature-moments-title {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  line-height: 0.83;
+  color: transparent;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.85 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    linear-gradient(to bottom, #542db7 45%, rgba(68, 30, 140, 0.4) 80%, transparent 100%);
+  background-blend-mode: soft-light, normal;
+  background-size: 160px 160px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* ── Header logo responsive positioning & hover ── */
 #header-logo,
 #header-logo *,
@@ -3457,23 +3490,23 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 #header-logo {
-  position: absolute !important;
-  top: 50% !important;
-  left: 0 !important;
-  transform: translateY(-50%) !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
   z-index: 30001 !important;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 !important;
-  transition: color 0.2s ease-in-out, top 0.2s ease-in-out, left 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
 }
 
 @media (min-width: 1024px) {
   #header-logo {
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
   }
 }
 
@@ -7578,4 +7611,427 @@ canvas.webgl-noise-overlay {
   --pick-ease: cubic-bezier(0.496, 0.004, 0, 1);
   --pick-color: #ffffff;
   --pick-hover-color: #ffffff;
+}
+
+/* ========================================================
+   ELVA LABS FROSTED GLASS & LASER DRAW HOVER/FOCUS STYLE
+   Exact match for https://elvalabs.ai/ pill button and input
+   ======================================================== */
+.elva-laser-rect {
+  stroke-dasharray: 0, var(--elva-perimeter, 421);
+  stroke-dashoffset: calc(-1 * var(--elva-perimeter, 421) * 0.92);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.group:hover .elva-laser-rect,
+.group:focus-within .elva-laser-rect,
+.btn-elva:hover .elva-laser-rect,
+.btn-elva:focus-within .elva-laser-rect,
+.input-elva:hover .elva-laser-rect,
+.input-elva:focus-within .elva-laser-rect {
+  animation: elvaLaserDraw 1s ease 0s 1 normal forwards running;
+}
+
+.group:focus-within .elva-laser-rect,
+.input-elva:focus-within .elva-laser-rect {
+  opacity: 0.95 !important;
+  stroke-dasharray: var(--elva-perimeter, 421), 0 !important;
+}
+
+@keyframes elvaLaserDraw {
+  0% {
+    stroke-dasharray: 0, var(--elva-perimeter, 421);
+    opacity: 1;
+  }
+  60% {
+    stroke-dasharray: var(--elva-perimeter, 421), 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: var(--elva-perimeter, 421), 0;
+    opacity: 0;
+  }
+}
+
+.input-elva {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.input-elva:hover,
+.input-elva:focus-within {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
+  box-shadow: 0 0 25px -5px rgba(133, 13, 238, 0.35), 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Elva Pill Range Slider */
+input[type="range"].slider-elva {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  height: 6px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="range"].slider-elva:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+input[type="range"].slider-elva::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #a855f7;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="range"].slider-elva::-webkit-slider-thumb:hover,
+input[type="range"].slider-elva::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.9);
+}
+
+/* Media Hero Volume Range Slider (Cross-Browser WebKit + Firefox) */
+input[type="range"].media-volume-slider {
+  --slider-track-size: 0.3125rem;
+  --slider-thumb-size: 0.875rem;
+  --slider-track-radius: 9999px;
+  --slider-thumb-radius: 50%;
+  --slider-track-color: rgba(255, 255, 255, 0.24);
+  --slider-fill-color: #fbbf24;
+  --slider-thumb-color: #ffffff;
+  --slider-direction: to right;
+  --slider-progress: 0%;
+
+  -webkit-appearance: none;
+  appearance: none;
+  block-size: 2rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].media-volume-slider:dir(rtl) {
+  --slider-direction: to left;
+}
+
+input[type="range"].media-volume-slider::-webkit-slider-runnable-track {
+  block-size: var(--slider-track-size);
+  border: 0;
+  border-radius: var(--slider-track-radius);
+  background: linear-gradient(
+    var(--slider-direction),
+    var(--slider-fill-color) var(--slider-progress),
+    var(--slider-track-color) var(--slider-progress)
+  );
+}
+
+input[type="range"].media-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  inline-size: var(--slider-thumb-size);
+  block-size: var(--slider-thumb-size);
+  margin-block-start: calc((var(--slider-track-size) - var(--slider-thumb-size)) / 2);
+  border: 2px solid var(--slider-fill-color);
+  border-radius: var(--slider-thumb-radius);
+  background: var(--slider-thumb-color);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  transition: transform 0.15s ease;
+}
+
+input[type="range"].media-volume-slider::-webkit-slider-thumb:hover,
+input[type="range"].media-volume-slider::-webkit-slider-thumb:active {
+  transform: scale(1.18);
+}
+
+input[type="range"].media-volume-slider::-moz-range-track {
+  block-size: var(--slider-track-size);
+  border: 0;
+  border-radius: var(--slider-track-radius);
+  background: var(--slider-track-color);
+}
+
+input[type="range"].media-volume-slider::-moz-range-progress {
+  block-size: var(--slider-track-size);
+  border-radius: var(--slider-track-radius);
+  background: var(--slider-fill-color);
+}
+
+input[type="range"].media-volume-slider::-moz-range-thumb {
+  inline-size: var(--slider-thumb-size);
+  block-size: var(--slider-thumb-size);
+  border: 2px solid var(--slider-fill-color);
+  border-radius: var(--slider-thumb-radius);
+  background: var(--slider-thumb-color);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  transition: transform 0.15s ease;
+}
+
+input[type="range"].media-volume-slider:focus-visible {
+  outline: 2px solid var(--slider-fill-color);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* ========================================================
+   GLOBAL VIDEO BACKDROP & SCRIM (Media Page Parity)
+   Matches src/components/media/MediaWeGoAgainClient.tsx:
+   scale-150 blur-3xl saturate-150 opacity-75 duration-1000
+   bg-gradient-to-b from-black/60 via-black/35 to-black/75
+   ======================================================== */
+:root {
+  /* Video Backdrop & Dark Overlay */
+  --backdrop-overlay-darkness: 100%;
+  --backdrop-overlay-color: #0b0414;
+  --backdrop-overlay-mode: gradient;
+  --backdrop-overlay-direction: to-top;
+  --backdrop-video-blur: 64px;
+  --backdrop-video-opacity: 0.24;
+  --backdrop-video-saturate: 106%;
+  --backdrop-video-scale: 1.5;
+  --backdrop-overlay-bg: linear-gradient(0deg, rgba(11, 4, 20, 1) 0%, rgba(11, 4, 20, 0.467) 50%, rgba(11, 4, 20, 0.8) 100%);
+  --backdrop-overlay-solid-color: transparent;
+
+  /* Analog Film Grain & Noise */
+  --backdrop-noise-display: block;
+  --backdrop-noise-opacity: 1;
+  --backdrop-noise-blend: overlay;
+  --backdrop-noise-size: 160px 160px;
+  --backdrop-noise-animation: none;
+}
+
+@utility backdrop-video-filter {
+  filter: blur(var(--backdrop-video-blur, 64px)) saturate(var(--backdrop-video-saturate, 150%)) !important;
+  transform: scale(var(--backdrop-video-scale, 1.5)) translate3d(0, 0, 0) !important;
+  opacity: var(--backdrop-video-opacity, 0.75) !important;
+  transform-origin: center center;
+  will-change: transform, filter, opacity;
+}
+
+@utility backdrop-video-overlay {
+  background: var(--backdrop-overlay-bg, linear-gradient(180deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.75) 100%)) !important;
+  background-color: var(--backdrop-overlay-solid-color, transparent) !important;
+}
+
+/* ========================================================
+   TBWA\HAKUHODO GEOMETRIC CHAMFERED BARS & COMPOSITOR MARQUEE
+   ======================================================== */
+@utility clip-tbwa-pill {
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 100%, 9px 100%);
+}
+
+@utility clip-tbwa-trapezoid {
+  clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 100%, 0 100%);
+}
+
+@keyframes tbwa-marquee-glide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.tbwa-marquee-track {
+  display: flex;
+  width: max-content;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: tbwa-marquee-glide 28s linear infinite;
+  }
+}
+
+.tbwa-marquee-track[data-paused="true"],
+.tbwa-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ========================================================
+   SMOOOTHY × DELTA CAFES INFINITE CARD STRIP UTILITIES
+   ======================================================== */
+@utility bg-delta-espresso {
+  background-color: #2b1b14;
+}
+@utility bg-delta-cream {
+  background-color: #e3c1ad;
+}
+@utility delta-tile-taupe {
+  background-color: #be9a83;
+}
+@utility delta-tile-emerald {
+  background-color: #004438;
+}
+@utility delta-tile-cobalt {
+  background-color: #002988;
+}
+@utility delta-tile-plum {
+  background-color: #3c0755;
+}
+@utility delta-tile-cerulean {
+  background-color: #0762a3;
+}
+@utility delta-tile-crimson {
+  background-color: #940047;
+}
+@utility delta-tile-forest {
+  background-color: #2b7b1e;
+}
+@utility delta-tile-terracotta {
+  background-color: #ce5e16;
+}
+@utility delta-tile-amber {
+  background-color: #f5a800;
+}
+@utility delta-tile-botanical {
+  background-color: #296d10;
+}
+
+.smooothy-card-bounce {
+  translate: 0 0;
+  will-change: translate;
+  @media (prefers-reduced-motion: no-preference) {
+    translate: var(--smooothy-card-x, 0%) var(--smooothy-card-y, 0%);
+  }
+}
+
+.smooothy-delta-parallax {
+  translate: 0 0;
+  rotate: 0deg;
+  scale: 1;
+  will-change: translate, scale;
+  @media (prefers-reduced-motion: no-preference) {
+    translate: var(--smooothy-px, 0%) var(--smooothy-py, 0%);
+  }
+}
+
+.delta-expo-media {
+  scale: 1;
+  transition: scale 0.65s cubic-bezier(0.19, 1, 0.22, 1);
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.group:hover .delta-expo-media,
+.group:focus-within .delta-expo-media {
+  @media (prefers-reduced-motion: no-preference) {
+    scale: 1.06;
+  }
+}
+
+.smooothy-video-bleed {
+  scale: 1.24;
+  transition: scale 0.65s cubic-bezier(0.19, 1, 0.22, 1);
+  @media (prefers-reduced-motion: reduce) {
+    scale: 1;
+    transition: none;
+  }
+}
+
+.group:hover .smooothy-video-bleed,
+.group:focus-within .smooothy-video-bleed {
+  @media (prefers-reduced-motion: no-preference) {
+    scale: 1.3;
+  }
+}
+
+.smooothy-progress-fill {
+  transform: scaleX(var(--smooothy-progress, 0));
+  transform-origin: left center;
+}
+
+.delta-expo-caption {
+  translate: 0 0;
+  transition:
+    opacity 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+    translate 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.delta-chapter-progress {
+  transform: scaleX(var(--chapter-progress, 0));
+  transform-origin: left center;
+}
+
+main.delta-espresso-surface,
+.delta-espresso-surface {
+  background-color: #2b1b14;
+}
+
+h1.delta-editorial-h1 {
+  font-family: var(--font-switzer), var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(2.75rem, 4.8vw + 0.75rem, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+
+h1.delta-editorial-h1 span,
+h1.delta-editorial-h1 * {
+  font-family: var(--font-switzer), var(--font-sans) !important;
+  font-weight: 300 !important;
+}
+
+html[data-delta-hero="true"] div:has(> button[aria-label="Toggle Background Video & Dark Overlay Tuner"]) {
+  display: none;
+}
+
+.delta-sound-pill {
+  background-color: rgba(20, 13, 9, 0.92);
+}
+
+.delta-sound-pill:hover {
+  background-color: rgba(28, 18, 13, 0.98);
+}
+
+.hero-idle-fade {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    translate 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  @starting-style {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    translate: none;
+    transition: opacity 0.15s ease-out;
+  }
+}
+
+.hero-idle-fade[data-idle="true"] {
+  opacity: 0;
+  translate: 0 8px;
+  pointer-events: none;
+  @media (prefers-reduced-motion: reduce) {
+    translate: none;
+  }
+}
+
+.hero-idle-fade[data-idle="true"] * {
+  pointer-events: none;
 }

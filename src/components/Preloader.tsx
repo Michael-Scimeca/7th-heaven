@@ -16,7 +16,6 @@ import {
   waitForMapReady,
   waitForMediaVideosReady,
 } from "@/lib/waitForPageReady";
-import BlurFadeHeadline, { blurFadeHeadlineDuration } from "@/components/BlurFadeHeadline";
 
 function getPageElement(): HTMLElement | null {
   if (typeof document === "undefined") return null;
@@ -68,18 +67,11 @@ const WIPE_DURATION = 0.15; // 150ms wipe reveal
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
-// Blur fade-in headline shown above the loader, played at 0.6x its normal
-// length (~1.27s). The preloader holds at least this long so the headline
-// always finishes before the wipe.
-const HEADLINE_TIME_SCALE = 0.6;
-const HEADLINE_HOLD_MS = blurFadeHeadlineDuration(HEADLINE_TIME_SCALE);
-
-// Loader fill: cycles through the palette over the same window as the
-// headline, so the bar completes as the last image settles.
+// Loader fill: cycles through the palette before the wipe reveal.
 const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
-const LOADER_TOTAL_MS = HEADLINE_HOLD_MS;
+const LOADER_TOTAL_MS = 450;
 
-const HARD_CEILING_MS = 2500;
+const HARD_CEILING_MS = 1500;
 
 // Shared with PageTransition.tsx so the preloader and every in-site
 // navigation after it read as the same curtain, not two different overlays.
@@ -96,12 +88,36 @@ const NOTE_SVG_MARKUP =
   '<path d="M3.75,10.12c0,1.24-1.48,2-2.72,1.64-.75-.22-1.18-.78-.97-1.55.39-1.06,1.69-1.53,2.75-1.19V.43C2.8.15,3.16-.01,3.34,0c.17.27.36.45.57.66.6.53,1.22.99,1.88,1.45.85.59,1.43,1.48,1.5,2.55-.33-.48-.65-.92-1.05-1.32-.37-.37-.76-.68-1.22-.93-.39-.2-.81-.34-1.25-.37l-.02,8.08Z"/>' +
   "</svg>";
 
+const PRELOADER_ENABLED = false;
+
 export default function Preloader() {
+  useEffect(() => {
+    document.documentElement.classList.remove("is-preloading");
+  }, []);
+
+  if (!PRELOADER_ENABLED) {
+    return null;
+  }
+
+  return <ActivePreloader />;
+}
+
+function ActivePreloader() {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("loading");
   const [replayKey, setReplayKey] = useState<number>(0);
   const [scrubProgress, setScrubProgress] = useState<number | null>(null);
   const [scrubNonce, setScrubNonce] = useState<number>(0);
+  const isAdminOrStudio = Boolean(
+    pathname?.startsWith("/admin") || pathname?.startsWith("/studio"),
+  );
+
+  useEffect(() => {
+    if (isAdminOrStudio) {
+      document.documentElement.classList.remove("is-preloading");
+      setPhase("done");
+    }
+  }, [isAdminOrStudio]);
 
   useEffect(() => {
     const handleReplay = () => {
@@ -338,7 +354,7 @@ export default function Preloader() {
       }
     };
 
-    if (!html.classList.contains("is-preloading") || isBypass) {
+    if (!html.classList.contains("is-preloading") || isBypass || isAdminOrStudio) {
       unlockScroll();
       setPhase("done");
       const pageEl = getPageElement();
@@ -599,37 +615,35 @@ export default function Preloader() {
         }
       }
 
+      const isHomePage = !pathname || pathname === "/";
+      const readyPromise = Promise.all([
+        waitForPageReady(),
+        waitForCanvasReady(500),
+        waitForMediaVideosReady(250),
+        ...(isHomePage ? [waitForHeroVideoReady(600)] : []),
+      ]);
+
       loaderDoneTimeout = setTimeout(async () => {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
-        // A tuner-shortened fill must not cut the headline off mid-animation.
-        const headlineRemainingMs = Math.max(0, HEADLINE_HOLD_MS - activeLoaderTotalMs);
-        const isHomePage = !pathname || pathname === "/";
-        // Signal Google Map and LazyHeavy to eagerly fetch & prepare in the background
         if (isHomePage) {
-          waitForMapReady(2000).catch(() => {});
+          waitForMapReady(1500).catch(() => {});
         }
 
-        await Promise.all([
-          waitForPageReady(),
-          waitForCanvasReady(),
-          waitForMediaVideosReady(),
-          ...(isHomePage ? [waitForHeroVideoReady(800)] : []),
-          new Promise((resolve) => setTimeout(resolve, headlineRemainingMs)),
-        ]);
+        await readyPromise;
         advanceToWipe();
       }, activeLoaderTotalMs);
     } else {
       // Refs not ready for some reason -- don't hang the site on a missing element.
       const isHomePage = !pathname || pathname === "/";
       if (isHomePage) {
-        waitForMapReady(2000).catch(() => {});
+        waitForMapReady(1500).catch(() => {});
       }
       Promise.all([
         waitForPageReady(),
-        waitForCanvasReady(),
-        waitForMediaVideosReady(),
-        ...(isHomePage ? [waitForHeroVideoReady(800)] : []),
+        waitForCanvasReady(500),
+        waitForMediaVideosReady(250),
+        ...(isHomePage ? [waitForHeroVideoReady(600)] : []),
       ]).then(() => {
         advanceToWipe();
       });
@@ -685,7 +699,7 @@ export default function Preloader() {
     };
   }, [isBypass, replayKey]);
 
-  if (pathname?.startsWith("/studio") || (phase === "done" && scrubProgress === null)) return null;
+  if (isAdminOrStudio || (phase === "done" && scrubProgress === null)) return null;
 
   return (
     <div
@@ -786,12 +800,6 @@ export default function Preloader() {
             </div>
           </div>
         </div>
-        {/* A div, not an h1: the page underneath owns the real heading. */}
-        <BlurFadeHeadline
-          key={replayKey}
-          timeScale={HEADLINE_TIME_SCALE}
-          className="preloader-headline"
-        />
       </div>
     </div>
   );

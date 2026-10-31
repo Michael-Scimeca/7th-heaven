@@ -17,6 +17,7 @@ import {
   disposeDisc,
   placeShadow,
   screenDiscToWorld,
+  type Disc,
 } from "./discScene";
 
 /** Same viewport the full-screen vault measures (it's `fixed inset-x-0 h-[100dvh]`). */
@@ -39,7 +40,8 @@ export function mountBannerDisc(host: HTMLElement, discSize: () => number, onRea
 
   let ready = false;
   let disposed = false;
-  const disc = createDisc(kit, ITEMS[0], 0, () => {
+  let disc: Disc | null = null;
+  disc = createDisc(kit, ITEMS[0], 0, () => {
     if (disposed) return;
     ready = true;
     render();
@@ -48,7 +50,7 @@ export function mountBannerDisc(host: HTMLElement, discSize: () => number, onRea
   disc.spin.rotation.z = 0; // upright, like the vault's launched disc
 
   function render() {
-    if (!ready || disposed) return;
+    if (!ready || disposed || !disc) return;
     const { w: vw, h: vh } = viewport();
     const box = host.offsetWidth; // layout size, ignores the button's hover scale
     if (!box) return;
@@ -95,7 +97,7 @@ export function mountBannerDisc(host: HTMLElement, discSize: () => number, onRea
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       ro.disconnect();
-      disposeDisc(disc);
+      if (disc) disposeDisc(disc);
       kit.dispose();
       renderer.dispose();
       renderer.domElement.remove();

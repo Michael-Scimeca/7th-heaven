@@ -45,7 +45,13 @@ import {
   ExternalLink,
   RotateCcw,
   LogIn,
+  Headphones,
+  ArrowLeft,
+  ArrowRight,
+  Phone,
 } from "lucide-react";
+import BookingAccordionLayout from "./BookingAccordionLayout";
+import BookingSummaryCard from "./BookingSummaryCard";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
 import { DotChevronDown, DotChevronRight } from "@/components/ui/DotArrow";
@@ -59,7 +65,6 @@ import PageSection from "@/components/PageSection";
 import Stack from "@/components/Stack";
 import dynamic from "next/dynamic";
 import { ScheduledShowsSection } from "./ScheduledShowsSection";
-import BookingProgressTracker from "@/components/BookingProgressTracker";
 import {
   ContactDirectorySection,
   type ContactItem,
@@ -259,7 +264,7 @@ export default function BookClient({
   );
 }
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 function BookPageContent({
   sanityContent,
@@ -298,16 +303,27 @@ function BookPageContent({
   );
 
   // Layout switcher for merged Book + Contact page:
-  // 1: Seamless Stack (Booking Form followed by Contact Directory & Department Guide)
-  // 2: Segmented Switcher (Instant interactive toggle between Booking Form and Contact Directory)
-  // 3: Split-Focus (Interactive Quick Contact Drawer / Sidebar alongside Booking)
-  const [mergedLayout, setMergedLayout] = useState<"stack" | "tabs" | "drawer">(
-    urlParams.layout === "tabs" || urlParams.layout === "2"
-      ? "tabs"
-      : urlParams.layout === "drawer" || urlParams.layout === "3"
-        ? "drawer"
-        : "stack",
+  // wizard: Modern 3-Step Sentence Wizard (Step 2 matches user's screenshot layout)
+  // stack: Seamless Stack (All sections with Sticky Summary Sidebar)
+  // tabs: Segmented Switcher (Instant interactive toggle between Booking Form and Contact Directory)
+  // drawer: Split-Focus (Interactive Quick Contact Drawer / Sidebar alongside Booking)
+  const [mergedLayout, setMergedLayout] = useState<"wizard" | "stack" | "tabs" | "drawer">(
+    urlParams.layout === "stack" || urlParams.layout === "1"
+      ? "stack"
+      : urlParams.layout === "tabs" || urlParams.layout === "2"
+        ? "tabs"
+        : urlParams.layout === "drawer" || urlParams.layout === "3"
+          ? "drawer"
+          : "wizard",
   );
+
+  const [wizardStep, setWizardStep] = useState<1 | 2 | 3>(() => {
+    if (urlParams.step === "1") return 1;
+    if (urlParams.step === "3") return 3;
+    return 2; // Default to Step 2 to match user's requested layout!
+  });
+
+  const [summaryDrawerOpen, setSummaryDrawerOpen] = useState(false);
 
   const [activeSectionView, setActiveSectionView] = useState<"book" | "contact">(
     urlParams.tab === "contact" ? "contact" : "book",
@@ -1036,6 +1052,23 @@ function BookPageContent({
     if (errors.length > 0) {
       setValidationErrors(errors);
       if (
+        !formData.name?.trim() ||
+        !formData.email?.trim() ||
+        !formData.phone?.trim()
+      ) {
+        setWizardStep(1);
+      } else if (
+        !selectedType ||
+        bookingSlots.length === 0 ||
+        !formData.startTime ||
+        !formData.endTime
+      ) {
+        setWizardStep(2);
+      } else if (!formData.venueName?.trim() || !formData.venueCity?.trim()) {
+        setWizardStep(3);
+      }
+
+      if (
         !selectedType ||
         bookingSlots.length === 0 ||
         !formData.startTime ||
@@ -1410,1240 +1443,1220 @@ function BookPageContent({
         </h1>
       </header>
 
-      {/* ── Interactive Layout Preview Selector ── */}
-      <div className="relative z-20 mx-auto mb-8 max-w-5xl px-4 sm:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-[var(--radius-box)] border border-nocturne-mauve/40 bg-nocturne-midnight/90 p-3 sm:p-4 backdrop-blur-xl shadow-[0_8px_32px_rgba(33,14,42,0.6)]">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-nocturne-rose">
-              Merged Layout Style:
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setMergedLayout("stack");
-                setActiveSectionView("book");
-              }}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                mergedLayout === "stack"
-                  ? "bg-gradient-to-r from-nocturne-plum to-nocturne-wine text-white shadow-[0_0_15px_rgba(83,17,97,0.5)] border border-nocturne-rose/40"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
-              }`}
-            >
-              Layout 1: All-In-One Stack
-            </button>
-            <button
-              type="button"
-              onClick={() => setMergedLayout("tabs")}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                mergedLayout === "tabs"
-                  ? "bg-gradient-to-r from-nocturne-plum to-nocturne-wine text-white shadow-[0_0_15px_rgba(83,17,97,0.5)] border border-nocturne-rose/40"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
-              }`}
-            >
-              Layout 2: Interactive Tabs
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMergedLayout("drawer");
-                setContactDrawerOpen(true);
-              }}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                mergedLayout === "drawer"
-                  ? "bg-gradient-to-r from-nocturne-plum to-nocturne-wine text-white shadow-[0_0_15px_rgba(83,17,97,0.5)] border border-nocturne-rose/40"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
-              }`}
-            >
-              Layout 3: Booking + Contact Drawer
-            </button>
-          </div>
-        </div>
 
-        {/* Tab switcher when in Tabs layout mode */}
-        {mergedLayout === "tabs" && (
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <div className="inline-flex rounded-full border border-white/15 bg-white/[0.04] p-1.5 backdrop-blur-md">
-              <button
-                type="button"
-                onClick={() => setActiveSectionView("book")}
-                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all ${
-                  activeSectionView === "book"
-                    ? "bg-[var(--color-accent)] text-white shadow-[0_0_16px_rgba(168,85,247,0.4)]"
-                    : "text-white/70 hover:text-white"
-                }`}
-              >
-                📅 Book The Band
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveSectionView("contact")}
-                className={`rounded-full px-6 py-2 text-sm font-semibold transition-all ${
-                  activeSectionView === "contact"
-                    ? "bg-[var(--color-accent)] text-white shadow-[0_0_16px_rgba(168,85,247,0.4)]"
-                    : "text-white/70 hover:text-white"
-                }`}
-              >
-                📞 Contact Directory & Guidelines
-              </button>
+
+      {/* ── Wizard Layout (3-Step Conversational Experience) ── */}
+      {mergedLayout === "wizard" && activeSectionView === "book" && (
+        <form
+          id="book-event-wizard"
+          className="relative z-10 mx-auto w-full pb-16 sm:pb-20"
+          onSubmit={handleSubmit}
+        >
+          {/* Validation errors banner */}
+          {validationErrors.length > 0 && (
+            <div className="mx-auto mb-6 max-w-4xl rounded-xl border border-rose-500/40 bg-rose-950/40 p-4 text-sm text-rose-200">
+              <div className="flex items-center gap-2 font-bold text-rose-300">
+                <AlertTriangle className="h-4 w-4" />
+                <span>Please complete the following required fields:</span>
+              </div>
+              <ul className="mt-2 list-disc list-inside space-y-1 text-xs text-rose-200/90">
+                {validationErrors.map((err) => (
+                  <li key={err}>{err}</li>
+                ))}
+              </ul>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Quick button in drawer mode */}
-        {mergedLayout === "drawer" && (
-          <div className="mt-4 flex items-center justify-between rounded-[var(--radius-box)] border border-nocturne-mauve/30 bg-nocturne-wine/20 px-5 py-3">
-            <span className="text-xs text-nocturne-rose">
-              Looking for direct department emails or phone numbers?
-            </span>
-            <button
-              type="button"
-              onClick={() => setContactDrawerOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-nocturne-rose/40 bg-nocturne-plum px-4 py-1.5 text-xs font-semibold text-white shadow-[0_0_12px_rgba(83,17,97,0.4)] hover:bg-nocturne-wine transition-colors"
+          <BookingAccordionLayout
+            formData={formData}
+            setFormData={setFormData}
+            bookingSlots={bookingSlots}
+            setBookingSlots={setBookingSlots}
+            selectedType={selectedType}
+            setSelectedType={(t) => {
+              setSelectedType(t);
+              setBookingSlots((prev) =>
+                prev.map((s) => ({ ...s, eventType: t || s.eventType })),
+              );
+            }}
+            blockedDates={blockedDates}
+            dateDetails={dateDetails}
+            eventTypes={eventTypes}
+            activeStep={wizardStep}
+            setActiveStep={setWizardStep}
+            onSubmit={handleSubmit}
+          />
+        </form>
+      )}
+
+      {/* Main Tabbed Conditional or Booking Form (when in stack, tabs, or drawer mode) */}
+      {mergedLayout !== "wizard" && (mergedLayout !== "tabs" || activeSectionView === "book") && (
+        <form
+          id="book-event"
+          className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] 2xl:grid-cols-[1fr_500px] lg:gap-6 xl:gap-8 pb-16 sm:pb-20"
+          onSubmit={handleSubmit}
+        >
+          <div className="steps flex flex-col page-stack">
+            {fromParam === "rebook" ? (
+              <div className="mx-[var(--spacing-gutter)] flex items-center gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/40 px-6 py-4">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                  <Check className="h-4 w-4 text-purple-300" />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm text-white">Rebooking previous event</p>
+                  <p className="mt-0.5 text-xs text-muted">
+                    All your previous event details have been copied over. Just pick a new date and tweak anything you need.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Contact Information (FIRST SECTION) */}
+            <PageSection
+              id="contact-info"
+              aria-labelledby="contact-info-heading"
+              size="sm"
+              containerClassName="animate-[fade-in-up_0.15s_ease-out_both]"
             >
-              Open Contact Directory Panel ↗
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Main Tabbed Conditional or Booking Form */}
-      {(mergedLayout !== "tabs" || activeSectionView === "book") && (
-      <form
-        id="book-event"
-        className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] 2xl:grid-cols-[1fr_500px] lg:gap-6 xl:gap-8 pb-16 sm:pb-20"
-        onSubmit={handleSubmit}
-      >
-        <div className="steps flex flex-col page-stack">
-          {fromParam === "rebook" ? (
-            <div className="mx-[var(--spacing-gutter)] flex items-center gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/40 px-6 py-4">
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
-                <Check className="h-4 w-4 text-purple-300" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-white">Rebooking previous event</p>
-                <p className="mt-0.5 text-xs text-muted">
-                  All your previous event details have been copied over. Just pick a new date and tweak anything you need.
-                </p>
-              </div>
-            </div>
-          ) : null}
-
-          {/* Contact Information (FIRST SECTION) */}
-          <PageSection
-            id="contact-info"
-            aria-labelledby="contact-info-heading"
-            size="sm"
-            containerClassName="animate-[fade-in-up_0.15s_ease-out_both]"
-          >
-            <SectionHeader
-              as="h2"
-              id="contact-info-heading"
-              title={
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span>
-                    {sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "contact",
-                    )?.title || "Contact Information"}
-                  </span>
-                  <span className="text-xs font-normal text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-full px-2.5 py-0.5">
-                    {isLoggedIn && (member?.role === "event_planner" || member?.role === "admin")
-                      ? "Auto-filled • Fully Editable"
-                      : "Auto-filled • Fully Editable"}
-                  </span>
-                </div>
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "contact",
-                )?.subtitle ||
-                "Enter your contact details so our band manager can coordinate your booking and send confirmation details."
-              }
-              icon={User}
-            />
-            <Stack gap="lg">
-              {/* Planner Status / Sign In Callout */}
-              {isLoggedIn && (member?.role === "event_planner" || member?.role === "admin") ? (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-950/20 p-4 sm:p-5 shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
-                  <div className="flex items-start sm:items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-emerald-400/30 bg-emerald-500/10 text-emerald-300">
-                      <Check className="h-4 w-4 text-emerald-300" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-sm text-white">
-                          Planner Details Pre-Filled
-                        </p>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          Live Dashboard Sync
-                        </span>
-                      </div>
-                      <p className="mt-0.5 text-xs text-muted">
-                        Signed in as {member.name || member.username || "Planner"}. Your contact &amp; venue specs are pre-filled and sync live with your Planner Dashboard.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-                    <Link
-                      href={member.username ? `/book/${member.username}` : "/book/demo"}
-                      className="transition-colors inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-400/30 bg-emerald-600/20 px-3.5 py-2 text-xs font-medium text-emerald-200 hover:bg-emerald-600/30 hover:text-white"
-                    >
-                      <span>Planner Dashboard</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={handleResetPlannerDefaults}
-                      className="transition-colors inline-flex cursor-pointer items-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/70 hover:bg-white/10 hover:text-white"
-                      title="Reset fields to standard planner defaults"
-                    >
-                      <RotateCcw className="h-3 w-3" />
-                      <span>Reset</span>
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-r from-purple-950/50 via-purple-900/30 to-purple-950/50 p-4 sm:p-5 shadow-[0_4px_24px_rgba(168,85,247,0.12)]">
-                  <div className="flex items-start sm:items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/30 bg-purple-500/20 text-purple-300">
-                      <Sparkles className="h-5 w-5 text-purple-300" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm text-white">
-                        Are you signed up as a planner?
-                      </p>
-                      <p className="mt-0.5 text-xs text-purple-200/80">
-                        Sign in for easier booking — your contact info, organization, and venue logistics will automatically pre-fill!
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => openModal("login", "planner")}
-                      className="transition-all inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-600 hover:bg-purple-500 text-white font-medium px-4 py-2 text-xs shadow-[0_0_15px_rgba(168,85,247,0.35)] hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
-                    >
-                      <LogIn className="h-3.5 w-3.5" />
-                      <span>Sign in as Planner</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <InputField
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "contact_name",
-                    )?.title || "Full Name"
-                  }
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="John Smith"
-                />
-                <InputField
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "contact_org",
-                    )?.title || "Organization"
-                  }
-                  name="organization"
-                  value={formData.organization}
-                  onChange={handleChange}
-                  placeholder="Venue or company name"
-                />
-                <InputField
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "contact_email",
-                    )?.title || "Email"
-                  }
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  placeholder="you@email.com"
-                />
-                <InputField
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "contact_phone",
-                    )?.title || "Phone"
-                  }
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  placeholder="(555) 123-4567"
-                />
-              </div>
-            </Stack>
-          </PageSection>
-
-          {/* Primary Event Schedule */}
-          <PageSection
-            id="step-1"
-                aria-labelledby="step-1-heading"
-                size="sm"
-              >
-                <SectionHeader
-                  as="h2"
-                  id="step-1-heading"
-                  title={
-                    <>
+              <SectionHeader
+                as="h2"
+                id="contact-info-heading"
+                title={
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span>
                       {sanityContent?.sections?.find(
-                        (s: any) =>
-                          s.sectionId === "schedule" ||
-                          s.sectionId === "step-1",
-                      )?.title || "Primary Event Schedule"}{" "}
-                      <span className="text-[#c27aff]">*</span>
-                    </>
-                  }
-                  subtitle={
-                    sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "contact",
+                      )?.title || "Contact Information"}
+                    </span>
+                    <span className="text-xs font-normal text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-full px-2.5 py-0.5">
+                      {isLoggedIn && (member?.role === "event_planner" || member?.role === "admin")
+                        ? "Auto-filled • Fully Editable"
+                        : "Auto-filled • Fully Editable"}
+                    </span>
+                  </div>
+                }
+                subtitle={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "contact",
+                  )?.subtitle ||
+                  "Enter your contact details so our band manager can coordinate your booking and send confirmation details."
+                }
+                icon={User}
+              />
+              <Stack gap="lg">
+                {/* Planner Status / Sign In Callout */}
+                {isLoggedIn && (member?.role === "event_planner" || member?.role === "admin") ? (
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-950/20 p-4 sm:p-5 shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
+                    <div className="flex items-start sm:items-center gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-emerald-400/30 bg-emerald-500/10 text-emerald-300">
+                        <Check className="h-4 w-4 text-emerald-300" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <p className="font-semibold text-sm text-white">
+                            Planner Details Pre-Filled
+                          </p>
+                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            Live Dashboard Sync
+                          </span>
+                        </div>
+                        <p className="mt-0.5 text-xs text-muted">
+                          Signed in as {member.name || member.username || "Planner"}. Your contact &amp; venue specs are pre-filled and sync live with your Planner Dashboard.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                      <Link
+                        href={member.username ? `/book/${member.username}` : "/book/demo"}
+                        className="transition-colors inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-400/30 bg-emerald-600/20 px-3.5 py-2 text-xs font-medium text-emerald-200 hover:bg-emerald-600/30 hover:text-white"
+                      >
+                        <span>Planner Dashboard</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={handleResetPlannerDefaults}
+                        className="transition-colors inline-flex cursor-pointer items-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                        title="Reset fields to standard planner defaults"
+                      >
+                        <RotateCcw className="h-3 w-3" />
+                        <span>Reset</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-r from-purple-950/50 via-purple-900/30 to-purple-950/50 p-4 sm:p-5 shadow-[0_4px_24px_rgba(168,85,247,0.12)]">
+                    <div className="flex items-start sm:items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/30 bg-purple-500/20 text-purple-300">
+                        <Sparkles className="h-5 w-5 text-purple-300" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm text-white">
+                          Are you signed up as a planner?
+                        </p>
+                        <p className="mt-0.5 text-xs text-purple-200/80">
+                          Sign in for easier booking — your contact info, organization, and venue logistics will automatically pre-fill!
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => openModal("login", "planner")}
+                        className="transition-all inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-600 hover:bg-purple-500 text-white font-medium px-4 py-2 text-xs shadow-[0_0_15px_rgba(168,85,247,0.35)] hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                      >
+                        <LogIn className="h-3.5 w-3.5" />
+                        <span>Sign in as Planner</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <InputField
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "contact_name",
+                      )?.title || "Full Name"
+                    }
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="John Smith"
+                  />
+                  <InputField
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "contact_org",
+                      )?.title || "Organization"
+                    }
+                    name="organization"
+                    value={formData.organization}
+                    onChange={handleChange}
+                    placeholder="Venue or company name"
+                  />
+                  <InputField
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "contact_email",
+                      )?.title || "Email"
+                    }
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="you@email.com"
+                  />
+                  <InputField
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "contact_phone",
+                      )?.title || "Phone"
+                    }
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
+              </Stack>
+            </PageSection>
+
+            {/* Primary Event Schedule */}
+            <PageSection
+              id="step-1"
+              aria-labelledby="step-1-heading"
+              size="sm"
+            >
+              <SectionHeader
+                as="h2"
+                id="step-1-heading"
+                title={
+                  <>
+                    {sanityContent?.sections?.find(
                       (s: any) =>
                         s.sectionId === "schedule" ||
                         s.sectionId === "step-1",
-                    )?.subtitle ||
-                    "Select one or more dates on the calendar to reserve 7th Heaven."
+                    )?.title || "Primary Event Schedule"}{" "}
+                    <span className="text-[#c27aff]">*</span>
+                  </>
+                }
+                subtitle={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "schedule" ||
+                      s.sectionId === "step-1",
+                  )?.subtitle ||
+                  "Select one or more dates on the calendar to reserve 7th Heaven."
+                }
+              />
+              <Stack gap="lg">
+                <CalendarPicker
+                  hideHeader
+                  hideFormat
+                  slots={bookingSlots}
+                  onChangeSlots={setBookingSlots}
+                  eventStartTime={formData.eventStartTime || "6:00 PM"}
+                  onEventStartTimeChange={(t) =>
+                    setFormData((p) => ({ ...p, eventStartTime: t }))
                   }
+                  startTime={formData.startTime}
+                  onStartTimeChange={(t) => {
+                    setFormData((p) => ({ ...p, startTime: t }));
+                    setBookingSlots((prev) =>
+                      prev.map((s) => ({ ...s, startTime: t })),
+                    );
+                  }}
+                  endTime={formData.endTime}
+                  onEndTimeChange={(t) => {
+                    setFormData((p) => ({ ...p, endTime: t }));
+                    setBookingSlots((prev) =>
+                      prev.map((s) => ({ ...s, endTime: t })),
+                    );
+                  }}
+                  eventEndTime={formData.eventEndTime || "11:00 PM"}
+                  onEventEndTimeChange={(t) =>
+                    setFormData((p) => ({ ...p, eventEndTime: t }))
+                  }
+                  loadInTime={formData.loadInTime}
+                  onLoadInTimeChange={(t) =>
+                    setFormData((p) => ({ ...p, loadInTime: t }))
+                  }
+                  isLoadInUnsure={isLoadInUnsure}
+                  onLoadInUnsureChange={(next) => {
+                    setIsLoadInUnsure(next);
+                    if (next) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        loadInTime:
+                          "Unsure — Band admin will confirm & email setup time",
+                      }));
+                    } else {
+                      setFormData((prev) => ({
+                        ...prev,
+                        loadInTime: "",
+                      }));
+                    }
+                  }}
+                  blockedDates={blockedDates}
+                  dateDetails={dateDetails}
+                  labels={pickerLabels}
+                  defaultVenueName={formData.venueName || ""}
+                  defaultVenueCity={formData.venueCity || ""}
+                  defaultVenueState={formData.venueState || ""}
+                  defaultParkingAddress={formData.parkingAddress || ""}
+                  defaultParkingType={formData.parkingType || "bus-trailer"}
+                  defaultParkingNotes={formData.parkingNotes || ""}
+                  selectedType={selectedType || "full_band"}
+                  customDetails={formData.customEventType || ""}
                 />
-                <Stack gap="lg">
-                  <CalendarPicker
-                    hideHeader
-                    hideFormat
-                    slots={bookingSlots}
-                    onChangeSlots={setBookingSlots}
-                    eventStartTime={formData.eventStartTime || "6:00 PM"}
-                    onEventStartTimeChange={(t) =>
-                      setFormData((p) => ({ ...p, eventStartTime: t }))
-                    }
-                    startTime={formData.startTime}
-                    onStartTimeChange={(t) => {
-                      setFormData((p) => ({ ...p, startTime: t }));
-                      setBookingSlots((prev) =>
-                        prev.map((s) => ({ ...s, startTime: t })),
-                      );
-                    }}
-                    endTime={formData.endTime}
-                    onEndTimeChange={(t) => {
-                      setFormData((p) => ({ ...p, endTime: t }));
-                      setBookingSlots((prev) =>
-                        prev.map((s) => ({ ...s, endTime: t })),
-                      );
-                    }}
-                    eventEndTime={formData.eventEndTime || "11:00 PM"}
-                    onEventEndTimeChange={(t) =>
-                      setFormData((p) => ({ ...p, eventEndTime: t }))
-                    }
-                    loadInTime={formData.loadInTime}
-                    onLoadInTimeChange={(t) =>
-                      setFormData((p) => ({ ...p, loadInTime: t }))
-                    }
-                    isLoadInUnsure={isLoadInUnsure}
-                    onLoadInUnsureChange={(next) => {
-                      setIsLoadInUnsure(next);
-                      if (next) {
-                        setFormData((prev) => ({
-                          ...prev,
-                          loadInTime:
-                            "Unsure — Band admin will confirm & email setup time",
-                        }));
-                      } else {
-                        setFormData((prev) => ({
-                          ...prev,
-                          loadInTime: "",
-                        }));
-                      }
-                    }}
-                    blockedDates={blockedDates}
-                    dateDetails={dateDetails}
-                    labels={pickerLabels}
-                    defaultVenueName={formData.venueName || ""}
-                    defaultVenueCity={formData.venueCity || ""}
-                    defaultVenueState={formData.venueState || ""}
-                    defaultParkingAddress={formData.parkingAddress || ""}
-                    defaultParkingType={formData.parkingType || "bus-trailer"}
-                    defaultParkingNotes={formData.parkingNotes || ""}
-                    selectedType={selectedType || "full_band"}
-                    customDetails={formData.customEventType || ""}
-                  />
-                </Stack>
-              </PageSection>
+              </Stack>
+            </PageSection>
 
-              {/* Event Format */}
-              <PageSection
-                id="event-format"
-                aria-labelledby="event-format-heading"
-                size="sm"
-              >
-                <SectionHeader
-                  as="h2"
-                  id="event-format-heading"
-                  title={
-                    sanityContent?.sections?.find(
-                      (s: any) =>
-                        s.sectionId === "formats" ||
-                        s.sectionId === "format",
-                    )?.title ||
-                    pickerLabels?.eventFormatHeading ||
-                    "Event Format"
-                  }
-                  subtitle={
-                    sanityContent?.sections?.find(
-                      (s: any) =>
-                        s.sectionId === "formats" ||
-                        s.sectionId === "format",
-                    )?.subtitle ||
-                    "Choose the performance style for your date"
-                  }
+            {/* Event Format */}
+            <PageSection
+              id="event-format"
+              aria-labelledby="event-format-heading"
+              size="sm"
+            >
+              <SectionHeader
+                as="h2"
+                id="event-format-heading"
+                title={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "formats" ||
+                      s.sectionId === "format",
+                  )?.title ||
+                  pickerLabels?.eventFormatHeading ||
+                  "Event Format"
+                }
+                subtitle={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "formats" ||
+                      s.sectionId === "format",
+                  )?.subtitle ||
+                  "Choose the performance style for your date"
+                }
+              />
+              <Stack gap="lg">
+                <EventFormatPicker
+                  hideHeader
+                  selectedType={selectedType || undefined}
+                  onSelectType={(t) => {
+                    setSelectedType(t);
+                    setBookingSlots((prev) =>
+                      prev.map((s) => ({ ...s, eventType: t || s.eventType })),
+                    );
+                  }}
+                  customDetails={formData.customEventType}
+                  onCustomDetailsChange={(d) => {
+                    setFormData((p) => ({ ...p, customEventType: d }));
+                    setBookingSlots((prev) =>
+                      prev.map((s) => ({ ...s, customEventType: d })),
+                    );
+                  }}
+                  labels={pickerLabels}
                 />
-                <Stack gap="lg">
-                  <EventFormatPicker
-                    hideHeader
-                    selectedType={selectedType || undefined}
-                    onSelectType={(t) => {
-                      setSelectedType(t);
-                      setBookingSlots((prev) =>
-                        prev.map((s) => ({ ...s, eventType: t || s.eventType })),
-                      );
-                    }}
-                    customDetails={formData.customEventType}
-                    onCustomDetailsChange={(d) => {
-                      setFormData((p) => ({ ...p, customEventType: d }));
-                      setBookingSlots((prev) =>
-                        prev.map((s) => ({ ...s, customEventType: d })),
-                      );
-                    }}
-                    labels={pickerLabels}
-                  />
 
-                  {/* Pricing hint per type */}
-                  {selectedType && (
-                    <div className="rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 px-4 py-2.5 text-xs leading-relaxed text-white/70">
-                      <span className="font-semibold text-purple-300">Pricing Guide:</span>{" "}
-                      {selectedType === "full_band" &&
-                        "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
-                      {selectedType === "unplugged" &&
-                        "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
-                      {selectedType === "private" &&
-                        "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
-                      {selectedType === "custom" &&
-                        "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
-                    </div>
-                  )}
-                </Stack>
-              </PageSection>
+                {/* Pricing hint per type */}
+                {selectedType && (
+                  <div className="rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 px-4 py-2.5 text-xs leading-relaxed text-white/70">
+                    <span className="font-semibold text-purple-300">Pricing Guide:</span>{" "}
+                    {selectedType === "full_band" &&
+                      "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
+                    {selectedType === "unplugged" &&
+                      "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
+                    {selectedType === "private" &&
+                      "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
+                    {selectedType === "custom" &&
+                      "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
+                  </div>
+                )}
+              </Stack>
+            </PageSection>
 
-          {/* Venue Location & Parking Logistics */}
-          <PageSection
-            id="venue-logistics"
-            aria-labelledby="venue-info-heading"
-            size="sm"
-          >
-            <SectionHeader
-              as="h2"
-              id="venue-info-heading"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "venue",
-                )?.title || "Venue Location & Parking Logistics"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "venue_address" ||
-                    s.sectionId === "address",
-                )?.subtitle ||
-                "Provide the physical street address, city, state, and select parking / load-in access for the band bus and crew."
-              }
-              icon={MapPin}
-            />
-            <Stack gap="lg">
-              {addressNotification && (
-                <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3 rounded-[var(--radius-box)]">
-                  <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
-                  <span>{addressNotification}</span>
-                </div>
-              )}
-              {/* 2-Column Grid: Left inputs (7 cols) + Right Live Google Map (5 cols) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-                {/* Left Column: Location & Parking Inputs */}
-                <div className="lg:col-span-7 flex flex-col gap-6">
-                  {/* Location Inputs Block */}
-                  <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-purple-400" />
-                        <h3 className="text-white">1. Physical Venue Location</h3>
+            {/* Venue Location & Parking Logistics */}
+            <PageSection
+              id="venue-logistics"
+              aria-labelledby="venue-info-heading"
+              size="sm"
+            >
+              <SectionHeader
+                as="h2"
+                id="venue-info-heading"
+                title={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "venue",
+                  )?.title || "Venue Location & Parking Logistics"
+                }
+                subtitle={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "venue_address" ||
+                      s.sectionId === "address",
+                  )?.subtitle ||
+                  "Provide the physical street address, city, state, and select parking / load-in access for the band bus and crew."
+                }
+                icon={MapPin}
+              />
+              <Stack gap="lg">
+                {addressNotification && (
+                  <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3 rounded-[var(--radius-box)]">
+                    <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
+                    <span>{addressNotification}</span>
+                  </div>
+                )}
+                {/* 2-Column Grid: Left inputs (7 cols) + Right Live Google Map (5 cols) */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                  {/* Left Column: Location & Parking Inputs */}
+                  <div className="lg:col-span-7 flex flex-col gap-6">
+                    {/* Location Inputs Block */}
+                    <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-purple-400" />
+                          <h3 className="text-white">1. Physical Venue Location</h3>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-4">
+                        <InputField
+                          label="Venue Name"
+                          name="venueName"
+                          value={formData.venueName}
+                          onChange={handleChange}
+                          required
+                          placeholder="e.g. Navy Pier Grand Ballroom or Bridges Scoreboard"
+                        />
+
+                        <InputField
+                          label="Street Address"
+                          name="parkingAddress"
+                          value={formData.parkingAddress}
+                          onChange={handleChange}
+                          required
+                          placeholder="e.g. 600 E Grand Ave or 980 S Bartlett Rd, Lot B"
+                        />
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <InputField
+                            label="City"
+                            name="venueCity"
+                            value={formData.venueCity}
+                            onChange={handleChange}
+                            required
+                            placeholder="e.g. Chicago"
+                          />
+                          <InputField
+                            label="State"
+                            name="venueState"
+                            value={formData.venueState}
+                            onChange={handleChange}
+                            required
+                            placeholder="e.g. IL"
+                          />
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
-                      <InputField
-                        label="Venue Name"
-                        name="venueName"
-                        value={formData.venueName}
-                        onChange={handleChange}
-                        required
-                        placeholder="e.g. Navy Pier Grand Ballroom or Bridges Scoreboard"
-                      />
+                    {/* Parking Options Block */}
+                    <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                        <div className="flex items-center gap-2">
+                          <Bus className="h-4 w-4 text-cyan-400" />
+                          <h3 className="text-white">2. Parking &amp; Load-In Access Options</h3>
+                        </div>
+                        <span className="text-[11px] text-cyan-300 font-medium">Select primary option</span>
+                      </div>
 
-                      <InputField
-                        label="Street Address"
-                        name="parkingAddress"
-                        value={formData.parkingAddress}
-                        onChange={handleChange}
-                        required
-                        placeholder="e.g. 600 E Grand Ave or 980 S Bartlett Rd, Lot B"
-                      />
+                      {/* Parking Option Cards */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {PARKING_OPTIONS.map((opt) => {
+                          const Icon = opt.icon;
+                          const isSelected = (formData.parkingType || "bus-trailer") === opt.id;
+                          return (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  parkingType: opt.id,
+                                }));
+                              }}
+                              className={`flex items-start gap-3 p-3 rounded-[var(--radius-box)] border text-left transition-all cursor-pointer ${isSelected
+                                ? "border-cyan-400 bg-cyan-950/40 text-white shadow-lg shadow-cyan-950/50"
+                                : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
+                                }`}
+                            >
+                              <div className={`p-2 rounded-lg shrink-0 mt-0.5 ${isSelected ? "bg-cyan-500/20 text-cyan-300" : "bg-white/5 text-white/50"}`}>
+                                <Icon className="h-4 w-4" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="font-semibold text-xs text-white leading-tight">{opt.label}</p>
+                                <p className="text-[11px] text-white/50 leading-snug mt-0.5 line-clamp-2">{opt.description}</p>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <InputField
-                          label="City"
-                          name="venueCity"
-                          value={formData.venueCity}
+                      {/* Detailed Gate & Parking Directions Textarea */}
+                      <div className="flex flex-col gap-2 pt-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <label htmlFor="parkingNotes" className="min-w-0 whitespace-normal text-xs font-semibold uppercase tracking-wider text-white/60">
+                            Specific Gate / Dock &amp; Load-in Instructions
+                          </label>
+                          <div className="flex flex-wrap items-center gap-2 text-xs">
+                            <button
+                              type="button"
+                              onClick={() => setShowMapPicker(true)}
+                              className="transition-colors flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
+                            >
+                              <MapPin className="h-3.5 w-3.5" /> Pick on Map
+                            </button>
+                            <span className="text-white/20">•</span>
+                            <a
+                              href={bookGoogleMapsUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="transition-colors flex items-center gap-1 text-cyan-300 hover:text-white hover:underline"
+                            >
+                              <Compass className="h-3.5 w-3.5" /> Search Google Maps ↗
+                            </a>
+                            <span className="text-white/20">•</span>
+                            <button
+                              type="button"
+                              onClick={() => handleSaveCurrentAddress()}
+                              className="transition-colors flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
+                            >
+                              <Bookmark className="h-3.5 w-3.5" /> Save Favorite
+                            </button>
+                          </div>
+                        </div>
+                        <GlowTextarea
+                          id="parkingNotes"
+                          name="parkingNotes"
+                          value={formData.parkingNotes}
                           onChange={handleChange}
-                          required
-                          placeholder="e.g. Chicago"
-                        />
-                        <InputField
-                          label="State"
-                          name="venueState"
-                          value={formData.venueState}
-                          onChange={handleChange}
-                          required
-                          placeholder="e.g. IL"
+                          rows={3}
+                          placeholder="e.g. Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate."
+                          className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white text-sm"
                         />
                       </div>
                     </div>
                   </div>
 
-                  {/* Parking Options Block */}
-                  <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  {/* Right Column: Live Google Map Preview & Venue Telemetry */}
+                  <div className="lg:col-span-5 flex flex-col justify-between relative overflow-hidden min-h-[460px] sticky top-28 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+                    {/* Top Header: Title, City & View Mode Switcher */}
+                    <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                       <div className="flex items-center gap-2">
-                        <Bus className="h-4 w-4 text-cyan-400" />
-                        <h3 className="text-white">2. Parking &amp; Load-In Access Options</h3>
+                        <span className="flex items-center gap-1.5 text-xs font-bold text-rose-300 uppercase tracking-wider">
+                          <MapPin className="h-4 w-4 text-rose-400" />
+                          LIVE GOOGLE MAP
+                        </span>
+                        <span className="text-xs text-white/50">{formData.venueCity || "Chicago"}, {formData.venueState || "IL"}</span>
                       </div>
-                      <span className="text-[11px] text-cyan-300 font-medium">Select primary option</span>
+
+                      {/* Map View Switcher Pills */}
+                      <div className="flex items-center rounded-full bg-white/[0.06] p-0.5 border border-white/10 text-[11px]">
+                        <button
+                          type="button"
+                          onClick={() => setBookMapMode("map")}
+                          className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "map"
+                            ? "bg-rose-500/80 text-white shadow-sm"
+                            : "text-white/60 hover:text-white"
+                            }`}
+                        >
+                          Map
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setBookMapMode("satellite")}
+                          className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "satellite"
+                            ? "bg-rose-500/80 text-white shadow-sm"
+                            : "text-white/60 hover:text-white"
+                            }`}
+                        >
+                          Satellite
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setBookMapMode("radar")}
+                          className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "radar"
+                            ? "bg-purple-600/80 text-white shadow-sm"
+                            : "text-white/60 hover:text-white"
+                            }`}
+                        >
+                          Radar
+                        </button>
+                      </div>
                     </div>
 
-                    {/* Parking Option Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {PARKING_OPTIONS.map((opt) => {
-                        const Icon = opt.icon;
-                        const isSelected = (formData.parkingType || "bus-trailer") === opt.id;
+                    {/* Center Content: Interactive Google Map iframe OR Radar Telemetry */}
+                    <div className="relative z-10 my-3 flex-1 min-h-[280px] rounded-[var(--radius-box)] overflow-hidden border border-white/10 bg-black/60">
+                      {bookMapMode === "radar" ? (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                          <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+                          <div className="relative flex items-center justify-center">
+                            <span className="absolute h-16 w-16 rounded-full bg-rose-500/20 animate-ping" />
+                            <span className="absolute h-10 w-10 rounded-full bg-rose-500/40" />
+                            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-rose-600 text-white shadow-lg shadow-rose-600/50">
+                              <MapPin className="h-4 w-4" />
+                            </div>
+                          </div>
+                          <p className="mt-3 text-sm font-bold text-white text-center">{formData.venueName || "Venue Location"}</p>
+                          <p className="text-xs text-white/60 text-center">
+                            {formData.parkingAddress || (formData.venueCity ? `${formData.venueCity}, ${formData.venueState || ""}` : "Address not entered yet")}
+                          </p>
+                        </div>
+                      ) : (
+                        <iframe
+                          src={bookEmbedUrl}
+                          title={`Google Map - ${formData.venueName || "Venue Location"}`}
+                          className="absolute inset-0 h-full w-full border-0 block"
+                          loading="lazy"
+                          allowFullScreen
+                          referrerPolicy="no-referrer-when-downgrade"
+                          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
+                        />
+                      )}
+                    </div>
+
+                    {/* Bottom Venue Footer & Open in Google Maps Link */}
+                    <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs">
+                      <div className="min-w-0 max-w-[65%]">
+                        <p className="text-white font-semibold truncate">{formData.venueName || "Venue Not Specified Yet"}</p>
+                        <p className="text-white/50 text-[11px] truncate">
+                          Access: <strong className="text-cyan-300 font-medium">{PARKING_OPTIONS.find((p) => p.id === (formData.parkingType || "bus-trailer"))?.short || "Bus & Trailer"}</strong>
+                        </p>
+                      </div>
+                      <a
+                        href={bookGoogleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] border border-white/10 text-cyan-300 hover:text-white transition-all font-medium text-xs shrink-0 cursor-pointer"
+                      >
+                        <span>Open in Google Maps</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Interactive Map Picker Modal */}
+                <MapPickerModal
+                  isOpen={showMapPicker}
+                  onClose={() => setShowMapPicker(false)}
+                  initialAddress={
+                    formData.parkingAddress ||
+                    `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()
+                  }
+                  savedAddresses={savedAddresses}
+                  onSelectSaved={handleSelectSavedAddress}
+                  onSaveNewAddress={handleSaveCurrentAddress}
+                  onDeleteSavedAddress={handleDeleteSavedAddress}
+                  onSave={(savedAddr, fullData) => {
+                    if (fullData && (fullData.venueName || fullData.venueCity)) {
+                      handleSelectSavedAddress(fullData as SavedAddress);
+                    } else {
+                      setFormData((prev) => ({
+                        ...prev,
+                        parkingAddress: savedAddr,
+                      }));
+                      setAddressNotification(
+                        `Updated venue address to: ${savedAddr}`,
+                      );
+                      setTimeout(() => setAddressNotification(null), 3000);
+                    }
+                  }}
+                />
+              </Stack>
+            </PageSection>
+
+            {/* Technical & Logistics */}
+            <PageSection
+              id="tech-specs"
+              aria-labelledby="tech-info-heading"
+              size="sm"
+            >
+              <SectionHeader
+                as="h2"
+                id="tech-info-heading"
+                title={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "logistics",
+                  )?.title || "Technical & Logistics"
+                }
+                subtitle={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "logistics",
+                  )?.subtitle ||
+                  "Detail venue stage setup, indoor/outdoor preferences, and sound system requirements."
+                }
+                icon={Sliders}
+              />
+              <Stack gap="4">
+                <RadioPillField
+                  label={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "logistics_indoor",
+                    )?.title || "Indoor / Outdoor"
+                  }
+                  name="indoorOutdoor"
+                  value={formData.indoorOutdoor}
+                  onChange={handleChange}
+                  options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]}
+                />
+                <RadioPillField
+                  label={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "logistics_sound",
+                    )?.title || "Sound System Available?"
+                  }
+                  name="soundSystem"
+                  value={formData.soundSystem}
+                  onChange={handleChange}
+                  options={[
+                    "Yes — full PA system",
+                    "Partial — need supplemental",
+                    "No — band needs to provide",
+                    "Not sure",
+                  ]}
+                />
+                <RadioPillField
+                  label={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "logistics_stage",
+                    )?.title || "Stage Available?"
+                  }
+                  name="stageAvailable"
+                  value={formData.stageAvailable}
+                  onChange={handleChange}
+                  options={[
+                    "Yes",
+                    "No — performing at floor level",
+                    "Portable / riser can be arranged",
+                    "Not sure",
+                  ]}
+                />
+                <RadioPillField
+                  label={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "logistics_backline",
+                    )?.title || "Backline Provided?"
+                  }
+                  name="backlineProvided"
+                  value={formData.backlineProvided}
+                  onChange={handleChange}
+                  options={[
+                    "Yes — amps, drums, etc.",
+                    "Partial",
+                    "No — band brings everything",
+                    "Not sure",
+                  ]}
+                />
+
+                <div className="grid grid-cols-1 gap-8 border-t border-white/10 pt-8 md:grid-cols-2">
+                  <div>
+                    <InputField
+                      label={
+                        sanityContent?.sections?.find(
+                          (s: any) => s.sectionId === "attendance",
+                        )?.title || "Expected Attendance"
+                      }
+                      name="expectedAttendance"
+                      value={formData.expectedAttendance}
+                      onChange={handleChange}
+                      placeholder={
+                        sanityContent?.sections?.find(
+                          (s: any) => s.sectionId === "attendance",
+                        )?.subtitle || "~200 people"
+                      }
+                    />
+                  </div>
+                </div>
+              </Stack>
+            </PageSection>
+
+            {/* Step 5: Additional Options (Hidden if no options defined) */}
+            {(() => {
+              const options = [] as {
+                id: string;
+                icon: string;
+                label: string;
+                desc: string;
+              }[];
+              if (options.length === 0) return null;
+              return (
+                <PageSection
+                  id="budget-extras"
+                  aria-labelledby="budget-info-heading"
+                  size="sm"
+                >
+                  <SectionHeader
+                    as="h2"
+                    id="budget-info-heading"
+                    title={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "extras",
+                      )?.title || "Production & Extras"
+                    }
+                    subtitle={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "extras",
+                      )?.subtitle ||
+                      "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."
+                    }
+                    icon={Sparkles}
+                  />
+                  <Stack gap="lg">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      {options.map((option) => {
+                        const addOnsSet = new Set(addOns);
+                        const isActive = addOnsSet.has(option.id);
                         return (
                           <button
-                            key={opt.id}
+                            key={option.id}
                             type="button"
-                            onClick={() => {
-                              setFormData((prev) => ({
-                                ...prev,
-                                parkingType: opt.id,
-                              }));
-                            }}
-                            className={`flex items-start gap-3 p-3 rounded-[var(--radius-box)] border text-left transition-all cursor-pointer ${isSelected
-                              ? "border-cyan-400 bg-cyan-950/40 text-white shadow-lg shadow-cyan-950/50"
-                              : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
-                              }`}
+                            aria-label={`Toggle ${option.label} option`}
+                            onClick={() =>
+                              setAddOns((prev) =>
+                                isActive
+                                  ? prev.filter((a) => a !== option.id)
+                                  : [...prev, option.id],
+                              )
+                            }
+                            className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
                           >
-                            <div className={`p-2 rounded-lg shrink-0 mt-0.5 ${isSelected ? "bg-cyan-500/20 text-cyan-300" : "bg-white/5 text-white/50"}`}>
-                              <Icon className="h-4 w-4" />
-                            </div>
+                            <span className="mt-0.5 text-xl">{option.icon}</span>
                             <div className="min-w-0 flex-1">
-                              <p className="font-semibold text-xs text-white leading-tight">{opt.label}</p>
-                              <p className="text-[11px] text-white/50 leading-snug mt-0.5 line-clamp-2">{opt.description}</p>
+                              <div className="flex items-center gap-2">
+                                <span className="block">{option.label}</span>
+                              </div>
+                              <span className="block">{option.desc}</span>
                             </div>
                           </button>
                         );
                       })}
                     </div>
+                  </Stack>
+                </PageSection>
+              );
+            })()}
 
-                    {/* Detailed Gate & Parking Directions Textarea */}
-                    <div className="flex flex-col gap-2 pt-2">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <label htmlFor="parkingNotes" className="min-w-0 whitespace-normal text-xs font-semibold uppercase tracking-wider text-white/60">
-                          Specific Gate / Dock &amp; Load-in Instructions
-                        </label>
-                        <div className="flex flex-wrap items-center gap-2 text-xs">
-                          <button
-                            type="button"
-                            onClick={() => setShowMapPicker(true)}
-                            className="transition-colors flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
-                          >
-                            <MapPin className="h-3.5 w-3.5" /> Pick on Map
-                          </button>
-                          <span className="text-white/20">•</span>
-                          <a
-                            href={bookGoogleMapsUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition-colors flex items-center gap-1 text-cyan-300 hover:text-white hover:underline"
-                          >
-                            <Compass className="h-3.5 w-3.5" /> Search Google Maps ↗
-                          </a>
-                          <span className="text-white/20">•</span>
-                          <button
-                            type="button"
-                            onClick={() => handleSaveCurrentAddress()}
-                            className="transition-colors flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
-                          >
-                            <Bookmark className="h-3.5 w-3.5" /> Save Favorite
-                          </button>
-                        </div>
+            {/* Notes & Questions */}
+            <PageSection
+              id="notes-section"
+              aria-labelledby="hold-confirm-heading"
+              size="sm"
+            >
+              <SectionHeader
+                as="h2"
+                id="hold-confirm-heading"
+                title={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "notes" ||
+                      s.sectionId === "notes-section" ||
+                      s.sectionId === "hold-confirm",
+                  )?.title || "Notes & Questions"
+                }
+                subtitle={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "notes" ||
+                      s.sectionId === "notes-section" ||
+                      s.sectionId === "hold-confirm",
+                  )?.subtitle ||
+                  "Anything else you'd like to mention? Special requests, questions, or details for our band manager."
+                }
+                icon={MessageSquare}
+              />
+              <Stack gap="md">
+                <label htmlFor="details" className="sr-only text-white/90">
+                  {sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "notes" ||
+                      s.sectionId === "notes-section" ||
+                      s.sectionId === "hold-confirm",
+                  )?.ctaText || "Notes and Questions for Band Manager"}
+                </label>
+                <GlowTextarea
+                  id="details"
+                  name="details"
+                  aria-label={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "notes" ||
+                        s.sectionId === "notes-section" ||
+                        s.sectionId === "hold-confirm",
+                    )?.ctaText || "Notes and Questions for Band Manager"
+                  }
+                  value={formData.details}
+                  onChange={handleChange}
+                  rows={5}
+                  placeholder={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "notes" ||
+                        s.sectionId === "notes-section" ||
+                        s.sectionId === "hold-confirm",
+                    )?.body ||
+                    "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
+                  }
+                  className="focus-ring w-full resize-none"
+                  aria-describedby={formData.details ? "details-helper" : undefined}
+                />
+                {formData.details && (
+                  <HelperText id="details-helper" tone="success">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                    <span>Note attached to your booking</span>
+                  </HelperText>
+                )}
+              </Stack>
+            </PageSection>
+
+            {/* Scheduled Shows (Multi-show configuration) - Placed as the last section */}
+            <ScheduledShowsSection
+              sanityContent={sanityContent}
+              bookingSlots={bookingSlots}
+              setBookingSlots={setBookingSlots}
+              dateDetails={dateDetails}
+              expandedMetadata={expandedMetadata}
+              setExpandedMetadata={setExpandedMetadata}
+              formData={formData}
+              hasSavedForm={hasSavedForm}
+              selectedType={selectedType}
+            />
+
+            {/* Honeypot */}
+            <div className="hidden" aria-hidden="true">
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={(e) =>
+                  setFormData({ ...formData, website: e.target.value })
+                }
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {/* Form Submit Action */}
+            <div className="mx-[var(--spacing-gutter)] flex items-center justify-end border-t border-white/10 pt-6">
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                disabled={submitting}
+              >
+                {submitting ? (
+                  <>
+                    <span className="h-4 w-4 animate-spin border-2 border-black border-t-transparent" />
+                    Submitting Request...
+                  </>
+                ) : (
+                  "Submit Booking Request"
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {/* Right Column: Sticky Summary Sidebar (Restored Layout from Image 1) */}
+          {(() => {
+            const isStep1Complete = Boolean(formData.name?.trim() && formData.email?.trim() && formData.phone?.trim());
+            const isStep2Complete = bookingSlots.length > 0 && Boolean(selectedType);
+            const isStep3Complete = Boolean(formData.venueName?.trim() && formData.venueCity?.trim());
+
+            const completedSteps = (isStep1Complete ? 1 : 0) + (isStep2Complete ? 1 : 0) + (isStep3Complete ? 1 : 0);
+            const progressPercent = Math.round((completedSteps / 3) * 100);
+
+            let currentStepTitle = "STEP 1 OF 3";
+            let currentStepPrompt = "Enter your contact details";
+
+            if (!isStep1Complete) {
+              currentStepTitle = "STEP 1 OF 3";
+              currentStepPrompt = "Enter your contact details";
+            } else if (!isStep2Complete) {
+              currentStepTitle = "STEP 2 OF 3";
+              currentStepPrompt = "Pick your show dates";
+            } else if (!isStep3Complete) {
+              currentStepTitle = "STEP 3 OF 3";
+              currentStepPrompt = "Venue & production details";
+            } else {
+              currentStepTitle = "ALL STEPS READY";
+              currentStepPrompt = "Review & submit request";
+            }
+
+            return (
+              <aside
+                aria-label="Booking Summary"
+                className="sticky top-25 md:mt-6 lg:mt-0 mt-6 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
+              >
+                <div className="rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-6 sm:p-7 shadow-2xl backdrop-blur-md">
+                  {/* Step Progress Header with Circular Progress Ring */}
+                  <div className="flex items-center gap-3.5 pb-5 mb-5 border-b border-white/10">
+                    <div className="relative flex h-12 w-12 shrink-0 items-center justify-center">
+                      <svg className="h-12 w-12 shrink-0 -rotate-90" viewBox="0 0 48 48" aria-hidden="true">
+                        <circle
+                          cx="24"
+                          cy="24"
+                          r="19"
+                          stroke="currentColor"
+                          strokeWidth="3.5"
+                          fill="transparent"
+                          className="text-white/10"
+                        />
+                        <circle
+                          cx="24"
+                          cy="24"
+                          r="19"
+                          stroke="#06b6d4"
+                          strokeWidth="3.5"
+                          fill="transparent"
+                          strokeDasharray={2 * Math.PI * 19}
+                          strokeDashoffset={2 * Math.PI * 19 * (1 - Math.max(0.06, progressPercent / 100))}
+                          strokeLinecap="round"
+                          className="transition-all duration-500 ease-out"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-[11px] font-bold text-white font-mono">
+                          {progressPercent}%
+                        </span>
                       </div>
-                      <GlowTextarea
-                        id="parkingNotes"
-                        name="parkingNotes"
-                        value={formData.parkingNotes}
-                        onChange={handleChange}
-                        rows={3}
-                        placeholder="e.g. Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate."
-                        className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white text-sm"
-                      />
                     </div>
-                  </div>
-                </div>
 
-                {/* Right Column: Live Google Map Preview & Venue Telemetry */}
-                <div className="lg:col-span-5 flex flex-col justify-between relative overflow-hidden min-h-[460px] sticky top-28 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
-                  {/* Top Header: Title, City & View Mode Switcher */}
-                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-rose-300 uppercase tracking-wider">
-                        <MapPin className="h-4 w-4 text-rose-400" />
-                        LIVE GOOGLE MAP
+                    <div className="min-w-0">
+                      <span className="block text-[11px] font-bold uppercase tracking-widest text-white/50">
+                        {currentStepTitle}
                       </span>
-                      <span className="text-xs text-white/50">{formData.venueCity || "Chicago"}, {formData.venueState || "IL"}</span>
-                    </div>
-
-                    {/* Map View Switcher Pills */}
-                    <div className="flex items-center rounded-full bg-white/[0.06] p-0.5 border border-white/10 text-[11px]">
-                      <button
-                        type="button"
-                        onClick={() => setBookMapMode("map")}
-                        className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "map"
-                          ? "bg-rose-500/80 text-white shadow-sm"
-                          : "text-white/60 hover:text-white"
-                          }`}
-                      >
-                        Map
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setBookMapMode("satellite")}
-                        className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "satellite"
-                          ? "bg-rose-500/80 text-white shadow-sm"
-                          : "text-white/60 hover:text-white"
-                          }`}
-                      >
-                        Satellite
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setBookMapMode("radar")}
-                        className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "radar"
-                          ? "bg-purple-600/80 text-white shadow-sm"
-                          : "text-white/60 hover:text-white"
-                          }`}
-                      >
-                        Radar
-                      </button>
+                      <span className="block text-sm sm:text-base font-bold text-white truncate">
+                        {currentStepPrompt}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Center Content: Interactive Google Map iframe OR Radar Telemetry */}
-                  <div className="relative z-10 my-3 flex-1 min-h-[280px] rounded-[var(--radius-box)] overflow-hidden border border-white/10 bg-black/60">
-                    {bookMapMode === "radar" ? (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                        <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
-                        <div className="relative flex items-center justify-center">
-                          <span className="absolute h-16 w-16 rounded-full bg-rose-500/20 animate-ping" />
-                          <span className="absolute h-10 w-10 rounded-full bg-rose-500/40" />
-                          <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-rose-600 text-white shadow-lg shadow-rose-600/50">
-                            <MapPin className="h-4 w-4" />
+                  {/* Header: Title + Live Review Badge */}
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="font-[family-name:var(--font-anton)] text-3xl sm:text-4xl uppercase tracking-wider text-white">
+                      Booking Summary
+                    </h3>
+                    <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-0.5 text-xs font-semibold text-purple-300 whitespace-nowrap">
+                      Live review
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-white/50">
+                    Review dates, times and venue details before submitting.
+                  </p>
+
+                  {/* Key-Value Summary List */}
+                  <div className="mt-5 flex flex-col divide-y divide-white/10 text-sm">
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-white/50">Date</span>
+                      <span className="text-right font-medium text-white">
+                        {bookingSlots.length === 1 ? (
+                          new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                            timeZone: "UTC",
+                          })
+                        ) : bookingSlots.length > 1 ? (
+                          `${bookingSlots.length} Shows Scheduled`
+                        ) : (
+                          <span className="text-white/30">—</span>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-white/50">Time</span>
+                      <span className="text-right font-medium text-white">
+                        {bookingSlots.length === 1 && (bookingSlots[0].startTime || formData.startTime) ? (
+                          `${bookingSlots[0].startTime || formData.startTime} – ${bookingSlots[0].endTime || formData.endTime}`
+                        ) : bookingSlots.length > 1 ? (
+                          "Varies by show"
+                        ) : (
+                          <span className="text-white/30">—</span>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-white/50">Format</span>
+                      <span className="text-right font-bold text-white">
+                        {selectedType ? (
+                          eventTypes.find((t) => t.id === selectedType)?.label || "Full Band"
+                        ) : (
+                          "Full Band"
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-white/50">Venue</span>
+                      <span className="max-w-[220px] text-right font-medium text-white truncate">
+                        {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-white/50">Parking</span>
+                      <span className="text-right font-bold text-cyan-300">
+                        {PARKING_OPTIONS.find((p) => p.id === (formData.parkingType || "bus-trailer"))?.short || "Bus & Trailer"}
+                      </span>
+                    </div>
+
+                    {addOns.length > 0 && (
+                      <div className="flex items-start justify-between pt-3">
+                        <span className="text-white/50">Add-Ons</span>
+                        <div className="text-right">
+                          <span className="font-medium text-white">{addOns.length} selected</span>
+                          <div className="flex max-w-[220px] flex-wrap justify-end gap-1 mt-1">
+                            {addOns.slice(0, 3).map((id) => (
+                              <span
+                                key={id}
+                                className="rounded bg-cyan-500/20 px-2 py-0.5 text-xs text-cyan-200"
+                              >
+                                {id
+                                  .replace(/_/g, " ")
+                                  .replace(/\b\w/g, (c) => c.toUpperCase())}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                        <p className="mt-3 text-sm font-bold text-white text-center">{formData.venueName || "Venue Location"}</p>
-                        <p className="text-xs text-white/60 text-center">
-                          {formData.parkingAddress || (formData.venueCity ? `${formData.venueCity}, ${formData.venueState || ""}` : "Address not entered yet")}
-                        </p>
                       </div>
-                    ) : (
-                      <iframe
-                        src={bookEmbedUrl}
-                        title={`Google Map - ${formData.venueName || "Venue Location"}`}
-                        className="absolute inset-0 h-full w-full border-0 block"
-                        loading="lazy"
-                        allowFullScreen
-                        referrerPolicy="no-referrer-when-downgrade"
-                        sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
-                      />
                     )}
                   </div>
 
-                  {/* Bottom Venue Footer & Open in Google Maps Link */}
-                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs">
-                    <div className="min-w-0 max-w-[65%]">
-                      <p className="text-white font-semibold truncate">{formData.venueName || "Venue Not Specified Yet"}</p>
-                      <p className="text-white/50 text-[11px] truncate">
-                        Access: <strong className="text-cyan-300 font-medium">{PARKING_OPTIONS.find((p) => p.id === (formData.parkingType || "bus-trailer"))?.short || "Bus & Trailer"}</strong>
-                      </p>
+                  {/* Validation Errors */}
+                  {validationErrors.length > 0 && (
+                    <div className="mt-4 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-300">
+                      <div className="mb-1.5 flex items-center gap-1.5 font-bold text-rose-400">
+                        <AlertTriangle className="h-4 w-4" />
+                        <span>Please check the following:</span>
+                      </div>
+                      <ul className="flex flex-col gap-1 pl-4 list-disc">
+                        {validationErrors.map((err) => (
+                          <li key={err}>{err}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <a
-                      href={bookGoogleMapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] border border-white/10 text-cyan-300 hover:text-white transition-all font-medium text-xs shrink-0 cursor-pointer"
+                  )}
+
+                  {/* Submit CTA & Terms */}
+                  <div className="mt-6 flex flex-col gap-3">
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      fullWidth
+                      type="submit"
+                      disabled={submitting}
+                      className="rounded-full bg-[#f5b842] hover:bg-[#eab03b] text-[#120d1c] font-bold py-3.5 shadow-[0_0_24px_rgba(245,184,66,0.35)] hover:shadow-[0_0_32px_rgba(245,184,66,0.5)] transition-all"
                     >
-                      <span>Open in Google Maps</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
+                      {submitting ? (
+                        <>
+                          <span className="h-4 w-4 animate-spin border-2 border-black border-t-transparent" />
+                          Submitting Request...
+                        </>
+                      ) : (
+                        "Submit Booking Request"
+                      )}
+                    </Button>
+
+                    <p className="text-center text-xs text-white/50">
+                      By submitting, you confirm you are 18 or older and agree to our{" "}
+                      <Link href="/privacy" className="text-white/70 underline hover:text-white transition-colors">
+                        Privacy Policy
+                      </Link>{" "}
+                      and{" "}
+                      <Link href="/terms" className="text-white/70 underline hover:text-white transition-colors">
+                        Terms
+                      </Link>
+                      .
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Interactive Map Picker Modal */}
-              <MapPickerModal
-                isOpen={showMapPicker}
-                onClose={() => setShowMapPicker(false)}
-                initialAddress={
-                  formData.parkingAddress ||
-                  `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()
-                }
-                savedAddresses={savedAddresses}
-                onSelectSaved={handleSelectSavedAddress}
-                onSaveNewAddress={handleSaveCurrentAddress}
-                onDeleteSavedAddress={handleDeleteSavedAddress}
-                onSave={(savedAddr, fullData) => {
-                  if (fullData && (fullData.venueName || fullData.venueCity)) {
-                    handleSelectSavedAddress(fullData as SavedAddress);
-                  } else {
-                    setFormData((prev) => ({
-                      ...prev,
-                      parkingAddress: savedAddr,
-                    }));
-                    setAddressNotification(
-                      `Updated venue address to: ${savedAddr}`,
-                    );
-                    setTimeout(() => setAddressNotification(null), 3000);
-                  }
-                }}
-              />
-            </Stack>
-          </PageSection>
-
-          {/* Technical & Logistics */}
-          <PageSection
-            id="tech-specs"
-            aria-labelledby="tech-info-heading"
-            size="sm"
-          >
-            <SectionHeader
-              as="h2"
-              id="tech-info-heading"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "logistics",
-                )?.title || "Technical & Logistics"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "logistics",
-                )?.subtitle ||
-                "Detail venue stage setup, indoor/outdoor preferences, and sound system requirements."
-              }
-              icon={Sliders}
-            />
-            <Stack gap="4">
-              <RadioPillField
-                label={
-                  sanityContent?.sections?.find(
-                    (s: any) => s.sectionId === "logistics_indoor",
-                  )?.title || "Indoor / Outdoor"
-                }
-                name="indoorOutdoor"
-                value={formData.indoorOutdoor}
-                onChange={handleChange}
-                options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]}
-              />
-              <RadioPillField
-                label={
-                  sanityContent?.sections?.find(
-                    (s: any) => s.sectionId === "logistics_sound",
-                  )?.title || "Sound System Available?"
-                }
-                name="soundSystem"
-                value={formData.soundSystem}
-                onChange={handleChange}
-                options={[
-                  "Yes — full PA system",
-                  "Partial — need supplemental",
-                  "No — band needs to provide",
-                  "Not sure",
-                ]}
-              />
-              <RadioPillField
-                label={
-                  sanityContent?.sections?.find(
-                    (s: any) => s.sectionId === "logistics_stage",
-                  )?.title || "Stage Available?"
-                }
-                name="stageAvailable"
-                value={formData.stageAvailable}
-                onChange={handleChange}
-                options={[
-                  "Yes",
-                  "No — performing at floor level",
-                  "Portable / riser can be arranged",
-                  "Not sure",
-                ]}
-              />
-              <RadioPillField
-                label={
-                  sanityContent?.sections?.find(
-                    (s: any) => s.sectionId === "logistics_backline",
-                  )?.title || "Backline Provided?"
-                }
-                name="backlineProvided"
-                value={formData.backlineProvided}
-                onChange={handleChange}
-                options={[
-                  "Yes — amps, drums, etc.",
-                  "Partial",
-                  "No — band brings everything",
-                  "Not sure",
-                ]}
-              />
-
-              <div className="grid grid-cols-1 gap-8 border-t border-white/10 pt-8 md:grid-cols-2">
-                <div>
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "attendance",
-                      )?.title || "Expected Attendance"
-                    }
-                    name="expectedAttendance"
-                    value={formData.expectedAttendance}
-                    onChange={handleChange}
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "attendance",
-                      )?.subtitle || "~200 people"
-                    }
-                  />
-                </div>
-              </div>
-            </Stack>
-          </PageSection>
-
-          {/* Step 5: Additional Options (Hidden if no options defined) */}
-          {(() => {
-            const options = [] as {
-              id: string;
-              icon: string;
-              label: string;
-              desc: string;
-            }[];
-            if (options.length === 0) return null;
-            return (
-              <PageSection
-                id="budget-extras"
-                aria-labelledby="budget-info-heading"
-                size="sm"
-              >
-                <SectionHeader
-                  as="h2"
-                  id="budget-info-heading"
-                  title={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "extras",
-                    )?.title || "Production & Extras"
-                  }
-                  subtitle={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "extras",
-                    )?.subtitle ||
-                    "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."
-                  }
-                  icon={Sparkles}
-                />
-                <Stack gap="lg">
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    {options.map((option) => {
-                      const addOnsSet = new Set(addOns);
-                      const isActive = addOnsSet.has(option.id);
-                      return (
-                        <button
-                          key={option.id}
-                          type="button"
-                          aria-label={`Toggle ${option.label} option`}
-                          onClick={() =>
-                            setAddOns((prev) =>
-                              isActive
-                                ? prev.filter((a) => a !== option.id)
-                                : [...prev, option.id],
-                            )
-                          }
-                          className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
-                        >
-                          <span className="mt-0.5 text-xl">{option.icon}</span>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2">
-                              <span className="block">{option.label}</span>
-                            </div>
-                            <span className="block">{option.desc}</span>
-                          </div>
-                        </button>
-                      );
-                    })}
+                {/* Questions about booking? Card (Image 1) */}
+                <div className="mt-3.5 flex items-center gap-3.5 rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-4 sm:p-5 backdrop-blur-md shadow-xl">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-900/60 border border-purple-500/30 text-purple-300">
+                    <Headphones className="h-5 w-5 text-purple-300" />
                   </div>
-                </Stack>
-              </PageSection>
+                  <div>
+                    <h4 className="text-sm font-bold text-white">Questions about booking?</h4>
+                    <p className="text-xs text-white/70 mt-0.5">
+                      Call Rich Hofherr ·{" "}
+                      <a
+                        href="tel:847-551-5363"
+                        className="font-bold text-white hover:text-cyan-300 transition-colors"
+                      >
+                        847-551-5363
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </aside>
             );
           })()}
 
-          {/* Notes & Questions */}
-          <PageSection
-            id="notes-section"
-            aria-labelledby="hold-confirm-heading"
-            size="sm"
-          >
-            <SectionHeader
-              as="h2"
-              id="hold-confirm-heading"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "notes" ||
-                    s.sectionId === "notes-section" ||
-                    s.sectionId === "hold-confirm",
-                )?.title || "Notes & Questions"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "notes" ||
-                    s.sectionId === "notes-section" ||
-                    s.sectionId === "hold-confirm",
-                )?.subtitle ||
-                "Anything else you'd like to mention? Special requests, questions, or details for our band manager."
-              }
-              icon={MessageSquare}
-            />
-            <Stack gap="md">
-              <label htmlFor="details" className="sr-only text-white/90">
-                {sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "notes" ||
-                    s.sectionId === "notes-section" ||
-                    s.sectionId === "hold-confirm",
-                )?.ctaText || "Notes and Questions for Band Manager"}
-              </label>
-              <GlowTextarea
-                id="details"
-                name="details"
-                aria-label={
-                  sanityContent?.sections?.find(
-                    (s: any) =>
-                      s.sectionId === "notes" ||
-                      s.sectionId === "notes-section" ||
-                      s.sectionId === "hold-confirm",
-                  )?.ctaText || "Notes and Questions for Band Manager"
-                }
-                value={formData.details}
-                onChange={handleChange}
-                rows={5}
-                placeholder={
-                  sanityContent?.sections?.find(
-                    (s: any) =>
-                      s.sectionId === "notes" ||
-                      s.sectionId === "notes-section" ||
-                      s.sectionId === "hold-confirm",
-                  )?.body ||
-                  "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                }
-                className="focus-ring w-full resize-none"
-                aria-describedby={formData.details ? "details-helper" : undefined}
-              />
-              {formData.details && (
-                <HelperText id="details-helper" tone="success">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                  <span>Note attached to your booking</span>
-                </HelperText>
-              )}
-            </Stack>
-          </PageSection>
-
-          {/* Scheduled Shows (Multi-show configuration) - Placed as the last section */}
-          <ScheduledShowsSection
-            sanityContent={sanityContent}
-            bookingSlots={bookingSlots}
-            setBookingSlots={setBookingSlots}
-            dateDetails={dateDetails}
-            expandedMetadata={expandedMetadata}
-            setExpandedMetadata={setExpandedMetadata}
-            formData={formData}
-            hasSavedForm={hasSavedForm}
-            selectedType={selectedType}
-          />
-
-          {/* Honeypot */}
-          <div className="hidden" aria-hidden="true">
-            <input
-              type="text"
-              name="website"
-              value={formData.website}
-              onChange={(e) =>
-                setFormData({ ...formData, website: e.target.value })
-              }
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </div>
-
-          {/* Form Submit Action */}
-          <div className="mx-[var(--spacing-gutter)] flex items-center justify-end border-t border-white/10 pt-6">
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              disabled={submitting}
-            >
-              {submitting ? (
-                <>
-                  <span className="h-4 w-4 animate-spin border-2 border-black border-t-transparent" />
-                  Submitting Request...
-                </>
-              ) : (
-                "Submit Booking Request"
-              )}
-            </Button>
-          </div>
-        </div>
-
-        {/* Right Column: Sticky Summary Sidebar */}
-        <aside
-          aria-label="Booking Summary"
-          className="sticky top-25 md:mt-6 lg:mt-0 mt-6 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
-        >
-          {/* Vertical Timeline Progress Rail */}
-          <BookingProgressTracker
-            bookingSlotsCount={bookingSlots.length}
-            firstSlotDate={bookingSlots[0]?.date}
-            startTime={formData.startTime}
-            endTime={formData.endTime}
-            selectedType={selectedType}
-            selectedTypeLabel={eventTypes.find((t) => t.id === selectedType)?.label}
-            venueName={formData.venueName}
-            venueCity={formData.venueCity}
-            contactName={formData.name}
-            contactEmail={formData.email}
-            contactPhone={formData.phone}
-          />
-
-          <div className="rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-6 sm:p-7 lg:p-8 shadow-2xl backdrop-blur-md">
-            <SectionHeader
-              as="h3"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "summary" ||
-                    s.sectionId === "booking-summary",
-                )?.title || "Booking Summary"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "summary" ||
-                    s.sectionId === "booking-summary",
-                )?.subtitle ||
-                "Review your selected dates, times, and venue details before submitting."
-              }
-              subtitleClassName="text-xs"
-              icon={ClipboardList}
-              action={
-                <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-0.5 text-xs font-semibold text-purple-300">
-                  Live Review
-                </span>
-              }
-            />
-
-            <Stack gap="md">
-              <div className="flex flex-col divide-y divide-white/10 text-sm">
-                <div className="flex items-start justify-between pb-3">
-                  <span className="text-white/50">Date</span>
-                  <span className="text-right font-medium text-white">
-                    {bookingSlots.length === 1 ? (
-                      new Date(
-                        bookingSlots[0].date + "T12:00:00Z",
-                      ).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                        timeZone: "UTC",
-                      })
-                    ) : bookingSlots.length > 1 ? (
-                      `${bookingSlots.length} Shows Scheduled`
-                    ) : (
-                      <span className="text-white/30">—</span>
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-start justify-between py-3">
-                  <span className="text-white/50">Time</span>
-                  <span className="text-right font-medium text-white">
-                    {bookingSlots.length === 1 ? (
-                      `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
-                    ) : bookingSlots.length > 1 ? (
-                      "Varies by show"
-                    ) : (
-                      <span className="text-white/30">—</span>
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-start justify-between py-3">
-                  <span className="text-white/50">Format</span>
-                  <span className="text-right font-medium text-white">
-                    {selectedType ? (
-                      eventTypes.find((t) => t.id === selectedType)?.label
-                    ) : (
-                      <span className="text-white/30">—</span>
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-start justify-between py-3">
-                  <span className="text-white/50">Venue</span>
-                  <span className="max-w-[240px] sm:max-w-[280px] text-right break-words font-medium text-white">
-                    {formData.venueName ? (
-                      formData.venueName
-                    ) : (
-                      <span className="text-white/30">—</span>
-                    )}
-                    {formData.parkingAddress && (
-                      <span className="block font-normal text-white/60 text-xs mt-0.5">
-                        {formData.parkingAddress}
-                      </span>
-                    )}
-                    {formData.venueCity && (
-                      <span className="block font-normal text-white/50 text-xs">
-                        {formData.venueCity}, {formData.venueState}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-start justify-between py-3">
-                  <span className="text-white/50">Parking</span>
-                  <span className="max-w-[240px] sm:max-w-[280px] text-right break-words font-medium text-white text-xs">
-                    <span className="text-cyan-300">
-                      {PARKING_OPTIONS.find((p) => p.id === (formData.parkingType || "bus-trailer"))?.short || "Bus & Trailer"}
-                    </span>
-                    {formData.parkingNotes && (
-                      <span className="block font-normal text-white/50 text-[11px] mt-0.5 line-clamp-2">
-                        {formData.parkingNotes}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                {addOns.length > 0 && (
-                  <div className="flex items-start justify-between pt-3">
-                    <span className="text-white/50">Add-Ons</span>
-                    <div className="text-right">
-                      <span className="font-medium text-white">{addOns.length} selected</span>
-                      <div className="flex max-w-[240px] sm:max-w-[280px] flex-wrap justify-end gap-1.5 mt-1.5">
-                        {addOns.slice(0, 3).map((id) => (
-                          <span
-                            key={id}
-                            className="rounded bg-cyan-500/20 px-2 py-0.5 text-xs text-cyan-200"
-                          >
-                            {id
-                              .replace(/_/g, " ")
-                              .replace(/\b\w/g, (c) => c.toUpperCase())}
-                          </span>
-                        ))}
-                        {addOns.length > 3 && (
-                          <span className="text-white/40 text-xs">
-                            +{addOns.length - 3} more
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Validation Errors */}
-              {validationErrors.length > 0 && (
-                <div className="rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 p-4">
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="text-rose-400">⚠</span>
-                    <span className="text-rose-300">
-                      Please fix the following
-                    </span>
-                  </div>
-                  <ul className="flex flex-col gap-1">
-                    {validationErrors.map((err, i) => (
-                      <li
-                        key={`err-${i}-${err}`}
-                        className="relative pl-5 text-rose-300 before:absolute before:left-1.5 before:text-rose-400 before:content-['•']"
-                      >
-                        {err}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div className="flex flex-col gap-2">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                  type="submit"
-                  disabled={submitting}
-                >
-                  {submitting ? (
-                    <>
-                      <span className="h-4 w-4 animate-spin border-2 border-black border-t-transparent" />
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit Booking Request"
-                  )}
-                </Button>
-                <p className="mt-4 text-center text-xs text-muted">
-                  By submitting, you confirm you are 18 years of age or older and
-                  agree to our{" "}
-                  <Link href="/privacy" className="transition-colors hover:text-white">
-                    Privacy Policy
-                  </Link>{" "}
-                  and{" "}
-                  <Link href="/terms" className="transition-colors hover:text-white">
-                    Terms
-                  </Link>
-                  .
-                </p>
-              </div>
-            </Stack>
-          </div>
-        </aside>
-
-      </form>
+        </form>
       )}
 
       {/* Layout 1: Seamless Stack (Contact Directory & Guidelines directly below Booking Form) */}
       {mergedLayout === "stack" && (
-        <div className="relative z-10 mx-auto mt-16 max-w-7xl px-4 sm:px-6">
+        <div className="relative z-10 mt-16 site-container">
           <div className="my-12 flex items-center gap-4">
             <div className="h-px flex-1 bg-white/10" />
             <span className="text-xs font-bold uppercase tracking-widest text-nocturne-rose">
@@ -2696,6 +2709,41 @@ function BookPageContent({
             <div className="overflow-y-auto pr-2">
               <ContactDirectorySection contacts={contacts} showHeading={false} />
             </div>
+          </div>
+        </dialog>
+      )}
+
+      {/* Slide-over Live Summary Drawer */}
+      {summaryDrawerOpen && (
+        <dialog
+          open
+          aria-label="Live Booking Summary"
+          className="fixed inset-0 z-[999999] flex h-full max-h-none w-full max-w-none items-center justify-end border-0 bg-transparent p-0"
+        >
+          <div
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+            onClick={() => setSummaryDrawerOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="relative z-10 flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 bg-[#120826] p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-4">
+              <h3 className="text-lg font-bold text-white">Live Booking Summary</h3>
+              <button
+                type="button"
+                onClick={() => setSummaryDrawerOpen(false)}
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                aria-label="Close summary drawer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <BookingSummaryCard
+              formData={formData}
+              bookingSlots={bookingSlots}
+              selectedType={selectedType}
+              addOns={addOns}
+              eventTypes={eventTypes}
+            />
           </div>
         </dialog>
       )}

@@ -28,8 +28,9 @@ const emptySubscribe = () => () => { };
 
 const leftNavLinks = [
   { href: "/media", label: "MEDIA" },
+  { href: "/fan-media", label: "FAN MEDIA" },
   { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
-  { href: "/merch", label: "MERCH" },
+  // { href: "/merch", label: "MERCH" }, // hidden per user request
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
@@ -508,12 +509,12 @@ export function Header() {
       return "/studio/structure/pageContent;liveConcertHub";
     if (pathname.startsWith("/contact"))
       return "/studio/structure/pageContent;contactUs";
+    if (pathname.startsWith("/fan-media"))
+      return "/studio/structure/pageContent;fanPhotoWall";
     if (pathname.startsWith("/media"))
       return "/studio/structure/pageContent;mediaVault";
     if (pathname.startsWith("/book"))
       return "/studio/structure/pageContent;bookUs";
-    if (pathname.startsWith("/fan-media-wall"))
-      return "/studio/structure/pageContent;fanPhotoWall";
     if (pathname.startsWith("/rock-and-roll-kids"))
       return "/studio/structure/pageContent;rockAndRollKids";
     if (pathname.startsWith("/faq"))
@@ -628,56 +629,10 @@ export function Header() {
                 <Logo className="pointer-events-auto h-full w-full text-current duration-[250ms]" />
               </div>
             </TransitionLink>
-            <nav className="relative z-50 hidden items-center gap-3 lg:flex lg:flex-1 lg:justify-start lg:gap-5 xl:gap-8">
-              {leftNavLinks.map((link) => {
-                const active = isNavActive(link.href);
-                return (
-                  <TransitionLink
-                    key={link.href}
-                    href={link.href}
-                    className={`nav-header-link relative text-[clamp(16px,1.1vw,18px)] whitespace-nowrap ${active ? "active" : ""}`}
-                  >
-                    {link.label}
-                  </TransitionLink>
-                );
-              })}
-            </nav>
-
             {/* ── RIGHT NAV & ACTIONS GROUP ── */}
             <nav
-              className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
+              className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
             >
-              {/* Live Stream link — only rendered if live shows are currently active */}
-              {isLiveNow && (
-                <TransitionLink
-                  href="/live"
-                  className={`nav-header-link relative z-50 hidden items-center py-1 text-[clamp(16px,1.1vw,18px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""}`}
-                  title="Streaming LIVE Right Now!"
-                >
-                  <span>LIVE</span>
-                  <span className="pointer-events-none absolute -top-1.5 left-full ml-1.5 flex items-center gap-1 rounded-full bg-red-600 px-1.5 py-0.5 text-[9px] font-black tracking-wider text-white shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse uppercase whitespace-nowrap">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-ping" />
-                    ON AIR NOW
-                  </span>
-                </TransitionLink>
-              )}
-
-              {/* Cruise link */}
-              <TransitionLink
-                href="/cruise"
-                className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(16px,1.1vw,18px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""}`}
-              >
-                CRUISE
-              </TransitionLink>
-
-              {/* Contact link (Merged Contact & Book Us) */}
-              <TransitionLink
-                href="/contact"
-                className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(16px,1.1vw,18px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""}`}
-              >
-                CONTACT
-              </TransitionLink>
-
               {/* Cart Icon — only shown if something is in cart */}
               {cartCount > 0 && (
                 <TransitionLink
@@ -778,11 +733,9 @@ export function Header() {
                 )}
               </div>{/* end auth min-w wrapper */}
 
-              {/* Mobile Menu Toggle Button — three menu lines that stand up into
-                  pulsing sound bars on hover and while open; see SoundBarsIcon.tsx.
-                  (Previous icon: <GuitarPickIcon open={mobileOpen} /> from GuitarPickIcon.tsx.) */}
+              {/* Menu Toggle Button — visible on EVERY window size */}
               <button
-                className="group transition-colors relative flex h-10 max-w-[80px] w-12 shrink-0 cursor-pointer items-center justify-center p-1 hover:text-[var(--color-accent)] sm:h-11 sm:w-14 md:h-12 md:w-16 lg:hidden"
+                className="group transition-colors relative flex h-10 max-w-[80px] w-12 shrink-0 cursor-pointer items-center justify-center p-1 hover:text-[var(--color-accent)] sm:h-11 sm:w-14 md:h-12 md:w-16"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
                 id="mobile-menu-toggle"
@@ -882,11 +835,12 @@ export function Header() {
                         {[
                           { href: "/", label: "HOME" },
                           { href: "/media", label: "MEDIA" },
+                          { href: "/fan-media", label: "FAN MEDIA" },
                           {
                             href: "/rock-and-roll-kids",
                             label: "ROCK & ROLL KIDS",
                           },
-                          { href: "/merch", label: "MERCH" },
+                          // { href: "/merch", label: "MERCH" }, // hidden per user request
                           ...(isLiveNow ? [{ href: "/live", label: "LIVE" }] : []),
                           { href: "/cruise", label: "CRUISE" },
                           { href: "/contact", label: "CONTACT" },
@@ -905,18 +859,14 @@ export function Header() {
                               href={link.href}
                               onClick={() => setMobileOpen(false)}
                               className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.9rem,8vw,2.5rem)] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${isActive
-                                ? "active cursor-default !text-[#c084fc]"
+                                ? "active cursor-default !text-[#fffbb5]"
                                 : "!text-white hover:!text-[#c084fc] cursor-pointer"
                                 }`}
                               style={{
                                 opacity: overlayVisible ? 1 : 0,
-                                transform: overlayVisible
-                                  ? "translateY(0) rotate(0deg)"
-                                  : "translateY(100%) rotate(7deg)",
-                                transformOrigin: "0% 100%",
-                                transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
+                                transition: `opacity 650ms ${EASE_OUT_LINEAR}`, /* no movement: fade only */
                                 transitionDelay: overlayVisible
-                                  ? `${450 + i * 70}ms`
+                                  ? "450ms" /* no stagger: all links together */
                                   : "0ms",
                               }}
                             >

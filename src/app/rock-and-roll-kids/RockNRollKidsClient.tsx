@@ -37,7 +37,7 @@ import {
   HeroContentRenderer,
 } from "./hero-layouts/heroLayoutPresets";
 
-const ABOUT_DATA = {
+export const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
   paragraph1:
     "7th heaven & the Rock 'n' Roll Kids is based on the band 7th heaven, which is globally known as a pop Rock Band. The animated series communicates messages of fun, positivity and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, an adventure and a resolution.",
@@ -436,7 +436,7 @@ const DEFAULT_FOUNDERS = [
   },
 ];
 
-function getProductsList(sanityContent: any) {
+export function getProductsList(sanityContent: any) {
   const comicsSection = sanityContent?.sections?.find(
     (s: any) => s.sectionId === "comics",
   );
@@ -460,7 +460,7 @@ function getProductsList(sanityContent: any) {
   });
 }
 
-function getCharactersList(sanityContent: any) {
+export function getCharactersList(sanityContent: any) {
   const charactersSection = sanityContent?.sections?.find(
     (s: any) => s.sectionId === "characters",
   );
@@ -480,7 +480,7 @@ function getCharactersList(sanityContent: any) {
   });
 }
 
-function getMusicSinglesList(sanityContent: any) {
+export function getMusicSinglesList(sanityContent: any) {
   const sanitySingles = sanityContent?.musicSingles || sanityContent?.singles;
   if (!sanitySingles || sanitySingles.length === 0)
     return FEATURED_MUSIC_SINGLES;
@@ -499,7 +499,7 @@ function getMusicSinglesList(sanityContent: any) {
   });
 }
 
-function getFoundersList(sanityContent: any) {
+export function getFoundersList(sanityContent: any) {
   const foundersSection = sanityContent?.sections?.find(
     (s: any) => s.sectionId === "founders",
   );

@@ -330,7 +330,7 @@ function HomeShaderGradientComponent() {
       if (!wrapper) return;
       const hero = document.getElementById("hero");
       if (hero) {
-        wrapper.style.zIndex = "1";
+        wrapper.style.zIndex = "-10";
         const rect = hero.getBoundingClientRect();
         const clipTop = Math.max(0, Math.round(rect.bottom));
         if (clipTop !== lastClip) {

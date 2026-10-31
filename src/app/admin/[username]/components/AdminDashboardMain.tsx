@@ -44,6 +44,7 @@ import {
   adminCreateAdmin,
 } from "../../actions";
 import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
+import { AdminCrmPipeline } from "./AdminCrmPipeline";
 import dynamic from "next/dynamic";
 import QRCode from "react-qr-code";
 
@@ -6513,459 +6514,62 @@ export function AdminDashboardMain({
     </div>
   );
 
+  const handleCrmStatusUpdate = async (bookingId: string, newStatus: string) => {
+    setUpdatingBookingId(bookingId);
+    try {
+      const res = await fetch("/api/booking", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId, status: newStatus }),
+      });
+      if (res.ok) {
+        setBookings((prev: any[]) =>
+          prev.map((bk: any) =>
+            bk.bookingId === bookingId ? { ...bk, status: newStatus } : bk,
+          ),
+        );
+      }
+    } catch (err) {
+      console.error("Failed to update CRM booking status:", err);
+    } finally {
+      setUpdatingBookingId(null);
+    }
+  };
+
   const renderBookings = () => (
     <div className="">
       <AdminSectionHeader
-        title="Booking Requests"
-        subtitle="Review and manage incoming client event booking requests, set official load-in/out schedules, and approve or decline reservations."
+        title="Event Booking CRM & Pipeline"
+        subtitle="Full lead lifecycle tracking: inquiries, proposals, contracts, confirmed bookings, client notes, and venue logistics."
         isOpen={isSectionOpen("bookings")}
         onToggle={() => toggleSection("bookings")}
         infoToggle={renderInfoToggle("bookings")}
       />
       {renderInfoBanner(
         "bookings",
-        "Booking Requests",
-        "Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.",
+        "Event Booking CRM & Pipeline",
+        "Track client leads across all pipeline stages, manage proposal/contract states, review contact details, add internal CRM notes, and coordinate venue load-in schedules.",
       )}
       <div style={{ display: isSectionOpen("bookings") ? undefined : "none" }}>
         {isSectionOpen("bookings") && (
-          <>
-            <div className="p-0">
-              {bookings.length === 0 ? (
-                <div className="p-12 text-center text-white/30">
-                  No booking requests received yet.
-                </div>
-              ) : (
-                <div className="flex w-full flex-col gap-0 select-none">
-                  {/* Header Row */}
-                  <div className="hidden grid-cols-12 gap-3 border-b border-[#ffffff1f] py-3 text-left md:grid">
-                    <div className="col-span-4">Client</div>
-                    <div className="col-span-2">Event Type</div>
-                    <div className="col-span-2">Date</div>
-                    <div className="col-span-2">Venue</div>
-                    <div className="col-span-2 text-right">Status</div>
-                  </div>
-
-                  {/* Booking Rows */}
-                  {bookings
-                    .slice()
-                    .reverse()
-                    .map((b: any) => (
-                      <div
-                        key={b.bookingId}
-                        className="flex flex-col border-b border-[#ffffff1f]"
-                      >
-                        <div className="grid grid-cols-1 items-center gap-3 py-4 md:grid-cols-12">
-                          {/* Client */}
-                          <div
-                            role="button"
-                            tabIndex={0}
-                            onClick={() =>
-                              setExpandedBooking((prev) =>
-                                prev === b.bookingId ? null : b.bookingId,
-                              )
-                            }
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
-                                setExpandedBooking((prev) =>
-                                  prev === b.bookingId ? null : b.bookingId,
-                                );
-                              }
-                            }}
-                            className="group relative col-span-4 flex cursor-pointer items-center gap-3"
-                          >
-                            <div className="transition-colors flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-gradient-to-br from-purple-500/30 to-purple-800/20 group-hover:border-purple-400">
-                              {b.name?.substring(0, 2).toUpperCase() || "EP"}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <div>{b.name}</div>
-                              <div>{b.email}</div>
-
-                              {editingInlineLoadInId === b.bookingId ? (
-                                <div
-                                  className="inline-loadin-popover z-30 mt-2 min-w-[250px] animate-[scaleIn_0.15s_ease-out] flex flex-col gap-2 border-none p-2"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <p>Set Official Load-In / Out Time:</p>
-                                  <GlowInput
-                                    type="text"
-                                    autoFocus
-                                    value={
-                                      loadInInputs[b.bookingId] !== undefined
-                                        ? loadInInputs[b.bookingId]
-                                        : b.loadInTime &&
-                                          !b.loadInTime.includes("Unsure")
-                                          ? b.loadInTime
-                                          : ""
-                                    }
-                                    onChange={(e) =>
-                                      setLoadInInputs((prev) => ({
-                                        ...prev,
-                                        [b.bookingId]: e.target.value,
-                                      }))
-                                    }
-                                    onKeyDown={async (e) => {
-                                      if (e.key === "Enter") {
-                                        e.preventDefault();
-                                        await handleUpdateLoadInTime(
-                                          b.bookingId,
-                                          b.plannerEmail || b.email,
-                                        );
-                                        setEditingInlineLoadInId(null);
-                                      } else if (e.key === "Escape") {
-                                        setEditingInlineLoadInId(null);
-                                      }
-                                    }}
-                                    placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
-                                    rounded="rounded-lg"
-                                  />
-                                  <div className="flex items-center justify-between gap-1.5 pt-0.5">
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingInlineLoadInId(null);
-                                      }}
-                                      className="transition-colors cursor-pointer px-2 py-1 text-[12px] text-white/50 hover:text-white"
-                                    >
-                                      Cancel
-                                    </button>
-                                    <button
-                                      type="button"
-                                      disabled={loadInSaving[b.bookingId]}
-                                      onClick={async (e) => {
-                                        e.stopPropagation();
-                                        await handleUpdateLoadInTime(
-                                          b.bookingId,
-                                          b.plannerEmail || b.email,
-                                        );
-                                        setEditingInlineLoadInId(null);
-                                      }}
-                                      className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-2.5 py-1 text-[12px] hover:bg-purple-500 disabled:opacity-50"
-                                    >
-                                      {loadInSaving[b.bookingId]
-                                        ? "Saving..."
-                                        : "Save & Email ✉️"}
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditingInlineLoadInId(b.bookingId);
-                                  }}
-                                  title="Click to set official load-in/out time and email planner"
-                                  className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime ? "animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30" : "border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25"}`}
-                                >
-                                  {b.loadInTime?.includes("Unsure") ||
-                                    b.load_in_time?.includes("Unsure") ||
-                                    !b.loadInTime ? (
-                                    <>⚡ Load-In Unsure (Click to Set) ✍️</>
-                                  ) : (
-                                    <>
-                                      🕒 {b.loadInTime || b.load_in_time} (Edit)
-                                      ✍️
-                                    </>
-                                  )}
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Event Type */}
-                          <div className="col-span-2 capitalize">
-                            {b.eventType?.replace("_", " ")}
-                          </div>
-
-                          {/* Date */}
-                          <div className="col-span-2">{b.eventDate}</div>
-
-                          {/* Venue */}
-                          <div className="col-span-2 min-w-0">
-                            <div className="max-w-[180px]">
-                              {b.venueName || "–"}
-                            </div>
-                            <div className="text-[0.9rem]">
-                              {b.venueCity}, {b.venueState}
-                            </div>
-                          </div>
-
-                          {/* Status */}
-                          <div className="col-span-2 flex flex-wrap items-center gap-2 md:justify-end md:text-right">
-                            <SectionBadge label={b.status} />
-                            {b.status === "pending" && (
-                              <div className="ml-1 flex items-center gap-1.5">
-                                <SeventhButton
-                                  aria-label="Approve booking"
-                                  disabled={updatingBookingId === b.bookingId}
-                                  onClick={async () => {
-                                    if (bookingUpdatingRef.current) return;
-                                    if (
-                                      !confirm(
-                                        `Approve booking ${b.bookingId}?`,
-                                      )
-                                    )
-                                      return;
-                                    bookingUpdatingRef.current = true;
-                                    setUpdatingBookingId(b.bookingId);
-                                    try {
-                                      const res = await fetch("/api/booking", {
-                                        method: "PATCH",
-                                        headers: {
-                                          "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify({
-                                          bookingId: b.bookingId,
-                                          status: "confirmed",
-                                        }),
-                                      });
-                                      if (res.ok) {
-                                        setBookings((prev: any[]) =>
-                                          prev.map((bk: any) =>
-                                            bk.bookingId === b.bookingId
-                                              ? { ...bk, status: "confirmed" }
-                                              : bk,
-                                          ),
-                                        );
-                                      }
-                                    } finally {
-                                      bookingUpdatingRef.current = false;
-                                      setUpdatingBookingId(null);
-                                    }
-                                  }}
-                                  className="cursor-pointer"
-                                >
-                                  {updatingBookingId === b.bookingId
-                                    ? "..."
-                                    : "Approve"}
-                                </SeventhButton>
-                                <SeventhButton
-                                  aria-label="Reject booking"
-                                  disabled={updatingBookingId === b.bookingId}
-                                  onClick={async () => {
-                                    if (bookingUpdatingRef.current) return;
-                                    if (
-                                      !confirm(`Reject booking ${b.bookingId}?`)
-                                    )
-                                      return;
-                                    bookingUpdatingRef.current = true;
-                                    setUpdatingBookingId(b.bookingId);
-                                    try {
-                                      const res = await fetch("/api/booking", {
-                                        method: "PATCH",
-                                        headers: {
-                                          "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify({
-                                          bookingId: b.bookingId,
-                                          status: "cancelled",
-                                        }),
-                                      });
-                                      if (res.ok) {
-                                        setBookings((prev: any[]) =>
-                                          prev.map((bk: any) =>
-                                            bk.bookingId === b.bookingId
-                                              ? { ...bk, status: "cancelled" }
-                                              : bk,
-                                          ),
-                                        );
-                                      }
-                                    } finally {
-                                      bookingUpdatingRef.current = false;
-                                      setUpdatingBookingId(null);
-                                    }
-                                  }}
-                                  color="#f43f5e"
-                                  className="cursor-pointer"
-                                >
-                                  {updatingBookingId === b.bookingId
-                                    ? "..."
-                                    : "Reject"}
-                                </SeventhButton>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Expanded details container */}
-                        {expandedBooking === b.bookingId && (
-                          <div className="border-t border-b border-black/20 bg-black/5 p-6 dark:border-white/10 dark:bg-[#060609]">
-                            <div className="grid grid-cols-2 gap-6 text-left sm:grid-cols-5">
-                              <div>
-                                <p className="mb-1 text-black/50 text-white/40">
-                                  Booking Ref ID
-                                </p>
-                                <p className="text-purple-400">{b.bookingId}</p>
-                              </div>
-                              <div>
-                                <p className="mb-1 text-black/50 text-white/40">
-                                  Age Limit
-                                </p>
-                                <p>
-                                  {b.ageRestriction === "21_plus"
-                                    ? " 21 & Over"
-                                    : b.ageRestriction === "18_plus"
-                                      ? " 18 & Over"
-                                      : " All Ages"}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="mb-1 text-black/50 text-white/40">
-                                  Doors Time
-                                </p>
-                                <p>
-                                  {b.doorsTime || b.startTime || "TBD"}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="mb-1 text-black/50 text-white/40">
-                                  Cover / Price
-                                </p>
-                                <p>
-                                  {b.cover || "Free / No Cover"}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="mb-1 text-black/50 text-white/40">
-                                  Load-In / Setup Time
-                                </p>
-                                <p>
-                                  {b.loadInTime ||
-                                    b.load_in_time ||
-                                    "Unsure — Admin to set & email"}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="mb-1 text-black/50 text-white/40">
-                                  Ticket Link
-                                </p>
-                                {b.ticketLink ? (
-                                  <a
-                                    href={b.ticketLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="transition-colors block max-w-[200px] hover:text-white"
-                                    title={b.ticketLink}
-                                  >
-                                    {b.ticketLink}
-                                  </a>
-                                ) : (
-                                  <p className="text-black/30 text-white/20">
-                                    —
-                                  </p>
-                                )}
-                              </div>
-                              {b.details && (
-                                <div className="col-span-2 mt-2 sm:col-span-4">
-                                  <p className="mb-1 text-black/50 text-white/40">
-                                    Public Notes (displayed to fans)
-                                  </p>
-                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/10 dark:bg-white/[0.02]">
-                                    "{b.details}"
-                                  </p>
-                                </div>
-                              )}
-                              {b.plannerNotes && (
-                                <div className="col-span-2 mt-2 sm:col-span-4">
-                                  <p className="mb-1 text-black/50 text-white/40">
-                                    Planner's Internal Notes
-                                  </p>
-                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/10 dark:bg-white/[0.02]">
-                                    {b.plannerNotes}
-                                  </p>
-                                </div>
-                              )}
-
-                              {/* Official Load-In Setup Manager Widget */}
-                              <div className="col-span-2 mt-3 flex flex-col gap-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-4 sm:col-span-4">
-                                <div className="flex flex-wrap items-center justify-between gap-2">
-                                  <p className="flex items-center gap-2">
-                                    <Clock className="h-4 w-4" /> Official
-                                    Load-In Setup Manager
-                                  </p>
-                                  {(b.loadInTime?.includes("Unsure") ||
-                                    b.load_in_time?.includes("Unsure") ||
-                                    !b.loadInTime) && (
-                                      <span className="flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-2.5 py-0.5 text-[10px] text-amber-300">
-                                        ⚡ Planner Unsure — Pending Admin
-                                        Confirmation
-                                      </span>
-                                    )}
-                                </div>
-
-                                <p>
-                                  Set or update the official load-in setup time
-                                  below. Clicking{" "}
-                                  <strong>"Save & Email Planner"</strong>{" "}
-                                  updates the record and sends an email
-                                  confirmation directly to{" "}
-                                  <strong>{b.plannerEmail || b.email}</strong>.
-                                </p>
-
-                                <div className="flex flex-wrap items-center gap-2 pt-1 sm:flex-nowrap">
-                                  <GlowInput
-                                    type="text"
-                                    value={
-                                      loadInInputs[b.bookingId] !== undefined
-                                        ? loadInInputs[b.bookingId]
-                                        : b.loadInTime &&
-                                          !b.loadInTime.includes("Unsure")
-                                          ? b.loadInTime
-                                          : ""
-                                    }
-                                    onChange={(e) =>
-                                      setLoadInInputs((prev) => ({
-                                        ...prev,
-                                        [b.bookingId]: e.target.value,
-                                      }))
-                                    }
-                                    placeholder="e.g. 5:00 PM (2 hours before show)"
-                                    wrapperClassName="flex-1"
-                                    rounded="rounded-lg"
-                                  />
-                                  <button
-                                    type="button"
-                                    disabled={loadInSaving[b.bookingId]}
-                                    onClick={() =>
-                                      handleUpdateLoadInTime(
-                                        b.bookingId,
-                                        b.plannerEmail || b.email,
-                                      )
-                                    }
-                                    className="transition-colors flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-4 py-2 hover:from-purple-500 hover:to-cyan-400 disabled:opacity-50"
-                                  >
-                                    {loadInSaving[b.bookingId]
-                                      ? "Sending..."
-                                      : "Save & Email Planner ✉️"}
-                                  </button>
-                                </div>
-
-                                {loadInNotice[b.bookingId] && (
-                                  <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2 rounded-lg border border-emerald-400/40 bg-emerald-950/60 p-2.5 text-emerald-300">
-                                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                                    <span>{loadInNotice[b.bookingId]}</span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                </div>
-              )}
-            </div>
-          </>
+          <div className="py-4">
+            <AdminCrmPipeline
+              bookings={bookings}
+              onUpdateBookingStatus={handleCrmStatusUpdate}
+              onUpdateLoadInTime={async (bId, email, time) => {
+                setLoadInInputs((prev) => ({ ...prev, [bId]: time }));
+                await handleUpdateLoadInTime(bId, email);
+              }}
+              updatingBookingId={updatingBookingId}
+            />
+          </div>
         )}
       </div>
     </div>
   );
 
   const renderPlanners = () => (
-    <div className="overflow-hidden">
+    <div className="overflow-visible">
       <AdminSectionHeader
         title="Event Planners Directory"
         subtitle="Manage corporate, festival, and private event contacts"
@@ -7007,7 +6611,7 @@ export function AdminDashboardMain({
                   ).map((planner: any) => (
                     <div
                       key={planner.email}
-                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10 py-4 md:grid-cols-12"
+                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10 px-4 py-4 md:grid-cols-12 overflow-visible"
                     >
                       <div className="col-span-12 flex min-w-0 items-center gap-4 md:col-span-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5">
@@ -7047,7 +6651,7 @@ export function AdminDashboardMain({
                         )}
                       </div>
 
-                      <div className="col-span-12 flex shrink-0 items-center gap-2 md:col-span-2 md:justify-end">
+                      <div className="col-span-12 flex shrink-0 items-center gap-2 md:col-span-2 md:justify-end pr-2 overflow-visible">
                         <SeventhButton
                           href={`mailto:${planner.email}`}
                           onClick={() =>
@@ -11962,7 +11566,7 @@ export function AdminDashboardMain({
       const norm = role
         .toUpperCase()
         .trim()
-        .replace(/[\s\/-]+/g, "_");
+        .replace(/[\s/-]+/g, "_");
       if (roleStyles[norm]) return roleStyles[norm];
       let hash = 0;
       for (let i = 0; i < norm.length; i++) {

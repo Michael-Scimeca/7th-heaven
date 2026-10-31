@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useTransition } from "@/context/TransitionContext";
-import { splitInto } from "./splitText";
+import { splitInto, type SplitMode } from "./splitText";
+import { isFedMotion } from "@/lib/motionMode";
 
 /* ------------------------------------------------------------------ *
  * Site-wide heading and text animation.
@@ -20,12 +21,19 @@ const HEADINGS = "h1, h2, h3, h4, h5, h6";
 const DONE = "data-tt";
 
 /** Everything else that should blur up into place as it arrives. */
-const BLOCKS = "p, li, article, address, figure, blockquote, picture, img, video, [data-reveal]";
+const BLOCKS = "p, li, article, address, figure, blockquote, picture, img, [data-reveal]";
 const BLOCK_DONE = "data-tt-block";
 
 /** Containers whose text must never be rewrapped. */
 const BLOCKED = [
   "[data-no-text-anim]",
+  "video",
+  "#global-bleed-backdrop",
+  "#media-vault-bleed-backdrop",
+  "[id*='backdrop']",
+  ".hoy-ticker",
+  ".hoy-ticker-logo",
+  ".hoy-ticker-track",
   "table",
   "form",
   "input",
@@ -46,15 +54,21 @@ const BLOCKED = [
   "footer",
 ].join(",");
 
-const CHAR_STAGGER = 13; // ms between characters
+/* fed motion: page titles live in <header class="page-hero">, so only the site header is skipped */
+const BLOCKED_FED = BLOCKED.replace(/(^|,)header(,|$)/, "$1header:not(.page-hero)$2");
+const blockedSel = () => (isFedMotion() ? BLOCKED_FED : BLOCKED);
+
+const CHAR_STAGGER = 0; // no stagger: every character animates together
 const CHAR_DURATION = 400;
-const WORD_STAGGER = 55;
+const WORD_STAGGER = 0; // no stagger
 const WORD_DURATION = 620;
 const MAX_CHARS = 90; // very long titles fall back to a word reveal
+const FED_CHAR_STAGGER = 0; // fed motion: no stagger, all characters rise together
+const FED_CHAR_DURATION = 1050;
 
 function prepare(el: HTMLElement) {
   if (el.hasAttribute(DONE)) return null;
-  if (el.closest(BLOCKED)) return null;
+  if (el.closest(blockedSel())) return null;
   const text = (el.textContent ?? "").trim();
   if (!text) return null;
 
@@ -62,16 +76,30 @@ function prepare(el: HTMLElement) {
   // the split spans are decorative; keep one clean string for screen readers
   if (!el.getAttribute("aria-label")) el.setAttribute("aria-label", text);
 
-  const mode = text.length > MAX_CHARS ? "words" : "chars";
+  const mode: SplitMode = text.length > MAX_CHARS ? "words" : "chars";
   const pieces = splitInto(el, mode);
   if (!pieces.length) return null;
 
-  const stagger = mode === "chars" ? CHAR_STAGGER : WORD_STAGGER;
-  const duration = mode === "chars" ? CHAR_DURATION : WORD_DURATION;
-  pieces.forEach((p, i) => {
-    p.style.animationDelay = `${i * stagger}ms`;
-    p.style.animationDuration = `${duration}ms`;
-  });
+  const stagger = WORD_STAGGER;
+  const duration = WORD_DURATION;
+  if (mode === "chars" && isFedMotion()) {
+    // fed motion: characters rise in random order, like federicopian.com
+    const order = pieces.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    const each = Math.min(FED_CHAR_STAGGER, 900 / Math.max(1, pieces.length));
+    pieces.forEach((p, i) => {
+      p.style.animationDelay = `${order[i] * each}ms`;
+      p.style.animationDuration = `${FED_CHAR_DURATION}ms`;
+    });
+  } else {
+    pieces.forEach((p, i) => {
+      p.style.animationDelay = `${i * stagger}ms`;
+      p.style.animationDuration = `${duration}ms`;
+    });
+  }
   el.classList.add("tt-pending");
   return el;
 }
@@ -97,14 +125,14 @@ function subtextFor(heading: HTMLElement): HTMLElement | null {
   const text = (next.textContent ?? "").trim();
   // Only split concise single-line subtext into words; longer paragraphs animate cleanly as whole blocks
   if (!text || text.length > 90) return null;
-  if (next.hasAttribute(DONE) || next.closest(BLOCKED)) return null;
+  if (next.hasAttribute(DONE) || next.closest(blockedSel())) return null;
 
   next.setAttribute(DONE, "");
   if (!next.getAttribute("aria-label")) next.setAttribute("aria-label", text);
   const pieces = splitInto(next, "words");
   if (!pieces.length) return null;
-  pieces.forEach((p, i) => {
-    p.style.animationDelay = `${Math.min(100 + i * 25, 250)}ms`;
+  pieces.forEach((p) => {
+    p.style.animationDelay = "0ms"; // no stagger
     p.style.animationDuration = `${WORD_DURATION}ms`;
   });
   next.classList.add("tt-pending");
@@ -114,7 +142,7 @@ function subtextFor(heading: HTMLElement): HTMLElement | null {
 /** Block-level blur-up: no splitting, the whole element eases in. */
 function prepareBlock(el: HTMLElement) {
   if (el.hasAttribute(BLOCK_DONE) || el.hasAttribute(DONE)) return null;
-  if (el.closest(BLOCKED)) return null;
+  if (el.closest(blockedSel())) return null;
   // skip anything already handled as heading subtext, and tiny/empty nodes
   if (el.tagName === "P" && el.hasAttribute(DONE)) return null;
   const r = el.getBoundingClientRect();

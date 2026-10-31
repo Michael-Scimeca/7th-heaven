@@ -73,7 +73,7 @@ const nextConfig: NextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.alias = {
-        ...(config.resolve.alias || {}),
+        ...config.resolve.alias,
         "../build/polyfills/polyfill-module": path.resolve(__dirname, "src/lib/empty-polyfill.js"),
         "next/dist/build/polyfills/polyfill-module": path.resolve(__dirname, "src/lib/empty-polyfill.js"),
         "next/dist/build/polyfills/polyfill-module.js": path.resolve(__dirname, "src/lib/empty-polyfill.js"),
@@ -236,7 +236,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/fan-photo-wall",
-        destination: "/fan-media-wall",
+        destination: "/media#fan-media-wall",
+        permanent: true,
+      },
+      {
+        source: "/fan-media-wall",
+        destination: "/media#fan-media-wall",
         permanent: true,
       },
     ];

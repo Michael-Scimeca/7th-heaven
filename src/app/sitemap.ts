@@ -138,6 +138,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ],
     },
     {
+      url: `${baseUrl}/fan-media`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      images: [
+        `${baseUrl}/images/hero/band-performance.webp`,
+      ],
+    },
+    {
       url: `${baseUrl}/live`,
       changeFrequency: "weekly",
       priority: 0.7,
@@ -181,15 +189,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         `${baseUrl}/images/hero/band-performance.webp`,
       ],
     },
-    {
-      url: `${baseUrl}/fan-media-wall`,
-      changeFrequency: "weekly",
-      priority: 0.6,
-      images: [
-        `${baseUrl}/images/fans/fan-photo-featured.jpg`,
-        `${baseUrl}/images/hero/band-performance.webp`,
-      ],
-    },
+
 
     // ── Legal & Policies ──
     {

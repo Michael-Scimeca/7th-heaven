@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { fetchPageContent } from "@/lib/sanity";
 import RockNRollKidsClient from "./RockNRollKidsClient";
+import RnrProjectsClient from "./RnrProjectsClient";
+import RnrStoriesClient from "./RnrStoriesClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const sanityContent = await fetchPageContent("rock-and-roll-kids");
@@ -45,8 +47,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export const revalidate = 60;
 
-export default async function RockNRollKidsPage() {
+export default async function RockNRollKidsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ layout?: string }>;
+}) {
   const sanityContent = await fetchPageContent("rock-and-roll-kids");
+  const { layout } = await searchParams;
 
-  return <RockNRollKidsClient sanityContent={sanityContent} />;
+  // glowingcheetah.com-style layout by default;
+  // ?layout=circles = federicopian.com/projects-style, ?layout=classic = the original page
+  if (layout === "classic") return <RockNRollKidsClient sanityContent={sanityContent} />;
+  if (layout === "circles") return <RnrProjectsClient sanityContent={sanityContent} />;
+  return <RnrStoriesClient sanityContent={sanityContent} />;
 }

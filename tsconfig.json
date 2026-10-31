@@ -35,6 +35,8 @@
     "my-video",
     "my-video/**/*",
     "my-video/**",
-    "**/my-video/**"
+    "**/my-video/**",
+    "_to_delete",
+    "_to_delete/**/*"
   ]
 }

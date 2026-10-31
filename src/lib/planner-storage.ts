@@ -33,8 +33,8 @@ export const PLANNER_LAST_FORM_KEY = "7h_planner_last_form_v1";
 export const PLANNER_SYNC_EVENT = "7h_planner_profile_updated";
 
 export const DEFAULT_PLANNER_PROFILE: PlannerProfile = {
-  name: "Event Planner",
-  email: "planner@7thheavenband.com",
+  name: "Michael Scimeca",
+  email: "michael@7thheaven.com",
   phone: "(847) 555-0199",
   organization: "Scoreboard Entertainment",
   venueName: "",

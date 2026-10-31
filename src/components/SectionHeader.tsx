@@ -68,7 +68,7 @@ export function SectionHeader({
         style={titleGap ? ({ "--title-gap": titleGap } as React.CSSProperties) : undefined}
       >
         {action ? (
-          <div className={`flex items-center gap-4 w-full ${isCenter ? "justify-center" : "justify-between"}`}>
+          <div className={`flex flex-wrap sm:flex-nowrap items-center gap-4 w-full ${isCenter ? "justify-center" : "justify-between"}`}>
             <Component
               id={id}
               className="text-primary"

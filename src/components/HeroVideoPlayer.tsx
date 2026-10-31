@@ -47,7 +47,7 @@ const ALBUM_VIDEOS: Record<string, string> = {
   "09-luminous": "/movie/luminous-clip.mp4",
 };
 
-const DEFAULT_VIDEO = "/movie/be-here-clip.mp4";
+const DEFAULT_VIDEO = "/movie/tbwa-hakuhodo-bgv.mp4";
 
 // Unique video URLs to prefetch in the background for instant album switching
 const PREFETCH_URLS = [...new Set(Object.values(ALBUM_VIDEOS))];
@@ -603,7 +603,9 @@ export default function HeroVideoPlayer({
   }, []);
 
   const handleHeroClick = useCallback(() => {
-    const video = videoRef.current;
+    const video =
+      (document.querySelector("#global-bleed-backdrop video") as HTMLVideoElement | null) ??
+      videoRef.current;
     if (video) {
       if (video.currentTime < 15) {
         video.currentTime = 15;
@@ -616,75 +618,36 @@ export default function HeroVideoPlayer({
     }
   }, []);
 
+  useEffect(() => {
+    const sanityVideo = !isDesktop
+      ? sanityContent?.heroVideoMobileUrl || sanityContent?.heroVideoUrl
+      : sanityContent?.heroVideoUrl;
+    const sanityPoster = !isDesktop
+      ? sanityContent?.heroPosterUrl || "/images/hero/hero-mobile-poster.webp"
+      : sanityContent?.heroPosterUrl || "/images/hero/hero-desktop-poster.webp";
+
+    if (sanityVideo || sanityPoster) {
+      window.dispatchEvent(
+        new CustomEvent("7h-backdrop-init-sanity", {
+          detail: {
+            videoSrc: sanityVideo,
+            posterSrc: sanityPoster,
+          },
+        })
+      );
+    }
+  }, [isDesktop, sanityContent]);
+
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
       <div ref={containerRef} className="relative flex h-full w-full flex-col justify-between">
-        {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
-        {!isDesktop ? (
-          <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
-            <video
-              ref={mobileVideoRef}
-              src={sanityContent?.heroVideoMobileUrl || "/movie/hero-mobile.mp4"}
-              poster={
-                sanityContent?.heroPosterUrl ||
-                "/images/hero/hero-mobile-poster.webp"
-              }
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              onPlaying={() => {
-                setVideoReady(true);
-                if (typeof window !== "undefined") {
-                  (window as any).__7hHeroVideoReady = true;
-                  window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
-                }
-              }}
-              className={`absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-0 opacity-0" : "translate-y-0 opacity-90"}`}
-              style={{
-                objectPosition: `center ${videoScreenY}%`,
-              }}
-            />
-          </div>
-        ) : isYouTube && YTComp ? (
+        {/* On mobile / desktop when YouTube is enabled via Sanity */}
+        {isYouTube && YTComp && (
           <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
             <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
           </div>
-        ) : (
-          <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
-            <video
-              key={videoSrc}
-              ref={videoRef}
-              poster={
-                sanityContent?.heroPosterUrl ||
-                "/images/hero/hero-desktop-poster.webp"
-              }
-              onCanPlay={handleCanPlay}
-              onLoadedMetadata={handleLoadedMetadata}
-              onTimeUpdate={handleTimeUpdate}
-              onPlaying={() => {
-                setVideoReady(true);
-                if (typeof window !== "undefined") {
-                  (window as any).__7hHeroVideoReady = true;
-                  window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
-                }
-              }}
-              preload="auto"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-0 opacity-0 blur-sm filter" : "blur-0 translate-y-0 opacity-100 filter"}`}
-              style={{
-                objectPosition: `center ${videoScreenY}%`,
-              }}
-            >
-              <source src={videoSrc} type="video/mp4" />
-              <track kind="captions" />
-            </video>
-          </div>
         )}
+
         <div
           role="button"
           tabIndex={0}
@@ -698,12 +661,6 @@ export default function HeroVideoPlayer({
             }
           }}
           title="Click to play video audio & music player"
-          style={{
-            opacity: isMusicPlaying
-              ? Math.min(tintOpacity * 0.35, 0.18)
-              : tintOpacity,
-            mixBlendMode: mixBlendMode,
-          }}
         />
 
         {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}

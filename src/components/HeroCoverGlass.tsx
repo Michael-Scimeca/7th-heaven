@@ -22,7 +22,7 @@ export default function HeroCoverGlass({ children }: { children: ReactNode }) {
         <LiquidGlass
           className="hero-cover-glass-host sticky top-0 h-[100vh] h-[100svh] w-full !shadow-none [&_.ql-rim]:!hidden [&_.ql-sheen]:!hidden"
           config={{
-            material: "ultra",
+            material: "thin",
             appearance: "dark",
             borderRadius: 0,
             quality: "medium",

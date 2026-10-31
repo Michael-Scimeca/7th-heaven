@@ -549,7 +549,7 @@ export const FLAG_KEYWORDS = [
     reason: "🏛️ Political content",
   },
   {
-    kw: /\bn[\*i]gg|\bf[\*a]gg|\bk[i1]ke|\bsp[i1]c|hate speech/i,
+    kw: /\bn[*i]gg|\bf[*a]gg|\bk[i1]ke|\bsp[i1]c|hate speech/i,
     reason: "⚠️ Hate speech / slur",
   },
   {

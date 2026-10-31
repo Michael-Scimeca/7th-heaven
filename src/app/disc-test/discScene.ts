@@ -254,16 +254,21 @@ export function createDisc(kit: DiscKit, item: DiscItem, index: number, onLabel?
 
   const img = new Image();
   img.decoding = "async";
+  const notifyLabel = () => {
+    if (onLabel) queueMicrotask(onLabel);
+  };
   const onLoad = () => {
     drawLabel(ctx, size, item, img);
     tex.needsUpdate = true;
-    onLabel?.();
+    notifyLabel();
   };
   img.onload = onLoad;
-  img.onerror = () => onLabel?.();
+  img.onerror = () => notifyLabel();
   img.src = item.image;
   if (img.complete && img.naturalWidth) {
-    onLoad();
+    drawLabel(ctx, size, item, img);
+    tex.needsUpdate = true;
+    notifyLabel();
   }
 
   const mat = new THREE.MeshPhysicalMaterial({

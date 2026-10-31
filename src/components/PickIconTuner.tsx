@@ -152,15 +152,7 @@ export default function PickIconTuner() {
   };
 
   if (!open) {
-    return toBody(
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="fixed bottom-4 right-4 z-[1000000] mb-[env(safe-area-inset-bottom)] rounded-full border border-white/20 bg-black/80 px-4 py-2 text-sm font-semibold text-white shadow-lg"
-      >
-        Picks
-      </button>,
-    );
+    return null;
   }
 
   const label = "flex justify-between text-xs font-semibold text-white/80";

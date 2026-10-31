@@ -10,6 +10,8 @@ import {
   ReactNode,
 } from "react";
 import { useOptionalWebGLTransition } from "@/components/WebGLNoiseTransition";
+import { useOptionalHalftone } from "@/components/HalftoneTransition/HalftoneTransition";
+import { useOptionalFedTransition } from "@/components/NoiseField/FedTransition";
 
 export type TransitionMode = "idle" | "covering" | "covered" | "uncovering";
 
@@ -37,6 +39,8 @@ const TransitionContext = createContext<TransitionContextValue>({
 
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const webgl = useOptionalWebGLTransition();
+  const halftone = useOptionalHalftone();
+  const fed = useOptionalFedTransition();
   const [mode, setMode] = useState<TransitionMode>("idle");
   const [pendingHref, setPendingHref] = useState<string | null>(null);
 
@@ -65,6 +69,18 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      // Halftone transition: FAQ <-> Contact always, everything else when opted in with ?halftone=on
+      if (halftone?.handles(href)) {
+        halftone.navigate(href);
+        return;
+      }
+
+      // Federico-style dissolve + random-order character reveal (motion mode "fed", lib/motionMode.ts)
+      if (fed?.handles(href)) {
+        fed.navigate(href);
+        return;
+      }
+
       if (webgl?.navigateWithTransition) {
         setPendingHref(href);
         setMode("covering");
@@ -78,7 +94,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       setPendingHref(href);
       setMode("covering");
     },
-    [webgl],
+    [webgl, halftone, fed],
   );
 
   const clearPendingHref = useCallback(() => setPendingHref(null), []);

@@ -96,17 +96,17 @@ export function parseAndValidateThemeJson(
     if (typeof parsed !== "object" || parsed === null) return null;
 
     const merged: ThemeTokens = {
-      colors: { ...DEFAULT_THEME_TOKENS.colors, ...(parsed.colors || {}) },
+      colors: { ...DEFAULT_THEME_TOKENS.colors, ...parsed.colors },
       typography: {
         ...DEFAULT_THEME_TOKENS.typography,
-        ...(parsed.typography || {}),
+        ...parsed.typography,
       },
-      spacing: { ...DEFAULT_THEME_TOKENS.spacing, ...(parsed.spacing || {}) },
-      radii: { ...DEFAULT_THEME_TOKENS.radii, ...(parsed.radii || {}) },
-      shadows: { ...DEFAULT_THEME_TOKENS.shadows, ...(parsed.shadows || {}) },
+      spacing: { ...DEFAULT_THEME_TOKENS.spacing, ...parsed.spacing },
+      radii: { ...DEFAULT_THEME_TOKENS.radii, ...parsed.radii },
+      shadows: { ...DEFAULT_THEME_TOKENS.shadows, ...parsed.shadows },
       breakpoints: {
         ...DEFAULT_THEME_TOKENS.breakpoints,
-        ...(parsed.breakpoints || {}),
+        ...parsed.breakpoints,
       },
     };
 

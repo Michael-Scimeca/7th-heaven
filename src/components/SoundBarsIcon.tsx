@@ -4,9 +4,8 @@ import { useEffect, useRef } from "react";
 
 // Mobile menu icon.
 // At rest: three normal horizontal menu lines.
-// On hover, keyboard focus, and while the menu is open: the lines stand up into
-// three tightly spaced vertical bars that pulse short / tall / short like a sound meter.
-// Respects prefers-reduced-motion (bars still appear, but don't pulse).
+// On hover, keyboard focus, or while the menu is open: smoothly transitions
+// into three static vertical sound bars (short / tall / short) without looping animation.
 
 const VIEW_W = 32;
 const VIEW_H = 28;
@@ -15,11 +14,10 @@ const CY = 14;
 const REST_Y = [8, 14, 20];
 const REST_X1 = 6;
 const REST_X2 = 26;
-// active bars (tight spacing)
+// active sound bars (short, tall, short)
 const BAR_X = [11.5, 16, 20.5];
 const BAR_H = [10, 20, 10];
 
-const beat = (t: number) => Math.exp(-((t * 2) % 1) * 6);
 const ease = (x: number) => x * x * (3 - 2 * x);
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
 
@@ -27,51 +25,63 @@ export default function SoundBarsIcon({ open }: { open: boolean }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const lineRefs = useRef<(SVGLineElement | null)[]>([]);
   const openRef = useRef(open);
+  const kickRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     openRef.current = open;
     kickRef.current?.();
   }, [open]);
 
-  const kickRef = useRef<(() => void) | null>(null);
-
   useEffect(() => {
     const svg = svgRef.current;
     const btn = svg?.closest("button");
-    if (!svg || !btn) return;
+    if (!svg || !btn) return () => {};
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let h = 0;
+    let h = openRef.current ? 1 : 0;
     let raf = 0;
     let focusOn = false;
+    let isHovered = false;
 
-    const wanted = () => openRef.current || focusOn || btn.matches(":hover");
+    const wanted = () => openRef.current || focusOn || isHovered || btn.matches(":hover");
 
-    const draw = (t: number) => {
-      const e = ease(h);
+    const draw = (e: number) => {
       for (let i = 0; i < 3; i++) {
         const el = lineRefs.current[i];
         if (!el) continue;
-        const pulse = reduceMotion.matches ? 1 : 0.55 + 0.45 * beat(t - i * 0.05);
-        const H = BAR_H[i] * pulse;
-        el.setAttribute("x1", lerp(REST_X1, BAR_X[i], e).toFixed(2));
-        el.setAttribute("x2", lerp(REST_X2, BAR_X[i], e).toFixed(2));
-        el.setAttribute("y1", lerp(REST_Y[i], CY - H / 2, e).toFixed(2));
-        el.setAttribute("y2", lerp(REST_Y[i], CY + H / 2, e).toFixed(2));
+        const H = BAR_H[i];
+        // Two clean steps (no tilting): lines shrink sideways into dots at the
+        // bar positions, then the dots stretch up into bars.
+        const k1 = ease(Math.min(1, e * 2));
+        const k2 = ease(Math.max(0, e * 2 - 1));
+        const cx = lerp((REST_X1 + REST_X2) / 2, BAR_X[i], k1);
+        const cy = lerp(REST_Y[i], CY, k1);
+        const hw = lerp((REST_X2 - REST_X1) / 2, 0, k1);
+        const hh = lerp(0, H / 2, k2);
+        el.setAttribute("x1", (cx - hw).toFixed(2));
+        el.setAttribute("x2", (cx + hw).toFixed(2));
+        el.setAttribute("y1", (cy - hh).toFixed(2));
+        el.setAttribute("y2", (cy + hh).toFixed(2));
       }
     };
 
     const loop = () => {
-      const t = performance.now() / 1000;
       const target = wanted() ? 1 : 0;
-      h += (target - h) * 0.16;
-      if (target === 0 && h < 0.002) {
-        h = 0;
-        draw(t);
+      if (reduceMotion.matches) {
+        h = target;
+        draw(h);
         raf = 0;
         return;
       }
-      draw(t);
+
+      h += (target - h) * 0.18;
+      if (Math.abs(target - h) < 0.002) {
+        h = target;
+        draw(h);
+        raf = 0;
+        return;
+      }
+      draw(h);
       raf = requestAnimationFrame(loop);
     };
 
@@ -80,6 +90,14 @@ export default function SoundBarsIcon({ open }: { open: boolean }) {
     };
     kickRef.current = kick;
 
+    const onEnter = () => {
+      isHovered = true;
+      kick();
+    };
+    const onLeave = () => {
+      isHovered = false;
+      kick();
+    };
     const onFocus = () => {
       focusOn = btn.matches(":focus-visible");
       kick();
@@ -88,17 +106,24 @@ export default function SoundBarsIcon({ open }: { open: boolean }) {
       focusOn = false;
       kick();
     };
-    btn.addEventListener("pointerenter", kick);
-    btn.addEventListener("mouseenter", kick);
+
+    btn.addEventListener("pointerenter", onEnter);
+    btn.addEventListener("pointerleave", onLeave);
+    btn.addEventListener("mouseenter", onEnter);
+    btn.addEventListener("mouseleave", onLeave);
     btn.addEventListener("focus", onFocus);
     btn.addEventListener("blur", onBlur);
-    kick();
+
+    // Initial draw to match current state
+    draw(h);
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       kickRef.current = null;
-      btn.removeEventListener("pointerenter", kick);
-      btn.removeEventListener("mouseenter", kick);
+      btn.removeEventListener("pointerenter", onEnter);
+      btn.removeEventListener("pointerleave", onLeave);
+      btn.removeEventListener("mouseenter", onEnter);
+      btn.removeEventListener("mouseleave", onLeave);
       btn.removeEventListener("focus", onFocus);
       btn.removeEventListener("blur", onBlur);
     };
@@ -112,7 +137,7 @@ export default function SoundBarsIcon({ open }: { open: boolean }) {
       stroke="#ffffff"
       strokeWidth="2.4"
       strokeLinecap="round"
-      className="h-[28px] w-[32px] overflow-visible"
+      className="h-[28px] w-[32px] overflow-visible pointer-events-none"
       aria-hidden="true"
     >
       {REST_Y.map((y, i) => (

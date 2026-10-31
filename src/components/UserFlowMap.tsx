@@ -900,7 +900,7 @@ const REFERENCE_NODES: Node<FlowNodeData>[] = [
     position: { x: 960, y: 1010 },
     data: {
       label: "Fan Media Wall & Live Alerts",
-      sub: "/fan-media-wall",
+      sub: "/media#fan-media-wall",
       system: "purple",
       kind: "page",
       iconName: "camera",

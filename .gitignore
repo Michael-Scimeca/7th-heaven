@@ -91,6 +91,9 @@ test-results/
 /*.png
 /artifacts/
 /scratch/
+/aurora-film/
+/Claude outputs/
+/codepen_archive.html
 /unused_report.json
 /schedules.json
 /LAYOUT_STRUCTURE_AUDIT.md
@@ -100,3 +103,4 @@ test-results/
 /mobile-screenshots
 /public/images/test-*.png
 /public/images/debug-*.png
+_to_delete/

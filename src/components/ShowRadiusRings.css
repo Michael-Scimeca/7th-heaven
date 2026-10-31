@@ -1,0 +1,118 @@
+/* ShowRadiusRings — Anton / Inter only, no surface fills */
+.srr {
+  --srr-ink: #f3eef8; --srr-soft: rgba(243, 238, 248, 0.62); --srr-dim: rgba(243, 238, 248, 0.32);
+  --srr-line: rgba(243, 238, 248, 0.34); --srr-sun: #fffbb5;
+  color: var(--srr-ink);
+  font-family: var(--font-family-sans, "Inter", var(--font-inter), sans-serif);
+}
+.srr button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.srr-row { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+.srr-svg { width: 220px; height: 220px; flex: none; overflow: visible; border-radius: 50%; }
+.srr-svg:focus-visible { outline: 1px solid var(--srr-sun); outline-offset: 6px; }
+.srr-ring { fill: transparent; stroke: var(--srr-line); stroke-width: 1; stroke-dasharray: 2 3; cursor: pointer; pointer-events: all; transition: stroke 300ms ease, stroke-width 300ms ease; }
+.srr-ring:hover { stroke: var(--srr-soft); stroke-width: 2.4; }
+.srr-ring.in { stroke: rgba(255, 251, 181, 0.4); }
+.srr-ring.on { stroke: var(--srr-sun); stroke-width: 1.6; stroke-dasharray: none; filter: drop-shadow(0 0 6px rgba(255, 251, 181, 0.55)); }
+.srr-north, .srr-cardinal text { font: 600 7px var(--font-family-sans, "Inter", var(--font-inter), sans-serif); fill: var(--srr-dim); letter-spacing: 0.1em; pointer-events: none; user-select: none; }
+.srr-home { fill: var(--srr-sun); pointer-events: none; }
+.srr-dot { fill: var(--srr-dim); cursor: pointer; transition: fill 300ms ease, r 300ms ease; pointer-events: all; }
+.srr-dot.on { fill: var(--srr-sun); filter: drop-shadow(0 0 3px rgba(255, 251, 181, 0.8)); }
+.srr-dot.hov, .srr-dot:focus-visible { fill: #fff; outline: none; stroke: var(--srr-sun); stroke-width: 1.5; }
+.srr-read { display: flex; flex-direction: column; gap: 8px; min-width: 0; max-width: 360px; }
+.srr-big { font-family: var(--font-family-display, "Anton", var(--font-anton), sans-serif); text-transform: uppercase; font-size: clamp(36px, 3.6vw, 52px); line-height: 0.95; color: var(--srr-sun); }
+.srr-sub { font-size: 15px; color: var(--srr-ink); }
+.srr-detail { font-size: 13px; line-height: 1.45; color: var(--srr-soft); min-height: 2.9em; }
+.srr-detail b { color: var(--srr-ink); font-weight: 600; }
+.srr-live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--srr-dim); }
+.srr-live i { width: 7px; height: 7px; border-radius: 50%; background: #7ee2a8; box-shadow: 0 0 8px #7ee2a8; animation: srrLive 2s ease-in-out infinite; }
+@keyframes srrLive { 50% { opacity: 0.35; } }
+.srr-where { font-size: 12px; color: var(--srr-dim); }
+.srr-where button { color: var(--srr-soft); text-decoration: underline; text-underline-offset: 3px; }
+.srr-where button:hover { color: var(--srr-sun); }
+.srr-where em { font-style: normal; color: var(--srr-soft); }
+.srr-list { list-style: none; margin: 18px 0 0; padding: 0; max-width: 560px; }
+.srr-list a { display: grid; grid-template-columns: 7.5em 1fr auto; gap: 14px; padding: 9px 0; border-bottom: 1px solid rgba(243, 238, 248, 0.12); text-decoration: none; color: var(--srr-ink); font-size: 14px; }
+.srr-list a:hover .srr-list-venue { color: var(--srr-sun); }
+.srr-list-date, .srr-list-mi { color: var(--srr-soft); font-variant-numeric: tabular-nums; }
+.srr-list-note { padding: 9px 0; font-size: 12px; color: var(--srr-dim); }
+@media (prefers-reduced-motion: reduce) { .srr-live i { animation: none; } }
+
+/* ── radar pulse ─────────────────────────────────────────────────── */
+.srr-radar { pointer-events: none; }
+.srr-wave {
+  fill: transparent;
+  stroke: var(--srr-sun);
+  stroke-width: 1.4;
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  transform: scale(0);
+  opacity: 0;
+  animation-name: srrWave;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes srrWave {
+  0% { transform: scale(0.02); opacity: 0.95; stroke-width: 2.4; }
+  80% { opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0; stroke-width: 0.6; }
+}
+/* soft glow breathing inside the chosen ring */
+.srr-wash {
+  fill: transparent;
+  stroke: rgba(255, 251, 181, 0.0);
+  stroke-width: 10;
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation-name: srrWash;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes srrWash {
+  0%, 100% { stroke: rgba(255, 251, 181, 0); }
+  50% { stroke: rgba(255, 251, 181, 0.07); }
+}
+/* only the most upcoming show dot pings / blinks */
+.srr-dot.ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: srrPing;
+  animation-duration: 1.2s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+@keyframes srrPing {
+  0% { transform: scale(1.9); fill: #fff; filter: drop-shadow(0 0 6px #fffbb5) drop-shadow(0 0 2px #fff); }
+  35% { transform: scale(1); fill: var(--srr-sun); filter: drop-shadow(0 0 3px rgba(255, 251, 181, 0.8)); }
+  100% { transform: scale(1); fill: var(--srr-sun); filter: drop-shadow(0 0 2px rgba(255, 251, 181, 0.5)); }
+}
+.srr-home { animation: srrHome 1.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes srrHome { 0% { transform: scale(1.6); } 40%, 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .srr-wave, .srr-wash, .srr-dot.ping, .srr-home { animation: none; }
+  .srr-wave { opacity: 0; }
+}
+
+/* hovered ring: thicker, with its distance written on the ring */
+.srr-ring.hov { stroke: var(--srr-ink); stroke-width: 2; stroke-dasharray: none; }
+.srr-ring.on.hov { stroke: var(--srr-sun); }
+.srr-ringtip {
+  font: 700 8px var(--font-family-sans, "Inter", var(--font-inter), sans-serif);
+  letter-spacing: 0.12em;
+  fill: var(--srr-sun);
+  paint-order: stroke;
+  stroke: #12071f;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.srr-detail--preview b { color: var(--srr-sun); }
+/* no browser focus box around the whole radar on click; keyboard focus still shows */
+.srr .srr-svg:focus { outline: none; }
+.srr .srr-svg:focus-visible { outline: 1px solid var(--srr-sun); outline-offset: 6px; }
+/* two readout lines together: next show + hovered ring; fixed heights so nothing jumps */
+.srr-detail { min-height: 1.45em; }
+.srr-detail--preview { min-height: 1.45em; margin-top: -4px; }
+/* readout lines never wrap: one line each, long venue names fade off with an ellipsis */
+.srr-read { max-width: 460px; }
+.srr-sub, .srr-detail, .srr-live, .srr-where { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.srr-detail { display: block; }

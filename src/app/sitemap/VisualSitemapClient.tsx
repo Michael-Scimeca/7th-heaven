@@ -249,7 +249,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "FAN MEDIA WALL",
       title: "Fan Media Wall & Concert Uploads",
-      path: "/fan-media-wall",
+      path: "/media#fan-media-wall",
       imgUrl: "/sitemap-thumbs/fan-photo-wall.jpg",
       badgeType: "HEADER_NAV",
       description:

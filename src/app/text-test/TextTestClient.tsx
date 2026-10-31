@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 /* ------------------------------------------------------------------ *
  * Rebuilt from fluxtheory.in. Three effects run that site's headings:
@@ -219,6 +220,27 @@ export default function TextTestClient() {
 
   return (
     <main className="text-test-page mx-auto w-full max-w-5xl px-4 pb-32 pt-28 md:px-8">
+      {/* TBWA\HAKUHODO Video Lens Lab Feature Link */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-purple-500/30 bg-purple-950/30 p-4 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <span className="inline-block size-2.5 rounded-full bg-purple-400 animate-pulse" />
+          <div>
+            <p className="font-mono text-xs font-semibold uppercase text-purple-200">
+              TBWA\HAKUHODO Sliced Video Lens Effect
+            </p>
+            <p className="text-xs text-purple-300/70">
+              Interactive WebGL Three.js shader with diagonal sliced ribbons, lens bulge, and prismatic chromatic aberration.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/tbwa-effect"
+          className="self-start sm:self-auto rounded-full border border-purple-400/40 bg-purple-500/20 px-4 py-1.5 font-mono text-xs font-bold text-white transition-colors hover:bg-purple-600"
+        >
+          OPEN LAB →
+        </Link>
+      </div>
+
       <header className="mb-16 flex flex-col gap-3">
         <p className="text-xs uppercase text-[var(--color-text-muted)]">Test page</p>
         <h1 className="uppercase text-white">Text transitions</h1>

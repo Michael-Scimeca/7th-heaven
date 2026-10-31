@@ -29,7 +29,7 @@ const CATEGORIES = [
     pages: [
       { path: "/fans", label: "Fan Club Dashboard" },
       { path: "/fans/complete-profile", label: "Complete Fan Profile" },
-      { path: "/fan-media-wall", label: "Fan Media Wall" },
+      { path: "/media#fan-media-wall", label: "Fan Media Wall" },
       { path: "/claim/123456", label: "Raffle Ticket Claim (Sample)" },
     ],
   },
