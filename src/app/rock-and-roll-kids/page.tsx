@@ -3,6 +3,8 @@ import { fetchPageContent } from "@/lib/sanity";
 import RockNRollKidsClient from "./RockNRollKidsClient";
 import RnrProjectsClient from "./RnrProjectsClient";
 import RnrStoriesClient from "./RnrStoriesClient";
+import RnrServicesClient from "./RnrServicesClient";
+import RnrMissionClient from "./RnrMissionClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const sanityContent = await fetchPageContent("rock-and-roll-kids");
@@ -55,9 +57,12 @@ export default async function RockNRollKidsPage({
   const sanityContent = await fetchPageContent("rock-and-roll-kids");
   const { layout } = await searchParams;
 
-  // glowingcheetah.com-style layout by default;
-  // ?layout=circles = federicopian.com/projects-style, ?layout=classic = the original page
+  // dogelonmars.com-style layout by default;
+  // ?layout=services = 1minus1.com/services-style, ?layout=stories = glowingcheetah.com-style, ?layout=circles = federicopian.com/projects-style,
+  // ?layout=classic = the original page
   if (layout === "classic") return <RockNRollKidsClient sanityContent={sanityContent} />;
   if (layout === "circles") return <RnrProjectsClient sanityContent={sanityContent} />;
-  return <RnrStoriesClient sanityContent={sanityContent} />;
+  if (layout === "stories") return <RnrStoriesClient sanityContent={sanityContent} />;
+  if (layout === "services") return <RnrServicesClient sanityContent={sanityContent} />;
+  return <RnrMissionClient sanityContent={sanityContent} />;
 }

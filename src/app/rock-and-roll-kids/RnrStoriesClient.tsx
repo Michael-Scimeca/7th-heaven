@@ -102,7 +102,7 @@ export default function RnrStoriesClient({ sanityContent }: { sanityContent: any
       <section className="rnrs-hero" style={{ clipPath: comicClip("bottom", 40, 3) }}>
         <div className="rnrs-hero-art" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/7hrrk/c-all.png" alt="" />
+          <img src="/images/7hrrk/All-c.png" alt="" />
         </div>
         <span className="rnrs-halftone rnrs-halftone--bottom" aria-hidden="true" />
         <ComicInk edge="bottom" amp={40} seed={3} />
@@ -133,8 +133,8 @@ export default function RnrStoriesClient({ sanityContent }: { sanityContent: any
           </p>
           <div className="rnrs-grid">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {(showAll ? comics : comics.slice(0, 6)).map((c: any, i: number) => (
-              <article key={c.id ?? i} className="rnrs-card">
+            {(showAll ? comics : comics.slice(0, 6)).map((c: any) => (
+              <article key={c.id ?? c.title} className="rnrs-card">
                 <a className="rnrs-card-img" href={c.amazonUrl} target="_blank" rel="noopener noreferrer" aria-label={`${c.title} on Amazon`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="rnrs-card-cover" src={c.coverImg} alt={`${c.title} cover`} loading="lazy" />
@@ -192,8 +192,8 @@ export default function RnrStoriesClient({ sanityContent }: { sanityContent: any
           </p>
           <div className="rnrs-grid rnrs-grid--4">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {cast.map((c: any, i: number) => (
-              <article key={`${c.name}-${i}`} className="rnrs-card rnrs-card--person">
+            {cast.map((c: any) => (
+              <article key={c.name} className="rnrs-card rnrs-card--person">
                 <div className="rnrs-portrait">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.image} alt={c.name} loading="lazy" />
@@ -213,8 +213,8 @@ export default function RnrStoriesClient({ sanityContent }: { sanityContent: any
           </p>
           <div className="rnrs-grid">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {founders.map((f: any, i: number) => (
-              <article key={`${f.name}-${i}`} className="rnrs-card rnrs-card--person">
+            {founders.map((f: any) => (
+              <article key={f.name} className="rnrs-card rnrs-card--person">
                 <div className="rnrs-portrait rnrs-portrait--wide">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={f.desktopImg || f.mobileImg} alt={f.name} loading="lazy" />

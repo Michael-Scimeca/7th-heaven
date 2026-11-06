@@ -33,7 +33,10 @@ export function useScrollLock(locked: boolean = true) {
       document.body.style.right = "0px";
       document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
-      if (scrollBarWidth > 0) {
+      // Only make up for the scrollbar if locking actually removes it; when the page always
+      // shows one, extra padding would narrow the page and shift everything sideways
+      const keepsScrollbar = getComputedStyle(document.documentElement).overflowY === "scroll";
+      if (scrollBarWidth > 0 && !keepsScrollbar) {
         document.body.style.paddingRight = `${scrollBarWidth}px`;
       }
       document.body.setAttribute("data-scroll-locked", "true");

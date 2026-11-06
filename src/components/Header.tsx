@@ -23,6 +23,11 @@ import SeventhButton from "@/components/SeventhButton";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
 import Avatar from "@/components/Avatar";
 import { useScrollLock } from "@/lib/useScrollLock";
+import { useSettings } from "@/lib/useSettings";
+import {
+  normalizeSocialLinks,
+  SocialPlatformIcon,
+} from "@/components/SocialPlatformIcon";
 
 const emptySubscribe = () => () => { };
 
@@ -31,6 +36,14 @@ const leftNavLinks = [
   { href: "/fan-media", label: "FAN MEDIA" },
   { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
   // { href: "/merch", label: "MERCH" }, // hidden per user request
+];
+
+const secondaryNavLinks = [
+  { href: "/faq", label: "FAQ" },
+  { href: "/shows/past", label: "Past Shows Archive" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Service" },
+  { href: "/returns", label: "Returns & Refunds" },
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
@@ -155,6 +168,24 @@ export function Header() {
     useMember();
   const [cartCount, setCartCount] = useState(0);
   const [isLiveNow, setIsLiveNow] = useState(false);
+  const { settings } = useSettings();
+  const settingsRecord = settings as
+    | {
+      bookingEmail?: string;
+      bookingPhone?: string;
+      socialLinks?: unknown;
+    }
+    | undefined;
+  const richardEmail =
+    settingsRecord?.bookingEmail?.trim() || "info@NTDManagement.com";
+  const richardPhone =
+    settingsRecord?.bookingPhone?.trim() || "(847) 551-5363";
+  const richardPhoneDigits = richardPhone.replace(/\D/g, "");
+  const richardTelHref = `tel:${richardPhoneDigits.length === 10
+    ? `+1${richardPhoneDigits}`
+    : richardPhoneDigits || "+18475515363"
+    }`;
+  const navSocialLinks = normalizeSocialLinks(settingsRecord?.socialLinks);
 
   // Check if live stream is actively broadcasting (supports ?live=true query param for instant visual testing)
   useEffect(() => {
@@ -608,9 +639,9 @@ export function Header() {
           <div
             id="nav-inner-card"
             suppressHydrationWarning
-            className="pointer-events-auto relative z-[30000] flex h-[60px] w-full items-center justify-between mt-4 gap-4 md:h-[70px]"
+            className="pointer-events-none relative z-[30000] mt-4 flex h-[60px] w-full max-w-full items-center justify-between gap-4 sm:gap-5 md:h-[70px]"
           >
-            {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
+            {/* ── LOGO ── */}
             <TransitionLink
               href="/"
               id="header-logo"
@@ -622,16 +653,17 @@ export function Header() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
-              className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-white" : "cursor-pointer"}`}
+              className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-start transition-colors duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-white" : "cursor-pointer"}`}
+              aria-label="7th Heaven — Go to Home Page"
               title="7th Heaven — Go to Home Page"
             >
-              <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">
-                <Logo className="pointer-events-auto h-full w-full text-current duration-[250ms]" />
+              <div className="header-logo-sleeve pointer-events-auto select-none">
+                <Logo className="pointer-events-auto text-current" />
               </div>
             </TransitionLink>
             {/* ── RIGHT NAV & ACTIONS GROUP ── */}
             <nav
-              className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
+              className={`pointer-events-auto relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
             >
               {/* Cart Icon — only shown if something is in cart */}
               {cartCount > 0 && (
@@ -735,9 +767,11 @@ export function Header() {
 
               {/* Menu Toggle Button — visible on EVERY window size */}
               <button
-                className="group transition-colors relative flex h-10 max-w-[80px] w-12 shrink-0 cursor-pointer items-center justify-center p-1 hover:text-[var(--color-accent)] sm:h-11 sm:w-14 md:h-12 md:w-16"
+                className="group transition-colors relative flex h-10 max-w-[80px]  shrink-0 cursor-pointer items-center justify-center  hover:text-[var(--color-accent)] "
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-nav-drawer"
                 id="mobile-menu-toggle"
               >
                 <SoundBarsIcon open={mobileOpen} />
@@ -760,6 +794,7 @@ export function Header() {
               mounted &&
               createPortal(
                 <div
+                  id="mobile-nav-drawer"
                   // The panel itself is revealed by wiping clip-path open, not by
                   // fading opacity — this sidesteps the globals.css PageSpeed hack
                   // (`html body> *{ opacity:1 !important }`, meant to force
@@ -831,153 +866,137 @@ export function Header() {
                         </div>
                       </div>
 
-                      <nav className="flex w-fit max-w-full flex-col items-start gap-3.5 sm:gap-4 md:gap-5">
-                        {[
-                          { href: "/", label: "HOME" },
-                          { href: "/media", label: "MEDIA" },
-                          { href: "/fan-media", label: "FAN MEDIA" },
-                          {
-                            href: "/rock-and-roll-kids",
-                            label: "ROCK & ROLL KIDS",
-                          },
-                          // { href: "/merch", label: "MERCH" }, // hidden per user request
-                          ...(isLiveNow ? [{ href: "/live", label: "LIVE" }] : []),
-                          { href: "/cruise", label: "CRUISE" },
-                          { href: "/contact", label: "CONTACT" },
-                          ...(showUserAuth
-                            ? [{ href: studioHref, label: "STUDIO" }]
-                            : []),
-                        ].map((link, i) => {
-                          const isActive =
-                            effectivePathname === link.href ||
-                            (link.href === studioHref &&
-                              effectivePathname.startsWith("/studio"));
+                      <div className="flex flex-col items-start gap-6 sm:gap-8">
+                        <nav
+                          aria-label="Primary Navigation"
+                          className="flex w-fit max-w-full flex-col items-start gap-3.5 sm:gap-4 md:gap-5"
+                        >
+                          {[
+                            { href: "/", label: "HOME" },
+                            { href: "/media", label: "MEDIA" },
+                            { href: "/fan-media", label: "FAN MEDIA" },
+                            {
+                              href: "/rock-and-roll-kids",
+                              label: "ROCK & ROLL KIDS",
+                            },
+                            // { href: "/merch", label: "MERCH" }, // hidden per user request
+                            ...(isLiveNow ? [{ href: "/live", label: "LIVE" }] : []),
+                            { href: "/cruise", label: "CRUISE" },
+                            { href: "/contact", label: "CONTACT" },
+                            ...(showUserAuth
+                              ? [{ href: studioHref, label: "STUDIO" }]
+                              : []),
+                          ].map((link) => {
+                            const isActive =
+                              effectivePathname === link.href ||
+                              (link.href === studioHref &&
+                                effectivePathname.startsWith("/studio"));
 
-                          return (
-                            <TransitionLink
-                              key={link.href}
-                              href={link.href}
-                              onClick={() => setMobileOpen(false)}
-                              className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.9rem,8vw,2.5rem)] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${isActive
-                                ? "active cursor-default !text-[#fffbb5]"
-                                : "!text-white hover:!text-[#c084fc] cursor-pointer"
-                                }`}
-                              style={{
-                                opacity: overlayVisible ? 1 : 0,
-                                transition: `opacity 650ms ${EASE_OUT_LINEAR}`, /* no movement: fade only */
-                                transitionDelay: overlayVisible
-                                  ? "450ms" /* no stagger: all links together */
-                                  : "0ms",
-                              }}
-                            >
-                              <span>{link.label}</span>
-                              {link.href === "/live" && isLiveNow && (
-                                <span className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white shadow-[0_0_12px_rgba(239,68,68,0.9)] animate-pulse align-middle">
-                                  <span className="h-2 w-2 rounded-full bg-white animate-ping" />
-                                  ON AIR NOW
-                                </span>
-                              )}
-                            </TransitionLink>
-                          );
-                        })}
-                      </nav>
-                    </div>
+                            return (
+                              <TransitionLink
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setMobileOpen(false)}
+                                className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.9rem,8vw,2.5rem)] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${isActive
+                                  ? "active cursor-default !text-[#fffbb5]"
+                                  : "!text-white hover:!text-[#c084fc] cursor-pointer"
+                                  }`}
+                                style={{
+                                  opacity: overlayVisible ? 1 : 0,
+                                  transition: `opacity 650ms ${EASE_OUT_LINEAR}`, /* no movement: fade only */
+                                  transitionDelay: overlayVisible
+                                    ? "450ms" /* no stagger: all links together */
+                                    : "0ms",
+                                }}
+                              >
+                                <span>{link.label}</span>
+                                {link.href === "/live" && isLiveNow && (
+                                  <span className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white shadow-[0_0_12px_rgba(239,68,68,0.9)] animate-pulse align-middle">
+                                    <span className="h-2 w-2 rounded-full bg-white animate-ping" />
+                                    ON AIR NOW
+                                  </span>
+                                )}
+                              </TransitionLink>
+                            );
+                          })}
+                        </nav>
 
-                    {/* Bottom utility row: social links + account action, below a
-                  hairline divider — same structural beat as exoape's
-                  Play Reel / Our Story / Now Hiring! row, filled in with
-                  this site's own links rather than copying its wording. */}
-                    <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/10 px-6 py-5 sm:px-10">
-                      <div className="flex items-center gap-4 sm:gap-6">
-                        <a
-                          href="https://www.instagram.com/7thheavenband"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:!text-[#c084fc]"
+                        {/* Secondary Navigation (FAQ, Past Shows Archive, Legal & Policies) */}
+                        <nav
+                          aria-label="Secondary Navigation"
+                          data-visible={overlayVisible ? "true" : "false"}
+                          className="mobile-nav-secondary flex flex-wrap items-center gap-x-2 gap-y-2"
                         >
-                          Instagram
-                        </a>
-                        <a
-                          href="https://www.facebook.com/7thheavenband"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:!text-[#c084fc]"
-                        >
-                          Facebook
-                        </a>
-                        <a
-                          href="https://twitter.com/7thheavenband"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:!text-[#c084fc]"
-                        >
-                          Twitter
-                        </a>
-                        <a
-                          href="https://www.youtube.com/user/7thheavenband"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hidden hover:!text-[#c084fc] sm:inline"
-                        >
-                          YouTube
-                        </a>
-                      </div>
+                          {secondaryNavLinks.map((link, index) => {
+                            const active = isNavActive(link.href);
+                            return (
+                              <span
+                                key={link.href}
+                                className="inline-flex items-center gap-2"
+                              >
+                                <TransitionLink
+                                  href={link.href}
+                                  data-active={active ? "true" : "false"}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="mobile-nav-secondary-link"
+                                >
+                                  {link.label}
+                                </TransitionLink>
+                                {index < secondaryNavLinks.length - 1 && (
+                                  <span
+                                    aria-hidden="true"
+                                    className="mobile-nav-secondary-sep"
+                                  >
+                                    /
+                                  </span>
+                                )}
+                              </span>
+                            );
+                          })}
+                        </nav>
 
-                      {showUserAuth ? (
-                        <div className="flex items-center gap-2">
-                          <div className="relative flex aspect-square shrink-0 items-center justify-center">
-                            <TransitionLink
-                              href={dashboardHref}
-                              showSpinner={false}
-                              onClick={() => setMobileOpen(false)}
-                              className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
+                        {/* Richard Hofherr Contact Info + Social Network Icons */}
+                        <div
+                          data-visible={overlayVisible ? "true" : "false"}
+                          className="mobile-nav-contact-block flex flex-col items-start gap-6"
+                        >
+                          <div className="flex flex-col items-start gap-1">
+                            <a
+                              href={`mailto:${richardEmail}`}
+                              aria-label={`Email Richard Hofherr at ${richardEmail}`}
+                              className="mobile-nav-contact-link"
                             >
-                              <Avatar
-                                src={avatarSrc}
-                                name={displayName}
-                                initials={initials}
-                                size="sm"
-                                border="border border-white/20"
-                              />
-                            </TransitionLink>
-                            <span
-                              className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg}`}
+                              {richardEmail}
+                            </a>
+                            <a
+                              href={richardTelHref}
+                              aria-label={`Call Richard Hofherr at ${richardPhone}`}
+                              className="mobile-nav-contact-link"
                             >
-                              {badgeText}
-                            </span>
+                              {richardPhone}
+                            </a>
                           </div>
-                          <button
-                            onClick={() => {
-                              setMobileOpen(false);
-                              openProfileModal();
-                            }}
-                            className="transition-colors ml-1 cursor-pointer text-[12px] font-semibold text-white/80 hover:text-white"
-                          >
-                            EDIT
-                          </button>
-                          <button
-                            onClick={() => {
-                              setMobileOpen(false);
-                              logout();
-                              requestTransition("/");
-                            }}
-                            className="transition-colors ml-1 cursor-pointer text-[12px] text-purple-400 hover:text-white"
-                          >
-                            SIGN OUT
-                          </button>
+
+                          <div className="flex flex-wrap items-center gap-4">
+                            {navSocialLinks.map((social) => (
+                              <a
+                                key={social.name}
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={social.name}
+                                title={social.name}
+                                className="mobile-nav-social-link"
+                              >
+                                <SocialPlatformIcon
+                                  name={social.name}
+                                  url={social.url}
+                                />
+                              </a>
+                            ))}
+                          </div>
                         </div>
-                      ) : (
-                        <SeventhButton
-                          icon={false}
-                          onClick={() => {
-                            setMobileOpen(false);
-                            openModal("login");
-                          }}
-                          className="shrink-0"
-                        >
-                          SIGN IN
-                        </SeventhButton>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>,

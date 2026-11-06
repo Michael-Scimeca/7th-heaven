@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react";
-import { createPortal } from "react-dom";
+import React, { useState, useCallback } from "react";
 import { Play, Camera, X, RotateCcw } from "lucide-react";
 import { videoThumb } from "@/lib/videoThumb";
 import { VIDEO_TRACKS, type VideoTrack } from "./TbwaPillHero";
@@ -41,7 +40,7 @@ export interface VaultCategoryRow {
   items: VaultMediaCard[];
 }
 
-const CATEGORIES_DATA: VaultCategoryRow[] = [
+export const CATEGORIES_DATA: VaultCategoryRow[] = [
   // ── VIDEOS SECTION ──
   {
     id: "official-music-videos",
@@ -856,8 +855,6 @@ const CATEGORIES_DATA: VaultCategoryRow[] = [
   },
 ];
 
-const subscribeNoop = () => () => {};
-
 export interface PartnershipsMediaVaultProps {
   activeTrackId?: string;
   onSelectTrack?: (track: VideoTrack) => void;
@@ -872,15 +869,7 @@ export default function PartnershipsMediaVault({
   const [filterLayoutId, setFilterLayoutId] = useState<number>(1);
   const [filterState, setFilterState] = useState<VaultFilterState>(DEFAULT_VAULT_FILTER_STATE);
   const [activeRowId, setActiveRowId] = useState<string>("official-music-videos");
-  const [isSoundPlaying, setIsSoundPlaying] = useState<boolean>(false);
   const [selectedMedia, setSelectedMedia] = useState<VaultMediaCard | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const mounted = useSyncExternalStore(
-    subscribeNoop,
-    () => true,
-    () => false
-  );
 
   const handleSelectMedia = useCallback(
     (item: VaultMediaCard | null) => {
@@ -911,32 +900,6 @@ export default function PartnershipsMediaVault({
   const handleResetFilters = useCallback(() => {
     setFilterState(DEFAULT_VAULT_FILTER_STATE);
   }, []);
-
-  // Initialize and clean up audio
-  useEffect(() => {
-    const audio = new Audio("/audio/demo-track.mp3");
-    audio.loop = true;
-    audio.volume = 0.35;
-    audioRef.current = audio;
-
-    return () => {
-      audio.pause();
-      audio.src = "";
-    };
-  }, []);
-
-  const toggleSound = useCallback(() => {
-    if (!audioRef.current) return;
-    if (isSoundPlaying) {
-      audioRef.current.pause();
-      setIsSoundPlaying(false);
-    } else {
-      audioRef.current
-        .play()
-        .then(() => setIsSoundPlaying(true))
-        .catch(() => setIsSoundPlaying(false));
-    }
-  }, [isSoundPlaying]);
 
   const {
     rows: filteredCategories,
@@ -1171,50 +1134,6 @@ export default function PartnershipsMediaVault({
       {renderFilterLayoutsPackA(filterLayoutId, filterLayoutProps) ??
         renderFilterLayoutsPackB(filterLayoutId, filterLayoutProps) ??
         renderFilterLayoutsPackC(filterLayoutId, filterLayoutProps)}
-
-      {/* ── FIXED BOTTOM RIGHT AMBIENT SOUND DOCK ── */}
-      {mounted &&
-        createPortal(
-          <aside
-            aria-label="Ambient Concert Audio Dock"
-            className="fixed bottom-6 right-4 sm:right-6 z-50 flex items-center gap-2 select-none"
-          >
-            <button
-              type="button"
-              onClick={toggleSound}
-              aria-pressed={isSoundPlaying}
-              aria-label={
-                isSoundPlaying ? "Mute ambient concert sound" : "Turn ambient concert sound on"
-              }
-              title={isSoundPlaying ? "Ambient Sound Playing" : "Turn Sound On"}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/80 text-white backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:bg-black/95 hover:border-white/40 shadow-2xl cursor-pointer"
-            >
-              <span aria-hidden="true" className="flex h-3.5 items-end gap-[2.5px]">
-                <span
-                  className={`w-[2px] rounded-full bg-current transition-all duration-300 ${
-                    isSoundPlaying ? "h-3.5 animate-pulse" : "h-1 opacity-50"
-                  }`}
-                />
-                <span
-                  className={`w-[2px] rounded-full bg-current transition-all duration-300 ${
-                    isSoundPlaying ? "h-2.5 animate-bounce" : "h-2 opacity-50"
-                  }`}
-                />
-                <span
-                  className={`w-[2px] rounded-full bg-current transition-all duration-300 ${
-                    isSoundPlaying ? "h-3.5 animate-pulse" : "h-3 opacity-50"
-                  }`}
-                />
-                <span
-                  className={`w-[2px] rounded-full bg-current transition-all duration-300 ${
-                    isSoundPlaying ? "h-2 animate-bounce" : "h-1.5 opacity-50"
-                  }`}
-                />
-              </span>
-            </button>
-          </aside>,
-          document.body
-        )}
 
       {/* ── CINEMA MODAL (For Videos) ── */}
       <TopLayerDialog

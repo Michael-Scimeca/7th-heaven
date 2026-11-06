@@ -269,10 +269,10 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Venue Name */}
-        <h2 className="text-fluid-h3 text-amber-50">{upNext.venue}</h2>
+        <h2 className="m-0 !text-[30px] !leading-[1.1] text-amber-50">{upNext.venue}</h2>
 
         {/* Date, Location & Time */}
-        <div className="flex flex-wrap items-center gap-2 text-fluid-body text-zinc-200">
+        <div className="flex flex-wrap items-center gap-2 text-[15px] leading-snug text-zinc-200">
           <span>{dateLabel}</span>
           {upNext.city && (
             <>
@@ -294,20 +294,16 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Subtitle / Notes */}
-        <div className="min-h-[1.5rem]">
-          {upNext.info ? (
-            <h3 className="text-fluid-caption text-zinc-300">{upNext.info}</h3>
-          ) : null}
-        </div>
+        {upNext.info ? <div className="text-[15px] leading-snug text-zinc-300">{upNext.info}</div> : null}
 
         {/* Action Links (DIRECTIONS | WEBSITE | ADD TO CALENDAR) */}
-        <div className="mt-0.5 flex flex-wrap items-center gap-4 border-t border-white/10 pt-2.5 text-fluid-caption font-bold sm:gap-6">
+        <div className="mt-0.5 flex flex-wrap items-center gap-4 border-t border-white/10 pt-2.5 text-[13px] font-bold tracking-wide sm:gap-6">
           {upNext.mapUrl && (
             <a
               href={upNext.mapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer text-white/80 transition-colors hover:text-white"
+              className="cursor-pointer !text-[13px] text-white/80 transition-colors hover:text-white"
             >
               DIRECTIONS
             </a>
@@ -317,7 +313,7 @@ export default function HeroUpNextBanner() {
               href={upNext.websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer text-white/80 transition-colors hover:text-white"
+              className="cursor-pointer !text-[13px] text-white/80 transition-colors hover:text-white"
             >
               WEBSITE
             </a>
@@ -326,7 +322,7 @@ export default function HeroUpNextBanner() {
             <button
               type="button"
               onClick={() => setIsCalOpen(!isCalOpen)}
-              className="a-btn cursor-pointer text-[var(--color-amber)] transition-colors hover:text-amber-300"
+              className="a-btn cursor-pointer !text-[13px] text-[var(--color-amber)] transition-colors hover:text-amber-300"
             >
               ADD TO CALENDAR
             </button>

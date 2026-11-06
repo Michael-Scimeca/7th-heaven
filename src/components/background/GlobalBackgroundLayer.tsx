@@ -1,35 +1,34 @@
 "use client";
 
-import React, { useState, useEffect, useSyncExternalStore } from "react";
+import React, { useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import {
-  BackgroundViewRenderer,
-} from "./BackgroundViewRenderer";
-import {
-  BG_EVENT_KEY,
-  getActiveBgView,
-} from "./BackgroundViewsSwitcher";
+import { BackgroundViewRenderer } from "./BackgroundViewRenderer";
+import { BG_EVENT_KEY, getActiveBgView } from "./BackgroundViewsSwitcher";
+
+const emptySubscribe = () => () => {};
+
+function subscribeBgView(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener(BG_EVENT_KEY, callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener(BG_EVENT_KEY, callback);
+    window.removeEventListener("storage", callback);
+  };
+}
 
 export default function GlobalBackgroundLayer() {
   const pathname = usePathname();
-  const [activeView, setActiveView] = useState("arena-concert");
   const mounted = useSyncExternalStore(
-    () => () => {},
+    emptySubscribe,
     () => true,
     () => false
   );
-
-  useEffect(() => {
-    setActiveView(getActiveBgView());
-
-    const handleChange = (e: Event) => {
-      const detail = (e as CustomEvent<{ viewId: string }>).detail;
-      if (detail?.viewId) setActiveView(detail.viewId);
-    };
-
-    window.addEventListener(BG_EVENT_KEY, handleChange);
-    return () => window.removeEventListener(BG_EVENT_KEY, handleChange);
-  }, []);
+  const activeView = useSyncExternalStore(
+    subscribeBgView,
+    getActiveBgView,
+    () => "arena-concert"
+  );
 
   if (!mounted || pathname === "/media") return null;
 
@@ -37,7 +36,7 @@ export default function GlobalBackgroundLayer() {
     <div
       id="site-global-background-layer"
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-[10] overflow-hidden select-none transition-all duration-700"
+      className="pointer-events-none fixed inset-0 -z-[5] isolate overflow-hidden select-none transition-all duration-700"
     >
       <BackgroundViewRenderer viewId={activeView} />
     </div>

@@ -105,7 +105,7 @@ export default async function Home(props: {
   });
 
   return (
-    <main id="home-page" className="page-container page-container--hero flex flex-col !pt-0">
+    <main id="home-page" className="page-container page-container--hero -mb-[106px] flex flex-col !pt-0 !pb-0">
 
       {/* ====== HERO (Viewport Height - Sticky Pin) ====== */}
       <section

@@ -1,0 +1,311 @@
+.itest {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  min-height: 100vh;
+  padding: 130px clamp(16px, 5vw, 80px) 120px;
+  color: #f3eef8;
+  font-family: var(--font-family-sans, "Inter", var(--font-inter), sans-serif);
+}
+.itest h1,
+.itest h2 {
+  margin: 0;
+  font-family: var(--font-family-display, "Anton", var(--font-anton), sans-serif);
+  font-weight: 400;
+}
+.itest h1 { font-size: clamp(36px, 5vw, 64px); }
+.itest h2 { font-size: 28px; }
+.itest section > p {
+  margin: 8px 0 28px;
+  font-size: 15px;
+}
+.itest-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px;
+}
+
+/* ===== Gooey waitlist ===== */
+.goo {
+  position: relative;
+  width: min(440px, 100%);
+  height: 56px;
+  --goo-ease: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.goo-defs {
+  position: absolute;
+}
+.goo-shapes {
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+}
+.goo-field,
+.goo-action {
+  position: absolute;
+  top: 20px;
+  height: 56px;
+  border-radius: 28px;
+  background: #6d28d9;
+  transition: left 650ms var(--goo-ease), width 650ms var(--goo-ease), background 300ms ease;
+}
+/* Idle and done: both shapes stacked into one pill at the left */
+.goo-field { left: 20px; width: 210px; }
+.goo-action { left: 20px; width: 210px; }
+.goo[data-stage="open"] .goo-field { width: calc(100% - 40px - 118px); }
+.goo[data-stage="open"] .goo-action { left: calc(100% - 20px - 106px); width: 106px; background: #f5b942; }
+.goo[data-stage="done"] .goo-field,
+.goo[data-stage="done"] .goo-action { width: 230px; }
+.goo-join,
+.goo-done {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  margin: 0;
+  border: 0;
+  border-radius: 28px;
+  background: none;
+  font: 600 15px var(--font-family-sans, "Inter", sans-serif);
+  color: #fff;
+  animation: gooFade 300ms ease 150ms both;
+}
+.goo-join { width: 210px; cursor: pointer; }
+.goo-done { width: 230px; }
+@keyframes gooFade {
+  from { opacity: 0; }
+}
+.goo-form {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  animation: gooFade 300ms ease 250ms both;
+}
+.goo-input {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-width: 0;
+  height: 56px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 28px;
+}
+.goo-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.goo-input input,
+.goo-letters {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 56px;
+  margin: 0;
+  padding: 0 22px;
+  font: 500 15px/56px var(--font-family-sans, "Inter", sans-serif);
+  white-space: pre;
+}
+.goo-input input {
+  border: 0;
+  outline: 0;
+  background: none !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  caret-color: #fff;
+}
+.goo-input input::placeholder {
+  color: rgba(255, 255, 255, 0.82);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.82);
+}
+.goo-input:focus-within {
+  box-shadow: inset 0 0 0 2px #fffbb5;
+}
+.goo-letters {
+  overflow: hidden;
+  color: #fff;
+  pointer-events: none;
+}
+.goo-letters span {
+  display: inline-block;
+  white-space: pre;
+  animation: gooRise 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes gooRise {
+  from { opacity: 0; transform: translateY(14px); }
+}
+.goo-submit {
+  flex: none;
+  width: 106px;
+  border: 0;
+  border-radius: 28px;
+  background: none;
+  font: 700 15px var(--font-family-sans, "Inter", sans-serif);
+  color: #14101c;
+  cursor: pointer;
+}
+.goo-submit:focus-visible {
+  outline: 2px solid #fffbb5;
+  outline-offset: 2px;
+}
+.goo-error {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 22px;
+  margin: 0;
+  font-size: 13px;
+  color: #fecaca;
+}
+
+/* ===== Liquid metal button ===== */
+.metal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  font-family: var(--font-family-sans, "Inter", sans-serif);
+  cursor: pointer;
+}
+.metal:focus-visible {
+  outline: 2px solid #fffbb5;
+  outline-offset: 6px;
+}
+.metal canvas {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+}
+.metal span,
+.metal svg {
+  position: relative;
+}
+.metal[data-no-gl="true"] {
+  border: 2px solid #d9dbe6;
+}
+
+.metal-panel {
+  position: fixed;
+  top: 100px;
+  right: 12px;
+  z-index: 100;
+  width: min(290px, calc(100vw - 24px));
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
+  border: 1px solid rgba(243, 238, 248, 0.28);
+  border-radius: 12px;
+  background: rgba(20, 18, 24, 0.95);
+  font-size: 12px;
+}
+.metal-panel-toggle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  font: 700 12px var(--font-family-sans, "Inter", sans-serif);
+  color: #f3eef8;
+  cursor: pointer;
+}
+.metal-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 12px 12px;
+}
+.metal-panel fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(243, 238, 248, 0.2);
+}
+.metal-panel legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 700;
+  color: #fffbb5;
+}
+.metal-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.metal-slider > span {
+  display: flex;
+  justify-content: space-between;
+}
+.metal-slider output {
+  color: #fffbb5;
+  font-variant-numeric: tabular-nums;
+}
+.metal-slider input {
+  width: 100%;
+  accent-color: #f5b942;
+}
+.metal-color,
+.metal-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.metal-color {
+  justify-content: space-between;
+}
+.metal-color input {
+  width: 44px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid rgba(243, 238, 248, 0.4);
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+.metal-check input {
+  accent-color: #f5b942;
+}
+.metal-actions {
+  display: flex;
+  gap: 6px;
+}
+.metal-actions button {
+  flex: 1;
+  min-height: 34px;
+  border: 1px solid rgba(243, 238, 248, 0.28);
+  border-radius: 8px;
+  background: none;
+  font: 12px var(--font-family-sans, "Inter", sans-serif);
+  color: #f3eef8;
+  cursor: pointer;
+}
+.metal-actions button:hover {
+  border-color: #fffbb5;
+  color: #fffbb5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .goo-field,
+  .goo-action {
+    transition: none;
+  }
+  .goo-letters span {
+    animation: none;
+  }
+}

@@ -1,0 +1,345 @@
+/* Hide the site-wide background so this reads like the original. */
+:global(#site-global-background-layer),
+:global(#global-ambient-gradient),
+:global(#bg-views-switcher-dock) {
+  display: none !important;
+}
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: transparent;
+  color: #fffbeb;
+  font-family: var(--font-body);
+}
+.glow {
+  display: none;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(160, 150, 130, 0.45) 0%, rgba(213, 207, 190, 0) 38%);
+}
+
+.section {
+  position: relative;
+  container-type: inline-size;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 140px 32px 220px;
+}
+
+.head {
+  margin-bottom: 64px;
+}
+.label {
+  display: inline-block;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(223, 222, 206, 0.8);
+  margin-bottom: 24px;
+}
+.h2 {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(40px, 4.4vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+}
+.mask {
+  display: block;
+  overflow: hidden;
+}
+.mask > span {
+  display: block;
+}
+.intro {
+  max-width: 389px;
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* The board: cards are placed in board-width units via container query units. */
+.board {
+  position: relative;
+  width: 100%;
+  height: calc(var(--board-h) * 1cqw);
+}
+@supports not (width: 1cqw) {
+  .board { height: calc(var(--board-h) * 0.01 * min(100vw - 64px, 1536px)); }
+}
+
+.lineBase,
+.lineSolid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--board-h) * 1cqw);
+  overflow: visible;
+}
+.lineBase path,
+.lineSolid path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.lineBase path {
+  stroke: rgba(255, 251, 235, 0.18);
+  stroke-width: 2;
+}
+.lineSolid path {
+  stroke: #fffbeb;
+  stroke-width: 2;
+}
+.lineReveal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+}
+
+.slot {
+  position: absolute;
+  left: calc(var(--left) * 1%);
+  top: calc(var(--top) * 1cqw);
+  width: 30.1%;
+  z-index: 1;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 2.2cqw, 57px);
+  border-radius: clamp(14px, 1.1cqw, 23px);
+  background: rgba(223, 222, 206, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.cardImage {
+  margin: 0 0 clamp(16px, 1.4cqw, 28px);
+  aspect-ratio: 2 / 1;
+  border-radius: clamp(10px, 0.8cqw, 16px);
+  overflow: hidden;
+  background: #c9c2ae;
+}
+.cardImage img,
+.popupImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.popupImage {
+  margin: 0 0 24px;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #c9c2ae;
+}
+.year {
+  font-weight: 700;
+  font-size: clamp(56px, 4.7cqw, 100px);
+  line-height: 1;
+  color: rgb(255, 255, 35);
+  margin: 0 0 clamp(16px, 1.4cqw, 28px);
+  /* the bright yellow needs a hairline to read on cream */
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.08);
+}
+.cardHeading {
+  font-weight: 500;
+  font-size: clamp(22px, 1.7cqw, 36px);
+  line-height: 1.1;
+  margin: 0 0 14px;
+  max-width: 350px;
+}
+.summary {
+  font-size: clamp(15px, 1cqw, 20px);
+  line-height: 1.5;
+  margin: 0 0 clamp(24px, 2cqw, 40px);
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+}
+.bottomLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.photos {
+  display: flex;
+}
+.photo {
+  width: clamp(48px, 3.8cqw, 80px);
+  height: clamp(48px, 3.8cqw, 80px);
+  border-radius: 50%;
+  object-fit: cover;
+  background: #c9c2ae;
+  border: 3px solid rgba(223, 222, 206, 1);
+  position: relative;
+}
+.photo + .photo {
+  margin-left: calc(clamp(48px, 3.8cqw, 80px) * -0.45);
+}
+.handle {
+  margin: 0;
+  font-size: clamp(13px, 0.9cqw, 18px);
+  line-height: 1.3;
+  color: rgba(0, 0, 0, 0.5);
+}
+.readMore {
+  flex-shrink: 0;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: clamp(14px, 1cqw, 20px);
+  padding: clamp(10px, 0.9cqw, 19px) clamp(18px, 1.8cqw, 38px);
+  border-radius: clamp(14px, 1.1cqw, 23px);
+  background: rgb(235, 234, 218);
+  color: #000;
+  transition: background 0.3s ease;
+}
+.readMore:hover {
+  background: #fff;
+}
+
+/* popup */
+.popupBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(40, 36, 28, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease;
+}
+.popup {
+  position: relative;
+  width: min(640px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  padding: clamp(28px, 4vw, 56px);
+  border-radius: 23px;
+  background: rgb(223, 222, 206);
+  animation: fadeIn 0.35s ease;
+}
+.popupYear {
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 1;
+  color: rgb(255, 255, 35);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.08);
+  margin: 0 0 20px;
+}
+.popupPhotos {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.popupPhotos img {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  object-fit: cover;
+  background: #c9c2ae;
+}
+.popupText {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+}
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(235, 234, 218);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* mobile: stack the cards on a straight rail, like the original's mobile timeline */
+@media (max-width: 900px) {
+  .section { padding: 100px 16px 120px; }
+  .board {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 28px;
+  }
+  .lineBase, .lineReveal { display: none; }
+  .board::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 251, 235, 0.18);
+  }
+  .slot {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+  }
+  .card { padding: 24px; }
+  .year { font-size: 56px; }
+  .cardHeading { font-size: 24px; }
+  .summary { font-size: 16px; }
+  .photo { width: 48px; height: 48px; }
+  .photo + .photo { margin-left: -20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popupBackdrop, .popup { animation: none; }
+}
+
+/* The site's global type styles colour headings/paragraphs light and set h3 to Anton.
+   Pin this page's colours and fonts so it matches the original. */
+.page .h2,
+.page .intro {
+  color: #fffbeb;
+  font-family: var(--font-body);
+  text-transform: none;
+}
+.page .cardHeading,
+.page .summary,
+.page .popupText,
+.page .label {
+  color: #000;
+  font-family: var(--font-body);
+  text-transform: none;
+}
+.page .handle {
+  color: rgba(0, 0, 0, 0.5);
+  font-family: var(--font-body);
+}
+.page .year,
+.page .popupYear {
+  color: rgb(255, 255, 35);
+  font-family: var(--font-body);
+}

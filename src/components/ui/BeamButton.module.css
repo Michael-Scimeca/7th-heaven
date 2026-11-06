@@ -1,0 +1,213 @@
+/* Animated border beam, measured from the "Test knowledge" button on art-timeline.com.
+   Colour patches are percentages (the original is px at 138x36) so any size keeps the look. */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: true;
+}
+
+@property --beam-opacity {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+
+.beam {
+  --beam-hue-base: 40deg;
+  --beam-reveal: conic-gradient(
+    from var(--beam-angle),
+    transparent 0%, transparent 30%,
+    rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0.35) 44%,
+    white 52%, white 80%,
+    rgba(255, 255, 255, 0.35) 86%, rgba(255, 255, 255, 0.1) 92%,
+    transparent 95%, transparent 100%
+  );
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  overflow: hidden;
+  isolation: isolate;
+  animation:
+    beamSpin 3.12s linear infinite,
+    beamFadeIn 0.6s ease forwards;
+}
+
+/* Bright travelling stroke */
+.beam::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  clip-path: inset(0 round 999px);
+  background:
+    conic-gradient(
+      from var(--beam-angle),
+      transparent 0%, transparent 54%,
+      rgba(255, 255, 255, 0.1) 57%,
+      rgba(255, 255, 255, 0.3) 60%,
+      rgba(255, 255, 255, 0.6) 63%,
+      rgba(255, 255, 255, 0.75) 66%,
+      rgba(255, 255, 255, 0.6) 69%,
+      rgba(255, 255, 255, 0.3) 72%,
+      rgba(255, 255, 255, 0.1) 75%,
+      transparent 78%, transparent 100%
+    ),
+    radial-gradient(ellipse 50.7% 111% at 33% -7.4%, rgb(255, 80, 50), transparent),
+    radial-gradient(ellipse 43.5% 97% at 12% -5%, rgb(255, 160, 40), transparent),
+    radial-gradient(ellipse 29% 194% at 2.1% 68.3%, rgb(255, 120, 60), transparent),
+    radial-gradient(ellipse 14.5% 97% at 2.1% 68.3%, rgb(255, 200, 50), transparent),
+    radial-gradient(ellipse 130% 89% at 74.4% 100%, rgb(255, 100, 80), transparent),
+    radial-gradient(ellipse 61.6% 72% at 55% 100%, rgb(255, 180, 60), transparent),
+    radial-gradient(ellipse 53.6% 89% at 93.9% 0%, rgb(255, 60, 60), transparent),
+    radial-gradient(ellipse 18.8% 117% at 100% 27.1%, rgb(255, 140, 50), transparent),
+    radial-gradient(ellipse 37.7% 133% at 100% 27.1%, rgb(255, 90, 70), transparent);
+  -webkit-mask:
+    var(--beam-reveal),
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask:
+    var(--beam-reveal),
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: intersect, exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: calc(var(--beam-opacity) * 0.26);
+  animation: beamHue 12s ease-in-out infinite;
+}
+
+/* Soft colour glow just inside the edge */
+.beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 45.6% 100% at 33% -7.4%, rgba(255, 80, 50, 0.45), transparent),
+    radial-gradient(ellipse 39% 89% at 12% -5%, rgba(255, 160, 40, 0.45), transparent),
+    radial-gradient(ellipse 26% 175% at 2.1% 68.3%, rgba(255, 120, 60, 0.45), transparent),
+    radial-gradient(ellipse 13% 89% at 2.1% 68.3%, rgba(255, 200, 50, 0.45), transparent),
+    radial-gradient(ellipse 117% 81% at 74.4% 100%, rgba(255, 100, 80, 0.45), transparent),
+    radial-gradient(ellipse 55.8% 64% at 55% 100%, rgba(255, 180, 60, 0.45), transparent),
+    radial-gradient(ellipse 48.5% 81% at 93.9% 0%, rgba(255, 60, 60, 0.45), transparent),
+    radial-gradient(ellipse 16.7% 106% at 100% 27.1%, rgba(255, 140, 50, 0.45), transparent),
+    radial-gradient(ellipse 34% 119% at 100% 27.1%, rgba(255, 90, 70, 0.45), transparent);
+  box-shadow: inset 0 0 9px 1px rgba(255, 255, 255, 0.27);
+  -webkit-mask-image:
+    var(--beam-reveal),
+    linear-gradient(white, transparent 28px, transparent calc(100% - 28px), white),
+    linear-gradient(to right, white, transparent 28px, transparent calc(100% - 28px), white);
+  -webkit-mask-composite: source-in, source-over;
+  mask-image:
+    var(--beam-reveal),
+    linear-gradient(white, transparent 28px, transparent calc(100% - 28px), white),
+    linear-gradient(to right, white, transparent 28px, transparent calc(100% - 28px), white);
+  mask-composite: intersect, add;
+  pointer-events: none;
+  z-index: 1;
+  opacity: calc(var(--beam-opacity) * 0.42 * 0.15);
+  clip-path: inset(0 round 999px);
+  animation: beamHue 12s ease-in-out infinite;
+}
+
+/* Blurred halo that follows the stroke */
+.bloom {
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  clip-path: inset(0 round 999px);
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0%, transparent 58%,
+    rgba(255, 255, 255, 0.03) 62%,
+    rgba(255, 255, 255, 0.08) 65%,
+    rgba(255, 255, 255, 0.2) 67%,
+    rgba(255, 255, 255, 0.45) 69%,
+    rgba(255, 255, 255, 0.85) 70%,
+    rgba(255, 255, 255, 0.85) 70.5%,
+    rgba(255, 255, 255, 0.45) 71.5%,
+    rgba(255, 255, 255, 0.2) 73%,
+    rgba(255, 255, 255, 0.08) 75%,
+    rgba(255, 255, 255, 0.03) 78%,
+    transparent 82%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  filter: blur(8px) brightness(1.4) saturate(1.2);
+  pointer-events: none;
+  z-index: 3;
+  opacity: calc(var(--beam-opacity) * 0.24);
+}
+
+.button {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: #f9f9f9;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 80ms, transform 80ms;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button:focus-visible {
+  outline: 1px solid #fffbb5;
+  outline-offset: -2px;
+}
+
+.sm { height: 36px; padding: 0 20px; font-size: 14px; }
+.md { height: 44px; padding: 0 24px; font-size: 15px; }
+.lg { height: 56px; padding: 0 32px; font-size: 17px; }
+
+@keyframes beamSpin {
+  to { --beam-angle: 360deg; }
+}
+
+@keyframes beamFadeIn {
+  to { --beam-opacity: 1; }
+}
+
+@keyframes beamHue {
+  0%, 100% {
+    filter: hue-rotate(calc(var(--beam-hue-base) - 24deg)) brightness(1.4) saturate(1.2);
+  }
+  50% {
+    filter: hue-rotate(calc(var(--beam-hue-base) + 24deg)) brightness(1.4) saturate(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    --beam-angle: 140deg;
+    --beam-opacity: 1;
+    animation: none;
+  }
+
+  .beam::before,
+  .beam::after {
+    animation: none;
+  }
+}

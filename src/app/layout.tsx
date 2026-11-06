@@ -3,7 +3,6 @@ import Script from "next/script";
 import localFont from "next/font/local";
 import { Anton, Inter } from "next/font/google";
 import "./globals.css";
-import TextTransitions from "@/components/TextTransition/TextTransitions";
 import PageBlur from "@/components/TextTransition/PageBlur";
 
 const anton = Anton({
@@ -99,7 +98,6 @@ const PageNav = dynamic(() =>
 const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
 import HomeShaderGradient from "@/components/HomeShaderGradient";
 import GlobalBackgroundLayer from "@/components/background/GlobalBackgroundLayer";
-import BackgroundViewsSwitcher from "@/components/background/BackgroundViewsSwitcher";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
@@ -440,13 +438,9 @@ export default function RootLayout({
                     </Suspense>
                     <PageNav />
                     <Suspense fallback={null}>
-                      <TextTransitions />
-                    </Suspense>
-                    <Suspense fallback={null}>
                       <PageBlur />
                     </Suspense>
                     <Suspense fallback={null}>
-                      <BackgroundViewsSwitcher />
                     </Suspense>
                     <ClientOnlyExtras />
                     <ServiceWorkerRegister />

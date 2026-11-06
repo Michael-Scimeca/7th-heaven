@@ -1,0 +1,351 @@
+/* Home page members section (BandMembersHero.tsx). Site fonts only; the site background shows through. */
+.lrt {
+  -webkit-user-select: none;
+  user-select: none;
+  --ink: #f3eef8;
+  --soft: rgba(243, 238, 248, 0.82);
+  --line: rgba(243, 238, 248, 0.28);
+  --sun: #fffbb5;
+  --gold: #f5b942;
+  --display: var(--font-family-display, "Anton", var(--font-anton), sans-serif);
+  --lemon: var(--font-family-lemon, "LTLemon", var(--font-ltlemon), cursive, sans-serif);
+  --body: var(--font-family-sans, "Inter", var(--font-inter), sans-serif);
+  --row-h: min(24.1vw, 62vh); /* height of the band row (see placePhoto) */
+  position: relative;
+  width: 100%;
+  /* Just tall enough for the title: no empty space above it */
+  --title-size: min(25vw, 62vh);
+  height: calc(var(--row-h) * 0.5 + var(--title-size) + 5vh);
+  min-height: 460px;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--body);
+  animation: lrtIn 900ms ease 500ms both;
+}
+.lrt[data-transitioning="true"] {
+  transition: height 700ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+@keyframes lrtIn {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+/* With a fact sheet open, the section fills the screen behind it */
+@media (min-width: 640px) {
+  .lrt[data-open="true"] {
+    height: 100svh;
+  }
+}
+.lrt-canvas,
+.lrt-canvas canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.lrt-giant {
+  position: absolute;
+  bottom: calc(var(--row-h) * 0.5);
+  left: 0;
+  right: 0;
+  z-index: 0;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--display);
+  font-size: var(--title-size);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: rgba(255, 251, 181, 0.06);
+  animation: lrtIn 1000ms ease 1300ms both;
+}
+.lrt-copy {
+  position: absolute;
+  bottom: calc(var(--row-h) + 4vh + 100px);
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 31vw;
+  text-align: center;
+  transform: translateX(-50%);
+}
+.lrt-tag {
+  margin: 0 0 1.4vh;
+  font-size: clamp(11px, 0.8vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.lrt-lead {
+  margin: 0;
+  font-size: clamp(15px, 1.3vw, 26px);
+  line-height: 1.25;
+  color: var(--soft);
+}
+.lrt-names {
+  position: absolute;
+  bottom: 1.6vh;
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: var(--row-width, 84%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(-50%);
+}
+.lrt-names li {
+  justify-self: center;
+  transition: opacity 300ms ease, visibility 300ms;
+}
+.lrt-names button {
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(10, 5, 14, 0.6);
+  font: inherit;
+  font-size: clamp(9px, 0.78vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+.lrt-names li[data-active="true"] button,
+.lrt-names button:hover,
+.lrt-names button:focus-visible {
+  color: var(--sun);
+}
+/* Fact sheet takes the right third; the chosen member fills the rest (see zoomGoal) */
+@media (min-width: 640px) {
+  .lrt-sheet {
+    width: 33.334vw !important;
+  }
+}
+/* Tablets: the photo and the sheet split the screen about in half */
+@media (min-width: 640px) and (max-width: 1180px) {
+  .lrt-sheet {
+    width: 48vw !important;
+  }
+}
+/* The sheet slides in from the right, then its sections fade up one after another */
+.lrt-sheet {
+  animation: lrtSheetIn 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.lrt-sheet--closing {
+  animation: lrtSheetOut 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.lrt-sheet .mfs-body > * {
+  animation: lrtSheetText 600ms ease both;
+}
+.lrt-sheet .mfs-body > :nth-child(1) { animation-delay: 150ms; }
+.lrt-sheet .mfs-body > :nth-child(2) { animation-delay: 210ms; }
+.lrt-sheet .mfs-body > :nth-child(3) { animation-delay: 270ms; }
+.lrt-sheet .mfs-body > :nth-child(4) { animation-delay: 330ms; }
+.lrt-sheet .mfs-body > :nth-child(5) { animation-delay: 390ms; }
+.lrt-sheet .mfs-body > :nth-child(n + 6) { animation-delay: 450ms; }
+/* Phones: quicker */
+@media (max-width: 639px) {
+  .lrt-sheet {
+    animation-duration: 400ms;
+  }
+  .lrt-sheet--closing {
+    animation-duration: 400ms;
+  }
+  .lrt-sheet .mfs-body > * {
+    animation-duration: 350ms;
+    animation-delay: 80ms !important;
+  }
+}
+@keyframes lrtSheetIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes lrtSheetOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes lrtSheetText {
+  from { opacity: 0; filter: blur(6px); }
+  to { opacity: 1; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lrt-sheet,
+  .lrt-sheet .mfs-body > * {
+    animation: none !important;
+  }
+}
+.lrt-giant {
+  transition: opacity 400ms ease, visibility 400ms;
+}
+.lrt-giant[data-hidden="true"] {
+  visibility: hidden;
+  opacity: 0;
+  animation: none;
+}
+.lrt-copy,
+.lrt-names {
+  transition: opacity 400ms ease, visibility 400ms;
+}
+.lrt-copy[data-hidden="true"],
+.lrt-names[data-hidden="true"] {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.lrt-panel {
+  position: absolute;
+  top: 76px;
+  right: 12px;
+  z-index: 4;
+  width: 250px;
+  height: fit-content;
+  max-height: calc(100% - 92px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(24, 22, 22, 0.92);
+  font-size: 12px;
+}
+.lrt-panel-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+.lrt-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 2px 12px 12px;
+}
+.lrt-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.lrt-slider > span {
+  display: flex;
+  justify-content: space-between;
+}
+.lrt-slider output {
+  color: var(--sun);
+  font-variant-numeric: tabular-nums;
+}
+.lrt-slider input {
+  width: 100%;
+  accent-color: var(--gold);
+}
+.lrt-panel-actions {
+  display: flex;
+  gap: 6px;
+}
+.lrt-panel-actions button {
+  flex: 1;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.lrt-panel-actions button:hover {
+  color: var(--sun);
+  border-color: var(--sun);
+}
+
+/* Test page: appears above the fact sheet while a member is open */
+.lrt-image-panel {
+  --line: rgba(243, 238, 248, 0.28);
+  --ink: #f3eef8;
+  --sun: #fffbb5;
+  --gold: #f5b942;
+  position: fixed;
+  top: 76px;
+  left: 12px;
+  z-index: 100001;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: min(240px, calc(100vw - 24px));
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(24, 22, 22, 0.92);
+  color: var(--ink);
+  font-family: var(--font-family-sans, "Inter", var(--font-inter), sans-serif);
+  font-size: 12px;
+}
+.lrt-image-panel p {
+  margin: 0;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .lrt-copy {
+    width: calc(100% - 32px);
+  }
+  .lrt-lead {
+    font-size: 16px;
+  }
+  .lrt-panel {
+    width: min(220px, 60vw);
+    max-height: 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lrt,
+  .lrt-giant {
+    animation: none;
+  }
+}
+
+/* Phones: the text sits right above the title, with no empty space over it */
+@media (max-width: 639px) {
+  .lrt {
+    --copy-gap: 14px;
+    --row-h: 30vw;
+    min-height: 0;
+    height: calc(var(--row-h) * 0.5 + var(--title-size) + var(--copy-gap) + 92px);
+  }
+  .lrt-copy {
+    bottom: calc(var(--row-h) * 0.5 + var(--title-size) + var(--copy-gap));
+  }
+  /* The band stays as it is behind the sheet, so its text does too */
+  .lrt-giant[data-hidden="true"],
+  .lrt-copy[data-hidden="true"],
+  .lrt-names[data-hidden="true"] {
+    visibility: visible;
+    opacity: 1;
+  }
+  /* Same as the title's normal animation, so its fade-in does not restart after closing */
+  .lrt-giant[data-hidden="true"] {
+    animation: lrtIn 1000ms ease 1300ms both;
+  }
+  /* The photos run past the screen edges, but every name stays fully on screen */
+  .lrt-names {
+    width: calc(100% - 8px);
+  }
+  .lrt-names button {
+    padding: 4px 5px;
+  }
+}

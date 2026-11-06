@@ -3,17 +3,20 @@
 /* eslint-disable react-doctor/no-prevent-default */
 import Image from "next/image";
 
-import TransitionLink from "@/components/TransitionLink";
 import { Smartphone, Check, Bell } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import { useSettings } from "@/lib/useSettings";
 import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
-import { InstallAppButton } from "@/components/InstallAppButton";
+import {
+  FALLBACK_SOCIAL_LINKS,
+  normalizeSocialLinks,
+  SocialPlatformIcon,
+} from "@/components/SocialPlatformIcon";
 
 const FALLBACK_PLATFORM_LINKS = [
   {
@@ -64,27 +67,6 @@ const FALLBACK_ENDORSEMENTS = [
   { name: "Toontrack", logoPath: "/images/sponsor-logos/toon.svg" },
 ];
 
-const footerLinks = [
-  { href: "/faq", label: "FAQ" },
-  { href: "/notifications", label: "Push Alerts" },
-  { href: "/shows/past", label: "Past Shows Archive" },
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms of Service" },
-  { href: "/returns", label: "Returns & Refunds" },
-
-];
-
-const FALLBACK_SOCIAL_LINKS = [
-  { name: "Spotify", url: "https://open.spotify.com/artist/7thheavenband" },
-  {
-    name: "Apple Music",
-    url: "https://music.apple.com/us/artist/7th-heaven/711717089",
-  },
-  { name: "YouTube", url: "https://www.youtube.com" },
-  { name: "Facebook", url: "https://www.facebook.com/7thheavenband" },
-  { name: "Instagram", url: "https://www.instagram.com" },
-];
-
 const formatPhone = (value: string) => {
   const digits = value.replace(/\D/g, "").slice(0, 10);
   if (digits.length <= 3) return digits;
@@ -125,12 +107,12 @@ export function Footer() {
     if (!settings) return;
     const data = settings as {
       endorsements?: typeof FALLBACK_ENDORSEMENTS;
-      socialLinks?: typeof FALLBACK_SOCIAL_LINKS;
+      socialLinks?: unknown;
       bookingPhone?: string;
       bookingEmail?: string;
     };
     if (data.endorsements?.length) setEndorsements(data.endorsements);
-    if (data.socialLinks?.length) setSocialLinks(data.socialLinks);
+    if (data.socialLinks) setSocialLinks(normalizeSocialLinks(data.socialLinks));
     if (data.bookingPhone) setBookingPhone(data.bookingPhone);
     if (data.bookingEmail) setBookingEmail(data.bookingEmail);
   }, [settings]);
@@ -157,76 +139,57 @@ export function Footer() {
       suppressHydrationWarning
     >
       <div className="site-container relative z-10">
-        {/* Endorsements */}
-        <div className="pb-6 text-left">
-          <div className="flex flex-wrap items-center justify-start gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
-            {endorsements.map((brand) => (
-              <Image
-                width={200}
-                height={200}
-                unoptimized
-                key={brand.name}
-                src={`${brand.logoPath}?v=3`}
-                alt={brand.name}
-                title={brand.name}
-                className="h-[clamp(16px,4.5vw,28px)] w-auto max-w-[28vw] shrink-0 object-contain opacity-100 sm:max-w-none md:h-7"
-                loading="lazy"
-              />
+        {/* Endorsements & Social Links — share one row until their intrinsic widths no longer fit */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 pb-6 md:justify-between">
+          <div className="flex min-w-0 flex-wrap items-center justify-center gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6 md:justify-start">
+            {endorsements.map((brand) => {
+              const logoSrc = brand.logoPath.includes("?")
+                ? `${brand.logoPath}&v=3`
+                : `${brand.logoPath}?v=3`;
+              return (
+                <span
+                  key={brand.name}
+                  title={brand.name}
+                  style={
+                    {
+                      "--sponsor-logo-url": `url("${logoSrc}")`,
+                    } as CSSProperties
+                  }
+                  className="footer-sponsor-logo shrink-0"
+                >
+                  <Image
+                    width={200}
+                    height={200}
+                    unoptimized
+                    src={logoSrc}
+                    alt={brand.name}
+                    className="footer-sponsor-logo-img pointer-events-none block object-contain opacity-0"
+                    loading="lazy"
+                  />
+                </span>
+              );
+            })}
+          </div>
+
+          <div className="flex min-w-0 grow flex-wrap items-center justify-center gap-2 md:justify-end">
+            {socialLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.name}
+                title={link.name}
+                className="footer-social-link"
+              >
+                <SocialPlatformIcon name={link.name} url={link.url} />
+              </a>
             ))}
           </div>
         </div>
 
-        {/* Inline Links Row */}
-        <nav aria-label="Footer Navigation" className="pb-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            {/* Left side: Site Navigation Links */}
-            <div className="flex flex-wrap items-center gap-1">
-              {footerLinks.map((link, i) => (
-                <span key={link.href} className="flex items-center">
-                  <TransitionLink href={link.href} className="footer-nav-link">
-                    {link.label}
-                  </TransitionLink>
-                  {i < footerLinks.length - 1 && (
-                    <span className="mx-2 text-[13px] font-semibold text-[#c084fc] select-none">
-                      /
-                    </span>
-                  )}
-                </span>
-              ))}
-            </div>
-
-            {/* Right side: Social Links & App Install Button */}
-            <div className="flex flex-wrap items-center justify-end gap-4 ml-auto">
-              <div className="flex flex-wrap items-center gap-1">
-                {socialLinks.map((link, i) => (
-                  <span key={link.name} className="flex items-center">
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="footer-nav-link"
-                    >
-                      {link.name}
-                    </a>
-                    {i < socialLinks.length - 1 && (
-                      <span className="mx-2 text-[13px] font-semibold text-[#c084fc] select-none">
-                        /
-                      </span>
-                    )}
-                  </span>
-                ))}
-              </div>
-
-              {/* Install 7th Heaven App Link */}
-              <div className="flex items-center gap-2">
-                <InstallAppButton variant="compact" />
-              </div>
-            </div>
-          </div>
-        </nav>
-
         {/* Credit Line */}
-        <div className="site-container absolute right-0 bottom-0 flex items-center justify-end text-[10px]">
+        <div className="site-container absolute inset-x-0 bottom-0 flex items-center justify-center text-[10px] md:justify-end">
           <a
             href="https://michaelscimeca.com"
             target="_blank"

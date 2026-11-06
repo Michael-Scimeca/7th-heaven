@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/prefer-html-dialog */
 "use client";
 
 import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
@@ -236,6 +237,11 @@ export default function GradientAtmosphereTuner() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // The on-screen tuner is switched off. This component stays mounted because the effect
+  // above applies the site's atmosphere; set this to true to bring the panel back.
+  const SHOW_TUNER = false as boolean;
+  if (!SHOW_TUNER) return null;
+
   return (
     <>
       {/* Floating Trigger Pill — sits neatly above the PageNav pill */}
@@ -257,6 +263,7 @@ export default function GradientAtmosphereTuner() {
       {/* Tuner Panel Modal / Drawer */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]">
+          {/* oxlint-disable-next-line react-doctor/prefer-html-dialog */}
           <div
             role="dialog"
             aria-label="Atmosphere & Gradient Tuner"

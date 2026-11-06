@@ -1,7 +1,9 @@
+/* eslint-disable react-doctor/prefer-html-dialog */
 "use client";
 
 import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import BackdropVideoMini from "@/components/BackdropVideoMini";
 import {
   Film,
   Sliders,
@@ -194,6 +196,8 @@ export default function BackdropVideoTuner() {
 
   return createPortal(
     <>
+      <BackdropVideoMini />
+
       {/* Floating Trigger Pills — Elva Labs Frosted Glass & Laser Draw Style */}
       <div className="fixed bottom-[184px] left-8 z-[999999] pointer-events-auto flex items-center gap-2">
         {/* Backdrop Video Pill */}

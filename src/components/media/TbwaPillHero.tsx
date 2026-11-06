@@ -19,7 +19,13 @@ import {
   ListVideo,
 } from "lucide-react";
 import { loadYouTubeAPI } from "@/lib/youtube-api";
+import { registerSyncedVideo } from "@/lib/videoFrameSync";
+import { useVideoBlurCrossfade } from "@/hooks/useVideoBlurCrossfade";
 import DeltaCafesHeroOverlay from "./DeltaCafesHeroOverlay";
+import {
+  HERO_ALBUM_PAGINATION_SLIDES,
+  HERO_ALBUM_TRACKS,
+} from "./deltaSmooothySlides";
 import { TbwaHeroVideoOverlay, type HeroLayoutId } from "./TbwaHeroOverlays";
 
 /* -------------------------------------------------------------------------- */
@@ -95,6 +101,8 @@ interface YTPlayerInstance {
   pauseVideo?: () => void;
   mute?: () => void;
   unMute?: () => void;
+  isMuted?: () => boolean;
+  getPlayerState?: () => number;
   setVolume?: (volume: number) => void;
   seekTo?: (seconds: number, allowSeekAhead: boolean) => void;
   getCurrentTime?: () => number;
@@ -109,8 +117,13 @@ interface YTPlayerInstance {
 /*                               COMPONENT                                    */
 /* -------------------------------------------------------------------------- */
 
+const HERO_POINTER_IDLE_MS = 1600;
+const HERO_TOUCH_IDLE_MS = 2600;
+
 export interface TbwaPillHeroHandle {
   playTrackWithSound: (track: VideoTrack) => void;
+  previewTrack: (track: VideoTrack) => void;
+  pausePlayback: () => void;
 }
 
 export interface TbwaPillHeroProps {
@@ -154,12 +167,17 @@ export default function TbwaPillHero({
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [volume, setVolume] = useState(100);
+  const [scrollVolumeFactor, setScrollVolumeFactor] = useState(1);
   const [playingYtVideoId, setPlayingYtVideoId] = useState<string | null>(null);
   const [failedPreviewSrc, setFailedPreviewSrc] = useState<string | null>(null);
   const [isCinemaMode, setIsCinemaMode] = useState(false);
 
   const isPlayingRef = useRef(true);
   const isMutedRef = useRef(true);
+  const userExplicitlyMutedRef = useRef(false);
+  const userPausedRef = useRef(false);
+  const scrollFrozenRef = useRef(false);
+  const scrollVolumeFactorRef = useRef(1);
   const volumeRef = useRef(100);
   const lastNonZeroVolumeRef = useRef(100);
   const isCinemaModeRef = useRef(false);
@@ -185,57 +203,140 @@ export default function TbwaPillHero({
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [hoverPosition, setHoverPosition] = useState<number | null>(null);
   const [hoverTime, setHoverTime] = useState<number | null>(null);
-  const [isPointerIdle, setIsPointerIdle] = useState(false);
-  const [hasKeyboardFocus, setHasKeyboardFocus] = useState(false);
+  const [isPointerActive, setIsPointerActive] = useState(false);
+  const isPointerActiveRef = useRef(false);
+  const pointerIdleTimerRef = useRef<number | null>(null);
+  const lastPointerPosRef = useRef<{ x: number; y: number } | null>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
-  // Auto-hide hero overlay text & HUD when mouse/pointer stops moving for 2 seconds
+  const clearPointerIdleTimer = useCallback(() => {
+    if (pointerIdleTimerRef.current !== null) {
+      window.clearTimeout(pointerIdleTimerRef.current);
+      pointerIdleTimerRef.current = null;
+    }
+  }, []);
+
+  const deactivateHeroPointer = useCallback(() => {
+    clearPointerIdleTimer();
+    if (isPointerActiveRef.current) {
+      isPointerActiveRef.current = false;
+      setIsPointerActive(false);
+    }
+  }, [clearPointerIdleTimer]);
+
+  const wakeHeroPointer = useCallback(
+    (idleMs = HERO_POINTER_IDLE_MS) => {
+      if (!isPointerActiveRef.current) {
+        isPointerActiveRef.current = true;
+        setIsPointerActive(true);
+      }
+      clearPointerIdleTimer();
+      pointerIdleTimerRef.current = window.setTimeout(() => {
+        pointerIdleTimerRef.current = null;
+        isPointerActiveRef.current = false;
+        setIsPointerActive(false);
+      }, idleMs);
+    },
+    [clearPointerIdleTimer]
+  );
+
+  // Show hero overlay content while the pointer is moving inside the hero stage,
+  // and hide it once pointer movement stops.
   useEffect(() => {
-    if (isCinemaMode) return;
-
-    const IDLE_HIDE_DELAY_MS = 2000;
-    let idleTimer: ReturnType<typeof setTimeout> | null = null;
-    let lastX = -1;
-    let lastY = -1;
-
-    const scheduleIdle = () => {
-      if (idleTimer) clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => {
-        setIsPointerIdle(true);
-      }, IDLE_HIDE_DELAY_MS);
+    const isPointInsideHero = (clientX: number, clientY: number): boolean => {
+      const el = containerRef.current;
+      if (!el) return false;
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        clientX >= rect.left &&
+        clientX <= rect.right &&
+        clientY >= rect.top &&
+        clientY <= rect.bottom
+      );
     };
 
-    const wakeOverlay = () => {
-      setIsPointerIdle((prev) => (prev ? false : prev));
-      scheduleIdle();
+    const handleWindowPointerMove = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
+
+      const prev = lastPointerPosRef.current;
+      if (
+        prev &&
+        Math.abs(e.clientX - prev.x) < 1 &&
+        Math.abs(e.clientY - prev.y) < 1
+      ) {
+        return;
+      }
+      lastPointerPosRef.current = { x: e.clientX, y: e.clientY };
+
+      if (isPointInsideHero(e.clientX, e.clientY)) {
+        wakeHeroPointer();
+      } else {
+        deactivateHeroPointer();
+      }
     };
 
-    const handlePointerMove = (e: PointerEvent) => {
-      if (e.clientX === lastX && e.clientY === lastY) return;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      wakeOverlay();
+    const handleWindowPointerDown = (e: PointerEvent) => {
+      if (isPointInsideHero(e.clientX, e.clientY)) {
+        lastPointerPosRef.current = { x: e.clientX, y: e.clientY };
+        wakeHeroPointer(
+          e.pointerType === "touch" ? HERO_TOUCH_IDLE_MS : HERO_POINTER_IDLE_MS
+        );
+      }
     };
 
-    scheduleIdle();
+    const handleWindowPointerUp = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
+      if (
+        isPointInsideHero(e.clientX, e.clientY) &&
+        isPointerActiveRef.current
+      ) {
+        wakeHeroPointer();
+      }
+    };
 
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerdown", wakeOverlay, { passive: true });
-    window.addEventListener("touchstart", wakeOverlay, { passive: true });
-    window.addEventListener("keydown", wakeOverlay);
+    const handleWindowLeaveOrBlur = () => {
+      deactivateHeroPointer();
+    };
+
+    window.addEventListener("pointermove", handleWindowPointerMove, {
+      passive: true,
+    });
+    window.addEventListener("pointerdown", handleWindowPointerDown, {
+      passive: true,
+    });
+    window.addEventListener("pointerup", handleWindowPointerUp, {
+      passive: true,
+    });
+    document.documentElement.addEventListener(
+      "mouseleave",
+      handleWindowLeaveOrBlur
+    );
+    window.addEventListener("blur", handleWindowLeaveOrBlur);
 
     return () => {
-      if (idleTimer) clearTimeout(idleTimer);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerdown", wakeOverlay);
-      window.removeEventListener("touchstart", wakeOverlay);
-      window.removeEventListener("keydown", wakeOverlay);
+      clearPointerIdleTimer();
+      window.removeEventListener("pointermove", handleWindowPointerMove);
+      window.removeEventListener("pointerdown", handleWindowPointerDown);
+      window.removeEventListener("pointerup", handleWindowPointerUp);
+      document.documentElement.removeEventListener(
+        "mouseleave",
+        handleWindowLeaveOrBlur
+      );
+      window.removeEventListener("blur", handleWindowLeaveOrBlur);
     };
-  }, [isCinemaMode]);
+  }, [clearPointerIdleTimer, deactivateHeroPointer, wakeHeroPointer]);
 
   const activeTrack = externalActiveTrack ?? VIDEO_TRACKS[0];
+  const {
+    layers: heroVideoLayers,
+    notifyLayerReady: notifyHeroLayerReady,
+    promoteIncomingLayer: promoteHeroIncomingLayer,
+    dropFailedIncoming: dropFailedHeroIncoming,
+  } = useVideoBlurCrossfade(activeTrack.src, { fallbackDurationMs: 1050 });
   const isYtPlaying = Boolean(activeTrack.youtubeId && playingYtVideoId === activeTrack.youtubeId);
-  const effectiveVolume = isMuted ? 0 : volume;
+  const effectiveVolume = isMuted ? 0 : Math.round(volume * scrollVolumeFactor);
 
   // Helper to format seconds to mm:ss
   const formatTime = useCallback((seconds: number): string => {
@@ -246,20 +347,129 @@ export default function TbwaPillHero({
   }, []);
 
   useEffect(() => {
-    onVideoElement?.(videoRef.current);
+    const el = videoRef.current;
+    onVideoElement?.(el);
+    if (!el) return;
+    return registerSyncedVideo(el, activeTrack.src, "hero");
   }, [onVideoElement, activeTrack.src]);
+
+  // Diminish volume to 0 as user scrolls past the hero video; freeze playback at 0 and resume on scroll back up
+  useEffect(() => {
+    let rafId: number | null = null;
+
+    const syncScrollPlaybackAndVolume = () => {
+      rafId = null;
+      const el = containerRef.current;
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const heroHeight = rect.height;
+      if (heroHeight <= 0) return;
+
+      const visibleBottom = Math.max(0, Math.min(heroHeight, rect.bottom));
+      const freezeThreshold = heroHeight * 0.25;
+      const activeRange = Math.max(1, heroHeight - freezeThreshold);
+      const rawFactor = Math.max(0, Math.min(1, (visibleBottom - freezeThreshold) / activeRange));
+      const factor = rawFactor <= 0.01 ? 0 : rawFactor >= 0.99 ? 1 : rawFactor;
+
+      scrollVolumeFactorRef.current = factor;
+      setScrollVolumeFactor((prev) =>
+        Math.abs(prev - factor) >= 0.01 ||
+        (factor === 0 && prev !== 0) ||
+        (factor === 1 && prev !== 1)
+          ? factor
+          : prev
+      );
+
+      const targetVol = volumeRef.current;
+      const attenuatedVol = Math.round(targetVol * factor);
+      const yt = ytPlayerRef.current;
+      const video = videoRef.current;
+
+      if (video) {
+        video.volume = Math.max(0, Math.min(1, attenuatedVol / 100));
+      }
+      if (yt && ytReadyRef.current && !isMutedRef.current) {
+        yt.setVolume?.(attenuatedVol);
+      }
+
+      if (attenuatedVol <= 0 || factor <= 0) {
+        if (!scrollFrozenRef.current && !userPausedRef.current && !isCinemaModeRef.current) {
+          scrollFrozenRef.current = true;
+          if (yt && ytReadyRef.current) {
+            yt.setVolume?.(0);
+            yt.pauseVideo?.();
+          }
+          if (video && !video.paused) {
+            video.pause();
+          }
+          const allVideos = el.querySelectorAll("video");
+          allVideos.forEach((v) => {
+            if (!v.paused) v.pause();
+          });
+          setIsPlaying(false);
+          emitAudioState(isMutedRef.current, false, isCinemaModeRef.current);
+        }
+      } else if (scrollFrozenRef.current) {
+        scrollFrozenRef.current = false;
+        if (!userPausedRef.current && !isCinemaModeRef.current) {
+          if (yt && ytReadyRef.current && activeTrack.youtubeId) {
+            if (!isMutedRef.current) {
+              yt.unMute?.();
+              yt.setVolume?.(attenuatedVol);
+            } else {
+              yt.mute?.();
+            }
+            yt.playVideo?.();
+          }
+          if (video) {
+            video.muted = activeTrack.youtubeId ? true : isMutedRef.current;
+            video.volume = Math.max(0, Math.min(1, attenuatedVol / 100));
+            if (video.paused) {
+              video.play().catch(() => {});
+            }
+          }
+          setIsPlaying(true);
+          emitAudioState(isMutedRef.current, true, isCinemaModeRef.current);
+        }
+      }
+    };
+
+    const onScrollOrResize = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(syncScrollPlaybackAndVolume);
+    };
+
+    syncScrollPlaybackAndVolume();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+
+    return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, [activeTrack.youtubeId, emitAudioState]);
 
   const handleYtPlayingState = useEffectEvent(
     (stateCode: number, target: YTPlayerInstance) => {
       const YTState = window.YT?.PlayerState;
       if (YTState && stateCode === YTState.PLAYING) {
+        if (userPausedRef.current || isCinemaModeRef.current || scrollFrozenRef.current) {
+          target.pauseVideo?.();
+          return;
+        }
         playingYtIdRef.current = loadedYtIdRef.current;
         setPlayingYtVideoId(loadedYtIdRef.current);
         setIsPlaying(true);
         emitAudioState(isMutedRef.current, true, isCinemaModeRef.current);
         if (!isMutedRef.current) {
           target.unMute?.();
-          target.setVolume?.(volumeRef.current);
+          target.setVolume?.(Math.round(volumeRef.current * scrollVolumeFactorRef.current));
+        } else {
+          target.mute?.();
         }
       } else if (YTState && stateCode === YTState.PAUSED) {
         if (playingYtIdRef.current === loadedYtIdRef.current) {
@@ -273,13 +483,14 @@ export default function TbwaPillHero({
     }
   );
 
-  // Pre-warm a single persistent YouTube IFrame API player so clicking Sound / dragging Volume
-  // unmutes & starts real synchronized song audio synchronously inside the user gesture.
+  // Pre-warm and pre-play a single persistent YouTube IFrame API player from frame 0
+  // so unmuting has 0ms buffering delay and sticky user activation unlocks real song audio automatically.
   useEffect(() => {
     const host = ytHostRef.current;
     if (!host || !activeTrack.youtubeId) return;
 
     let cancelled = false;
+    let verifyUnmuteTimer: number | null = null;
     const initialVideoId = activeTrack.youtubeId;
     loadedYtIdRef.current = initialVideoId;
 
@@ -295,8 +506,8 @@ export default function TbwaPillHero({
           height: "100%",
           videoId: initialVideoId,
           playerVars: {
-            autoplay: isMutedRef.current ? 0 : 1,
-            mute: isMutedRef.current ? 1 : 0,
+            autoplay: 1,
+            mute: 1,
             controls: 0,
             disablekb: 1,
             fs: 0,
@@ -314,15 +525,73 @@ export default function TbwaPillHero({
               ytReadyRef.current = true;
               const desiredId = loadedYtIdRef.current;
               if (desiredId && desiredId !== initialVideoId) {
-                if (!isMutedRef.current && !isCinemaModeRef.current) {
-                  e.target.loadVideoById?.(desiredId);
-                } else {
-                  e.target.cueVideoById?.(desiredId);
-                }
+                e.target.loadVideoById?.(desiredId);
               }
-              if (!isMutedRef.current && !isCinemaModeRef.current) {
+              if (isCinemaModeRef.current || userPausedRef.current) {
+                e.target.pauseVideo?.();
+                return;
+              }
+
+              const restoredVol =
+                volumeRef.current > 0 ? volumeRef.current : lastNonZeroVolumeRef.current || 100;
+
+              if (!isMutedRef.current && !userExplicitlyMutedRef.current) {
+                // User already clicked an unmute/play control while YT was initializing
+                volumeRef.current = restoredVol;
+                lastNonZeroVolumeRef.current = restoredVol;
                 e.target.unMute?.();
-                e.target.setVolume?.(volumeRef.current);
+                e.target.setVolume?.(restoredVol);
+                e.target.playVideo?.();
+                return;
+              }
+
+              const hasStickyActivation =
+                typeof navigator !== "undefined" &&
+                Boolean(navigator.userActivation?.hasBeenActive);
+
+              if (hasStickyActivation && !userExplicitlyMutedRef.current) {
+                // Browser session already has sticky user activation — attempt audible playback and verify
+                e.target.unMute?.();
+                e.target.setVolume?.(restoredVol);
+                e.target.playVideo?.();
+
+                const checkAudiblePlayback = (attempt: number) => {
+                  if (
+                    cancelled ||
+                    isCinemaModeRef.current ||
+                    userExplicitlyMutedRef.current ||
+                    userPausedRef.current
+                  ) {
+                    return;
+                  }
+                  const ytMuted = e.target.isMuted?.();
+                  const ytState = e.target.getPlayerState?.();
+                  const YTState = window.YT?.PlayerState;
+
+                  if (ytMuted === false && ytState === YTState?.PLAYING) {
+                    volumeRef.current = restoredVol;
+                    lastNonZeroVolumeRef.current = restoredVol;
+                    isMutedRef.current = false;
+                    setVolume(restoredVol);
+                    setIsMuted(false);
+                    setIsPlaying(true);
+                    emitAudioState(false, true, isCinemaModeRef.current);
+                  } else if (
+                    attempt < 2 &&
+                    ytMuted === false &&
+                    (ytState === YTState?.BUFFERING || ytState === -1)
+                  ) {
+                    verifyUnmuteTimer = window.setTimeout(() => checkAudiblePlayback(attempt + 1), 350);
+                  } else if (isMutedRef.current) {
+                    // Audible autoplay blocked without fresh gesture — keep pre-playing muted cleanly
+                    e.target.mute?.();
+                    e.target.playVideo?.();
+                  }
+                };
+
+                verifyUnmuteTimer = window.setTimeout(() => checkAudiblePlayback(1), 280);
+              } else {
+                e.target.mute?.();
                 e.target.playVideo?.();
               }
             },
@@ -332,6 +601,14 @@ export default function TbwaPillHero({
             },
           },
         });
+
+        const iframeEl = host.querySelector("iframe");
+        if (iframeEl) {
+          iframeEl.setAttribute(
+            "allow",
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          );
+        }
       } catch {
         // Fallback gracefully to native video element
       }
@@ -341,6 +618,9 @@ export default function TbwaPillHero({
 
     return () => {
       cancelled = true;
+      if (verifyUnmuteTimer !== null) {
+        window.clearTimeout(verifyUnmuteTimer);
+      }
       ytReadyRef.current = false;
       if (ytPlayerRef.current) {
         try {
@@ -350,11 +630,11 @@ export default function TbwaPillHero({
       }
       host.innerHTML = "";
     };
-    // Mount persistent YT host once; track switches are handled via loadVideoById / cueVideoById below
+    // Mount persistent YT host once; track switches are handled via loadVideoById below
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Switch YouTube track seamlessly when activeTrack.youtubeId changes
+  // Switch YouTube track seamlessly when activeTrack.youtubeId changes (pre-playing even while muted)
   useEffect(() => {
     if (!activeTrack.youtubeId) return;
     if (loadedYtIdRef.current === activeTrack.youtubeId) return;
@@ -364,15 +644,100 @@ export default function TbwaPillHero({
     const player = ytPlayerRef.current;
     if (!player || !ytReadyRef.current) return;
 
-    if (!isMutedRef.current && !isCinemaModeRef.current) {
-      player.loadVideoById?.(activeTrack.youtubeId);
+    player.loadVideoById?.(activeTrack.youtubeId);
+    if (isCinemaModeRef.current || scrollFrozenRef.current) {
+      player.pauseVideo?.();
+      return;
+    }
+
+    if (!isMutedRef.current) {
       player.unMute?.();
-      player.setVolume?.(volumeRef.current);
+      player.setVolume?.(Math.round(volumeRef.current * scrollVolumeFactorRef.current));
       player.playVideo?.();
     } else {
-      player.cueVideoById?.(activeTrack.youtubeId);
+      player.mute?.();
+      player.playVideo?.();
     }
   }, [activeTrack.youtubeId]);
+
+  // Unlock real song audio automatically on the user's first click/tap/keypress on a cold tab
+  useEffect(() => {
+    if (!isMuted || isCinemaMode) return;
+
+    const unlockOnFirstGesture = (e: Event) => {
+      if (userExplicitlyMutedRef.current || !isMutedRef.current || isCinemaModeRef.current) {
+        return;
+      }
+      if (document.querySelector("dialog[open]")) {
+        return;
+      }
+      if (e instanceof KeyboardEvent) {
+        if (e.metaKey || e.ctrlKey || e.altKey || e.key === "Shift" || e.key === "Tab" || e.key === "Escape") {
+          return;
+        }
+      }
+      if (
+        e.target instanceof Element &&
+        e.target.closest("a[href], [data-audio-control], [data-smooothy-card]")
+      ) {
+        return;
+      }
+
+      const restoredVol =
+        volumeRef.current > 0 ? volumeRef.current : lastNonZeroVolumeRef.current || 100;
+      const attenuatedVol = Math.round(restoredVol * scrollVolumeFactorRef.current);
+      volumeRef.current = restoredVol;
+      lastNonZeroVolumeRef.current = restoredVol;
+      isMutedRef.current = false;
+
+      setVolume(restoredVol);
+      setIsMuted(false);
+
+      const yt = ytPlayerRef.current;
+      const video = videoRef.current;
+
+      if (scrollFrozenRef.current) {
+        if (yt && ytReadyRef.current) {
+          yt.unMute?.();
+          yt.setVolume?.(0);
+          yt.pauseVideo?.();
+        }
+        if (video) {
+          video.volume = 0;
+          if (!video.paused) video.pause();
+        }
+        emitAudioState(false, false, false);
+        return;
+      }
+
+      setIsPlaying(true);
+      emitAudioState(false, true, false);
+
+      if (activeTrack.youtubeId && yt && ytReadyRef.current) {
+        if (video) {
+          video.muted = true;
+          video.volume = Math.max(0, Math.min(1, attenuatedVol / 100));
+          if (video.paused) {
+            video.play().catch(() => {});
+          }
+        }
+        yt.unMute?.();
+        yt.setVolume?.(attenuatedVol);
+        yt.playVideo?.();
+      } else if (video && !activeTrack.youtubeId) {
+        video.muted = false;
+        video.volume = Math.max(0, Math.min(1, attenuatedVol / 100));
+        video.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener("click", unlockOnFirstGesture);
+    window.addEventListener("keydown", unlockOnFirstGesture);
+    return () => {
+      window.removeEventListener("click", unlockOnFirstGesture);
+      window.removeEventListener("keydown", unlockOnFirstGesture);
+    };
+  }, [isMuted, isCinemaMode, activeTrack.youtubeId, emitAudioState]);
 
   // Poll YouTube currentTime / duration whenever full YouTube audio+video layer is active
   useEffect(() => {
@@ -523,40 +888,50 @@ export default function TbwaPillHero({
     setCurrentTime(next);
   };
 
+  // Stop / Pause both YouTube audio and hero video cleanly
+  const pausePlayback = useCallback(() => {
+    userPausedRef.current = true;
+    isPlayingRef.current = false;
+    if (ytPlayerRef.current && ytReadyRef.current) {
+      ytPlayerRef.current.pauseVideo?.();
+    }
+    videoRef.current?.pause();
+    setIsPlaying(false);
+    emitAudioState(isMutedRef.current, false, isCinemaModeRef.current);
+  }, [emitAudioState]);
+
   // Toggle Video Play / Pause
   const togglePlay = useCallback(() => {
     const video = videoRef.current;
+    const yt = ytPlayerRef.current;
 
-    if (isYtPlaying && ytPlayerRef.current && ytReadyRef.current) {
-      if (isPlaying) {
-        ytPlayerRef.current.pauseVideo?.();
-        video?.pause();
-        setIsPlaying(false);
-        emitAudioState(isMutedRef.current, false, isCinemaModeRef.current);
-      } else {
-        ytPlayerRef.current.playVideo?.();
-        video?.play().catch(() => {});
-        setIsPlaying(true);
-        emitAudioState(isMutedRef.current, true, isCinemaModeRef.current);
-      }
+    if (isPlaying) {
+      pausePlayback();
       return;
     }
 
-    if (!video) return;
-    if (video.paused) {
-      video
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-          emitAudioState(isMutedRef.current, true, isCinemaModeRef.current);
-        })
-        .catch(() => {});
-    } else {
-      video.pause();
-      setIsPlaying(false);
-      emitAudioState(isMutedRef.current, false, isCinemaModeRef.current);
+    userPausedRef.current = false;
+    if (isMutedRef.current && !userExplicitlyMutedRef.current) {
+      const restoredVol =
+        volumeRef.current > 0 ? volumeRef.current : lastNonZeroVolumeRef.current || 100;
+      volumeRef.current = restoredVol;
+      lastNonZeroVolumeRef.current = restoredVol;
+      isMutedRef.current = false;
+      setVolume(restoredVol);
+      setIsMuted(false);
     }
-  }, [emitAudioState, isYtPlaying, isPlaying]);
+
+    if (activeTrack.youtubeId && yt && ytReadyRef.current) {
+      if (!isMutedRef.current) {
+        yt.unMute?.();
+        yt.setVolume?.(volumeRef.current);
+      }
+      yt.playVideo?.();
+    }
+    video?.play().catch(() => {});
+    setIsPlaying(true);
+    emitAudioState(isMutedRef.current, true, isCinemaModeRef.current);
+  }, [activeTrack.youtubeId, emitAudioState, isPlaying, pausePlayback]);
 
   // Toggle Mute — synchronously unlocks & plays real song audio via YT.Player
   const toggleMute = useCallback(() => {
@@ -569,19 +944,26 @@ export default function TbwaPillHero({
 
     if (!nextMuted) {
       // Turning SOUND ON
+      userExplicitlyMutedRef.current = false;
+      userPausedRef.current = false;
       const restoredVol =
         volumeRef.current > 0 ? volumeRef.current : lastNonZeroVolumeRef.current || 100;
       volumeRef.current = restoredVol;
       lastNonZeroVolumeRef.current = restoredVol;
       setVolume(restoredVol);
 
-      if (activeTrack.youtubeId && yt && ytReadyRef.current) {
+      if (activeTrack.youtubeId) {
         if (video) {
           video.muted = true;
+          if (video.paused) {
+            video.play().catch(() => {});
+          }
         }
-        yt.unMute?.();
-        yt.setVolume?.(restoredVol);
-        yt.playVideo?.();
+        if (yt && ytReadyRef.current) {
+          yt.unMute?.();
+          yt.setVolume?.(restoredVol);
+          yt.playVideo?.();
+        }
         setIsPlaying(true);
         emitAudioState(false, true, isCinemaModeRef.current);
       } else if (video) {
@@ -599,6 +981,7 @@ export default function TbwaPillHero({
       }
     } else {
       // Turning SOUND OFF (keep current video position & progress seamless)
+      userExplicitlyMutedRef.current = true;
       if (yt && ytReadyRef.current) {
         yt.mute?.();
       }
@@ -612,6 +995,8 @@ export default function TbwaPillHero({
   // Synchronously unmute & play a selected track's music inside a user click/tap gesture
   const playTrackWithSound = useCallback(
     (track: VideoTrack) => {
+      userExplicitlyMutedRef.current = false;
+      userPausedRef.current = false;
       if (isCinemaModeRef.current) {
         isCinemaModeRef.current = false;
         setIsCinemaMode(false);
@@ -626,7 +1011,7 @@ export default function TbwaPillHero({
 
       setVolume(restoredVol);
       setIsMuted(false);
-      setIsPointerIdle(false);
+      setIsPlaying(true);
       emitAudioState(false, true, false);
       onTrackChange?.(track);
 
@@ -659,7 +1044,6 @@ export default function TbwaPillHero({
             yt.setVolume?.(restoredVol);
           }
           yt.playVideo?.();
-          setIsPlaying(true);
         }
         return;
       }
@@ -679,12 +1063,37 @@ export default function TbwaPillHero({
     [emitAudioState, onCinemaModeChange, onTrackChange]
   );
 
+  // Switch hero video preview & track metadata while preserving current mute/audible state
+  const previewTrack = useCallback(
+    (track: VideoTrack) => {
+      userPausedRef.current = false;
+      isPlayingRef.current = true;
+      if (isCinemaModeRef.current) {
+        isCinemaModeRef.current = false;
+        setIsCinemaMode(false);
+        onCinemaModeChange?.(false);
+      }
+
+      setIsPlaying(true);
+      emitAudioState(isMutedRef.current, true, false);
+      onTrackChange?.(track);
+
+      const video = videoRef.current;
+      if (video && video.paused) {
+        video.play().catch(() => {});
+      }
+    },
+    [emitAudioState, onCinemaModeChange, onTrackChange]
+  );
+
   useImperativeHandle(
     ref,
     () => ({
       playTrackWithSound,
+      previewTrack,
+      pausePlayback,
     }),
-    [playTrackWithSound]
+    [playTrackWithSound, previewTrack, pausePlayback]
   );
 
   // Adjust Volume Slider (0..100) — dragging above 0 unmutes & unlocks real song audio
@@ -698,6 +1107,7 @@ export default function TbwaPillHero({
       const yt = ytPlayerRef.current;
 
       if (nextVol > 0) {
+        userExplicitlyMutedRef.current = false;
         lastNonZeroVolumeRef.current = nextVol;
         const wasMuted = isMutedRef.current;
         if (wasMuted) {
@@ -705,18 +1115,26 @@ export default function TbwaPillHero({
           setIsMuted(false);
         }
 
-        if (activeTrack.youtubeId && yt && ytReadyRef.current) {
+        if (activeTrack.youtubeId) {
           if (video) {
             video.muted = true;
+            if (video.paused) {
+              video.play().catch(() => {});
+            }
           }
-          yt.unMute?.();
-          yt.setVolume?.(nextVol);
-          if (wasMuted || playingYtIdRef.current !== activeTrack.youtubeId) {
-            yt.playVideo?.();
+          if (yt && ytReadyRef.current) {
+            yt.unMute?.();
+            yt.setVolume?.(nextVol);
+            if (wasMuted || !isPlayingRef.current || playingYtIdRef.current !== activeTrack.youtubeId) {
+              yt.playVideo?.();
+              setIsPlaying(true);
+              emitAudioState(false, true, isCinemaModeRef.current);
+            } else {
+              emitAudioState(false, isPlayingRef.current, isCinemaModeRef.current);
+            }
+          } else {
             setIsPlaying(true);
             emitAudioState(false, true, isCinemaModeRef.current);
-          } else {
-            emitAudioState(false, isPlayingRef.current, isCinemaModeRef.current);
           }
         } else if (video) {
           video.muted = false;
@@ -734,6 +1152,7 @@ export default function TbwaPillHero({
           }
         }
       } else {
+        userExplicitlyMutedRef.current = true;
         isMutedRef.current = true;
         setIsMuted(true);
         if (yt && ytReadyRef.current) {
@@ -770,7 +1189,14 @@ export default function TbwaPillHero({
     video.playsInline = true;
 
     const tryAutoplay = () => {
-      if (isCinemaMode) return;
+      if (
+        isCinemaMode ||
+        userPausedRef.current ||
+        scrollFrozenRef.current ||
+        !isPlayingRef.current
+      ) {
+        return;
+      }
       const promise = video.play();
       if (promise !== undefined) {
         promise
@@ -808,8 +1234,6 @@ export default function TbwaPillHero({
   const showYtLayer = isYtPlaying && !isCinemaMode && hasLocalVideoFallbackNeeded;
   const progressPercent = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : 0;
   const isDeltaHero = heroVariant === 0;
-  const isOverlayHidden =
-    isPointerIdle && !isScrubbing && !hasKeyboardFocus && !isCinemaMode;
 
   return (
     <div
@@ -818,19 +1242,22 @@ export default function TbwaPillHero({
     >
       <div
         ref={containerRef}
-        onFocusCapture={(e) => {
-          if (e.target instanceof HTMLElement && e.target.matches(":focus-visible")) {
-            setHasKeyboardFocus(true);
+        data-pointer-active={isPointerActive ? "true" : "false"}
+        data-force-open={isScrubbing ? "true" : "false"}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== "touch") {
+            const rect = e.currentTarget.getBoundingClientRect();
+            if (
+              e.clientX < rect.left ||
+              e.clientX > rect.right ||
+              e.clientY < rect.top ||
+              e.clientY > rect.bottom
+            ) {
+              deactivateHeroPointer();
+            }
           }
         }}
-        onBlurCapture={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-            setHasKeyboardFocus(false);
-          }
-        }}
-        className={`relative w-full overflow-hidden flex items-center justify-center bg-black shadow-2xl group fullscreen:max-w-none fullscreen:w-full fullscreen:h-full fullscreen:aspect-auto fullscreen:rounded-none fullscreen:border-0 ${
-          isOverlayHidden ? "cursor-none" : ""
-        } ${
+        className={`hero-hover-stage relative w-full overflow-hidden flex items-center justify-center bg-black shadow-2xl group fullscreen:max-w-none fullscreen:w-full fullscreen:h-full fullscreen:aspect-auto fullscreen:rounded-none fullscreen:border-0 ${
           isDeltaHero
             ? "h-[93dvh] min-h-[580px] rounded-none border-0"
             : fullBleed
@@ -838,50 +1265,103 @@ export default function TbwaPillHero({
               : "aspect-video rounded-[var(--radius-box)] border border-white/10"
         }`}
       >
-        {/* Instant 60fps Local Loop Video Layer */}
-        <video
-          ref={videoRef}
-          key={activeTrack.src}
-          src={activeTrack.src}
-          autoPlay
-          playsInline
-          muted
-          loop
-          onPointerUp={(e) => {
-            if (e.pointerType === "mouse" && e.button !== 0) return;
-            if (isMutedRef.current || !isPlaying) {
-              playTrackWithSound(activeTrack);
-            } else {
-              toggleMute();
-            }
-          }}
-          onError={() => setFailedPreviewSrc(activeTrack.src)}
-          className={`size-full object-cover transition-opacity duration-500 ${
-            isOverlayHidden ? "" : "cursor-pointer"
-          }`}
-        />
+        {/* Dual-Buffer 60fps Local Loop Video Layers (Optical Blur Dissolve on Track Switch) */}
+        {heroVideoLayers.map((layer) => {
+          const isIncoming =
+            layer.phase === "entering" || layer.phase === "active";
 
-        {/* Real Synchronized Song Audio + 4K Video Layer (Active Once Audio/Full Track Unlocked) */}
+          return (
+            <video
+              key={layer.id}
+              ref={(el) => {
+                if (layer.isTarget) {
+                  videoRef.current = el;
+                } else if (el) {
+                  el.muted = true;
+                }
+                if (isIncoming && el && el.readyState >= 2) {
+                  notifyHeroLayerReady(layer.id);
+                }
+              }}
+              src={layer.src}
+              autoPlay
+              playsInline
+              muted
+              loop
+              preload="auto"
+              data-state={layer.phase}
+              data-audio-control={layer.isTarget ? "" : undefined}
+              onLoadedData={() => {
+                if (isIncoming) notifyHeroLayerReady(layer.id);
+              }}
+              onCanPlay={(e) => {
+                if (
+                  !isCinemaMode &&
+                  !userPausedRef.current &&
+                  !scrollFrozenRef.current &&
+                  isPlayingRef.current &&
+                  e.currentTarget.paused
+                ) {
+                  e.currentTarget.play().catch(() => {});
+                }
+                if (isIncoming) notifyHeroLayerReady(layer.id);
+              }}
+              onPlaying={() => {
+                if (isIncoming) notifyHeroLayerReady(layer.id);
+              }}
+              onTransitionEnd={(e) => {
+                if (
+                  isIncoming &&
+                  e.target === e.currentTarget &&
+                  e.propertyName === "opacity"
+                ) {
+                  promoteHeroIncomingLayer(layer.id);
+                }
+              }}
+              onPointerUp={
+                layer.isTarget
+                  ? (e) => {
+                      if (e.pointerType === "mouse" && e.button !== 0) return;
+                      if (isMutedRef.current || !isPlaying) {
+                        playTrackWithSound(activeTrack);
+                      } else {
+                        toggleMute();
+                      }
+                    }
+                  : undefined
+              }
+              onError={() => {
+                if (isIncoming) {
+                  dropFailedHeroIncoming(layer.id);
+                }
+                setFailedPreviewSrc(layer.src);
+              }}
+              className={`hero-video-crossfade-layer absolute inset-0 z-[1] size-full object-cover ${
+                !layer.isTarget ? "pointer-events-none" : "cursor-pointer"
+              }`}
+            />
+          );
+        })}
+
+        {/* Real Synchronized Song Audio + 4K Video Layer (Kept opacity-100 behind <video> to avoid zero-opacity iframe throttling) */}
         <div
           ref={ytHostRef}
           aria-hidden={!showYtLayer}
-          className={`pointer-events-none absolute inset-0 z-10 overflow-hidden transition-opacity duration-300 [&_iframe]:size-full [&_iframe]:scale-105 [&_iframe]:border-0 ${
-            showYtLayer ? "opacity-100" : "opacity-0"
+          className={`pointer-events-none absolute inset-0 overflow-hidden opacity-100 [&_iframe]:size-full [&_iframe]:scale-105 [&_iframe]:border-0 ${
+            showYtLayer ? "z-10" : "z-0"
           }`}
         />
 
-        {/* Subtle Edge Vignette for Contrast & Legibility (Fades out when pointer is idle) */}
+        {/* Active Overlay Video Tint & Contrast Scrim (Reveals cleanly on hero hover; clears when not hovering) */}
         <div
-          className={`absolute inset-0 z-10 pointer-events-none transition-opacity duration-500 ${
-            isOverlayHidden ? "opacity-0" : "opacity-100"
-          } ${
+          aria-hidden="true"
+          data-cinema={isCinemaMode ? "true" : "false"}
+          className={`hero-active-video-tint pointer-events-none absolute inset-0 z-10 ${
             isDeltaHero
-              ? "bg-gradient-to-t from-black/70 via-black/20 to-black/35"
+              ? ""
               : heroVariant !== 1
-                ? "bg-gradient-to-t from-black/85 via-black/35 to-black/60"
-                : fullBleed
-                  ? "bg-gradient-to-t from-black via-black/20 to-black/50"
-                  : "bg-gradient-to-t from-black/80 via-black/15 to-black/45"
+                ? "bg-black/30"
+                : ""
           }`}
         />
 
@@ -897,9 +1377,16 @@ export default function TbwaPillHero({
             />
             <button
               type="button"
+              data-audio-control=""
               onClick={() => {
                 setIsCinemaMode(false);
-                emitAudioState(isMutedRef.current, isPlayingRef.current, false);
+                if (!isMutedRef.current) {
+                  ytPlayerRef.current?.unMute?.();
+                  ytPlayerRef.current?.setVolume?.(volumeRef.current);
+                }
+                ytPlayerRef.current?.playVideo?.();
+                setIsPlaying(true);
+                emitAudioState(isMutedRef.current, true, false);
                 onCinemaModeChange?.(false);
               }}
               className="absolute top-4 right-4 z-40 px-3.5 py-1.5 rounded-full bg-black/80 hover:bg-black text-white border border-white/30 text-xs font-mono font-bold flex items-center gap-2 backdrop-blur-md transition-colors cursor-pointer"
@@ -910,18 +1397,18 @@ export default function TbwaPillHero({
           </div>
         )}
 
-        {/* All Hero Text & Control Overlays (Auto-hide smoothly when mouse stops moving) */}
+        {/* All Hero Text & Control Overlays (Reveals smoothly whenever hovering anywhere on the hero video) */}
         {!isCinemaMode && (
-          <div
-            data-idle={isOverlayHidden ? "true" : "false"}
-            className="hero-idle-fade pointer-events-none absolute inset-0 z-20"
-          >
+          <div className="hero-idle-fade pointer-events-none absolute inset-0 z-20">
             {/* Delta Cafés Full-Bleed Cinema Hero Overlay (#00 Default) */}
             {isDeltaHero && (
           <DeltaCafesHeroOverlay
             activeTrack={activeTrack}
-            tracks={VIDEO_TRACKS}
+            tracks={HERO_ALBUM_TRACKS}
+            paginationSlides={HERO_ALBUM_PAGINATION_SLIDES}
             onTrackChange={playTrackWithSound}
+            onPreviewTrack={previewTrack}
+            onStopTrack={pausePlayback}
             onOpenCinema={() => {
               ytPlayerRef.current?.pauseVideo?.();
               setIsCinemaMode(true);

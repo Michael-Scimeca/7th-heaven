@@ -14,6 +14,7 @@ import { createPortal } from "react-dom";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import HeroUpNextBanner from "@/components/HeroUpNextBanner";
+import HeroLatestNews from "@/components/HeroLatestNews";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import { useSettings } from "@/lib/useSettings";
 const emptySubscribe = () => () => { };
@@ -563,6 +564,33 @@ export default function HeroVideoPlayer({
     remountKey: `${videoSrc}-${isDesktop ? "dt" : "mb"}`,
   });
 
+  // The hero is sticky so the page can slide over its video, but the sections above it have
+  // no background. Scroll the text and show card away with the page so they stay in the hero
+  // instead of showing through everything below it.
+  useEffect(() => {
+    const el = foregroundRef.current;
+    if (!el) return;
+    // Checked every frame, and through the body's position, because locking the page for a
+    // drawer moves the body instead of scrolling and sends no scroll event when it unlocks.
+    let raf = 0;
+    let last = -1;
+    const update = () => {
+      raf = requestAnimationFrame(update);
+      const y = Math.max(0, window.scrollY, -document.body.getBoundingClientRect().top);
+      if (y === last) return;
+      last = y;
+      // `translate`, not `transform`: the parallax hook can own this element's transform
+      el.style.translate = y ? `0 ${-y}px` : "";
+      el.style.visibility = y > window.innerHeight ? "hidden" : "";
+    };
+    update();
+    return () => {
+      cancelAnimationFrame(raf);
+      el.style.translate = "";
+      el.style.visibility = "";
+    };
+  }, []);
+
   const ctxValue: VideoSnapshotContextValue = useMemo(
     () => ({ snapshots }),
     [snapshots],
@@ -919,11 +947,8 @@ export default function HeroVideoPlayer({
                 {sanityContent?.heroHeading || "7TH HEAVEN"}
               </h1>
 
-              {/* Hero Subheading */}
-              <p className="text-zinc-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] lg:text-xl">
-                {sanityContent?.heroSubheading ||
-                  "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
-              </p>
+              {/* Newest news post */}
+              <HeroLatestNews />
             </div>
 
             {/* Right Column: UP NEXT Show Banner (Smaller & Compact) */}

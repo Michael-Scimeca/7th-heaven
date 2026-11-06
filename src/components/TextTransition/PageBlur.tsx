@@ -16,6 +16,16 @@ export default function PageBlur() {
   const { mode } = useTransition();
   const pathname = usePathname();
   const prevPathRef = useRef<string | null>(null);
+  const clearTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (clearTimerRef.current !== null) {
+        window.clearTimeout(clearTimerRef.current);
+        clearTimerRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const el = document.getElementById("page-content-wrapper");
@@ -26,6 +36,10 @@ export default function PageBlur() {
     if (document.documentElement.classList.contains("fed-exiting")) return;
 
     if (mode === "covering" || mode === "covered") {
+      if (clearTimerRef.current !== null) {
+        window.clearTimeout(clearTimerRef.current);
+        clearTimerRef.current = null;
+      }
       el.classList.add("page-blur-out");
       el.classList.remove("page-blur-in");
       return;
@@ -46,16 +60,19 @@ export default function PageBlur() {
     }
 
     // New page is in, bring it up out of the blur
+    if (clearTimerRef.current !== null) {
+      window.clearTimeout(clearTimerRef.current);
+      clearTimerRef.current = null;
+    }
     el.classList.remove("page-blur-out");
     el.classList.remove("page-blur-in");
     void el.offsetWidth; // Force reflow to reliably restart CSS keyframe animation
     el.classList.add("page-blur-in");
 
-    const done = window.setTimeout(() => {
+    clearTimerRef.current = window.setTimeout(() => {
       el.classList.remove("page-blur-in");
+      clearTimerRef.current = null;
     }, 700);
-
-    return () => window.clearTimeout(done);
   }, [mode, pathname]);
 
   return null;

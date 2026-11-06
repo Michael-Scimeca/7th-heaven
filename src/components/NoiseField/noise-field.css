@@ -44,17 +44,6 @@
 }
 
 
-/* subtext under headings: words rise out of their masks */
-html.fed-motion .tt-run .tt-word {
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* the whole page dissolves instead of per-character exits */
-html.fed-motion.fed-exiting .tt-word,
-html.fed-motion.fed-exiting .tt-block {
-  animation: none !important;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .noise-field-glass::after {
     animation: none;

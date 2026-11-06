@@ -60,6 +60,7 @@ const ALL_PRODUCTS = [
     desc: "The Rock 'N' Roll Kids embark on their first epic adventure, bringing positivity and music to resolve chaos in the city.",
     amazonUrl: "https://www.amazon.com/gp/product/B096TJNDWR",
     coverImg: "/images/7hrrk/book1.jpg",
+    bgImg: "/images/7hrrk/book-bg/1.png",
     badge: "Episode 1",
   },
   {
@@ -70,6 +71,7 @@ const ALL_PRODUCTS = [
     desc: "Identity, friendship, and staying true to yourself when XEC Records try to change the band's authentic rock sound.",
     amazonUrl: "https://www.amazon.com/gp/product/B08FNMPFTR",
     coverImg: "/images/7hrrk/book2.jpg",
+    bgImg: "/images/7hrrk/book-bg/2.png",
     badge: "Episode 2",
   },
   {
@@ -80,6 +82,7 @@ const ALL_PRODUCTS = [
     desc: "A powerful tale of kindness and social consciousness as the kids use music to help community schools stay open.",
     amazonUrl: "https://www.amazon.com/gp/product/B08GLP426D",
     coverImg: "/images/7hrrk/book3.jpg",
+    bgImg: "/images/7hrrk/book-bg/3.png",
     badge: "Episode 3",
   },
   {
@@ -90,6 +93,7 @@ const ALL_PRODUCTS = [
     desc: "High-octane concert energy, flying drones, and an unbelievable battle of the bands showdown against ancient rock rivals.",
     amazonUrl: "https://www.amazon.com/gp/product/B08R68B2QF",
     coverImg: "/images/7hrrk/book4.jpg",
+    bgImg: "/images/7hrrk/book-bg/4.png",
     badge: "Episode 4",
   },
   {
@@ -101,6 +105,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/gp/product/B08VYFJWYF?ref_=dbs_m_mng_rwt_calw_tpbk_4&storeType=ebooks",
     coverImg: "/images/7hrrk/book5.jpg",
+    bgImg: "/images/7hrrk/book-bg/5.png",
     badge: "Episode 5",
   },
   {
@@ -112,6 +117,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/gp/product/B09HG6KW8M?ref_=dbs_m_mng_rwt_calw_tpbk_5&storeType=ebooks",
     coverImg: "/images/7hrrk/book6.jpg",
+    bgImg: "/images/7hrrk/book-bg/6.png",
     badge: "Episode 6",
   },
   {
@@ -123,6 +129,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/gp/product/B0B1K859QC?ref_=dbs_m_mng_rwt_calw_tpbk_6&storeType=ebooks",
     coverImg: "/images/7hrrk/book7.jpg",
+    bgImg: "/images/7hrrk/book-bg/7.png",
     badge: "Episode 7",
   },
   {
@@ -134,6 +141,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/gp/product/B0BTRTCQ5W?ref_=dbs_m_mng_rwt_calw_tpbk_7&storeType=ebooks&qid=1681962352&sr=8-1",
     coverImg: "/images/7hrrk/book8.jpg",
+    bgImg: "/images/7hrrk/book-bg/8.png",
     badge: "Episode 8",
   },
   {
@@ -145,6 +153,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/7th-heaven-RocknRoll-Kids-Company/dp/B0CGZ1P2ZJ/ref=sr_1_3?crid=NHCNKT022TUP&keywords=7th+heaven+rock+kids&qid=1705630559&s=digital-text&sprefix=7th+heaven+rock+kids%2Cdigital-text%2C83&sr=1-3-catcorr",
     coverImg: "/images/7hrrk/book9.jpg",
+    bgImg: "/images/7hrrk/book-bg/9.png",
     badge: "Episode 9",
   },
   {
@@ -156,6 +165,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/heaven-RocknRoll-Kids-Coloring-Book/dp/1791341276/?_encoding=UTF8&pd_rd_w=y3LP8&content-id=amzn1.sym.cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_p=cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_r=135-6472012-0373844&pd_rd_wg=TnrXj&pd_rd_r=3a94a7b7-c821-4b82-85bb-e305d1283288&ref_=aufs_ap_sc_dsk",
     coverImg: "/images/comics/51q94xazn7l.jpg",
+    bgImg: "/images/7hrrk/book-bg/artbook.png",
     badge: "Coloring Book",
   },
   {
@@ -167,6 +177,7 @@ const ALL_PRODUCTS = [
     amazonUrl:
       "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2",
     coverImg: "/images/7hrrk/artbook.jpg",
+    bgImg: "/images/7hrrk/book-bg/artbook.png",
     badge: "Art Book",
   },
   {
@@ -177,6 +188,7 @@ const ALL_PRODUCTS = [
     desc: "The complete volume 1 anthology combining multiple episode issues, full-color pages, and bonus poster art.",
     amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
     coverImg: "/images/7hrrk/artbook.jpg",
+    bgImg: "/images/7hrrk/book-bg/artbook.png",
     badge: "Comic Book Vol. 1",
   },
 ];
@@ -352,7 +364,7 @@ const mainCharacters = [
   {
     role: "Lead Guitarist",
     name: "Barefoot Rocker",
-    image: "/images/comics/mark.png",
+    image: "/images/7hrrk/individuals/Mark.png",
     desc: "Blonde hair, shades, and barefoot energy. Plays lightning-fast lead guitar solos and brings fearless optimism.",
     icon: GuitarIcon,
     color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
@@ -360,7 +372,7 @@ const mainCharacters = [
   {
     role: "Bass Guitarist",
     name: "Cap Bassist",
-    image: "/images/comics/frank.png",
+    image: "/images/7hrrk/individuals/Nick.png",
     desc: "Baseball cap backwards, driving deep basslines that keep the groove locked down in every battle.",
     icon: BassGuitarIcon,
     color: "border-purple-500/30 bg-cyan-500/10",
@@ -368,7 +380,7 @@ const mainCharacters = [
   {
     role: "Drums & Percussion",
     name: "Power Drummer",
-    image: "/images/comics/dicky.png",
+    image: "/images/7hrrk/individuals/Franky.png",
     desc: "The heartbeat of the band. Thunderous rhythms and high-tempo beats that power up the kids' magical music energy.",
     icon: DrumIcon,
     color: "text-purple-400 border-purple-500/30 bg-purple-500/10",
@@ -376,7 +388,7 @@ const mainCharacters = [
   {
     role: "Rhythm Guitarist",
     name: "Headband Shredder",
-    image: "/images/comics/nick.png",
+    image: "/images/7hrrk/individuals/Rich.png",
     desc: "Red headband and heavy rhythm chords. Crafts catchy riffs that solve problems and unite the crowd.",
     icon: GuitarIcon,
     color: "text-rose-400 border-rose-500/30 bg-rose-500/10",
@@ -384,7 +396,7 @@ const mainCharacters = [
   {
     role: "Lead Vocalist",
     name: "Frontman Kid",
-    image: "/images/comics/adam.png",
+    image: "/images/7hrrk/individuals/Adam.png",
     desc: "Black hat and infectious mic vocals. Leads the team with powerful anthems of kindness and rock attitude.",
     icon: MicIcon,
     color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
@@ -392,7 +404,7 @@ const mainCharacters = [
   {
     role: "Culinary & Backstage",
     name: "Big Sam",
-    image: "/images/comics/nic-cage-placeholder.png",
+    image: "/images/7hrrk/individuals/Big-Sammy.png?v=2",
     desc: "Red shirt chef keeping the band energized with great meals and warm backstage hospitality.",
     icon: ChefHatIcon,
     color: "text-red-400 border-red-500/30 bg-red-500/10",
@@ -400,7 +412,7 @@ const mainCharacters = [
   {
     role: "Corporate Executive",
     name: "XEC Record Boss",
-    image: "/images/comics/nic-cage-placeholder.png",
+    image: "/images/7hrrk/individuals/XEC-Record-Boss.png?v=2",
     desc: "Purple-skinned corporate villain who tries to control the music business until the kids show him true rock positivity.",
     icon: ExecutiveIcon,
     color: "  border-purple-500/30 bg-purple-900/30",
@@ -408,7 +420,7 @@ const mainCharacters = [
   {
     role: "Stage & Tour Crew",
     name: "Security & Drone Ops",
-    image: "/images/comics/nic-cage-placeholder.png",
+    image: "/images/7hrrk/individuals/Security&DroneOps.png?v=2",
     desc: "Dedicated crew with security gear and high-tech flying video drones capturing concert magic from above.",
     icon: DroneOpsIcon,
     color: "text-blue-400 border-blue-500/30 bg-blue-500/10",
@@ -436,6 +448,24 @@ const DEFAULT_FOUNDERS = [
   },
 ];
 
+export function resolveBookBgImg(
+  item: { badge?: string; title?: string; coverImg?: string; bgImg?: string },
+  fallbackIndex = 0
+): string {
+  if (item.bgImg) return item.bgImg;
+  const coverMatch = item.coverImg?.match(/book([1-9])\./i);
+  if (coverMatch) return `/images/7hrrk/book-bg/${coverMatch[1]}.png`;
+  const badgeMatch = (item.badge || item.title || "").match(/Episode\s*([1-9])/i);
+  if (badgeMatch) return `/images/7hrrk/book-bg/${badgeMatch[1]}.png`;
+  if (
+    item.coverImg?.includes("artbook") ||
+    /art\s*book|vol\.?\s*1|coloring/i.test(`${item.badge || ""} ${item.title || ""}`)
+  ) {
+    return "/images/7hrrk/book-bg/artbook.png";
+  }
+  return `/images/7hrrk/book-bg/${(fallbackIndex % 9) + 1}.png`;
+}
+
 export function getProductsList(sanityContent: any) {
   const comicsSection = sanityContent?.sections?.find(
     (s: any) => s.sectionId === "comics",
@@ -445,19 +475,58 @@ export function getProductsList(sanityContent: any) {
   if (!sanityProducts || sanityProducts.length === 0) return ALL_PRODUCTS;
   return sanityProducts.map((p: any, i: number) => {
     const fallback = ALL_PRODUCTS[i % ALL_PRODUCTS.length];
+    const coverImg = getMediaUrl(
+      p.coverImg || p.image || p.coverImage,
+      fallback.coverImg,
+    );
+    const badge = p.badge || p.tag || fallback.badge;
+    const title = p.title || fallback.title;
     return {
       id: p._id || p.id || `prod-${i}`,
-      title: p.title || fallback.title,
+      title,
       subtitle: p.subtitle || fallback.subtitle,
       desc: p.desc || p.description || fallback.desc,
       amazonUrl: p.amazonUrl || p.buyLink || fallback.amazonUrl,
-      coverImg: getMediaUrl(
-        p.coverImg || p.image || p.coverImage,
-        fallback.coverImg,
+      coverImg,
+      bgImg: resolveBookBgImg(
+        { badge, title, coverImg, bgImg: p.bgImg },
+        i
       ),
-      badge: p.badge || p.tag || fallback.badge,
+      badge,
     };
   });
+}
+
+function resolveIndividualCharacterImg(
+  item: { name?: string; role?: string; image?: string },
+  fallbackImg: string
+): string {
+  const hay = `${item.name || ""} ${item.role || ""} ${item.image || ""}`.toLowerCase();
+  if (hay.includes("adam") || hay.includes("frontman") || hay.includes("vocal")) {
+    return "/images/7hrrk/individuals/Adam.png";
+  }
+  if (hay.includes("frank") || hay.includes("drum") || hay.includes("dicky")) {
+    return "/images/7hrrk/individuals/Franky.png";
+  }
+  if (hay.includes("mark") || hay.includes("barefoot") || hay.includes("lead guitar")) {
+    return "/images/7hrrk/individuals/Mark.png";
+  }
+  if (hay.includes("nick") || hay.includes("cap bassist") || hay.includes("bass")) {
+    return "/images/7hrrk/individuals/Nick.png";
+  }
+  if (hay.includes("rich") || hay.includes("headband") || hay.includes("rhythm")) {
+    return "/images/7hrrk/individuals/Rich.png";
+  }
+  if (hay.includes("big sam") || hay.includes("sammy") || hay.includes("culinary")) {
+    return "/images/7hrrk/individuals/Big-Sammy.png?v=2";
+  }
+  if (hay.includes("xec") || hay.includes("boss") || hay.includes("executive")) {
+    return "/images/7hrrk/individuals/XEC-Record-Boss.png?v=2";
+  }
+  if (hay.includes("security") || hay.includes("drone") || hay.includes("crew")) {
+    return "/images/7hrrk/individuals/Security&DroneOps.png?v=2";
+  }
+  return fallbackImg;
 }
 
 export function getCharactersList(sanityContent: any) {
@@ -472,7 +541,10 @@ export function getCharactersList(sanityContent: any) {
     return {
       role: c.role || fallback.role,
       name: c.name || fallback.name,
-      image: getMediaUrl(c.image, fallback.image),
+      image: resolveIndividualCharacterImg(
+        c,
+        getMediaUrl(c.image, fallback.image)
+      ),
       desc: c.desc || c.description || fallback.desc,
       icon: fallback.icon,
       color: fallback.color,
@@ -793,7 +865,7 @@ export default function RockNRollKidsClient({
           <Image
             src={getMediaUrl(
               sanityContent?.heroBannerImage,
-              "/images/7hrrk/c-all.png",
+              "/images/7hrrk/All-c.png",
             )}
             alt=""
             fill

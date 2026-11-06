@@ -3,6 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
+import { AmbientBlurVideoStack } from "@/components/AmbientBlurVideoStack";
 
 export interface BackdropOverlaySettings {
   enabled: boolean;
@@ -185,6 +186,8 @@ export function applyBackdropSettingsToDOM(settings: BackdropOverlaySettings) {
     "--backdrop-noise-animation",
     noiseAnimated ? `filmGrainJitter ${noiseSpeed}s steps(4) infinite both` : "none"
   );
+  root.style.setProperty("--canvas-grain-opacity", `${noiseEnabled ? noiseOpacity / 100 : 0}`);
+  root.style.setProperty("--canvas-grain-blend", noiseBlend);
 }
 
 export default function GlobalVideoBackdrop() {
@@ -256,8 +259,8 @@ export default function GlobalVideoBackdrop() {
     };
   }, []);
 
-  // Strict Exclusion: Do not touch the media page or admin tool areas
-  const isMediaPage = pathname?.startsWith("/media");
+  // Strict Exclusion: /media renders its own synchronized #media-bleed-backdrop; do not touch admin tool areas
+  const isMediaPage = pathname === "/media";
   const isAdminPage = pathname?.startsWith("/admin") || pathname?.startsWith("/crm") || pathname?.startsWith("/studio");
 
   if (!mounted || isMediaPage || isAdminPage || !settings.enabled) {
@@ -268,7 +271,7 @@ export default function GlobalVideoBackdrop() {
     <div
       id="global-bleed-backdrop"
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black select-none"
+      className="pointer-events-none fixed inset-0 -z-[5] overflow-hidden bg-transparent select-none"
     >
       {/* Fallback frame matching media page setup */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -278,23 +281,20 @@ export default function GlobalVideoBackdrop() {
         className="absolute inset-0 w-full h-full object-cover scale-150 blur-3xl saturate-150 opacity-65 backdrop-video-filter transition-opacity duration-1000"
       />
 
-      {/* Live synchronized background video bleeding full-bleed across entire page & footer */}
+      {/* Live synchronized dual-buffer background video crossfading smoothly across entire page & footer */}
       {settings.videoSrc && (
-        <video
-          key={settings.videoSrc}
+        <AmbientBlurVideoStack
+          loopSeconds={2}
           src={settings.videoSrc}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          onPlaying={() => {
+          variant="tuned"
+          onActivePlaying={() => {
             if (typeof window !== "undefined") {
-              (window as any).__7hHeroVideoReady = true;
+              (
+                window as Window & { __7hHeroVideoReady?: boolean }
+              ).__7hHeroVideoReady = true;
               window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
             }
           }}
-          className="absolute inset-0 w-full h-full object-cover scale-150 blur-3xl saturate-150 opacity-75 backdrop-video-filter transition-opacity duration-1000"
         />
       )}
 

@@ -82,6 +82,7 @@ export function buildDeltaWavePath(phase: number, amplitude: number): string {
 }
 
 export const DEFAULT_DELTA_WAVE_PATH = buildDeltaWavePath(0.65, 11.8);
+export const MUTED_DELTA_WAVE_PATH = buildDeltaWavePath(0.65, 0);
 
 function subscribeReducedMotion(callback: () => void) {
   if (typeof window === "undefined") return () => {};
@@ -107,13 +108,14 @@ export default function DeltaSoundWaveButton({
   size = "md",
   className = "",
 }: DeltaSoundWaveButtonProps) {
+  const isSoundActive = !isMuted && isPlaying && effectiveVolume > 0;
   const pathRef = useRef<SVGPathElement>(null);
   const phaseRef = useRef(0.65);
-  const ampRef = useRef(11.4);
+  const ampRef = useRef(isSoundActive ? 11.8 : 0);
   const stateRef = useRef({
-    isSoundActive: false,
+    isSoundActive,
     isHovered: false,
-    effectiveVolume: 100,
+    effectiveVolume,
   });
 
   const [isHovered, setIsHovered] = useState(false);
@@ -123,8 +125,6 @@ export default function DeltaSoundWaveButton({
     getReducedMotionSnapshot,
     getReducedMotionServerSnapshot
   );
-
-  const isSoundActive = !isMuted && isPlaying && effectiveVolume > 0;
 
   useEffect(() => {
     stateRef.current = {
@@ -136,12 +136,16 @@ export default function DeltaSoundWaveButton({
 
   useEffect(() => {
     const pathEl = pathRef.current;
-    if (!pathEl) return;
+    if (!pathEl || !prefersReducedMotion) return;
+    pathEl.setAttribute(
+      "d",
+      isSoundActive ? DEFAULT_DELTA_WAVE_PATH : MUTED_DELTA_WAVE_PATH
+    );
+  }, [isSoundActive, prefersReducedMotion]);
 
-    if (prefersReducedMotion) {
-      pathEl.setAttribute("d", DEFAULT_DELTA_WAVE_PATH);
-      return;
-    }
+  useEffect(() => {
+    const pathEl = pathRef.current;
+    if (!pathEl || prefersReducedMotion) return;
 
     const tick = (_time: number, deltaTime: number) => {
       if (document.hidden) return;
@@ -152,7 +156,7 @@ export default function DeltaSoundWaveButton({
         effectiveVolume: vol,
       } = stateRef.current;
 
-      const targetSpeed = active ? 13.5 : hovered ? 10.4 : 6.6;
+      const targetSpeed = active ? 13.5 : hovered ? 8.2 : 0;
       phaseRef.current += dt * targetSpeed;
 
       const volumeScale = Math.max(0.5, Math.min(1, vol / 100));
@@ -165,10 +169,10 @@ export default function DeltaSoundWaveButton({
       const targetAmp = active
         ? 14.2 * volumeScale * beatPulse
         : hovered
-          ? 12.8
-          : 11.2;
+          ? 4.2
+          : 0;
 
-      ampRef.current += (targetAmp - ampRef.current) * Math.min(1, dt * 10);
+      ampRef.current += (targetAmp - ampRef.current) * Math.min(1, dt * 11);
 
       pathEl.setAttribute(
         "d",
@@ -188,6 +192,7 @@ export default function DeltaSoundWaveButton({
   return (
     <button
       type="button"
+      data-audio-control=""
       onClick={onToggleMute}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -195,10 +200,10 @@ export default function DeltaSoundWaveButton({
       onBlur={() => setIsHovered(false)}
       aria-pressed={!isMuted}
       aria-label={isMuted ? "Play video sound" : "Mute video sound"}
-      className={`delta-sound-pill flex ${dimensionsClass} shrink-0 items-center justify-center rounded-full border border-white/5 backdrop-blur-md transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200 cursor-pointer ${
+      className={`delta-sound-pill flex ${dimensionsClass} shrink-0 items-center justify-center rounded-full border border-purple-400/20 backdrop-blur-md transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer ${
         isMuted
-          ? "text-amber-50/90 hover:text-amber-50"
-          : "text-amber-50 ring-1 ring-amber-200/40"
+          ? "text-purple-200/90 hover:text-white"
+          : "text-white ring-1 ring-purple-400/50"
       } ${className}`}
     >
       <svg
@@ -209,7 +214,7 @@ export default function DeltaSoundWaveButton({
       >
         <path
           ref={pathRef}
-          d={DEFAULT_DELTA_WAVE_PATH}
+          d={isSoundActive ? DEFAULT_DELTA_WAVE_PATH : MUTED_DELTA_WAVE_PATH}
           stroke="currentColor"
           strokeWidth="2.05"
           strokeLinecap="round"

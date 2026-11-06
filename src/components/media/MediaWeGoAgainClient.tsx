@@ -9,6 +9,7 @@ import {
   applyBackdropSettingsToDOM,
   type BackdropOverlaySettings,
 } from "@/components/GlobalVideoBackdrop";
+import { AmbientBlurVideoStack } from "@/components/AmbientBlurVideoStack";
 import { ListVideo, ChevronDown } from "lucide-react";
 import PartnershipsMediaVault from "./PartnershipsMediaVault";
 import TbwaPillHero, {
@@ -16,8 +17,14 @@ import TbwaPillHero, {
   type TbwaPillHeroHandle,
   type VideoTrack,
 } from "./TbwaPillHero";
+import { HERO_ALBUM_TRACKS } from "./deltaSmooothySlides";
 import { TbwaHeroLayoutSwitcherBar, type HeroLayoutId } from "./TbwaHeroOverlays";
 import DeltaSmooothyMediaStrip from "./DeltaSmooothyMediaStrip";
+import DeltaHistorySection, {
+  type StoriaBackdropSyncState,
+} from "./DeltaHistorySection";
+import { STORIA_ALL_YEARS_MILESTONES } from "./storia/storiaAllYearsData";
+import { StoriaYearBackdropStack } from "./storia/StoriaYearBackdropStack";
 
 export interface MediaVaultItem {
   id: string;
@@ -48,7 +55,9 @@ export interface MediaVaultItem {
 }
 
 export default function MediaWeGoAgainClient() {
-  const [activeHeroTrack, setActiveHeroTrack] = useState<VideoTrack>(VIDEO_TRACKS[0]);
+  const [activeHeroTrack, setActiveHeroTrack] = useState<VideoTrack>(
+    HERO_ALBUM_TRACKS[0]
+  );
   const [heroVariant, setHeroVariant] = useState<HeroLayoutId>(0);
   const [isFullBleed, setIsFullBleed] = useState(false);
   const [isListOpen, setIsListOpen] = useState(true);
@@ -56,7 +65,14 @@ export default function MediaWeGoAgainClient() {
   const [isCinemaMode, setIsCinemaMode] = useState(false);
   const [isHeroMusicPlaying, setIsHeroMusicPlaying] = useState(false);
   const [modalVideoSrc, setModalVideoSrc] = useState<string | null>(null);
+  const [failedBgSrc, setFailedBgSrc] = useState<string | null>(null);
   const [heroVideoEl, setHeroVideoEl] = useState<HTMLVideoElement | null>(null);
+  const [storiaBackdrop, setStoriaBackdrop] = useState<StoriaBackdropSyncState>(
+    {
+      isActive: false,
+      activeIdx: 0,
+    }
+  );
   const heroRef = useRef<TbwaPillHeroHandle>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -72,7 +88,11 @@ export default function MediaWeGoAgainClient() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isListOpen]);
 
-  const currentPlayingSrc = modalVideoSrc || activeHeroTrack.src;
+  const rawPlayingSrc = modalVideoSrc || activeHeroTrack.src;
+  const currentPlayingSrc =
+    failedBgSrc && rawPlayingSrc === failedBgSrc
+      ? VIDEO_TRACKS[0].src
+      : rawPlayingSrc;
 
   const mounted = useSyncExternalStore(
     () => () => { },
@@ -82,7 +102,7 @@ export default function MediaWeGoAgainClient() {
 
   // Sync background video playback & time in real-time with hero video
   useEffect(() => {
-    if (modalVideoSrc) return;
+    if (modalVideoSrc || currentPlayingSrc !== activeHeroTrack.src) return;
     const heroVideo = heroVideoEl;
     const bgVideo = bgVideoRef.current;
     if (!heroVideo || !bgVideo) return;
@@ -123,7 +143,7 @@ export default function MediaWeGoAgainClient() {
       heroVideo.removeEventListener("pause", syncPause);
       heroVideo.removeEventListener("ratechange", syncRate);
     };
-  }, [heroVideoEl, modalVideoSrc, currentPlayingSrc]);
+  }, [mounted, heroVideoEl, modalVideoSrc, currentPlayingSrc, activeHeroTrack.src]);
 
   useEffect(() => {
     try {
@@ -140,11 +160,14 @@ export default function MediaWeGoAgainClient() {
 
     const handleSettings = (e: Event) => {
       const detail = (e as CustomEvent<BackdropOverlaySettings>).detail;
-      if (detail?.videoSrc) {
-        setActiveHeroTrack((prev: VideoTrack) => ({
-          ...prev,
-          src: detail.videoSrc,
-        }));
+      if (detail) {
+        applyBackdropSettingsToDOM(detail);
+        if (detail.videoSrc) {
+          setActiveHeroTrack((prev: VideoTrack) => ({
+            ...prev,
+            src: detail.videoSrc,
+          }));
+        }
       }
     };
     const handleNowPlaying = (e: Event) => {
@@ -183,42 +206,51 @@ export default function MediaWeGoAgainClient() {
     <>
       {/* ── AMBIENT VIDEO BLUR BACKDROP (Portaled to document.body for true full bleed behind page AND footer) ── */}
       {mounted &&
-        !isDeltaMode &&
         createPortal(
           <div
             id="media-bleed-backdrop"
             aria-hidden="true"
-            className="pointer-events-none fixed inset-0 -z-[5] overflow-hidden bg-black select-none"
+            className="pointer-events-none fixed inset-0 -z-[5] isolate overflow-hidden bg-black select-none"
           >
             {/* Fallback frame */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/hero/band-performance.webp"
               alt=""
-              className="absolute inset-0 w-full h-full object-cover scale-150 blur-3xl saturate-150 opacity-65 backdrop-video-filter transition-opacity duration-300"
+              className="absolute inset-0 h-full w-full scale-150 object-cover opacity-65 blur-3xl saturate-150 transition-opacity duration-300 backdrop-video-filter"
             />
 
-            {/* Live synchronized backdrop video bleeding across full page and footer */}
+            {/* Live synchronized dual-buffer backdrop video crossfading smoothly across full page & footer */}
             {currentPlayingSrc && (
-              <video
-                ref={bgVideoRef}
-                key={currentPlayingSrc}
+              <AmbientBlurVideoStack
                 src={currentPlayingSrc}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover scale-150 blur-3xl saturate-150 opacity-75 backdrop-video-filter transition-opacity duration-300"
+                variant="tuned"
+                activeVideoRef={bgVideoRef}
+                onSourceError={(failedSrc) => {
+                  if (failedSrc !== VIDEO_TRACKS[0].src) {
+                    setFailedBgSrc(failedSrc);
+                  }
+                }}
               />
             )}
 
             {/* Cinematic dark scrim for crisp text contrast */}
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/60 via-black/35 to-black/75 backdrop-video-overlay transition-opacity duration-150" />
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/75 transition-opacity duration-150 backdrop-video-overlay"
+            />
+
+            {/* Active year's own image / primary video placeholder backdrop while viewing #delta-history */}
+            <StoriaYearBackdropStack
+              milestones={STORIA_ALL_YEARS_MILESTONES}
+              activeIdx={storiaBackdrop.activeIdx}
+              prevIdx={storiaBackdrop.prevIdx ?? null}
+              isVisible={storiaBackdrop.isActive}
+            />
 
             {/* Analog Film Grain / Noise directly inside full-bleed video backdrop (bleeds continuously across page AND footer) */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-film-noise backdrop-noise-surface pointer-events-none"
+              className="pointer-events-none absolute inset-0 bg-film-noise backdrop-noise-surface"
             />
           </div>,
           document.body
@@ -229,7 +261,7 @@ export default function MediaWeGoAgainClient() {
         aria-label="7th Heaven Media"
         className={`relative isolate min-h-screen w-full text-white overflow-x-clip transition-colors duration-500 ${
           isDeltaMode
-            ? "delta-espresso-surface pt-0 pb-20"
+            ? "bg-transparent pt-0 pb-20"
             : isFullBleed
               ? "bg-transparent pt-0 pb-0"
               : "bg-transparent pt-24 sm:pt-28 pb-20"
@@ -376,12 +408,18 @@ export default function MediaWeGoAgainClient() {
                 <DeltaSmooothyMediaStrip
                   activeTrackId={activeHeroTrack.youtubeId || activeHeroTrack.id}
                   isMusicPlaying={isHeroMusicPlaying}
-                  heroVariant={heroVariant}
-                  onSelectHeroVariant={setHeroVariant}
                   onSelectTrack={(track) => {
                     setModalVideoSrc(null);
                     heroRef.current?.playTrackWithSound(track);
                     setActiveHeroTrack(track);
+                  }}
+                  onPreviewTrack={(track) => {
+                    setModalVideoSrc(null);
+                    heroRef.current?.previewTrack(track);
+                    setActiveHeroTrack(track);
+                  }}
+                  onStopTrack={() => {
+                    heroRef.current?.pausePlayback();
                   }}
                 />
               </div>
@@ -512,6 +550,35 @@ export default function MediaWeGoAgainClient() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* ── BOTTOM SECTION: "SINCE 1985, MUSIC THAT AWAKENS STORIES" 1985–2026 HISTORY TIMELINE ── */}
+        <div className="relative z-10 w-full">
+          <DeltaHistorySection
+            onSectionBackdropChange={setStoriaBackdrop}
+            onExploreArchive={() => {
+              setIsListOpen(true);
+              requestAnimationFrame(() => {
+                const vaultEl = document.getElementById("partnerships-vault");
+                if (!vaultEl) return;
+                const lenis = (
+                  window as Window & {
+                    __lenis?: {
+                      scrollTo: (
+                        target: HTMLElement,
+                        options?: { duration?: number; force?: boolean }
+                      ) => void;
+                    };
+                  }
+                ).__lenis;
+                if (lenis) {
+                  lenis.scrollTo(vaultEl, { duration: 1.1, force: true });
+                } else {
+                  vaultEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+              });
+            }}
+          />
         </div>
       </main>
     </>

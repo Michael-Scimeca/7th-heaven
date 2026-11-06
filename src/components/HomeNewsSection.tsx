@@ -215,28 +215,21 @@ export default function HomeNewsSection({
 
         {/* All News Articles in the Same Line */}
         <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {news.map((item, idx) => {
+          {news.map((item) => {
             const href = `/news/${item.slug || item.id || toSlug(item.title)}`;
             return (
               <article
                 key={item.title}
                 className="group relative flex flex-col justify-between overflow-hidden border-0 pb-4 text-left"
               >
-                <div>
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="text-muted text-xs font-medium">
-                      {item.date}
-                    </span>
-                    <span className="a-btn text-xs font-semibold">Read</span>
-                  </div>
-                  <h3 className="line-clamp-2 mb-2 text-xl font-bold">
+                <div className="flex flex-col gap-2">
+                  <span className="text-muted text-xs font-medium">
+                    {item.date}
+                  </span>
+                  <h3 className="line-clamp-2 text-xl font-bold">
                     <Link
                       href={href}
-                      className={
-                        idx === 0
-                          ? "text-[#f02bf0] transition-colors hover:text-action group-hover:text-action"
-                          : "text-amber-50 transition-colors hover:text-action group-hover:text-action"
-                      }
+                      className="text-amber-50 transition-colors hover:text-action group-hover:text-action"
                     >
                       {item.title}
                     </Link>
@@ -244,6 +237,12 @@ export default function HomeNewsSection({
                   <p className="line-clamp-4 text-secondary text-sm leading-relaxed max-w-[65ch]">
                     {item.content}
                   </p>
+                  <Link
+                    href={href}
+                    className="a-btn self-start text-xs font-semibold"
+                  >
+                    Read
+                  </Link>
                 </div>
               </article>
             );

@@ -6,7 +6,7 @@ import { ensureUpcomingTourDates, isShowOver } from "@/lib/tour-helpers";
 import { VENUE_LINKS } from "@/lib/venue-links";
 
 import TourList from "@/components/TourList";
-import BioParallaxSlider from "@/components/BioParallaxSlider";
+import BandMembersHero from "@/components/BandMembersHero";
 import { fetchTourDatesCached } from "@/lib/tour-fetcher";
 import { findShowId } from "@/lib/show-lookup";
 
@@ -418,7 +418,7 @@ export default function HomeDataLoader() {
       <TourList initialShows={shows} />
 
       {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES) ====== */}
-      <BioParallaxSlider />
+      <BandMembersHero />
     </>
   );
 }

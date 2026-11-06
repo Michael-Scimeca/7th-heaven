@@ -1,0 +1,78 @@
+.page {
+  min-height: 100vh;
+  background: #46096a; /* the shot's deep violet */
+  color: #fff;
+  font-family: var(--font-body);
+  padding: 120px 16px 80px;
+}
+.header {
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.page .title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(36px, 6vw, 72px);
+  line-height: 0.95;
+  margin: 0 0 12px;
+  color: #fff;
+}
+.page .lead {
+  max-width: 560px;
+  margin: 0 auto 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+.all {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: #fffbb5;
+  color: #210e2a;
+}
+
+.grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.card {
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.stage {
+  display: grid;
+  place-items: center;
+  height: 160px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.15);
+}
+.page .name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 8px;
+  color: #fff;
+  text-transform: none;
+}
+.page .how,
+.page .pro,
+.page .con {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0 0 6px;
+  color: rgba(255, 255, 255, 0.75);
+}
+.page .pro { color: #bbf7d0; }
+.page .con { color: #fecaca; }

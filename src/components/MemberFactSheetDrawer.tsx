@@ -1,11 +1,13 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function, react-doctor/rendering-hydration-no-flicker */
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import MeltAvatar from "@/components/MeltAvatar";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, Ticket } from "lucide-react";
 import { DotChevronLeft, DotChevronRight } from "@/components/ui/DotArrow";
 import { useScrollLock } from "@/lib/useScrollLock";
+import "./member-fact-sheet.css";
 
 export interface BandMemberFactSheet {
   memberNo?: string;
@@ -49,14 +51,41 @@ export interface BandMemberFactSheet {
 }
 
 interface MemberFactSheetDrawerProps {
+  avatarLeaving?: boolean;
   isOpen: boolean;
   onClose: () => void;
   member: BandMemberFactSheet | null;
   allMembers?: BandMemberFactSheet[];
   onSelectMember?: (member: BandMemberFactSheet) => void;
+  /** Extra classes on the sliding panel, for pages that need a different width */
+  panelClassName?: string;
 }
 
 const EMPTY_MEMBERS: BandMemberFactSheet[] = [];
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="mfs-fact">
+      <dt className="mfs-label">{label}</dt>
+      <dd className="mfs-value">{value}</dd>
+    </div>
+  );
+}
+
+function FactSection({ title, facts }: { title: string; facts: [string, string | undefined][] }) {
+  const filled = facts.filter((f): f is [string, string] => Boolean(f[1]));
+  if (!filled.length) return null;
+  return (
+    <section className="mfs-section">
+      <h3 className="mfs-heading">{title}</h3>
+      <dl className="mfs-grid">
+        {filled.map(([label, value]) => (
+          <Fact key={label} label={label} value={value} />
+        ))}
+      </dl>
+    </section>
+  );
+}
 
 export default function MemberFactSheetDrawer({
   isOpen,
@@ -64,8 +93,12 @@ export default function MemberFactSheetDrawer({
   member,
   allMembers = EMPTY_MEMBERS,
   onSelectMember,
+  panelClassName = "",
+  avatarLeaving = false,
 }: MemberFactSheetDrawerProps) {
   useScrollLock(isOpen);
+  // The first photo waits for the sheet to slide in; paging to another member melts in straight away
+  const [lastPagedTo, setLastPagedTo] = useState<string | null>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (isOpen && drawerRef.current) {
@@ -86,6 +119,7 @@ export default function MemberFactSheetDrawer({
       const { onClose, onSelectMember, member, allMembers } =
         callbacksRef.current;
       if (e.key === "Escape") {
+        setLastPagedTo(null);
         onClose();
       } else if (
         e.key === "ArrowRight" &&
@@ -98,7 +132,9 @@ export default function MemberFactSheetDrawer({
         );
         if (currentIndex !== -1) {
           const nextIndex = (currentIndex + 1) % allMembers.length;
-          onSelectMember(allMembers[nextIndex]);
+          const nextMember = allMembers[nextIndex];
+          setLastPagedTo(nextMember.name);
+          onSelectMember(nextMember);
         }
       } else if (
         e.key === "ArrowLeft" &&
@@ -112,7 +148,9 @@ export default function MemberFactSheetDrawer({
         if (currentIndex !== -1) {
           const prevIndex =
             (currentIndex - 1 + allMembers.length) % allMembers.length;
-          onSelectMember(allMembers[prevIndex]);
+          const prevMember = allMembers[prevIndex];
+          setLastPagedTo(prevMember.name);
+          onSelectMember(prevMember);
         }
       }
     };
@@ -126,18 +164,27 @@ export default function MemberFactSheetDrawer({
   const currentIndex = allMembers.findIndex((m) => m.name === member.name);
   const hasMultiple = allMembers.length > 1;
 
+  const handleClose = () => {
+    setLastPagedTo(null);
+    onClose();
+  };
+
   const handlePrev = () => {
     if (hasMultiple && currentIndex !== -1 && onSelectMember) {
       const prevIndex =
         (currentIndex - 1 + allMembers.length) % allMembers.length;
-      onSelectMember(allMembers[prevIndex]);
+      const prevMember = allMembers[prevIndex];
+      setLastPagedTo(prevMember.name);
+      onSelectMember(prevMember);
     }
   };
 
   const handleNext = () => {
     if (hasMultiple && currentIndex !== -1 && onSelectMember) {
       const nextIndex = (currentIndex + 1) % allMembers.length;
-      onSelectMember(allMembers[nextIndex]);
+      const nextMember = allMembers[nextIndex];
+      setLastPagedTo(nextMember.name);
+      onSelectMember(nextMember);
     }
   };
 
@@ -156,362 +203,117 @@ export default function MemberFactSheetDrawer({
   return createPortal(
     <div data-scroll-lock={isOpen} className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none">
       {/* Dimmed Blurred Backdrop Overlay */}
-      <div className="fixed inset-0" onClick={onClose} aria-hidden="true" />
+      <div className="fixed inset-0" onClick={handleClose} aria-hidden="true" />
 
       {/* Slide-Over Drawer Container */}
       <div
         ref={drawerRef}
         data-lenis-prevent="true"
-        className="custom-scrollbar fact-sheet-scrollbar relative z-10 flex h-full w-full transform flex-col justify-between overflow-y-auto bg-[#0c0a14]/45 backdrop-blur-2xl sm:w-[480px] md:w-[520px] lg:w-[560px]"
-        style={{
-          boxShadow:
-            "-12px 0 36px rgba(0, 0, 0, 0.8), 0 0 45px rgba(168, 85, 247, 0.15)",
-        }}
+        className={`custom-scrollbar fact-sheet-scrollbar mfs relative z-10 flex h-full w-full transform flex-col overflow-y-auto bg-[#0c0a14]/45 shadow-[-12px_0_36px_rgba(0,0,0,0.8),0_0_45px_rgba(168,85,247,0.15)] backdrop-blur-2xl sm:w-[480px] md:w-[520px] lg:w-[560px] ${panelClassName}`}
       >
         {/* Top Control Bar */}
-        <div className="sticky top-0 z-30 flex items-center justify-between bg-[#0c0a14] px-6 py-2">
-          <div className="flex items-center gap-2">
-            <span>BACKSTAGE FACT SHEET</span>
-          </div>
+        <div className="mfs-bar">
+          <span className="mfs-bar-title">Backstage Fact Sheet</span>
 
-          <div className="flex items-center gap-2">
+          <div className="mfs-bar-controls">
             {hasMultiple && (
-              <div className="mr-1 flex items-center gap-1 border-r border-white/10 pr-2">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  className="transition-colors border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
-                  title="Previous Member"
-                  aria-label="Previous member"
-                >
+              <div className="mfs-pager">
+                <button type="button" onClick={handlePrev} title="Previous Member" aria-label="Previous member">
                   <DotChevronLeft className="h-3.5 w-3.5" />
                 </button>
-                <span className="px-1 text-[10px] text-neutral-400">
+                <span>
                   {currentIndex + 1} / {allMembers.length}
                 </span>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="transition-colors border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
-                  title="Next Member"
-                  aria-label="Next member"
-                >
+                <button type="button" onClick={handleNext} title="Next Member" aria-label="Next member">
                   <DotChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             )}
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="transition-colors hover:bg-white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 hover:text-white"
-              aria-label="Close modal"
-            >
+            <button type="button" onClick={handleClose} className="mfs-close" aria-label="Close modal">
               <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {/* Main Content Scroll Container */}
-        <div className="flex flex-col flex-1 gap-3 py-4 pr-6 pl-6">
-          {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
-          <div className="relative overflow-hidden sm:py-2">
-            {/* Member Name */}
-            <div className="title-group title-group--section mb-5">
-              <h2 className="font-serif">
-                {fullName}
-              </h2>
-              <p>{member.role}</p>
+        <div className="mfs-body" key={member.name}>
+          <header className="mfs-header">
+            {member.image && (
+              // Phones only: there is no large photo beside the sheet there
+              <MeltAvatar src={member.image} leaving={avatarLeaving} delayed={lastPagedTo !== member.name} />
+            )}
+            <div className="mfs-header-text">
+              <h2 className="mfs-name">{fullName}</h2>
+              <p className="mfs-role">{member.role}</p>
             </div>
+          </header>
 
-            {/* 4-Column Quick Metadata Grid */}
-            <div className="grid grid-cols-4 gap-2 border-t border-white/10 pt-3">
+          <dl className="mfs-stats">
+            <Fact label="Born" value={born} />
+            <Fact label="Sign" value={sign} />
+            <Fact label="Lucky No." value={luckyNo} />
+            <Fact label="Color" value={color} />
+          </dl>
+
+          <section className="mfs-section">
+            <h3 className="mfs-heading">The Contradiction</h3>
+            <div className="mfs-traits">
               <div>
-                <span className="block text-purple-400">BORN</span>
-                <span className="mt-0.5 block">{born}</span>
+                <span className="mfs-label">Best trait</span>
+                <p className="mfs-trait">{bestTrait}</p>
               </div>
+              <span className="mfs-yet">and yet</span>
               <div>
-                <span className="block text-purple-400">SIGN</span>
-                <span className="mt-0.5 block">{sign}</span>
-              </div>
-              <div>
-                <span className="block text-purple-400">LUCKY NO.</span>
-                <span className="mt-0.5 block">{luckyNo}</span>
-              </div>
-              <div>
-                <span className="block text-purple-400">COLOR</span>
-                <span className="mt-0.5 block">{color}</span>
+                <span className="mfs-label">Worst trait</span>
+                <p className="mfs-trait">{worstTrait}</p>
               </div>
             </div>
-          </div>
+            <figure className="mfs-quote">
+              <blockquote>&ldquo;{favQuote}&rdquo;</blockquote>
+              <figcaption className="mfs-label">Favorite quote</figcaption>
+            </figure>
+          </section>
 
-          {/* ── SECTION 01: THE CONTRADICTION ── */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3>THE CONTRADICTION</h3>
-            </div>
+          <FactSection
+            title="The Setlist"
+            facts={[
+              ["Favorite love song", member.favLoveSong],
+              ["Favorite rock song", member.favRockSong],
+              ["Favorite album", member.favAlbum],
+              ["Favorite band", member.favBands],
+              ["Favorite soundtrack", member.favSoundtrack],
+              ["Favorite 7th Heaven song", member.fav7hSong],
+              ["First song learned", member.firstSongLearned],
+              ["Favorite place to play", member.favPlaceToPlay],
+              ["Best concert seen", member.bestConcertSeen],
+            ]}
+          />
 
-            <div className="flex flex-col gap-3">
-              {/* Best Trait vs Worst Trait Row */}
-              <div className="flex items-center justify-between gap-2 border border-white/10 bg-black/40 px-3 py-3 text-center">
-                <div className="flex-1">
-                  <span className="mb-1 block">BEST TRAIT</span>
-                  <span className="block text-rose-400">{bestTrait}</span>
-                </div>
-                <span className="shrink-0 px-2 font-serif">and yet</span>
-                <div className="flex-1">
-                  <span>WORST TRAIT</span>
-                  <span className="block text-rose-400">{worstTrait}</span>
-                </div>
-              </div>
+          <FactSection
+            title="On Screen"
+            facts={[
+              ["Favorite TV show", member.favTvShow],
+              ["Favorite movie", member.favMovie],
+              ["Favorite cartoon", member.favCartoon],
+              ["Favorite magazine", member.favMagazine],
+            ]}
+          />
 
-              {/* Favorite Quote Box */}
-              <div className="border-l-2 border-purple-500/60 py-1 pt-2 pl-3.5">
-                <p className="font-serif text-neutral-200">
-                  &ldquo;{favQuote}&rdquo;
-                </p>
-                <span className="block text-[12px] text-purple-400">
-                  FAVORITE QUOTE
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* ── SECTION 02: THE SETLIST ── */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3>THE SETLIST</h3>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {member.favLoveSong && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE LOVE SONG
-                  </span>
-                  <p className="text-neutral-200">{member.favLoveSong}</p>
-                </div>
-              )}
-
-              {member.favRockSong && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE ROCK SONG
-                  </span>
-                  <p className="text-neutral-200">{member.favRockSong}</p>
-                </div>
-              )}
-
-              {member.favAlbum && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE ALBUM
-                  </span>
-                  <p className="text-neutral-200">{member.favAlbum}</p>
-                </div>
-              )}
-
-              {member.favBands && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE BAND
-                  </span>
-                  <p className="text-neutral-200">{member.favBands}</p>
-                </div>
-              )}
-
-              {member.favSoundtrack && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE SOUNDTRACK
-                  </span>
-                  <p className="text-neutral-200">{member.favSoundtrack}</p>
-                </div>
-              )}
-
-              {member.fav7hSong && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE 7TH HEAVEN SONG
-                  </span>
-                  <p>{member.fav7hSong}</p>
-                </div>
-              )}
-
-              {member.firstSongLearned && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FIRST SONG LEARNED
-                  </span>
-                  <p className="text-neutral-200">{member.firstSongLearned}</p>
-                </div>
-              )}
-
-              {member.favPlaceToPlay && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE PLACE TO PLAY
-                  </span>
-                  <p className="text-neutral-200">{member.favPlaceToPlay}</p>
-                </div>
-              )}
-
-              {member.bestConcertSeen && (
-                <div className="sm:col-span-2">
-                  <span className="mb-1 block text-purple-400">
-                    BEST CONCERT SEEN
-                  </span>
-                  <p className="text-neutral-200">{member.bestConcertSeen}</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ── SECTION 03: ON SCREEN ── */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="text-neutral-300">ON SCREEN</h3>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              {member.favTvShow && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE TV SHOW
-                  </span>
-                  <p className="text-neutral-200">{member.favTvShow}</p>
-                </div>
-              )}
-
-              {member.favMovie && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE MOVIE
-                  </span>
-                  <p className="text-neutral-200">{member.favMovie}</p>
-                </div>
-              )}
-
-              {member.favCartoon && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE CARTOON
-                  </span>
-                  <p className="text-neutral-200">{member.favCartoon}</p>
-                </div>
-              )}
-
-              {member.favMagazine && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE MAGAZINE
-                  </span>
-                  <p className="text-neutral-200">{member.favMagazine}</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ── SECTION 04: OFF STAGE ── */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3>OFF STAGE</h3>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              {member.hobbyAwayFromBand && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    HOBBY AWAY FROM THE BAND
-                  </span>
-                  <p className="text-neutral-200">{member.hobbyAwayFromBand}</p>
-                </div>
-              )}
-
-              {member.bestFeelingInWorld && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    BEST FEELING IN THE WORLD
-                  </span>
-                  <p className="text-neutral-200">
-                    {member.bestFeelingInWorld}
-                  </p>
-                </div>
-              )}
-
-              {member.influences && (
-                <div>
-                  <span className="mb-1 block text-purple-400">INFLUENCES</span>
-                  <p className="text-neutral-200">{member.influences}</p>
-                </div>
-              )}
-
-              {member.favPet && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE PET
-                  </span>
-                  <p className="text-neutral-200">{member.favPet}</p>
-                </div>
-              )}
-
-              {member.favFoods && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE FOODS
-                  </span>
-                  <p className="text-neutral-200">{member.favFoods}</p>
-                </div>
-              )}
-
-              {member.favDrink && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE DRINK
-                  </span>
-                  <p className="text-neutral-200">{member.favDrink}</p>
-                </div>
-              )}
-
-              {member.favCar && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE CAR
-                  </span>
-                  <p className="text-neutral-200">{member.favCar}</p>
-                </div>
-              )}
-
-              {member.favSportToWatch && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE SPORT TO WATCH
-                  </span>
-                  <p className="text-neutral-200">{member.favSportToWatch}</p>
-                </div>
-              )}
-
-              {member.favBoardGame && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    FAVORITE BOARD/VIDEO GAME
-                  </span>
-                  <p className="text-neutral-200">{member.favBoardGame}</p>
-                </div>
-              )}
-
-              {(member.littleKnownFact || member.funFact) && (
-                <div>
-                  <span className="mb-1 block text-purple-400">
-                    LITTLE-KNOWN FACT
-                  </span>
-                  <p className="text-neutral-200">
-                    {member.littleKnownFact || member.funFact}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
+          <FactSection
+            title="Off Stage"
+            facts={[
+              ["Hobby away from the band", member.hobbyAwayFromBand],
+              ["Best feeling in the world", member.bestFeelingInWorld],
+              ["Influences", member.influences],
+              ["Favorite pet", member.favPet],
+              ["Favorite foods", member.favFoods],
+              ["Favorite drink", member.favDrink],
+              ["Favorite car", member.favCar],
+              ["Favorite sport to watch", member.favSportToWatch],
+              ["Favorite board/video game", member.favBoardGame],
+              ["Little-known fact", member.littleKnownFact || member.funFact],
+            ]}
+          />
         </div>
       </div>
     </div>,

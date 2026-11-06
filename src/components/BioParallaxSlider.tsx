@@ -32,247 +32,11 @@ import MemberFactSheetDrawer, {
   BandMemberFactSheet,
 } from "@/components/MemberFactSheetDrawer";
 import { SectionBadge } from "@/components/SectionBadge";
+import { FALLBACK_MEMBERS } from "@/data/bandMembers";
 
 const emptySubscribe = () => () => { };
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
-const FALLBACK_MEMBERS: (Partial<SanityBandMember> & {
-  desktopImage?: string;
-  mobileImage?: string;
-  memberNo?: string;
-  fullName?: string;
-  luckyNo?: string;
-  color?: string;
-  favLoveSong?: string;
-  favRockSong?: string;
-  favSoundtrack?: string;
-  firstSongLearned?: string;
-  favPlaceToPlay?: string;
-  bestConcertSeen?: string;
-  favTvShow?: string;
-  favCartoon?: string;
-  favMagazine?: string;
-  hobbyAwayFromBand?: string;
-  bestFeelingInWorld?: string;
-  influences?: string;
-  favPet?: string;
-  favFoods?: string;
-  favDrink?: string;
-  favCar?: string;
-  favSportToWatch?: string;
-  favBoardGame?: string;
-  littleKnownFact?: string;
-})[] = [
-    {
-      name: "Frankie Harchut",
-      fullName: "FRANKIE HARCHUT",
-      memberNo: "NO. 005",
-      role: "Drums • Percussion",
-      birthday: "May 31",
-      zodiac: "Gemini",
-      luckyNo: "5",
-      color: "Crimson Red",
-      bestTrait: "Care For Others",
-      worstTrait: "Care For Others",
-      favQuote: "Success is where preparation and opportunity meet.",
-      favLoveSong: '"Everlong" — Foo Fighters',
-      favRockSong: '"Denial" — Sevendust',
-      favAlbum: "Throwing Copper — Live",
-      favBands: "Sevendust, Korn, A Day To Remember",
-      favSoundtrack: "My Cousin Vinny, Casino",
-      favMovie: "My Cousin Vinny, Casino",
-      fav7hSong: '"Midwest Girls In The Summertime"',
-      firstSongLearned: "Wipe Out",
-      favPlaceToPlay: "High-energy festival main stages",
-      bestConcertSeen: "Korn & Sevendust live",
-      favTvShow: "The Sopranos, Peaky Blinders",
-      favCartoon: "The Simpsons",
-      favMagazine: "Modern Drummer",
-      hobbyAwayFromBand: "Cooking Polish feast recipes",
-      bestFeelingInWorld:
-        "Locking in a powerful drum beat with the crowd jumping",
-      influences: "Morgan Rose, Ray Luzier, Dave Grohl",
-      favPet: "French Bulldog named Pierogi",
-      favFoods: "Authentic Polish pierogis, kielbasa, and steak",
-      favDrink: "Sparkling Water with Lemon",
-      favCar: "Dodge Challenger SRT Hellcat",
-      favSportToWatch: "Chicago Blackhawk Hockey",
-      favBoardGame: "Risk",
-      littleKnownFact: "I'm Polish, or wait, everyone knows that :)",
-      funFact: "I'm Polish, or wait, everyone knows that :)",
-      image: "/images/members/desktop-frank.webp",
-      desktopImage: "/images/members/desktop-frank.webp",
-      mobileImage: "/images/members/frank-mobile.webp",
-    },
-    {
-      name: "Nick Cox",
-      fullName: "NICK COX",
-      memberNo: "NO. 004",
-      role: "Guitars • Vocals • Piano",
-      birthday: "March 19",
-      zodiac: "Pisces",
-      luckyNo: "19",
-      color: "Midnight Navy",
-      bestTrait: "Great listener",
-      worstTrait: "Overthinking everything",
-      favQuote:
-        "The universe is a pretty big place... seems like an awful waste of space.",
-      favLoveSong: '"Love of My Life" — Queen',
-      favRockSong: '"Kashmir" — Led Zeppelin',
-      favAlbum: "Physical Graffiti — Led Zeppelin",
-      favBands: "Kiss, Queen, Zeppelin, Avenged Sevenfold",
-      favSoundtrack: "Interstellar, Inception",
-      favMovie: "American History X, Interstellar",
-      fav7hSong: '"Take Me With You"',
-      firstSongLearned: "Stairway to Heaven",
-      favPlaceToPlay: "Outdoor summer amphitheaters",
-      bestConcertSeen: "Led Zeppelin reunion / Queen + Adam Lambert",
-      favTvShow: "Stranger Things, Game of Thrones",
-      favCartoon: "Batman: The Animated Series",
-      favMagazine: "Vintage Guitar",
-      hobbyAwayFromBand: "Chilling on the couch with vintage vinyl",
-      bestFeelingInWorld: "A perfect guitar solo tone on stage",
-      influences: "Jimmy Page, Brian May, Synyster Gates",
-      favPet: "Rescue tabby cat named Zeppelin",
-      favFoods: "Chicago deep dish pizza & pasta",
-      favDrink: "Cold Brew Coffee",
-      favCar: "1969 Chevrolet Camaro",
-      favSportToWatch: "Formula 1",
-      favBoardGame: "Scrabble",
-      littleKnownFact: "I love just staying home on my couch",
-      funFact: "I love just staying home on my couch",
-      image: "/images/members/desktop-nick.webp",
-      desktopImage: "/images/members/desktop-nick.webp",
-      mobileImage: "/images/members/nick-mobile.webp",
-    },
-    {
-      name: "Adam Heisler",
-      fullName: "ADAM BLAIR HEISLER",
-      memberNo: "NO. 001",
-      role: "Lead Vocals",
-      birthday: "March 13",
-      zodiac: "Pisces",
-      luckyNo: "3",
-      color: "Black",
-      bestTrait: "I CARE TOO MUCH",
-      worstTrait: "I CARE TOO MUCH",
-      favQuote: "I'm always happy and never satisfied.",
-      favLoveSong: '"She\'s Always a Woman" — Billy Joel',
-      favRockSong: '"I Don\'t Like Your Neighbors" — AM Taxi',
-      favAlbum: "The Stranger — Billy Joel",
-      favBands: "Can't choose one — but he loves Ben Rector",
-      favSoundtrack: "Grease 2",
-      favMovie:
-        "Whatever's on — but a good rom-com and a box of tissues will do it",
-      fav7hSong: '"You and I"',
-      firstSongLearned: "One he wrote himself",
-      favPlaceToPlay: 'Anywhere they don\'t "boo"',
-      bestConcertSeen: "Doesn't usually go to concerts",
-      favTvShow: "Changes a lot — mostly girly shows like HIMYM and New Girl",
-      favCartoon: "Ask Jett (his son)",
-      favMagazine: "Reading?!",
-      hobbyAwayFromBand: "Being a dad",
-      bestFeelingInWorld: "Making someone happy",
-      influences: "God",
-      favPet: "An alligator named Shoes",
-      favFoods:
-        "Healthy: kale & spinach salad with hard-boiled eggs. Not: pizza or burritos",
-      favDrink: "Water",
-      favCar: "Not a car guy",
-      favSportToWatch: "Hahahahaha!!!!!!",
-      favBoardGame: "Skip-Bo, as a kid",
-      littleKnownFact: "Former Jr. black belt in Tae Kwon Do",
-      funFact: "Former Jr. black belt in Tae Kwon Do",
-      image: "/images/members/desktop-adam.webp",
-      desktopImage: "/images/members/desktop-adam.webp",
-      mobileImage: "/images/members/adam-mobile.webp",
-    },
-    {
-      name: "Richard Hofherr",
-      fullName: "RICHARD HOFHERR",
-      memberNo: "NO. 003",
-      role: "Guitars • Keys • Vocals",
-      birthday: "May 17",
-      zodiac: "Taurus",
-      luckyNo: "77",
-      color: "Electric Blue",
-      bestTrait: "My Perspectives, Work Ethic, Loyalty",
-      worstTrait: "Never sleeping",
-      favQuote:
-        "Life is all about perspectives. You can look at the glass half-empty and half-full.",
-      favLoveSong: '"Love Bites" — Def Leppard',
-      favRockSong: '"Photograph" — Def Leppard',
-      favAlbum: "Hysteria — Def Leppard",
-      favBands: "Def Leppard, Queen, Van Halen",
-      favSoundtrack: "Blues Brothers, Star Wars",
-      favMovie: "Blues Brothers, Star Wars",
-      fav7hSong: '"Sing", "Diamonds", "Midwest Girls"',
-      firstSongLearned: "Rock of Ages — Def Leppard",
-      favPlaceToPlay: "Every festival stage with 10,000 screaming fans",
-      bestConcertSeen: "Def Leppard & Queen — Wembley",
-      favTvShow: "Seinfeld & Shark Tank",
-      favCartoon: "Looney Tunes",
-      favMagazine: "Guitar World & Forbes",
-      hobbyAwayFromBand: "Audio engineering & songwriting",
-      bestFeelingInWorld: "Hearing 20,000 fans sing your song word for word",
-      influences: "Phil Collen, Steve Clark, Eddie Van Halen",
-      favPet: "Golden Retriever named Gibson",
-      favFoods: "Grilled steak & fresh fruit",
-      favDrink: "Pure Mountain Spring Water",
-      favCar: "Tesla Model S Plaid",
-      favSportToWatch: "Chicago Bears & Bulls",
-      favBoardGame: "Monopoly",
-      littleKnownFact:
-        "I have never had alcohol, drugs, cigarettes or a headache.",
-      funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-      image: "/images/members/desktop-richy.webp",
-      desktopImage: "/images/members/desktop-richy.webp",
-      mobileImage: "/images/members/dicky-mobile.webp",
-    },
-    {
-      name: "Mark Kennetz",
-      fullName: "MARK KENNETZ",
-      memberNo: "NO. 002",
-      role: "Bass • Vocals • Uke • Guitar",
-      birthday: "October 19",
-      zodiac: "Libra",
-      luckyNo: "19",
-      color: "Green",
-      bestTrait: "Being a Ninja",
-      worstTrait: "n/a",
-      favQuote: "The past is in Our heads, the future is in Our hands",
-      favLoveSong: '"Crystal Ship" — The Doors',
-      favRockSong: "n/a",
-      favAlbum: "Sublime — 40 oz to Freedom",
-      favBands: "Sublime, Led Zeppelin, Muse",
-      favSoundtrack: "Matrix",
-      favMovie: "Hot Fuzz, Anchorman, Big Lebowski",
-      fav7hSong: '"Ethereal"',
-      firstSongLearned: '"People Are Strange" — The Doors',
-      favPlaceToPlay: "High-energy festival stages",
-      bestConcertSeen: "Red Hot Chili Peppers",
-      favTvShow: "Game of Thrones, Boardwalk",
-      favCartoon: "Family Guy",
-      favMagazine: "ESPN",
-      hobbyAwayFromBand:
-        "Snowboarding, Blading, Biking, Motorcycle Riding, Saving Dolphins",
-      bestFeelingInWorld: "Riding a motorcycle on an awesome day",
-      influences: "The Doors, Sublime, Led Zeppelin",
-      favPet: "Kellieface",
-      favFoods: "Bacon",
-      favDrink: "Capt. N Diet",
-      favCar: "Lexus GSF",
-      favSportToWatch: "Football",
-      favBoardGame: "Madden Xbox",
-      littleKnownFact:
-        "I'm a stage 2 carnivore, which means I eat anything with 2 legs or less, except bacon :)",
-      funFact:
-        "I'm a stage 2 carnivore, which means I eat anything with 2 legs or less, except bacon :)",
-      image: "/images/members/desktop-mark.webp",
-      desktopImage: "/images/members/desktop-mark.webp",
-      mobileImage: "/images/members/mark-mobile.webp",
-    },
-  ];
 
 // Helper to generate smooth math-based mask gradients
 function generateSmoothMaskGradient(
@@ -592,8 +356,8 @@ export default function BioParallaxSlider({
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.0);
   const [maxSkew, setMaxSkew] = useState<number>(30);
   const [focalScale, setFocalScale] = useState<number>(1.36);
-  const [maskStart, setMaskStart] = useState<number>(95);
-  const [maskEnd, setMaskEnd] = useState<number>(98);
+  const [maskStart, setMaskStart] = useState<number>(74);
+  const [maskEnd, setMaskEnd] = useState<number>(99);
   const [paddingOffset, setPaddingOffset] = useState<number>(-38);
   const [activeYShift, setActiveYShift] = useState<number>(30);
   const [inactiveNameOpacity, setInactiveNameOpacity] = useState<number>(0);
@@ -668,7 +432,7 @@ export default function BioParallaxSlider({
         if (cfg.colorSparkHex !== undefined)
           setColorSparkHex(cfg.colorSparkHex);
       }
-      const saved = localStorage.getItem("smooothy_css_tuner_config_v2");
+      const saved = localStorage.getItem("smooothy_css_tuner_config_v3");
       if (saved) {
         const cfg = JSON.parse(saved);
         if (cfg.maskStart !== undefined) setMaskStart(cfg.maskStart);
@@ -730,7 +494,7 @@ export default function BioParallaxSlider({
     if (typeof window === "undefined") return;
     try {
       localStorage.setItem(
-        "smooothy_css_tuner_config_v2",
+        "smooothy_css_tuner_config_v3",
         JSON.stringify({
           maskStart,
           maskEnd,
@@ -1429,9 +1193,13 @@ lerpSpeed: ${lerpSpeed}`;
       aria-labelledby="band-heading"
       className="section relative flex h-auto w-full max-w-full flex-col justify-end overflow-x-clip select-none"
     >
-      <h2 id="band-heading" className="sr-only">
-        Band Members &amp; Biography
-      </h2>
+      <div className="site-container relative z-20 flex flex-col items-center text-center">
+        <div className="title-group title-group--section items-center text-center">
+          <h2 id="band-heading" className="text-amber-50">
+            Playing Since 1985
+          </h2>
+        </div>
+      </div>
       {/* Live Canvas & Stage UI Customizer Drawer Panel */}
       {isCanvasCustomizerOpen &&
         mounted &&
@@ -2121,6 +1889,10 @@ lerpSpeed: ${lerpSpeed}`;
 
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
       <div className="relative z-[100] w-full overflow-visible">
+        <p className="band-members-watermark" aria-hidden="true">
+          Members
+        </p>
+
         {/* 5-CARD FULL-SCREEN CANVAS */}
         <div
           ref={containerRef}
@@ -2133,7 +1905,7 @@ lerpSpeed: ${lerpSpeed}`;
             paddingTop: `${scaledHeadroomPadding}px`,
             paddingBottom: "24px",
           }}
-          className="relative w-full cursor-grab overflow-visible active:cursor-grabbing"
+          className="relative z-10 w-full cursor-grab overflow-visible active:cursor-grabbing"
         >
           {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
@@ -2200,21 +1972,37 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         />
                         <div className="relative z-10 flex h-full w-full items-end justify-center">
-                          <Image
-                            src={imageSrc}
-                            alt={m?.name || "Member Photo"}
-                            width={1200}
-                            height={1600}
-                            quality={100}
-                            unoptimized
-                            loading="lazy"
-                            draggable={false}
-                            className="smooothy-img pointer-events-none relative z-0 h-full w-full origin-bottom object-contain object-bottom select-none"
+                          <div
+                            className="smooothy-img-wrapper pointer-events-none relative z-0 h-full w-full origin-bottom select-none"
                             style={{
                               transform: `scale(${imageScale})`,
                               opacity: 1,
                             }}
-                          />
+                          >
+                            <Image
+                              src={imageSrc}
+                              alt={m?.name || "Member Photo"}
+                              width={1200}
+                              height={1600}
+                              quality={100}
+                              unoptimized
+                              loading="lazy"
+                              draggable={false}
+                              className="smooothy-img pointer-events-none relative z-0 h-full w-full origin-bottom object-contain object-bottom select-none"
+                            />
+                            <Image
+                              src={imageSrc}
+                              alt=""
+                              aria-hidden="true"
+                              width={1200}
+                              height={1600}
+                              quality={90}
+                              unoptimized
+                              loading="lazy"
+                              draggable={false}
+                              className="smooothy-img-bottom-blur pointer-events-none absolute inset-0 z-10 h-full w-full origin-bottom object-contain object-bottom select-none"
+                            />
+                          </div>
                           {/* Glare Masked strictly to Non-Transparent Pixels of the Member Photo Cutout */}
                           <div
                             key={`glare-${i}-${isActive ? "active" : "inactive"}`}

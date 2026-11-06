@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import { BACKGROUND_VIEW_PRESETS, type BackgroundViewPreset } from "./backgroundPresets";
 import { Layers, Check, ChevronDown, ChevronUp, Sparkles, ExternalLink } from "lucide-react";
 import TransitionLink from "@/components/TransitionLink";
@@ -28,6 +29,7 @@ export function setActiveBgView(viewId: string) {
 }
 
 export default function BackgroundViewsSwitcher() {
+  const pathname = usePathname();
   const [activeView, setActiveView] = useState("arena-concert");
   const [expanded, setExpanded] = useState(false);
   const mounted = useSyncExternalStore(
@@ -48,7 +50,7 @@ export default function BackgroundViewsSwitcher() {
     return () => window.removeEventListener(BG_EVENT_KEY, handleChange);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted || pathname?.startsWith("/rock-and-roll-kids")) return null;
 
   const currentPreset =
     BACKGROUND_VIEW_PRESETS.find((p) => p.id === activeView) || BACKGROUND_VIEW_PRESETS[0];

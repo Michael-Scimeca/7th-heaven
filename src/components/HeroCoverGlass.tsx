@@ -17,7 +17,7 @@ import { LiquidGlass } from "quick-liquid/react";
  */
 export default function HeroCoverGlass({ children }: { children: ReactNode }) {
   return (
-    <div className="relative z-10 min-h-screen">
+    <div className="relative z-10 min-h-screen pb-[calc(var(--page-bottom)+10px)]">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <LiquidGlass
           className="hero-cover-glass-host sticky top-0 h-[100vh] h-[100svh] w-full !shadow-none [&_.ql-rim]:!hidden [&_.ql-sheen]:!hidden"

@@ -241,7 +241,7 @@ export function PageNav() {
           {/* Scrollable list */}
           <div
             ref={listRef}
-            className="custom-scrollbar flex flex-col gap-3 overflow-y-auto p-3 overscroll-contain [scrollbar-width:thin] [scrollbar-color:rgba(168,85,247,0.6)_rgba(255,255,255,0.05)]"
+            className="custom-scrollbar flex flex-col gap-3 overflow-y-auto p-3 overscroll-contain"
           >
             {filteredCategories.length === 0 ? (
               <div className="py-8 text-center text-xs text-white/40">
